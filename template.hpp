@@ -1,3 +1,4 @@
+// https://github.com/qandori/kyopro-library
 #ifndef TEMPLATE_HPP
 #define TEMPLATE_HPP
 

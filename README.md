@@ -4,19 +4,21 @@
 
 競技プログラミング用の C++ ライブラリです。
 
+全部爆速で動作するようにしています。
+
 ## ライブラリ
 
 | ファイル | 内容 |
 | --- | --- |
 | `template.hpp` | `rep`・`per`・`chmin`・`chmax` などの共通テンプレート |
 | `data_structure/disjoint_sparse_table.hpp` | 結合的な演算の静的区間集約。クエリ `O(1)`（[使い方](data_structure/disjoint_sparse_table.md)） |
-| `data_structure/wavelet_matrix.hpp` | Wavelet Matrix。区間 k 番目・頻度・値域内の個数・上位／下位 k 個の和 |
+| `data_structure/wavelet_matrix.hpp` | Wavelet Matrix |
 | `data_structure/weighted_union_find.hpp` | 重み付き Union-Find |
 | `graph/dijkstra.hpp` | 非負の辺の重みに対する最短路（到達不能は `-1`） |
 | `math/mint.hpp` | mod 998244353 の整数型 `mint` |
 | `math/comb.hpp` | 階乗・逆階乗と二項係数 |
 | `math/fps.hpp` | 形式的冪級数 `fps` |
-| `math/sqrt_floor.hpp` | Mod of Linear の列を $O\left(\sqrt{N}\right)$ 個の等差数列の区間に分割 |
+| `math/sqrt_floor.hpp` | Mod of Linear の列を $O\left(\sqrt{N}\right)$ 個の等差数列に分割 |
 
 ## 使い方
 
@@ -31,26 +33,6 @@ oj-bundle a.cpp | pbcopy
 ```
 
 を実行することで展開先のコードを自動でコピーすることができます。
-
-## 検証
-
-push・Pull Request 時に GitHub Actions で GCC / Clang の自作テストと Library Checker の問題を実行します。
-
-ローカルでは次のコマンドで同じ検証を実行できます。
-
-```sh
-uv tool install --with 'setuptools<82' online-judge-verify-helper
-python3 test/verify.py
-```
-
-自作テストだけを実行する場合：
-
-```sh
-python3 test/verify.py --unit-only
-python3 test/verify.py --unit-only --cxx clang++ --sanitize
-```
-
-新しいライブラリを追加したら、`test/unit/` に自作テスト、または `test/` に `PROBLEM` を指定した `.test.cpp` を追加してください。
 
 ## ライセンス
 

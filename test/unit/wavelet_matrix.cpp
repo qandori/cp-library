@@ -54,6 +54,47 @@ void check(const vec<int64_t> &a) {
 	assert(wm.sum_largest(0, sz(a), sz(a)) == -__int128_t(5) * sz(a));
 }
 
+template <class T>
+void check_large(const vec<T> &a) {
+	WaveletMatrix<T> lazy(a), eager(a, true);
+	mt19937_64 random(98765);
+	rep(100) {
+		int l = random() % (a.size() + 1), r = random() % (a.size() + 1);
+		if (l > r) swap(l, r);
+		int k = random() % (r - l + 1);
+		vec<T> sorted(a.begin() + l, a.begin() + r); sort(all(sorted));
+		vec<__int128_t> prefix(sorted.size() + 1);
+		rep(i, sz(sorted)) prefix[i + 1] = prefix[i] + sorted[i];
+		assert(lazy.sum_smallest(l, r, k) == prefix[k] && eager.sum_smallest(l, r, k) == prefix[k]);
+		assert(lazy.sum_largest(l, r, k) == prefix.back() - prefix[sorted.size() - k]);
+		assert(eager.sum_largest(l, r, k) == prefix.back() - prefix[sorted.size() - k]);
+		assert(lazy.range_sum(l, r) == prefix.back() && eager.range_sum(l, r) == prefix.back());
+		if (k < r - l) assert(lazy.kth_smallest(l, r, k) == sorted[k] && eager.kth_smallest(l, r, k) == sorted[k]);
+		T x = a[random() % a.size()];
+		assert(lazy.range_freq(l, r, x) == lower_bound(all(sorted), x) - sorted.begin());
+		assert(lazy.count(l, r, x) == std::count(all(sorted), x));
+		int pos = random() % a.size();
+		assert(lazy.access(pos) == a[pos] && eager.access(pos) == a[pos]);
+		vec<int> occurrences;
+		rep(i, sz(a)) if (a[i] == x) occurrences.push_back(i);
+		int occurrence = random() % occurrences.size();
+		assert(lazy.select(x, occurrence) == occurrences[occurrence]);
+		assert(lazy.select(x, sz(occurrences)) == -1 && lazy.select(x, -1) == -1);
+	}
+	lazy.build({}); assert(lazy.sum_smallest(0, 0, 0) == 0 && lazy.select(T(0), 0) == -1);
+	lazy.build(a); assert(lazy.range_sum(0, sz(a)) == eager.range_sum(0, sz(a)));
+}
+template <class T>
+void check_radix() {
+	mt19937_64 random(87654);
+	for (int n : {1023, 1024, 1025, 4097}) {
+		vec<T> a(n);
+		for (auto &v : a) v = T(random());
+		a[0] = numeric_limits<T>::min(); a[1] = numeric_limits<T>::max();
+		check_large(a);
+	}
+}
+
 int main() {
 	WaveletMatrix<> empty;
 	assert(empty.empty() && empty.select(1, 0) == -1);
@@ -89,6 +130,34 @@ int main() {
 	assert(narrow.sum_smallest(0, 3, 2) == 3);
 	static_assert(same_as<WaveletMatrix<>::sum_type, __int128_t>);
 	assert(empty.sum_smallest(0, 0, 0) == 0 && empty.sum_largest(0, 0, 0) == 0);
+	check_large(vec<int64_t>(4097, -5));
+	check_large(vec<uint64_t>(4097, numeric_limits<uint64_t>::max()));
+	check_radix<int8_t>(); check_radix<uint8_t>();
+	check_radix<int16_t>(); check_radix<uint16_t>();
+	check_radix<int32_t>(); check_radix<uint32_t>();
+	check_radix<int64_t>(); check_radix<uint64_t>();
+	for (int sigma : {2, 3, 4, 5, 7, 8, 9, 15, 16, 17, 63, 64, 65, 255, 256, 257, 1023, 1024, 1025}) {
+		vec<int64_t> a(4097);
+		rep(i, sz(a)) a[i] = i % sigma - sigma / 2;
+		shuffle(all(a), random); check_large(a);
+	}
+	check_large(vec<int64_t>{numeric_limits<int64_t>::min(), numeric_limits<int64_t>::max(), 0});
+	check_large(vec<int64_t>{numeric_limits<int64_t>::min(), numeric_limits<int64_t>::max(), -1, 1});
+	vec<int64_t> shift(2049);
+	rep(i, sz(shift)) shift[i] = numeric_limits<int64_t>::min() + i % 5;
+	check_large(shift);
+	rep(i, sz(shift)) shift[i] = numeric_limits<int64_t>::max() - i % 5;
+	check_large(shift);
+	vec<uint64_t> upper(2049);
+	rep(i, sz(upper)) upper[i] = numeric_limits<uint64_t>::max() - i % 7;
+	check_large(upper);
+	WaveletMatrix<pair<int, int>> pairs(vec<pair<int, int>>{{1, 2}, {0, 3}, {1, 2}});
+	assert(pairs.count(0, 3, {1, 2}) == 2 && pairs.select({1, 2}, 1) == 2);
+	assert(pairs.kth_smallest(0, 3, 0) == make_pair(0, 3));
+	WaveletMatrix<bool> booleans(vec<bool>{true, false, true});
+	assert(booleans.sum_largest(0, 3, 2) == 2 && booleans.count(0, 3, true) == 2);
+	WaveletMatrix<double> real(vec<double>{-0.5, 2.5, 1});
+	assert(real.sum_smallest(0, 3, 2) == 0.5 && real.sum_largest(0, 3, 2) == 3.5);
 	WaveletMatrix<string> words(vec<string>{"b", "a", "b", "z"});
 	assert(words.kth_smallest(0, 4, 1) == "b" && words.select("b", 1) == 2);
 	assert(words.prev_value(0, 4, "b") == optional<string>("a"));

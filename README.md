@@ -9,6 +9,7 @@
 | ファイル | 内容 |
 | --- | --- |
 | `template.hpp` | `rep`・`per`・`chmin`・`chmax` などの共通テンプレート |
+| `data_structure/disjoint_sparse_table.hpp` | 結合的な演算の静的区間集約。クエリ `O(1)`（[使い方](data_structure/disjoint_sparse_table.md)） |
 | `data_structure/wavelet_matrix.hpp` | Wavelet Matrix。区間 k 番目・頻度・値域内の個数・上位／下位 k 個の和 |
 | `data_structure/weighted_union_find.hpp` | 重み付き Union-Find |
 | `graph/dijkstra.hpp` | 非負の辺の重みに対する最短路（到達不能は `-1`） |

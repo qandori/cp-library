@@ -9,6 +9,7 @@
 | ファイル | 内容 |
 | --- | --- |
 | `template.hpp` | `rep`・`per`・`chmin`・`chmax` などの共通テンプレート |
+| `data_structure/weighted_union_find.hpp` | 重み付き Union-Find |
 | `graph/dijkstra.hpp` | 非負の辺の重みに対する最短路（到達不能は `-1`） |
 | `math/mint.hpp` | mod 998244353 の整数型 `mint` |
 | `math/comb.hpp` | 階乗・逆階乗と二項係数 |

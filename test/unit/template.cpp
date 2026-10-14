@@ -21,6 +21,29 @@ int main() {
     assert((v == vec<int>{1, 3}));
     ++v; --v; v++; v--;
     assert((v == vec<int>{1, 3}));
+    rep(x, 2) rep(y, 2) {
+        vec<bool> bits(130, true);
+        bits[64] = x;
+        bits[64] ^= bool(y);
+        assert(bits[64] == bool(x ^ y));
+        bits[64] = x;
+        bits[64] &= bool(y);
+        assert(bits[64] == bool(x & y));
+        bits[64] = x;
+        bits[64] |= bool(y);
+        assert(bits[64] == bool(x | y));
+        rep(i, sz(bits)) if (i != 64) assert(bits[i]);
+    }
+    vec<bool> bits{false, true};
+    (bits[0] ^= bits[1]) ^= true;
+    assert(!bits[0] && bits[1]);
+    auto bit = bits[0];
+    bit |= true;
+    bit ^= bit;
+    assert(!bits[0]);
+    int index = 0;
+    bits[index++] ^= true;
+    assert(index == 1 && bits[0]);
     __int128_t minimum = -(__int128_t(1) << 126);
     minimum += minimum;
     ostringstream out;

@@ -2804,7 +2804,7 @@ struct FormalPowerSeries : vec<T> {
 	}
 	F integral() const {
 		const int n = sz((*this));
-		assert(uint(n) < uint(T::mod()));
+		assert(unsigned(n) < unsigned(T::mod()));
 		F r(n);
 		const auto &inv = inverses(n);
 		if constexpr (is_same_v<T, fps_detail::Mint>) {
@@ -3011,7 +3011,7 @@ struct FormalPowerSeries : vec<T> {
 		}
 		const int n = sz((*this));
 		if (n <= 1 || c == T(0)) return *this;
-		assert(uint(n) < uint(T::mod()));
+		assert(unsigned(n) < unsigned(T::mod()));
 		if constexpr (is_same_v<T, fps_detail::Mint>) {
 			F a(n), b(n), weights;
 			Word fact = fps_detail::NTT::one;
@@ -3104,7 +3104,7 @@ struct FormalPowerSeries : vec<T> {
 	}
 	static fps_detail::NTT &transform(int n) {
 		static fps_detail::NTT t(1, false);
-		if ((int)t.roots.size() < n) t = fps_detail::NTT(n, false);
+		if (sz(t.roots) < n) t = fps_detail::NTT(n, false);
 		return t;
 	}
 	using Word = fps_detail::NTT::U;
@@ -3448,7 +3448,7 @@ struct FormalPowerSeries : vec<T> {
 		while (!this->empty() && this->back() == T(0)) this->pop_back();
 	}
 	static const vec<T> &inverses(int n) {
-		assert(uint(n) < uint(T::mod()));
+		assert(unsigned(n) < unsigned(T::mod()));
 		static vec<T> inv{0, 1};
 #if defined(__x86_64__) || defined(__i386__)
 		if constexpr (is_same_v<T, fps_detail::Mint>) {

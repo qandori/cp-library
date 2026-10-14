@@ -34,6 +34,18 @@ typedef long double ld;
 #undef endl
 #define endl '\n'
 #endif
+inline auto operator^=(vector<bool>::reference a, bool b) noexcept {
+	if (b) a.flip();
+	return a;
+}
+inline auto operator&=(vector<bool>::reference a, bool b) noexcept {
+	if (!b) a = false;
+	return a;
+}
+inline auto operator|=(vector<bool>::reference a, bool b) noexcept {
+	if (b) a = true;
+	return a;
+}
 inline ostream &operator<<(ostream &os, __int128_t value) {
 	ostream::sentry s(os);
 	if (s) {

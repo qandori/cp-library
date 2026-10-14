@@ -11,7 +11,7 @@
 | `math/mint.hpp` | mod 998244353 の整数型 `mint` |
 | `math/comb.hpp` | 階乗・逆階乗と二項係数 |
 | `math/fps.hpp` | 形式的冪級数 `fps` |
-| `math/sqrt_floor.hpp` | `(a*i+b)%m` の列を $O(\sqrt N)$ 個の等差数列の区間に分割 |
+| `math/sqrt_floor.hpp` | Mod of Linear の列を $O\left(\sqrt{N}\right)$ 個の等差数列の区間に分割 |
 
 ## 使い方
 

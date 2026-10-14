@@ -3,6 +3,9 @@
 #define TEMPLATE_HPP
 
 #include <bits/stdc++.h>
+#if defined(__ARM_NEON)
+#include <arm_neon.h>
+#endif
 using namespace std;
 using std::cerr, std::cin, std::cout;
 #define vec vector

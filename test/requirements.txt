@@ -1,0 +1,4 @@
+online-judge-verify-helper==5.6.0
+online-judge-api-client==10.10.1
+online-judge-tools==11.5.1
+setuptools<82

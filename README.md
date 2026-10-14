@@ -1,6 +1,8 @@
 # kyopro-library
 
-競技プログラミング用の C++ ライブラリです
+[![verify](https://github.com/qandori/kyopro-library/actions/workflows/verify.yml/badge.svg)](https://github.com/qandori/kyopro-library/actions/workflows/verify.yml)
+
+競技プログラミング用の C++ ライブラリです。
 
 ## ライブラリ
 
@@ -15,13 +17,37 @@
 
 ## 使い方
 
-リポジトリを `lib/` に配置し、必要なヘッダーを include します
+リポジトリを `lib/` に配置し、必要なヘッダーを include します。
 
-提出には [oj-bundle](https://github.com/online-judge-tools/verification-helper) の利用を想定しています
+提出には [oj-bundle](https://github.com/online-judge-tools/verification-helper) の利用を想定しています。
+
+例えば
 
 ```sh
-oj-bundle a.cpp > bundled.cpp
+oj-bundle a.cpp | pbcopy
 ```
+
+を実行することで展開先のコードを自動でコピーすることができます。
+
+## 検証
+
+push・Pull Request 時に GitHub Actions で GCC / Clang の自作テストと Library Checker の問題を実行します。
+
+ローカルでは次のコマンドで同じ検証を実行できます。
+
+```sh
+uv tool install --with 'setuptools<82' online-judge-verify-helper
+python3 test/verify.py
+```
+
+自作テストだけを実行する場合：
+
+```sh
+python3 test/verify.py --unit-only
+python3 test/verify.py --unit-only --cxx clang++ --sanitize
+```
+
+新しいライブラリを追加したら、`test/unit/` に自作テスト、または `test/` に `PROBLEM` を指定した `.test.cpp` を追加してください。
 
 ## ライセンス
 

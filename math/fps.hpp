@@ -2117,7 +2117,7 @@ struct FormalPowerSeries : vec<T> {
 
 	F &operator<<=(int d) {
 		assert(d >= 0);
-		const int n = sz(*this);
+		const int n = sz((*this));
 		if (d >= n) return *this = F(n);
 		this->insert(this->begin(), d, T(0));
 		this->resize(n);
@@ -2125,7 +2125,7 @@ struct FormalPowerSeries : vec<T> {
 	}
 	F &operator>>=(int d) {
 		assert(d >= 0);
-		const int n = sz(*this);
+		const int n = sz((*this));
 		if (d >= n) return *this = F(n);
 		this->erase(this->begin(), this->begin() + d);
 		this->resize(n);
@@ -2212,7 +2212,7 @@ struct FormalPowerSeries : vec<T> {
 				else update(integral_constant<int, 1>{});
 			}
 			ntt_inverse(error);
-			rep(j, block) error[j] = (offset + j < sz(*this) ? (*this)[offset + j] : T(0)) - error[j];
+			rep(j, block) error[j] = (offset + j < sz((*this)) ? (*this)[offset + j] : T(0)) - error[j];
 			ntt_half(error);
 			pointwise(error, error, inverse, length);
 			ntt_inverse(error);
@@ -2223,7 +2223,7 @@ struct FormalPowerSeries : vec<T> {
 
 	F inv(int deg = -1) const {
 		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).inv(deg));
-		if (deg < 0) deg = sz(*this);
+		if (deg < 0) deg = sz((*this));
 		assert(deg >= 0);
 		if (deg == 0) return {};
 		assert(!this->empty() && (*this)[0] != T(0));
@@ -2320,7 +2320,7 @@ struct FormalPowerSeries : vec<T> {
 
 	F sqrt(int deg = -1) const {
 		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).sqrt(deg));
-		if (deg < 0) deg = sz(*this);
+		if (deg < 0) deg = sz((*this));
 		assert(deg >= 0);
 		F f = pre(deg);
 		f.trim();
@@ -2561,7 +2561,7 @@ struct FormalPowerSeries : vec<T> {
 	}
 
 	F compose(const F &inner, int deg = -1) const {
-		if (deg < 0) deg = sz(*this);
+		if (deg < 0) deg = sz((*this));
 		assert(deg >= 0 && (inner.empty() || inner[0] == T(0)));
 		if (deg == 0) return {};
 		F f = pre(deg), g = inner.pre(deg);
@@ -2614,7 +2614,7 @@ struct FormalPowerSeries : vec<T> {
 	}
 
 	F compositional_inverse(int deg = -1) const {
-		if (deg < 0) deg = sz(*this);
+		if (deg < 0) deg = sz((*this));
 		assert(deg >= 0 && (this->empty() || (*this)[0] == T(0)));
 		if (deg == 0) return {};
 		if (deg == 1) return F(1);
@@ -2782,7 +2782,7 @@ struct FormalPowerSeries : vec<T> {
 			*this *= T(1) + c;
 			return;
 		}
-		per(i, d, sz(*this))(*this)[i] += (*this)[i - d] * c;
+		per(i, d, sz((*this)))(*this)[i] += (*this)[i - d] * c;
 	}
 	void onediv(int d, T c) {
 		assert(d >= 0);
@@ -2790,11 +2790,11 @@ struct FormalPowerSeries : vec<T> {
 			*this /= T(1) + c;
 			return;
 		}
-		rep(i, d, sz(*this))(*this)[i] -= (*this)[i - d] * c;
+		rep(i, d, sz((*this)))(*this)[i] -= (*this)[i - d] * c;
 	}
 
 	F diff() const {
-		const int n = sz(*this);
+		const int n = sz((*this));
 		F r(n);
 		if constexpr (is_same_v<T, fps_detail::Mint>) {
 			if (n > 1) fps_detail::NTT::weighted(words(r), words(*this) + 1, n - 1, 1);
@@ -2803,7 +2803,7 @@ struct FormalPowerSeries : vec<T> {
 		return r;
 	}
 	F integral() const {
-		const int n = sz(*this);
+		const int n = sz((*this));
 		assert(uint(n) < uint(T::mod()));
 		F r(n);
 		const auto &inv = inverses(n);
@@ -2816,7 +2816,7 @@ struct FormalPowerSeries : vec<T> {
 
 	F log(int deg = -1) const {
 		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).log(deg));
-		if (deg < 0) deg = sz(*this);
+		if (deg < 0) deg = sz((*this));
 		assert(deg >= 0);
 		if (deg == 0) return {};
 		assert(!this->empty() && (*this)[0] == T(1));
@@ -2830,7 +2830,7 @@ struct FormalPowerSeries : vec<T> {
 
 	F exp(int deg = -1) const {
 		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).exp(deg));
-		if (deg < 0) deg = sz(*this);
+		if (deg < 0) deg = sz((*this));
 		assert(deg >= 0);
 		if (deg == 0) return {};
 		assert(this->empty() || (*this)[0] == T(0));
@@ -2854,7 +2854,7 @@ struct FormalPowerSeries : vec<T> {
 		g[0] = 1;
 		rep(i, 1, initial) {
 			T sum = 0;
-			for (int j = 1; j <= i && j < sz(*this); ++j)
+			for (int j = 1; j <= i && j < sz((*this)); ++j)
 				sum += T(j) * (*this)[j] * g[i - j];
 			g[i] = sum * iv[i];
 		}
@@ -2880,7 +2880,7 @@ struct FormalPowerSeries : vec<T> {
 			rep(i, 1, count) {
 				int offset = i * block, n = min(block, deg - offset);
 				Word *d = derivative + i * length;
-				const int derivative_count = max(0, min<int>(n, sz(*this) - offset));
+				const int derivative_count = max(0, min<int>(n, sz((*this)) - offset));
 				if (derivative_count) fps_detail::NTT::weighted(d, words(*this) + offset, derivative_count, offset);
 				fill(d + derivative_count, d + block, 0u);
 				ntt_half(d, length);
@@ -2948,7 +2948,7 @@ struct FormalPowerSeries : vec<T> {
 			cache.resize(n);
 			ntt(cache);
 			fill(all(b), T(0));
-			for (int i = 1; i < m && i < sz(*this); ++i) b[i - 1] = T(i) * (*this)[i];
+			for (int i = 1; i < m && i < sz((*this)); ++i) b[i - 1] = T(i) * (*this)[i];
 			ntt(b);
 			pointwise(b, b, a, m);
 			ntt_inverse(b);
@@ -2957,8 +2957,8 @@ struct FormalPowerSeries : vec<T> {
 			ntt(error);
 			pointwise(error, error, cache, n);
 			ntt_inverse(error);
-			for (int i = min(n, deg) - 1; i >= m; --i)
-				error[i] = (i < sz(*this) ? (*this)[i] : T(0)) + error[i - 1] * in * iv[i];
+			per(i, m, min(n, deg))
+				error[i] = (i < sz((*this)) ? (*this)[i] : T(0)) + error[i - 1] * in * iv[i];
 			fill(error.begin(), error.begin() + m, T(0));
 			fill(error.begin() + min(n, deg), error.end(), T(0));
 			ntt(error);
@@ -2973,7 +2973,7 @@ struct FormalPowerSeries : vec<T> {
 	F pow(long long k) const {
 		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).pow(k));
 		assert(k >= 0);
-		const int n = sz(*this);
+		const int n = sz((*this));
 		if (n == 0) return {};
 		if (k == 0) {
 			F r(n);
@@ -3009,7 +3009,7 @@ struct FormalPowerSeries : vec<T> {
 			f.shift(fps_detail::Mint::raw(c.val()));
 			return *this = export_work(f);
 		}
-		const int n = sz(*this);
+		const int n = sz((*this));
 		if (n <= 1 || c == T(0)) return *this;
 		assert(uint(n) < uint(T::mod()));
 		if constexpr (is_same_v<T, fps_detail::Mint>) {
@@ -3387,10 +3387,10 @@ struct FormalPowerSeries : vec<T> {
 				const int d = sz(p) - 1;
 				if (reciprocal) {
 					p.push_back(0);
-					per(k, 1, (d + 1) + 1) p[k] -= xs[j] * p[k - 1];
+					per(k, 1, d + 2) p[k] -= xs[j] * p[k - 1];
 				} else {
 					p.push_back(p.back());
-					per(k, 1, (d) + 1) p[k] = p[k - 1] - xs[j] * p[k];
+					per(k, 1, d + 1) p[k] = p[k - 1] - xs[j] * p[k];
 					p[0] *= -xs[j];
 				}
 			}

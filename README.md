@@ -11,11 +11,11 @@
 | ファイル | 内容 |
 | --- | --- |
 | `template.hpp` | `rep`・`per`・`chmin`・`chmax` などの共通テンプレート |
-| `data_structure/disjoint_sparse_table.hpp` | 結合的な演算の静的区間集約。クエリ `O(1)`（[使い方](data_structure/disjoint_sparse_table.md)） |
+| `data_structure/disjoint_sparse_table.hpp` | Disjoint Sparse Table |
 | `data_structure/wavelet_matrix.hpp` | Wavelet Matrix |
 | `data_structure/weighted_union_find.hpp` | 重み付き Union-Find |
-| `graph/dijkstra.hpp` | 非負の辺の重みに対する最短路（到達不能は `-1`） |
-| `math/mint.hpp` | mod 998244353 の整数型 `mint` |
+| `graph/dijkstra.hpp` | dijkstra（到達不能は `-1`） |
+| `math/mint.hpp` | modint998244353 |
 | `math/comb.hpp` | 階乗・逆階乗と二項係数 |
 | `math/fps.hpp` | 形式的冪級数 `fps` |
 | `math/sqrt_floor.hpp` | Mod of Linear の列を $O\left(\sqrt{N}\right)$ 個の等差数列に分割 |

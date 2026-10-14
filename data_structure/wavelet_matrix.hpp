@@ -3,7 +3,7 @@
 
 #include "../template.hpp"
 
-template <class T = int64_t>
+template <class T = int64_t, class Sum = conditional_t<is_integral_v<T>, conditional_t<(sizeof(T) < 8), int64_t, __int128_t>, T>>
 class WaveletMatrix {
 	struct BitVector {
 		int n;
@@ -37,6 +37,18 @@ class WaveletMatrix {
 	vec<T> values;
 	vec<BitVector> bits;
 	vec<int> middle;
+	mutable vec<vec<Sum>> sum_prefix;
+	mutable bool sum_ready = false;
+	static constexpr bool supports_sum = requires(const T &x, Sum s) { Sum(x); s + s; s - s; s * 1; };
+	uint32_t access_code(int i) const {
+		uint32_t x = 0;
+		rep(d, levels) {
+			int ones = bits[d].rank(i);
+			if (bits[d].get(i)) x |= uint32_t(1) << (levels - 1 - d), i = middle[d] + ones;
+			else i -= ones;
+		}
+		return x;
+	}
 	void check(int l, int r) const { assert(0 <= l && l <= r && r <= n); }
 	uint32_t code(const T &x) const { return lower_bound(all(values), x) - values.begin(); }
 	pair<int, int> interval(int l, int r, uint32_t x) const {
@@ -61,10 +73,16 @@ class WaveletMatrix {
 		return answer;
 	}
 public:
+	using sum_type = Sum;
 	WaveletMatrix() = default;
 	explicit WaveletMatrix(const vec<T> &a) { build(a); }
+	WaveletMatrix(const vec<T> &a, bool with_sum) requires supports_sum {
+		build(a);
+		if (with_sum) prepare_sum();
+	}
 	void build(const vec<T> &a) {
 		assert(a.size() <= size_t(numeric_limits<int>::max()));
+		sum_prefix.clear(); sum_ready = false;
 		n = sz(a);
 		values = a;
 		sort(all(values));
@@ -91,13 +109,7 @@ public:
 	bool empty() const { return n == 0; }
 	T access(int i) const {
 		assert(0 <= i && i < n);
-		uint32_t x = 0;
-		rep(d, levels) {
-			int ones = bits[d].rank(i);
-			if (bits[d].get(i)) x |= uint32_t(1) << (levels - 1 - d), i = middle[d] + ones;
-			else i -= ones;
-		}
-		return values[x];
+		return values[access_code(i)];
 	}
 	T operator[](int i) const { return access(i); }
 	int count(int l, int r, const T &x) const {
@@ -146,6 +158,56 @@ public:
 		if (!(lower < upper)) return 0;
 		return less_than(l, r, code(upper)) - less_than(l, r, code(lower));
 	}
+	void prepare_sum() const requires supports_sum {
+		if (sum_ready) return;
+		if (!levels) { sum_ready = true; return; }
+		vec<uint32_t> current(n), next(n);
+		rep(i, n) current[i] = access_code(i);
+		sum_prefix.assign(levels + 1, vec<Sum>(size_t(n) + 1));
+		rep(i, n) sum_prefix[0][i + 1] = sum_prefix[0][i] + Sum(values[current[i]]);
+		rep(d, levels) {
+			int zero = 0, one = middle[d], shift = levels - 1 - d;
+			rep(i, n) next[((current[i] >> shift) & 1) ? one++ : zero++] = current[i];
+			rep(i, n) sum_prefix[d + 1][i + 1] = sum_prefix[d + 1][i] + Sum(values[next[i]]);
+			current.swap(next);
+		}
+		sum_ready = true;
+	}
+	Sum range_sum(int l, int r) const requires supports_sum {
+		check(l, r);
+		if (l == r) return Sum(0);
+		if (!levels) return Sum(values[0]) * (r - l);
+		prepare_sum();
+		return sum_prefix[0][r] - sum_prefix[0][l];
+	}
+	Sum sum_smallest(int l, int r, int k) const requires supports_sum {
+		check(l, r);
+		assert(0 <= k && k <= r - l);
+		if (!k) return Sum(0);
+		if (k == r - l) return range_sum(l, r);
+		if (!levels) return Sum(values[0]) * k;
+		prepare_sum();
+		Sum answer = 0;
+		uint32_t x = 0;
+		rep(d, levels) {
+			int a = bits[d].rank(l), b = bits[d].rank(r);
+			int zero_l = l - a, zero_r = r - b, zero = zero_r - zero_l;
+			if (k == zero) return answer + (sum_prefix[d + 1][zero_r] - sum_prefix[d + 1][zero_l]);
+			if (k < zero) l = zero_l, r = zero_r;
+			else {
+				answer += sum_prefix[d + 1][zero_r] - sum_prefix[d + 1][zero_l];
+				k -= zero; x |= uint32_t(1) << (levels - 1 - d);
+				l = middle[d] + a; r = middle[d] + b;
+			}
+		}
+		return answer + Sum(values[x]) * k;
+	}
+	Sum sum_largest(int l, int r, int k) const requires supports_sum {
+		check(l, r);
+		assert(0 <= k && k <= r - l);
+		if (!k) return Sum(0);
+		return range_sum(l, r) - sum_smallest(l, r, r - l - k);
+	}
 	optional<T> prev_value(int l, int r, const T &upper) const {
 		int k = range_freq(l, r, upper);
 		if (!k) return nullopt;
@@ -157,5 +219,8 @@ public:
 		return kth_smallest(l, r, k);
 	}
 };
+
+template <class T>
+WaveletMatrix(const vec<T> &, bool) -> WaveletMatrix<T>;
 
 #endif

@@ -32,6 +32,13 @@ void check(const vec<int64_t> &a) {
 		if (below) previous = sorted[below - 1];
 		if (below < sz(sorted)) next = sorted[below];
 		assert(wm.prev_value(l, r, x) == previous && wm.next_value(l, r, x) == next);
+		vec<__int128_t> prefix(sorted.size() + 1);
+		rep(i, sz(sorted)) prefix[i + 1] = prefix[i] + sorted[i];
+		rep(k, sz(sorted) + 1) {
+			assert(wm.sum_smallest(l, r, k) == prefix[k]);
+			assert(wm.sum_largest(l, r, k) == prefix.back() - prefix[sorted.size() - k]);
+		}
+		assert(wm.range_sum(l, r) == prefix.back());
 		if (!sorted.empty()) {
 			int k = random() % sorted.size();
 			assert(wm.kth_smallest(l, r, k) == sorted[k]);
@@ -40,6 +47,11 @@ void check(const vec<int64_t> &a) {
 	}
 	wm.build({}); assert(wm.empty() && wm.count(0, 0, 1) == 0);
 	wm.build(a); rep(i, sz(a)) assert(wm[i] == a[i]);
+	__int128_t total = 0;
+	for (int64_t v : a) total += v;
+	assert(wm.sum_smallest(0, sz(a), sz(a)) == total);
+	wm.build(vec<int64_t>(a.size(), -5));
+	assert(wm.sum_largest(0, sz(a), sz(a)) == -__int128_t(5) * sz(a));
 }
 
 int main() {
@@ -48,6 +60,8 @@ int main() {
 	assert(!empty.prev_value(0, 0, 0) && !empty.next_value(0, 0, 0));
 	check({}); check({7}); check(vec<int64_t>(129, -3));
 	check({numeric_limits<int64_t>::min(), numeric_limits<int64_t>::max(), -1, 0, 1});
+	check(vec<int64_t>(65, numeric_limits<int64_t>::max()));
+	check(vec<int64_t>(65, numeric_limits<int64_t>::min()));
 	mt19937_64 random(456);
 	for (int n : {2, 3, 63, 64, 65, 127, 128, 129, 1000}) {
 		vec<int64_t> a(n);
@@ -64,6 +78,17 @@ int main() {
 	WaveletMatrix u(unsigned_values);
 	assert(u.kth_smallest(0, 3, 2) == numeric_limits<uint64_t>::max());
 	assert(u.range_freq(0, 3, numeric_limits<uint64_t>::max()) == 2);
+	assert(u.sum_largest(0, 3, 1) == __int128_t(numeric_limits<uint64_t>::max()));
+	assert(u.sum_smallest(0, 3, 3) == __int128_t(numeric_limits<uint64_t>::max()) + 1);
+	WaveletMatrix precomputed(vec<int>{3, -2, 3, 1}, true);
+	static_assert(same_as<decltype(precomputed)::sum_type, int64_t>);
+	assert(precomputed.sum_smallest(0, 4, 2) == -1 && precomputed.sum_largest(0, 4, 2) == 6);
+	const auto &constant = precomputed;
+	assert(constant.range_sum(1, 4) == 2);
+	WaveletMatrix<int64_t, int64_t> narrow(vec<int64_t>{1, 2, 3}, true);
+	assert(narrow.sum_smallest(0, 3, 2) == 3);
+	static_assert(same_as<WaveletMatrix<>::sum_type, __int128_t>);
+	assert(empty.sum_smallest(0, 0, 0) == 0 && empty.sum_largest(0, 0, 0) == 0);
 	WaveletMatrix<string> words(vec<string>{"b", "a", "b", "z"});
 	assert(words.kth_smallest(0, 4, 1) == "b" && words.select("b", 1) == 2);
 	assert(words.prev_value(0, 4, "b") == optional<string>("a"));

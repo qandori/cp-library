@@ -9,7 +9,7 @@
 | ファイル | 内容 |
 | --- | --- |
 | `template.hpp` | `rep`・`per`・`chmin`・`chmax` などの共通テンプレート |
-| `data_structure/wavelet_matrix.hpp` | Wavelet Matrix。区間 k 番目・頻度・値域内の個数 |
+| `data_structure/wavelet_matrix.hpp` | Wavelet Matrix。区間 k 番目・頻度・値域内の個数・上位／下位 k 個の和 |
 | `data_structure/weighted_union_find.hpp` | 重み付き Union-Find |
 | `graph/dijkstra.hpp` | 非負の辺の重みに対する最短路（到達不能は `-1`） |
 | `math/mint.hpp` | mod 998244353 の整数型 `mint` |

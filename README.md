@@ -1,6 +1,6 @@
-# kyopro-library
+# cp-library
 
-[![verify](https://github.com/qandori/kyopro-library/actions/workflows/verify.yml/badge.svg)](https://github.com/qandori/kyopro-library/actions/workflows/verify.yml)
+[![verify](https://github.com/qandori/cp-library/actions/workflows/verify.yml/badge.svg)](https://github.com/qandori/cp-library/actions/workflows/verify.yml)
 
 競技プログラミング用の C++ ライブラリです。
 

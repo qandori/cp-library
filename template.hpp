@@ -1,4 +1,4 @@
-// https://github.com/qandori/kyopro-library
+// https://github.com/qandori/cp-library
 #ifndef TEMPLATE_HPP
 #define TEMPLATE_HPP
 

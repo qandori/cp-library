@@ -40,6 +40,7 @@ int main() {
 	assert(lcs_length("abcde", "ace") == 3 && lcs("abcde", "ace") == "ace");
 	RollingHash hash("abracadabra");
 	assert(hash.get(0, 4) == hash.get(7, 11) && hash.lcp(0, hash, 7) == 4);
+	assert(RollingHash::op(RollingHash::single('a'), RollingHash::single('b')) == RollingHash("ab").value());
 	SlopeTrick<> slope;
 	slope.add_abs(3);
 	assert(slope.eval(5) == 2);

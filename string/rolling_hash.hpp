@@ -15,6 +15,11 @@
 class RollingHash {
   public:
 	using Hash = std::uint64_t;
+	struct Value {
+		Hash hash = 0;
+		int length = 0;
+		bool operator==(const Value &) const = default;
+	};
 	static constexpr Hash mod = (Hash(1) << 61) - 1;
 	static Hash base() {
 		static const Hash value = splitmix64(Hash(std::chrono::steady_clock::now().time_since_epoch().count()) ^ Hash(reinterpret_cast<std::uintptr_t>(&powers))) % (mod - 512) + 256;
@@ -23,7 +28,7 @@ class RollingHash {
 
   private:
 	inline static std::vector<Hash> powers{1};
-	std::vector<Hash> prefix{0};
+	std::vector<Hash> prefix;
 	static Hash reduce(__uint128_t value) {
 		Hash result = (Hash(value) & mod) + Hash(value >> 61);
 		return result >= mod ? result - mod : result;
@@ -71,6 +76,19 @@ class RollingHash {
 	void build(const std::vector<T> &values) { build_range(values); }
 	int size() const { return prefix.empty() ? 0 : int(prefix.size() - 1); }
 	bool empty() const { return !size(); }
+	static void reserve(int n) {
+		assert(n >= 0);
+		ensure_powers(n);
+	}
+	template <class T>
+	static Value single(T x) { return {encode(x), 1}; }
+	static Value e() { return {}; }
+	static Value op(Value left, Value right) {
+		assert(left.length >= 0 && right.length >= 0 && left.length <= std::numeric_limits<int>::max() - right.length);
+		if (!left.length) return right;
+		if (!right.length) return left;
+		return {concat(left.hash, right.hash, right.length), left.length + right.length};
+	}
 	Hash get() const { return prefix.empty() ? 0 : prefix.back(); }
 	Hash get(int l, int r) const {
 		assert(0 <= l && l <= r && r <= size());
@@ -78,6 +96,8 @@ class RollingHash {
 		Hash value = prefix[r] + mod - mul(prefix[l], powers[r - l]);
 		return value >= mod ? value - mod : value;
 	}
+	Value value() const { return {get(), size()}; }
+	Value value(int l, int r) const { return {get(l, r), r - l}; }
 	static Hash concat(Hash left, Hash right, int right_length) {
 		assert(left < mod && right < mod && right_length >= 0);
 		ensure_powers(right_length);

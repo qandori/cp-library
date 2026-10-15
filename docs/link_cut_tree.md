@@ -3,10 +3,10 @@
 ```cpp
 #include "lib/data_structure/link_cut_tree.hpp"
 
-int64_t op(int64_t a, int64_t b) { return a + b; }
-int64_t e() { return 0; }
+std::int64_t op(std::int64_t a, std::int64_t b) { return a + b; }
+std::int64_t e() { return 0; }
 
-LinkCutTree<int64_t, op, e, true> tree(vector<int64_t>{1, 2, 3});
+LinkCutTree<std::int64_t, op, e, true> tree(std::vector<std::int64_t>{1, 2, 3});
 tree.link(0, 1);
 auto value = tree.prod(0, 1);
 ```
@@ -25,3 +25,5 @@ auto value = tree.prod(0, 1);
 | `lca(r, u, v)` | `r` を根とした LCA |
 
 経路操作の両端、および `lca` の 3 頂点は連結である必要があります。
+
+頂点数を `n` として、構築・空間は `O(n)`、`get`・`size()` は `O(1)`、その他の操作は償却 `O(log n)` です。`op`・`e` と値のコピーは `O(1)` とします。

@@ -1,4 +1,14 @@
 #include "math/monoid_floor_sum.hpp"
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <cstdint>
+#include <limits>
+#include <random>
+#include <string>
+#include <utility>
+
+using namespace std;
 
 using U = uint64_t;
 using W = __uint128_t;
@@ -52,14 +62,17 @@ struct Node {
 int main() {
 	constexpr auto concat = [](const string &a, const string &b) { return a + b; };
 	constexpr auto empty = [] { return string{}; };
-	rep(n, 9) rep(m, 1, 10) rep(a, 10) rep(b, 10) {
-		string expected(b / m, 'U');
-		rep(i, 1, n + 1) expected += 'R', expected.append((a * i + b) / m - (a * (i - 1) + b) / m, 'U');
-		assert((monoid_floor_sum<string, concat, empty>(n, m, a, b, "R", "U") == expected));
-		check(n, m, a, b);
-	}
+	for (int n = 0; n < 9; ++n)
+		for (int m = 1; m < 10; ++m)
+			for (int a = 0; a < 10; ++a)
+				for (int b = 0; b < 10; ++b) {
+					string expected(b / m, 'U');
+					for (int i = 1; i < (n + 1); ++i) expected += 'R', expected.append((a * i + b) / m - (a * (i - 1) + b) / m, 'U');
+					assert((monoid_floor_sum<string, concat, empty>(n, m, a, b, "R", "U") == expected));
+					check(n, m, a, b);
+				}
 	mt19937_64 random(123);
-	rep(2000) {
+	for (int repeat_index = 0; repeat_index < 2000; ++repeat_index) {
 		U n = random() % 50, m = max<U>(1, random()), a = random(), b = random();
 		Affine x{random(), random()}, y{random(), random()};
 		auto expected = power(y, b / m);
@@ -81,7 +94,7 @@ int main() {
 			for (U a : {U(0), U(1), maximum - 2, maximum - 1, maximum})
 				for (U b : {U(0), U(1), maximum - 1, maximum}) check(n, m, a, b);
 	check(maximum, 12200160415121876738ULL, 7540113804746346429ULL, 0);
-	rep(10000) {
+	for (int repeat_index = 0; repeat_index < 10000; ++repeat_index) {
 		U m = random();
 		check(random(), m ? m : 1, random(), random());
 	}

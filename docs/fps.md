@@ -8,7 +8,7 @@ fps product = f * g;
 fps inverse = f.inv(10);
 ```
 
-mod は 998244353、係数は定数項から順に格納します。`fps` は `vector<mint>` と同様に扱えます。`deg` は返す係数の個数で、省略時は元のサイズです。
+mod は 998244353、係数は定数項から順に格納します。`fps` は `std::vector<mint>` と同様に扱えます。`deg` は返す係数の個数で、省略時は元のサイズです。
 
 | 操作 | 内容・条件 |
 | --- | --- |
@@ -27,3 +27,17 @@ mod は 998244353、係数は定数項から順に格納します。`fps` は `v
 | `f.onemul(d, c)` / `f.onediv(d, c)` | `1+c*x^d` を掛ける／割る。自身のサイズを保つ |
 | `fps::bostan_mori(p, q, k)` | `p/q` の `x^k` の係数。`q[0] != 0`、`k >= 0` |
 | `fps::linear_recurrence(initial, c, k)` | `a[n] = c[0]*a[n-1] + ... + c[d-1]*a[n-d]` の `a[k]`。初期値・係数は各 `d` 個 |
+
+`n` は入力・出力の最大係数数、`m` は評価点数、`d` は漸化式の次数（Bostan–Mori では `max(p.size(), q.size())`）とします。
+
+| 操作 | 時間計算量 |
+| --- | --- |
+| 加減算・スカラー演算・`diff`・`integral`・`onemul`・`onediv`・一点評価 | `O(n)` |
+| 乗算・級数除算・多項式除算・`inv`・`log`・`exp`・`sqrt`・`shift` | `O(n log n)` |
+| `pow(k)` | `O(n log n + log(k+1))` |
+| `compose`・`compositional_inverse` | `O(n log^2 n)` |
+| 多点評価 | `O((n+m) log^2(n+m))` |
+| `interpolate` | `O(m log^2 m)` |
+| `bostan_mori`・`linear_recurrence` | `O(d log(d+1) log(k+2))` |
+
+追加空間は、合成・多点評価・補間が `O(N log N)`、その他が `O(N)` です（`N = max(n, m, d)`）。

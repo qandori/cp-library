@@ -1,4 +1,15 @@
 #include "data_structure/li_chao_tree.hpp"
+#include <algorithm>
+#include <cassert>
+#include <cstdint>
+#include <limits>
+#include <numeric>
+#include <optional>
+#include <random>
+#include <utility>
+#include <vector>
+
+using namespace std;
 
 template <class T, bool maximize>
 void random_test() {
@@ -9,20 +20,20 @@ void random_test() {
 		T a, b;
 		int l, r;
 	};
-	rep(trial, 180) {
-		vec<T> xs;
+	for (int trial = 0; trial < 180; ++trial) {
+		vector<T> xs;
 		int n = rng() % 70;
-		rep(n) xs.push_back(T(int(rng() % 81) - 40));
+		for (int repeat_index = 0; repeat_index < n; ++repeat_index) xs.push_back(T(int(rng() % 81) - 40));
 		Tree tree(xs);
-		sort(all(xs));
-		xs.erase(unique(all(xs)), xs.end());
-		assert(tree.size() == sz(xs));
-		rep(i, sz(xs)) assert(tree.coordinate(i) == xs[i] && tree.index(xs[i]) == i);
-		vec<Line> lines;
-		rep(step, 300) {
+		sort(xs.begin(), xs.end());
+		xs.erase(unique(xs.begin(), xs.end()), xs.end());
+		assert(tree.size() == static_cast<int>(xs.size()));
+		for (int i = 0; i < (static_cast<int>(xs.size())); ++i) assert(tree.coordinate(i) == xs[i] && tree.index(xs[i]) == i);
+		vector<Line> lines;
+		for (int step = 0; step < 300; ++step) {
 			int type = rng() % 20;
 			T a = T(int(rng() % 41) - 20), b = T(int(rng() % 101) - 50);
-			int l = 0, r = sz(xs);
+			int l = 0, r = static_cast<int>(xs.size());
 			if (type == 0) tree.clear(), lines.clear();
 			else {
 				if (type < 8) tree.add_line(a, b);
@@ -30,18 +41,18 @@ void random_test() {
 					T left = T(int(rng() % 121) - 60), right = T(int(rng() % 121) - 60);
 					if (right < left) swap(left, right);
 					tree.add_segment(left, right, a, b);
-					l = lower_bound(all(xs), left) - xs.begin();
-					r = lower_bound(all(xs), right) - xs.begin();
+					l = lower_bound(xs.begin(), xs.end(), left) - xs.begin();
+					r = lower_bound(xs.begin(), xs.end(), right) - xs.begin();
 				} else {
-					l = rng() % (sz(xs) + 1), r = rng() % (sz(xs) + 1);
+					l = rng() % (static_cast<int>(xs.size()) + 1), r = rng() % (static_cast<int>(xs.size()) + 1);
 					if (r < l) swap(l, r);
 					tree.add_segment_index(l, r, a, b);
 				}
 				lines.push_back({a, b, l, r});
 			}
-			rep(3) {
+			for (int repeat_index = 0; repeat_index < 3; ++repeat_index) {
 				if (xs.empty()) break;
-				int i = rng() % sz(xs);
+				int i = rng() % static_cast<int>(xs.size());
 				optional<R> expected;
 				for (auto f : lines)
 					if (f.l <= i && i < f.r) {
@@ -64,14 +75,14 @@ void extreme_test() {
 	using T = int64_t;
 	using R = __int128_t;
 	const T lo = numeric_limits<T>::min(), hi = numeric_limits<T>::max();
-	vec<T> xs{lo, lo + 1, -1000000000, -1, 0, 1, 1000000000, hi - 1, hi};
+	vector<T> xs{lo, lo + 1, -1000000000, -1, 0, 1, 1000000000, hi - 1, hi};
 	LiChaoTree<T, maximize> tree(xs);
-	vec<pair<T, T>> lines;
+	vector<pair<T, T>> lines;
 	for (T a : {lo, lo + 1, T(-1), T(0), T(1), hi - 1, hi})
 		for (T b : {lo, lo + 1, T(-1), T(0), T(1), hi - 1, hi}) {
 			tree.add_line(a, b);
 			lines.emplace_back(a, b);
-			rep(i, sz(xs)) {
+			for (int i = 0; i < (static_cast<int>(xs.size())); ++i) {
 				R expected = R(lines[0].first) * xs[i] + lines[0].second;
 				for (auto [c, d] : lines) {
 					R value = R(c) * xs[i] + d;
@@ -84,22 +95,22 @@ void extreme_test() {
 	tree.add_segment(lo, hi, hi, lo);
 	assert(!tree.query(hi));
 	assert(tree.query(lo) == R(hi) * lo + lo);
-	tree.add_segment_index(sz(xs) - 1, sz(xs), lo, hi);
+	tree.add_segment_index(static_cast<int>(xs.size()) - 1, static_cast<int>(xs.size()), lo, hi);
 	assert(tree.query(hi) == R(lo) * hi + hi);
 	tree.clear();
 	struct Segment {
 		T a, b;
 		int l, r;
 	};
-	vec<Segment> segments;
+	vector<Segment> segments;
 	mt19937_64 rng(137);
-	rep(3000) {
+	for (int repeat_index = 0; repeat_index < 3000; ++repeat_index) {
 		T a = bit_cast<T>(rng()), b = bit_cast<T>(rng());
-		int l = rng() % (sz(xs) + 1), r = rng() % (sz(xs) + 1);
+		int l = rng() % (static_cast<int>(xs.size()) + 1), r = rng() % (static_cast<int>(xs.size()) + 1);
 		if (r < l) swap(l, r);
 		tree.add_segment_index(l, r, a, b);
 		segments.push_back({a, b, l, r});
-		rep(i, sz(xs)) {
+		for (int i = 0; i < (static_cast<int>(xs.size())); ++i) {
 			optional<R> expected;
 			for (auto f : segments)
 				if (f.l <= i && i < f.r) {
@@ -117,8 +128,8 @@ void arithmetic_test() {
 	using R = __int128_t;
 	const T lo = numeric_limits<T>::min(), hi = numeric_limits<T>::max();
 	LiChaoTree<T, maximize> tree({1, 2});
-	vec<pair<T, T>> lines;
-	for (auto [a, b] : vec<pair<T, T>>{{hi, -hi}, {-hi, hi}, {0, hi}, {0, lo}, {hi, hi}, {lo, lo}}) {
+	vector<pair<T, T>> lines;
+	for (auto [a, b] : vector<pair<T, T>>{{hi, -hi}, {-hi, hi}, {0, hi}, {0, lo}, {hi, hi}, {lo, lo}}) {
 		tree.add_line(a, b);
 		lines.emplace_back(a, b);
 		for (T x : {1, 2}) {
@@ -137,13 +148,13 @@ void arithmetic_test() {
 	tree.add_segment(2, 3, -hi, hi);
 	assert(tree.query(2) == (maximize ? R(hi) : -R(hi)));
 	for (T start : {lo, T(-5), hi - 15}) {
-		rep(n, 1, 17) {
-			vec<T> xs(n);
-			rep(i, n) xs[i] = start + i;
+		for (int n = 1; n < 17; ++n) {
+			vector<T> xs(n);
+			for (int i = 0; i < n; ++i) xs[i] = start + i;
 			tree.build(xs);
-			rep(i, n) assert(tree.index(xs[i]) == i);
+			for (int i = 0; i < n; ++i) assert(tree.index(xs[i]) == i);
 			tree.add_segment(lo, hi, 0, 7);
-			rep(i, n) assert(tree.query_index(i) == (xs[i] < hi ? optional<R>(7) : nullopt));
+			for (int i = 0; i < n; ++i) assert(tree.query_index(i) == (xs[i] < hi ? optional<R>(7) : nullopt));
 		}
 	}
 }
@@ -178,10 +189,10 @@ int main() {
 	LiChaoTree<double> floating({-0.5, 0, 0.5});
 	floating.add_line(0.25, 0.125);
 	assert(floating.query(-0.5) == 0 && floating.query(0.5) == 0.25);
-	LiChaoTree<> large(vec<int64_t>(200000));
-	vec<int64_t> xs(200000);
-	iota(all(xs), -100000);
+	LiChaoTree<> large(vector<int64_t>(200000));
+	vector<int64_t> xs(200000);
+	iota(xs.begin(), xs.end(), -100000);
 	large.build(xs);
-	rep(i, 200000) large.add_line(-2 * xs[i], xs[i] * xs[i]);
-	rep(i, 200000) assert(large.query_index(i) == -__int128_t(xs[i]) * xs[i]);
+	for (int i = 0; i < 200000; ++i) large.add_line(-2 * xs[i], xs[i] * xs[i]);
+	for (int i = 0; i < 200000; ++i) assert(large.query_index(i) == -__int128_t(xs[i]) * xs[i]);
 }

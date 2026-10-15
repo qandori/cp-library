@@ -1,34 +1,44 @@
 #ifndef DYNAMIC_CONNECTIVITY_HPP
 #define DYNAMIC_CONNECTIVITY_HPP
 
-#include "../template.hpp"
+#include <algorithm>
+#include <array>
+#include <bit>
+#include <cassert>
+#include <chrono>
+#include <cstddef>
+#include <cstdint>
+#include <limits>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 template <class S = void, auto op = nullptr, auto e = nullptr>
 class DynamicConnectivity {
-	static constexpr bool aggregate = !is_void_v<S>;
+	static constexpr bool aggregate = !std::is_void_v<S>;
 	struct Empty {};
-	using Value = conditional_t<aggregate, S, Empty>;
+	using Value = std::conditional_t<aggregate, S, Empty>;
 	struct Node {
 		int ch[2] = {}, parent = 0, size = 0, key = 0, aux = 0;
-		uint8_t own = 0, flags = 0;
+		std::uint8_t own = 0, flags = 0;
 	};
 	struct Edge {
-		uint64_t key = 0;
+		std::uint64_t key = 0;
 		int top = 0, count = 0, prev[2] = {}, next[2] = {};
 	};
 	int n = 0, groups = 0, active = 0, free_edge = 0, free_arc = 0;
-	int64_t m = 0;
-	uint64_t seed = chrono::steady_clock::now().time_since_epoch().count();
-	vec<Node> t;
-	vec<Edge> edges;
-	vec<int> table;
-	vec<vec<int>> vertices;
-	vec<Value> values, sums;
-	static uint64_t key(int u, int v) {
-		if (u > v) swap(u, v);
-		return (uint64_t(unsigned(u)) << 32) | unsigned(v);
+	std::int64_t m = 0;
+	std::uint64_t seed = std::chrono::steady_clock::now().time_since_epoch().count();
+	std::vector<Node> t;
+	std::vector<Edge> edges;
+	std::vector<int> table;
+	std::vector<std::vector<int>> vertices;
+	std::vector<Value> values, sums;
+	static std::uint64_t key(int u, int v) {
+		if (u > v) std::swap(u, v);
+		return (std::uint64_t(unsigned(u)) << 32) | unsigned(v);
 	}
-	uint64_t hash(uint64_t x) const {
+	std::uint64_t hash(std::uint64_t x) const {
 		x += seed;
 		x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
 		x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
@@ -38,17 +48,18 @@ class DynamicConnectivity {
 		int x = edges[id].top;
 		return x > 0 ? (t[x].own >> 3) : -x - 1;
 	}
-	int slot(uint64_t k) const {
-		int mask = sz(table) - 1, i = hash(k) & mask;
+	int slot(std::uint64_t k) const {
+		int mask = static_cast<int>(table.size()) - 1, i = hash(k) & mask;
 		while (table[i] && edges[table[i]].key != k) i = (i + 1) & mask;
 		return i;
 	}
 	void rehash(int capacity) {
 		table.assign(capacity, 0);
-		rep(i, 1, sz(edges)) if (edges[i].count) table[slot(edges[i].key)] = i;
+		for (int i = 1; i < (static_cast<int>(edges.size())); ++i)
+			if (edges[i].count) table[slot(edges[i].key)] = i;
 	}
 	void erase_slot(int i) {
-		int mask = sz(table) - 1;
+		int mask = static_cast<int>(table.size()) - 1;
 		for (int j = (i + 1) & mask; table[j]; j = (j + 1) & mask) {
 			int k = hash(edges[table[j]].key) & mask;
 			if (((j - k) & mask) >= ((j - i) & mask)) table[i] = table[j], i = j;
@@ -117,11 +128,11 @@ class DynamicConnectivity {
 		return join(x, l);
 	}
 	int vertex(int level, int v) {
-		if (level == sz(vertices)) vertices.emplace_back(n, 0);
+		if (level == static_cast<int>(vertices.size())) vertices.emplace_back(n, 0);
 		int &x = vertices[level][v];
 		if (!x) {
-			assert(t.size() < size_t(numeric_limits<int>::max()));
-			x = sz(t);
+			assert(t.size() < std::size_t(std::numeric_limits<int>::max()));
+			x = static_cast<int>(t.size());
 			t.emplace_back();
 			t[x].key = v + 1;
 			t[x].size = 1;
@@ -136,8 +147,8 @@ class DynamicConnectivity {
 			t[x] = t[x + 1] = Node{};
 			if constexpr (aggregate) sums[x] = sums[x + 1] = e();
 		} else {
-			assert(t.size() <= size_t(numeric_limits<int>::max() - 2));
-			x = sz(t);
+			assert(t.size() <= std::size_t(std::numeric_limits<int>::max() - 2));
+			x = static_cast<int>(t.size());
 			t.emplace_back();
 			t.emplace_back();
 			if constexpr (aggregate) sums.insert(sums.end(), 2, e());
@@ -166,7 +177,7 @@ class DynamicConnectivity {
 			if (level == 0) sums[b] = sums[a];
 		edges[id].top = a;
 	}
-	pair<int, int> cut_tree(int a) {
+	std::pair<int, int> cut_tree(int a) {
 		int b = a + 1;
 		splay<false>(a);
 		int l = t[a].ch[0], r = t[a].ch[1];
@@ -192,7 +203,7 @@ class DynamicConnectivity {
 		return x;
 	}
 	void attach(int id, int level) {
-		rep(side, 2) {
+		for (int side = 0; side < 2; ++side) {
 			int x = vertex(level, side ? unsigned(edges[id].key) : edges[id].key >> 32);
 			int old = t[x].aux, token = id * 2 + side;
 			edges[id].prev[side] = 0;
@@ -205,7 +216,7 @@ class DynamicConnectivity {
 	}
 	void detach(int id) {
 		int level = level_of(id);
-		rep(side, 2) {
+		for (int side = 0; side < 2; ++side) {
 			int x = vertices[level][side ? unsigned(edges[id].key) : edges[id].key >> 32];
 			int p = edges[id].prev[side], q = edges[id].next[side];
 			if (p) edges[p >> 1].next[p & 1] = q;
@@ -215,10 +226,10 @@ class DynamicConnectivity {
 			if (!t[x].aux) splay<false>(x), t[x].own &= ~2, pull(x);
 		}
 	}
-	bool reconnect(const pair<int, int> *roots, int level) {
+	bool reconnect(const std::pair<int, int> *roots, int level) {
 		for (; level >= 0; --level) {
 			auto [a, b] = roots[level];
-			if (t[a].size > t[b].size) swap(a, b);
+			if (t[a].size > t[b].size) std::swap(a, b);
 			if (!(t[a].flags & 2)) continue;
 			bool promoted = false;
 			while (int x = find_flag(a, 2)) {
@@ -228,7 +239,7 @@ class DynamicConnectivity {
 					if (!same_nodes(vertices[level][s], vertices[level][d])) {
 						detach(id);
 						edges[id].top = 0;
-						rep(i, level + 1) link_tree(id, i, i == level);
+						for (int i = 0; i < (level + 1); ++i) link_tree(id, i, i == level);
 						return true;
 					}
 					if (!promoted) {
@@ -239,7 +250,7 @@ class DynamicConnectivity {
 							if (!same_nodes(vertices[level][c], vertices[level][d])) {
 								detach(candidate);
 								edges[candidate].top = 0;
-								rep(i, level + 1) link_tree(candidate, i, i == level);
+								for (int i = 0; i < (level + 1); ++i) link_tree(candidate, i, i == level);
 								return true;
 							}
 						}
@@ -261,12 +272,12 @@ class DynamicConnectivity {
 		return false;
 	}
 	void init(int count) {
-		assert(0 <= count && count < numeric_limits<int>::max() / 3);
+		assert(0 <= count && count < std::numeric_limits<int>::max() / 3);
 		n = groups = count;
-		t.reserve(size_t(n) * 3 + 1);
-		t.resize(size_t(n) + 1);
+		t.reserve(std::size_t(n) * 3 + 1);
+		t.resize(std::size_t(n) + 1);
 		vertices.emplace_back(n);
-		rep(v, n) {
+		for (int v = 0; v < n; ++v) {
 			vertices[0][v] = v + 1;
 			t[v + 1].key = v + 1;
 			t[v + 1].size = 1;
@@ -276,26 +287,26 @@ class DynamicConnectivity {
 		table.assign(8, 0);
 		if constexpr (aggregate) {
 			values.assign(n, e());
-			sums.reserve(size_t(n) * 3 + 1);
-			sums.assign(size_t(n) + 1, e());
+			sums.reserve(std::size_t(n) * 3 + 1);
+			sums.assign(std::size_t(n) + 1, e());
 		}
 	}
 
   public:
 	explicit DynamicConnectivity(int n = 0) { init(n); }
-	explicit DynamicConnectivity(const vec<Value> &a)
+	explicit DynamicConnectivity(const std::vector<Value> &a)
 		requires aggregate
 	{
-		assert(a.size() < size_t(numeric_limits<int>::max() / 3));
-		init(sz(a));
+		assert(a.size() < std::size_t(std::numeric_limits<int>::max() / 3));
+		init(static_cast<int>(a.size()));
 		values = a;
-		rep(i, n) sums[i + 1] = a[i];
+		for (int i = 0; i < n; ++i) sums[i + 1] = a[i];
 	}
 	void reserve(int capacity) {
-		assert(0 <= capacity && capacity < numeric_limits<int>::max() / 4);
-		edges.reserve(size_t(capacity) + 1);
-		int buckets = bit_ceil(unsigned(max(8, capacity * 2)));
-		if (buckets > sz(table)) rehash(buckets);
+		assert(0 <= capacity && capacity < std::numeric_limits<int>::max() / 4);
+		edges.reserve(std::size_t(capacity) + 1);
+		int buckets = std::bit_ceil(unsigned(std::max(8, capacity * 2)));
+		if (buckets > static_cast<int>(table.size())) rehash(buckets);
 	}
 	int size() const { return n; }
 	int size(int v) {
@@ -304,7 +315,7 @@ class DynamicConnectivity {
 		return t[v + 1].size;
 	}
 	int component_count() const { return groups; }
-	int64_t edge_count() const { return m; }
+	std::int64_t edge_count() const { return m; }
 	int count(int u, int v) const {
 		check(u);
 		check(v);
@@ -318,21 +329,21 @@ class DynamicConnectivity {
 	bool link(int u, int v) {
 		check(u);
 		check(v);
-		uint64_t k = key(u, v);
+		std::uint64_t k = key(u, v);
 		int pos = slot(k), id = table[pos];
 		++m;
 		if (id) {
-			assert(edges[id].count < numeric_limits<int>::max());
+			assert(edges[id].count < std::numeric_limits<int>::max());
 			++edges[id].count;
 			return false;
 		}
-		if ((active + 1) * 2 > sz(table)) rehash(sz(table) * 2), pos = slot(k);
+		if ((active + 1) * 2 > static_cast<int>(table.size())) rehash(static_cast<int>(table.size()) * 2), pos = slot(k);
 		id = free_edge;
 		if (id)
 			free_edge = edges[id].next[0], edges[id] = Edge{};
 		else {
-			assert(edges.size() < size_t(numeric_limits<int>::max() / 2));
-			id = sz(edges);
+			assert(edges.size() < std::size_t(std::numeric_limits<int>::max() / 2));
+			id = static_cast<int>(edges.size());
 			edges.emplace_back();
 		}
 		table[pos] = id;
@@ -361,7 +372,7 @@ class DynamicConnectivity {
 		if (edges[id].top > 0) {
 			int a = edges[id].top;
 			int level = level_of(id), i = level;
-			array<pair<int, int>, 32> roots;
+			std::array<std::pair<int, int>, 32> roots;
 			while (a) {
 				int down = t[a].aux;
 				roots[i--] = cut_tree(a);

@@ -1,6 +1,19 @@
 #ifndef FPS_998244353_HPP
 #define FPS_998244353_HPP
-#include "../template.hpp"
+
+#include <algorithm>
+#include <cassert>
+#include <cstddef>
+#include <initializer_list>
+#include <memory>
+#include <new>
+#include <type_traits>
+#include <utility>
+#include <vector>
+#if defined(__ARM_NEON)
+#include <arm_neon.h>
+#endif
+
 #if defined(__x86_64__) || defined(__i386__)
 #include <immintrin.h>
 #endif
@@ -15,8 +28,8 @@
 namespace fps_detail {
 struct NTT {
 	using T = Mint;
-	typedef uint U __attribute__((may_alias));
-	using V = vec<uint>;
+	typedef unsigned int U __attribute__((may_alias));
+	using V = std::vector<unsigned int>;
 	static constexpr U mod = 998244353, twice = 2 * mod, one = 301989884;
 	V roots, inverse_roots, twists, inverse_twists;
 	V root_quotients, inverse_root_quotients;
@@ -28,7 +41,7 @@ struct NTT {
 		inverse_cube_roots.resize(n);
 		cube_quotients.resize(n);
 		inverse_cube_quotients.resize(n);
-		rep(k, begin, n) {
+		for (int k = begin; k < n; ++k) {
 			U x = (unsigned long long)roots[k] * roots[2 * k] % mod;
 			U y = (unsigned long long)inverse_roots[k] * inverse_roots[2 * k] % mod;
 			cube_roots[k] = x;
@@ -71,7 +84,7 @@ struct NTT {
 			U t = in(T(3).pow((mod - 1) / (2 * h)).val());
 			U it = in(T(3).pow(mod - 1 - (mod - 1) / (2 * h)).val());
 			U a = in(mod - (mod - 1) / h), b = a;
-			rep(i, h) {
+			for (int i = 0; i < h; ++i) {
 				roots[h + i] = mul(roots[i], r);
 				inverse_roots[h + i] = mul(inverse_roots[i], ir);
 				if (composition) twists[h + i] = a, inverse_twists[h + i] = b;
@@ -79,7 +92,7 @@ struct NTT {
 				b = mul(b, it);
 			}
 		}
-		rep(i, size) {
+		for (int i = 0; i < size; ++i) {
 			root_quotients[i] = (roots[i] < mod ? roots[i] : roots[i] - mod) * 998244351u;
 			inverse_root_quotients[i] = (inverse_roots[i] < mod ? inverse_roots[i] : inverse_roots[i] - mod) * 998244351u;
 			roots[i] = out(roots[i]);
@@ -232,7 +245,7 @@ struct NTT {
 		for (int j = 0; j < length; j += 8) {
 			I8 z = load8(a + j);
 			if constexpr (!inverse)
-				if ((limit >= 32) && (__builtin_ctz((uint)limit) & 1)) {
+				if ((limit >= 32) && (__builtin_ctz((unsigned int)limit) & 1)) {
 					I8 p = _mm256_set1_epi32(twice);
 					z = _mm256_min_epu32(z, _mm256_sub_epi32(z, p));
 				}
@@ -395,7 +408,7 @@ struct NTT {
 		}
 	}
 	__attribute__((target("avx2"))) void project8_8(U *a, int rows) const {
-		rep(j, rows) {
+		for (int j = 0; j < rows; ++j) {
 			I8 x0 = load8(a + 16 * j + 0);
 			x0 = small8<4, true>(small8<2, true>(small8<1, true>(x0, 0), 0), 0);
 			I8 x1 = load8(a + 16 * j + 8);
@@ -409,7 +422,7 @@ struct NTT {
 		}
 	}
 	__attribute__((target("avx2"))) void project16_8(U *a, int rows) const {
-		rep(j, rows) {
+		for (int j = 0; j < rows; ++j) {
 			I8 x0 = load8(a + 32 * j + 0);
 			x0 = small8<4, true>(small8<2, true>(small8<1, true>(x0, 0), 0), 0);
 			I8 x1 = load8(a + 32 * j + 8);
@@ -446,9 +459,9 @@ struct NTT {
 				store8(a + 4 * j, fixed_mul8(load8(a + 4 * j), w, q));
 			}
 			if (j < rows)
-				rep(i, 4) a[4 * j + i] = fixed_mul(a[4 * j + i], factors[j], quotient(factors[j]));
+				for (int i = 0; i < 4; ++i) a[4 * j + i] = fixed_mul(a[4 * j + i], factors[j], quotient(factors[j]));
 		} else {
-			rep(j, rows) {
+			for (int j = 0; j < rows; ++j) {
 				U w = factors[j];
 				I8 v = _mm256_set1_epi32(w), q = _mm256_set1_epi32(quotient(w));
 				for (int i = 0; i < 2 * columns; i += 8) store8(a + 2 * columns * j + i, fixed_mul8(load8(a + 2 * columns * j + i), v, q));
@@ -456,7 +469,7 @@ struct NTT {
 		}
 	}
 	__attribute__((target("avx2"))) void project4_8(U *a, int rows) const {
-		rep(j, rows) {
+		for (int j = 0; j < rows; ++j) {
 			I8 x = small8<2, true>(small8<1, true>(load8(a + 8 * j), 0), 0);
 			x = add8(x, _mm256_permute2x128_si256(x, x, 1));
 			x = small8<1, false>(small8<2, false>(x, 0), 0);
@@ -762,7 +775,7 @@ struct NTT {
 	}
 	__attribute__((target("avx2"))) static void weighted8(U *dst, const U *src, int n, int first) {
 		alignas(32) U factors[8];
-		rep(j, 8) factors[j] = in(first + j);
+		for (int j = 0; j < 8; ++j) factors[j] = in(first + j);
 		I8 r = load8(factors), step = _mm256_set1_epi32(in(8));
 		int i = 0;
 		for (; i + 8 <= n; i += 8) {
@@ -774,22 +787,22 @@ struct NTT {
 	__attribute__((target("avx2"), always_inline)) static I8 inverse8(I8 a) {
 		I8 a2 = mul8(a, a), a3 = mul8(a2, a);
 		I8 a7 = mul8(mul8(a3, a3), a), a31 = a7;
-		rep(2) a31 = mul8(a31, a31);
+		for (int repeat_index = 0; repeat_index < 2; ++repeat_index) a31 = mul8(a31, a31);
 		a31 = mul8(a31, a3);
 		I8 r = a7;
-		rep(3) r = mul8(r, r);
+		for (int repeat_index = 0; repeat_index < 3; ++repeat_index) r = mul8(r, r);
 		r = mul8(r, a3);
 		r = mul8(r, r);
-		rep(j, 4) {
-			rep(5) r = mul8(r, r);
+		for (int j = 0; j < 4; ++j) {
+			for (int repeat_index = 0; repeat_index < 5; ++repeat_index) r = mul8(r, r);
 			r = mul8(r, a31);
 		}
-		rep(3) r = mul8(r, r);
+		for (int repeat_index = 0; repeat_index < 3; ++repeat_index) r = mul8(r, r);
 		return mul8(r, a7);
 	}
 	__attribute__((target("avx2"))) static void batch_inverse8(U *dst, const U *src, int n) {
 		if (n < 16) {
-			rep(i, n) dst[i] = T::word(src[i]).inv().v;
+			for (int i = 0; i < n; ++i) dst[i] = T::word(src[i]).inv().v;
 			return;
 		}
 		int count = n / 16 * 16;
@@ -815,7 +828,7 @@ struct NTT {
 		}
 		store8(dst, inverse);
 		store8(dst + 8, other);
-		rep(i, count, n) dst[i] = T::word(src[i]).inv().v;
+		for (int i = count; i < n; ++i) dst[i] = T::word(src[i]).inv().v;
 	}
 	__attribute__((target("avx2"))) static void evaluate_leaf8(U *dst, const U *cur, const U *tree, int degree, const U *points, int count) {
 		I8 p = _mm256_set1_epi32(mod), pp = _mm256_set1_epi32(twice);
@@ -824,12 +837,12 @@ struct NTT {
 		x = _mm256_min_epu32(x, _mm256_sub_epi32(x, p));
 		alignas(32) U window[16] = {}, coefficients[8] = {}, polynomial[8], tail[8] = {};
 		store8(window + 8, x);
-		copy_n(tree, min(degree, 8), coefficients);
+		std::copy_n(tree, std::min(degree, 8), coefficients);
 		I8 y = load8(coefficients);
 		y = _mm256_min_epu32(y, _mm256_sub_epi32(y, pp));
 		store8(coefficients, _mm256_min_epu32(y, _mm256_sub_epi32(y, p)));
 		I8 e = _mm256_setzero_si256(), o = e;
-		rep(i, 8) {
+		for (int i = 0; i < 8; ++i) {
 			I8 z = load8(window + 8 - i), r = _mm256_set1_epi32(coefficients[i]);
 			e = _mm256_add_epi64(e, _mm256_mul_epu32(z, r));
 			o = _mm256_add_epi64(o, _mm256_mul_epu32(_mm256_srli_epi64(z, 32), r));
@@ -842,15 +855,15 @@ struct NTT {
 		store8(polynomial, _mm256_min_epu32(x, _mm256_sub_epi32(x, p)));
 		if (count == 8) x = load8(points);
 		else {
-			copy_n(points, count, tail);
+			std::copy_n(points, count, tail);
 			x = load8(tail);
 		}
 		I8 value = _mm256_setzero_si256();
-		rep(i, 8) value = add8(mul8(value, x), _mm256_set1_epi32(polynomial[i]));
+		for (int i = 0; i < 8; ++i) value = add8(mul8(value, x), _mm256_set1_epi32(polynomial[i]));
 		if (count == 8) store8(dst, value);
 		else {
 			store8(tail, value);
-			copy_n(tail, count, dst);
+			std::copy_n(tail, count, dst);
 		}
 	}
 	__attribute__((target("avx2"), always_inline)) static U sum_product8(I8 a, I8 b) {
@@ -869,7 +882,7 @@ struct NTT {
 		sum = add8(sum, _mm256_shuffle_epi32(sum, 0x4e));
 		sum = add8(sum, _mm256_shuffle_epi32(sum, 0xb1));
 		dst[7] = _mm_cvtsi128_si32(_mm256_castsi256_si128(sum));
-		per(k, 7) {
+		for (int k = 7 - 1; k >= 0; --k) {
 			c = add8(mul8(c, x), _mm256_set1_epi32(q[k + 1]));
 			dst[k] = sum_product8(c, w);
 		}
@@ -882,29 +895,29 @@ struct NTT {
 			x = _mm256_min_epu32(x, _mm256_sub_epi32(x, pp));
 			store8(window + i, _mm256_min_epu32(x, _mm256_sub_epi32(x, p)));
 		}
-		rep(i, min(dl, 9)) {
+		for (int i = 0; i < (std::min(dl, 9)); ++i) {
 			U x = ql[i];
 			if (x >= twice) x -= twice;
 			if (x >= mod) x -= mod;
 			coefficients[0][i] = x;
 		}
-		rep(i, min(dr, 9)) {
+		for (int i = 0; i < (std::min(dr, 9)); ++i) {
 			U x = qr[i];
 			if (x >= twice) x -= twice;
 			if (x >= mod) x -= mod;
 			coefficients[1][i] = x;
 		}
 		I8 e[2] = {}, o[2] = {};
-		rep(i, 9) {
+		for (int i = 0; i < 9; ++i) {
 			I8 z = load8(window + 8 - i), high = _mm256_srli_epi64(z, 32);
-			rep(k, 2) {
+			for (int k = 0; k < 2; ++k) {
 				I8 r = _mm256_set1_epi32(coefficients[k][i]);
 				e[k] = _mm256_add_epi64(e[k], _mm256_mul_epu32(z, r));
 				o[k] = _mm256_add_epi64(o[k], _mm256_mul_epu32(high, r));
 			}
 		}
 		U *dst[2] = {left, right};
-		rep(k, 2) {
+		for (int k = 0; k < 2; ++k) {
 			e[k] = _mm256_add_epi64(e[k], _mm256_mul_epu32(_mm256_mul_epu32(e[k], ni), p));
 			o[k] = _mm256_add_epi64(o[k], _mm256_mul_epu32(_mm256_mul_epu32(o[k], ni), p));
 			I8 x = _mm256_blend_epi32(_mm256_srli_epi64(e[k], 32), o[k], 0xaa);
@@ -914,7 +927,7 @@ struct NTT {
 	__attribute__((target("avx2"))) static void inverse_sequence8(U *dst, int first, int n) {
 
 		alignas(32) U initial[8];
-		rep(j, 8) initial[j] = in(first + j);
+		for (int j = 0; j < 8; ++j) initial[j] = in(first + j);
 		I8 factor = load8(initial), step = _mm256_set1_epi32(in(8));
 		I8 p = factor;
 		store8(dst, p);
@@ -951,7 +964,7 @@ struct NTT {
 			return;
 		}
 #endif
-		rep(i, n) dst[i] = mul(src[i], in(first + i));
+		for (int i = 0; i < n; ++i) dst[i] = mul(src[i], in(first + i));
 	}
 	static void scale_normalize(U *a, int n, U r) {
 #if defined(__x86_64__) || defined(__i386__)
@@ -1060,7 +1073,7 @@ struct NTT {
 		store8(window + 8, x);
 		store8(coefficients, y);
 		I8 e = _mm256_setzero_si256(), o = e;
-		rep(i, 8) {
+		for (int i = 0; i < 8; ++i) {
 			I8 z = load8(window + 8 - i), r = _mm256_set1_epi32(coefficients[i]);
 			e = _mm256_add_epi64(e, _mm256_mul_epu32(z, r));
 			o = _mm256_add_epi64(o, _mm256_mul_epu32(_mm256_srli_epi64(z, 32), r));
@@ -1077,7 +1090,7 @@ struct NTT {
 		I8 p = _mm256_set1_epi32(mod), pp = _mm256_set1_epi32(twice);
 		alignas(32) U window[count][16], coefficients[count][8];
 		I8 e[count], o[count];
-		rep(k, count) {
+		for (int k = 0; k < count; ++k) {
 			I8 x = load8(a + 8 * k), y = load8(b + 8 * k);
 			if constexpr (!second) x = _mm256_min_epu32(x, _mm256_sub_epi32(x, pp));
 			if constexpr (!second) y = _mm256_min_epu32(y, _mm256_sub_epi32(y, pp));
@@ -1090,14 +1103,14 @@ struct NTT {
 			if constexpr (!second) store8(b + 8 * k, y);
 			e[k] = o[k] = _mm256_setzero_si256();
 		}
-		rep(i, 8)
-			rep(k, count) {
-			I8 z = load8(window[k] + 8 - i), r = _mm256_set1_epi32(coefficients[k][i]);
-			e[k] = _mm256_add_epi64(e[k], _mm256_mul_epu32(z, r));
-			o[k] = _mm256_add_epi64(o[k], _mm256_mul_epu32(_mm256_srli_epi64(z, 32), r));
-		}
+		for (int i = 0; i < 8; ++i)
+			for (int k = 0; k < count; ++k) {
+				I8 z = load8(window[k] + 8 - i), r = _mm256_set1_epi32(coefficients[k][i]);
+				e[k] = _mm256_add_epi64(e[k], _mm256_mul_epu32(z, r));
+				o[k] = _mm256_add_epi64(o[k], _mm256_mul_epu32(_mm256_srli_epi64(z, 32), r));
+			}
 		I8 ni = _mm256_set1_epi32(998244351);
-		rep(k, count) {
+		for (int k = 0; k < count; ++k) {
 			I8 x = e[k], y = o[k];
 			x = _mm256_add_epi64(x, _mm256_mul_epu32(_mm256_mul_epu32(x, ni), p));
 			y = _mm256_add_epi64(y, _mm256_mul_epu32(_mm256_mul_epu32(y, ni), p));
@@ -1107,13 +1120,13 @@ struct NTT {
 	}
 	__attribute__((target("avx2"))) static U reverse_dot8(const U *a, const U *b, int n) {
 		I8 p = _mm256_set1_epi32(mod), pp = _mm256_set1_epi32(twice), ni = _mm256_set1_epi32(998244351);
-		I8 reverse = _mm256_setr_epi32(7, 6, 5, 4, 3, 2, 1, 0), total = _mm256_setzero_si256();
+		I8 reversed = _mm256_setr_epi32(7, 6, 5, 4, 3, 2, 1, 0), total = _mm256_setzero_si256();
 		int i = 0;
 		for (; i + 8 <= n;) {
 			I8 even = _mm256_setzero_si256(), odd = even;
-			int end = min(n / 8 * 8, i + 64);
+			int end = std::min(n / 8 * 8, i + 64);
 			for (; i < end; i += 8) {
-				I8 x = load8(a + i), y = _mm256_permutevar8x32_epi32(load8(b - i - 7), reverse);
+				I8 x = load8(a + i), y = _mm256_permutevar8x32_epi32(load8(b - i - 7), reversed);
 				x = _mm256_min_epu32(x, _mm256_sub_epi32(x, pp));
 				y = _mm256_min_epu32(y, _mm256_sub_epi32(y, pp));
 				x = _mm256_min_epu32(x, _mm256_sub_epi32(x, p));
@@ -1157,13 +1170,13 @@ struct NTT {
 		U phase = T(3).pow((mod - 1) / 4).inv().val();
 		U powers[8];
 		powers[0] = first;
-		rep(j, 1, 8) powers[j] = (unsigned long long)powers[j - 1] * ratio % mod;
+		for (int j = 1; j < 8; ++j) powers[j] = (unsigned long long)powers[j - 1] * ratio % mod;
 		U step = T(ratio).pow(8).val();
 		I8 factors = load8(powers), s = _mm256_set1_epi32(step), sq = _mm256_set1_epi32(quotient(step));
 		I8 vphase = _mm256_set1_epi32(phase), qphase = _mm256_set1_epi32(quotient(phase)), p = _mm256_set1_epi32(mod), z = _mm256_setzero_si256();
 		for (int i = 0; i < m; i += 64) {
 			store8(powers, factors);
-			rep(j, 8) {
+			for (int j = 0; j < 8; ++j) {
 				int at = i + 8 * j;
 				U w = powers[j];
 				I8 v = _mm256_set1_epi32(w), q = _mm256_set1_epi32(quotient(w));
@@ -1193,7 +1206,7 @@ struct NTT {
 		U powers[8];
 		powers[0] = out(first);
 		U r = out(ratio);
-		rep(j, 1, 8) powers[j] = (unsigned long long)powers[j - 1] * r % mod;
+		for (int j = 1; j < 8; ++j) powers[j] = (unsigned long long)powers[j - 1] * r % mod;
 		U step = T::word(ratio).pow(8).val();
 		I8 factors = load8(powers), s = _mm256_set1_epi32(step), sq = _mm256_set1_epi32(quotient(step)), p = _mm256_set1_epi32(mod);
 		for (int i = 0; i < n; i += 64) {
@@ -1219,12 +1232,12 @@ struct NTT {
 		}
 		inverse_partial8<false>(a, n);
 		if constexpr (negative) {
-			copy_n(b, n / 2, b + n / 2);
+			std::copy_n(b, n / 2, b + n / 2);
 			inverse_partial8<false>(b, n, n / 2);
 		} else inverse_partial8<false>(b, n);
 		for (int i = 0; i < n; i += 8 * 8) {
 			U ws[8], qs[8];
-			rep(j, 8) {
+			for (int j = 0; j < 8; ++j) {
 				int k = i / 8 + j;
 				U w = roots[k / 2];
 				if (k & 1) w = mod - w;
@@ -1237,7 +1250,7 @@ struct NTT {
 			}
 			inverse_leaf_products8<8>(a + i, b + i, ws, qs);
 			inverse_leaf_products8<8, true>(a + i, b + i, ws, qs);
-			rep(j, 8) store8(a + i + 8 * j, sub8(load8(a + i + 8 * j), load8(b + i + 8 * j)));
+			for (int j = 0; j < 8; ++j) store8(a + i + 8 * j, sub8(load8(a + i + 8 * j), load8(b + i + 8 * j)));
 		}
 		inverse_partial8<true>(a, n);
 		U normal = mod - (mod - 1) / (2 * (n / 8));
@@ -1255,7 +1268,7 @@ struct NTT {
 		} else {
 			stage_pair8<false, true>(a, n / 4, n, k);
 			stage_pair8<false, true>(b, n / 4, n, k);
-			rep(i, 4) convolution_tile8<n / 4>(a + i * (n / 4), b + i * (n / 4), 4 * k + i);
+			for (int i = 0; i < 4; ++i) convolution_tile8<n / 4>(a + i * (n / 4), b + i * (n / 4), 4 * k + i);
 			stage_pair8<true>(a, n / 4, n, k);
 		}
 	}
@@ -1274,7 +1287,7 @@ struct NTT {
 		}
 		stage_pair8<false, true>(a, n / 4, n, k);
 		stage_pair8<false, true>(b, n / 4, n, k);
-		rep(i, 4) convolution8(a + i * (n / 4), b + i * (n / 4), n / 4, 4 * k + i);
+		for (int i = 0; i < 4; ++i) convolution8(a + i * (n / 4), b + i * (n / 4), n / 4, 4 * k + i);
 		stage_pair8<true>(a, n / 4, n, k);
 	}
 #endif
@@ -1340,7 +1353,7 @@ struct NTT {
 	__attribute__((target("avx2"))) static void geometric8(U *a, int n, U first, U step) {
 		alignas(32) U factors[8];
 		U power = one;
-		rep(i, 8) {
+		for (int i = 0; i < 8; ++i) {
 			factors[i] = mul(first, power);
 			power = mul(power, step);
 		}
@@ -1364,7 +1377,7 @@ struct NTT {
 		int i = 0;
 #if defined(__ARM_NEON)
 		U factors[4], power = one;
-		rep(j, 4) {
+		for (int j = 0; j < 4; ++j) {
 			factors[j] = mul(first, power);
 			power = mul(power, step);
 		}
@@ -1408,7 +1421,7 @@ struct NTT {
 		U w = roots[k / 2], q = root_quotients[k / 2];
 		if (k & 1) w = mod - w, q = ~q;
 		U window[16], coefficients[8];
-		rep(i, 8) {
+		for (int i = 0; i < 8; ++i) {
 			U x = a[i] < mod ? a[i] : a[i] - mod;
 			U z = fixed_mul(x, w, q);
 			window[i] = z < mod ? z : z - mod;
@@ -1418,7 +1431,7 @@ struct NTT {
 #if defined(__ARM_NEON)
 		for (int j = 0; j < 8; j += 4) {
 			uint64x2_t lo = vdupq_n_u64(0), hi = lo;
-			rep(i, 8) {
+			for (int i = 0; i < 8; ++i) {
 				I z = vld1q_u32(window + 8 - i + j);
 				lo = vmlal_n_u32(lo, vget_low_u32(z), coefficients[i]);
 				hi = vmlal_n_u32(hi, vget_high_u32(z), coefficients[i]);
@@ -1429,9 +1442,9 @@ struct NTT {
 			vst1q_u32(a + j, vminq_u32(z, vsubq_u32(z, vdupq_n_u32(mod))));
 		}
 #else
-		rep(j, 8) {
+		for (int j = 0; j < 8; ++j) {
 			unsigned long long sum = 0;
-			rep(i, 8) sum += (unsigned long long)window[8 - i + j] * coefficients[i];
+			for (int i = 0; i < 8; ++i) sum += (unsigned long long)window[8 - i + j] * coefficients[i];
 			U x = reduce(sum);
 			if (x >= twice) x -= twice;
 			a[j] = x < mod ? x : x - mod;
@@ -1450,7 +1463,7 @@ struct NTT {
 		} else {
 			stage_pair<false>(a, n / 4, n, k);
 			stage_pair<false>(b, n / 4, n, k);
-			rep(i, 4) convolution_tile<n / 4>(a + i * (n / 4), b + i * (n / 4), 4 * k + i);
+			for (int i = 0; i < 4; ++i) convolution_tile<n / 4>(a + i * (n / 4), b + i * (n / 4), 4 * k + i);
 			stage_pair<true>(a, n / 4, n, k);
 		}
 	}
@@ -1475,7 +1488,7 @@ struct NTT {
 		}
 		stage_pair<false>(a, n / 4, n, k);
 		stage_pair<false>(b, n / 4, n, k);
-		rep(i, 4) convolution(a + i * (n / 4), b + i * (n / 4), n / 4, 4 * k + i);
+		for (int i = 0; i < 4; ++i) convolution(a + i * (n / 4), b + i * (n / 4), n / 4, 4 * k + i);
 		stage_pair<true>(a, n / 4, n, k);
 	}
 #if defined(__x86_64__) || defined(__i386__)
@@ -1498,7 +1511,7 @@ struct NTT {
 		for (int i = 0; i < n; i += 8) {
 			I8 even = _mm256_setzero_si256(), odd = even;
 #pragma GCC unroll 3
-			rep(k, count) {
+			for (int k = 0; k < count; ++k) {
 				I8 x = load8(b[k] + offset + i), y = load8(c[k] + offset + i);
 				x = minus ? _mm256_sub_epi32(_mm256_add_epi32(x, pp), y) : _mm256_add_epi32(x, y);
 				I8 z = load8(a[k] + offset + i);
@@ -1522,7 +1535,7 @@ struct NTT {
 		for (int i = 0; i < n; i += 8) {
 			I8 even = _mm256_setzero_si256(), odd = even;
 #pragma GCC unroll 7
-			rep(k, count) {
+			for (int k = 0; k < count; ++k) {
 				I8 x = load8(b[k] + offset + i), y = load8(c[k] + offset + i);
 				x = minus ? _mm256_sub_epi32(_mm256_add_epi32(x, canonical ? p : pp), y) : _mm256_add_epi32(x, y);
 				if constexpr (!canonical) x = _mm256_min_epu32(x, _mm256_sub_epi32(x, pp));
@@ -1548,9 +1561,9 @@ struct NTT {
 			return;
 		}
 #endif
-		if constexpr (first) fill_n(dst, n, 0u);
+		if constexpr (first) std::fill_n(dst, n, 0u);
 		int offset = minus ? n : 0;
-		rep(k, count) accumulate(dst, a[k] + offset, b[k] + offset, c[k] + offset, n, minus);
+		for (int k = 0; k < count; ++k) accumulate(dst, a[k] + offset, b[k] + offset, c[k] + offset, n, minus);
 	}
 	template <int count>
 	static void accumulate_batch(U *dst, const U *const *a, const U *const *b, const U *const *c, int n, bool minus) {
@@ -1561,7 +1574,7 @@ struct NTT {
 		}
 #endif
 		int offset = minus ? n : 0;
-		rep(k, count) accumulate(dst, a[k] + offset, b[k] + offset, c[k] + offset, n, minus);
+		for (int k = 0; k < count; ++k) accumulate(dst, a[k] + offset, b[k] + offset, c[k] + offset, n, minus);
 	}
 	static void accumulate(U *dst, const U *a, const U *b, const U *c, int n, bool minus) {
 #if defined(__x86_64__) || defined(__i386__)
@@ -1743,7 +1756,7 @@ struct NTT {
 			}
 #endif
 #if defined(__ARM_NEON)
-			rep(j, rows) {
+			for (int j = 0; j < rows; ++j) {
 				I x = vld1q_u32(a + 8 * j), y = vld1q_u32(a + 8 * j + 4);
 				small4<1, true>(x, y, 0);
 				small4<2, true>(x, y, 0);
@@ -1768,7 +1781,7 @@ struct NTT {
 			return;
 		}
 #endif
-		rep(j, rows) {
+		for (int j = 0; j < rows; ++j) {
 			U *row = a + 2 * columns * j;
 			fft<true>(row, 2 * columns, columns);
 			fold(row, columns);
@@ -1801,7 +1814,7 @@ struct NTT {
 			return;
 		}
 #endif
-		rep(i, columns) p[i] = mul(sub(add(v[i], v[columns + i]), add(v[2 * columns + i], v[3 * columns + i])), factor);
+		for (int i = 0; i < columns; ++i) p[i] = mul(sub(add(v[i], v[columns + i]), add(v[2 * columns + i], v[3 * columns + i])), factor);
 	}
 #if defined(__x86_64__) || defined(__i386__)
 	__attribute__((target("avx2"))) static void composition_finish8(U *dst, const U *v, int n, U factor) {
@@ -1813,9 +1826,9 @@ struct NTT {
 	}
 #endif
 	struct CompositionDelete {
-		void operator()(uint *p) const { ::operator delete[](p, align_val_t(64)); }
+		void operator()(unsigned int *p) const { ::operator delete[](p, std::align_val_t(64)); }
 	};
-	using CompositionWords = unique_ptr<uint[], CompositionDelete>;
+	using CompositionWords = std::unique_ptr<unsigned int[], CompositionDelete>;
 	void composition_forward_y(U *a, int size, int columns) const {
 #if defined(__x86_64__) || defined(__i386__)
 		if (vectorized()) {
@@ -1861,7 +1874,7 @@ struct NTT {
 			return;
 		}
 #endif
-		rep(j, rows)
+		for (int j = 0; j < rows; ++j)
 			scale(a + 2 * columns * j, 2 * columns,
 				  (inverse ? inverse_twists : twists)[rows + j]);
 	}
@@ -1892,7 +1905,7 @@ struct NTT {
 			return;
 		}
 #endif
-		rep(i, n) {
+		for (int i = 0; i < n; ++i) {
 			U x = p[2 * i], y = p[2 * i + 1], a = q[2 * i], b = q[2 * i + 1];
 			if (x >= twice) x -= twice;
 			if (y >= twice) y -= twice;
@@ -1909,7 +1922,7 @@ struct NTT {
 		cube_quotients.swap(inverse_cube_quotients);
 	}
 	U reversion_projection(U *p, U *q, int size) {
-		int levels = __builtin_ctz((uint)size);
+		int levels = __builtin_ctz((unsigned int)size);
 		V saved(levels, one);
 		U q_one = one, p_one = one;
 		for (int i = 1, columns = size / 2; columns > 1; ++i, columns >>= 1) {
@@ -1922,13 +1935,13 @@ struct NTT {
 		}
 		U factor = T::word(mul(p_one, in(4 * size))).inv().v;
 		fft<false>(q, 2 * size);
-		rep(i, 2 * size) {
+		for (int i = 0; i < (2 * size); ++i) {
 			U x = q[i];
 			q[i] = add(x, one);
 			q[2 * size + i] = sub(x, one);
 		}
 
-		rep(i, size) {
+		for (int i = 0; i < size; ++i) {
 			U x = fixed_mul(sub(q[2 * i + 1], q[2 * i]), roots[i], root_quotients[i]);
 			p[i] = i < size / 2 ? x : sub(0, x);
 			p[size + i] = sub(0, p[i]);
@@ -1938,21 +1951,21 @@ struct NTT {
 			pair_product(q, q, 2 * size);
 			q_one = mul(q_one, q_one);
 			project(q, rows, columns);
-			copy_n(q, 2 * size, q + 2 * size);
+			std::copy_n(q, 2 * size, q + 2 * size);
 			double_y(q + 2 * size, rows, columns, false);
 			q_one = mul(q_one, in(2 * columns));
 			U correction = add(q_one, q_one);
-			rep(i, 2 * columns) q[2 * size + i] = sub(q[2 * size + i], correction);
+			for (int i = 0; i < (2 * columns); ++i) q[2 * size + i] = sub(q[2 * size + i], correction);
 			composition_forward_y(q + 2 * size, size, columns);
 			transpose_roots();
 			project(p, rows, columns);
-			rep(i, 2 * size) p[2 * size + i] = sub(0, p[i]);
+			for (int i = 0; i < (2 * size); ++i) p[2 * size + i] = sub(0, p[i]);
 			double_y(p + 2 * size, rows, columns, true);
 			composition_forward_y(p + 2 * size, size, columns);
 			transpose_roots();
 			projection_dot(p, q, 2 * size);
 		}
-		rep(i, size) p[i] = add(p[2 * i], p[2 * i + 1]);
+		for (int i = 0; i < size; ++i) p[i] = add(p[2 * i], p[2 * i + 1]);
 		transpose_roots();
 		fft<true>(p, size);
 		transpose_roots();
@@ -1963,21 +1976,21 @@ struct NTT {
 		const int size = rows * columns;
 		if (columns == 1) {
 			fft<false>(p, rows);
-			per(i, rows) p[2 * i] = p[2 * i + 1] = p[i];
+			for (int i = (rows)-1; i >= 0; --i) p[2 * i] = p[2 * i + 1] = p[i];
 			return;
 		}
 		CompositionWords storage;
 		if (!workspace) {
-			int levels = __builtin_ctz((uint)columns);
-			storage.reset(static_cast<uint *>(::operator new[]((4 * size + 16) * levels * sizeof(uint), align_val_t(64))));
+			int levels = __builtin_ctz((unsigned int)columns);
+			storage.reset(static_cast<unsigned int *>(::operator new[]((4 * size + 16) * levels * sizeof(unsigned int), std::align_val_t(64))));
 			workspace = storage.get();
 		}
 		U *v = workspace + (4 * size + 16) * level;
 		if (rows == 1) {
-			fill_n(v + columns, columns, U(0));
-			rep(i, columns) v[i] = sub(0, q[i]);
+			std::fill_n(v + columns, columns, U(0));
+			for (int i = 0; i < columns; ++i) v[i] = sub(0, q[i]);
 			fft<false>(v, 2 * columns);
-			rep(i, 2 * columns) {
+			for (int i = 0; i < (2 * columns); ++i) {
 				U x = v[i];
 				v[i] = add(x, one);
 				v[i + 2 * columns] = sub(x, one);
@@ -1986,12 +1999,12 @@ struct NTT {
 			pair_product(v, q, 2 * size);
 			q_one = mul(q_one, q_one);
 			project(v, rows, columns);
-			copy_n(v, 2 * size, v + 2 * size);
+			std::copy_n(v, 2 * size, v + 2 * size);
 			U *upper = v + 2 * size;
 			double_y(upper, rows, columns, false);
 			q_one = mul(q_one, in(2 * columns));
 			U correction = add(q_one, q_one);
-			rep(i, 2 * columns) upper[i] = sub(upper[i], correction);
+			for (int i = 0; i < (2 * columns); ++i) upper[i] = sub(upper[i], correction);
 			composition_forward_y(upper, size, columns);
 		}
 		U saved = q_one;
@@ -2017,10 +2030,10 @@ struct NTT {
 } // namespace fps_detail
 
 template <class T = fps_mint>
-struct FormalPowerSeries : vec<T> {
+struct FormalPowerSeries : std::vector<T> {
 	static_assert(T::mod() == 998244353, "FormalPowerSeries supports only mod 998244353");
 	using W = FormalPowerSeries<fps_detail::Mint>;
-	using base = vec<T>;
+	using base = std::vector<T>;
 	using F = FormalPowerSeries;
 	using base::base;
 
@@ -2030,27 +2043,27 @@ struct FormalPowerSeries : vec<T> {
 		base::operator=(std::move(v));
 		return *this;
 	}
-	F &operator=(initializer_list<T> v) {
+	F &operator=(std::initializer_list<T> v) {
 		base::operator=(v);
 		return *this;
 	}
 
 	static F multiply(const F &a, const F &b) {
 		if (a.empty() || b.empty()) return {};
-		if constexpr (!is_same_v<T, fps_detail::Mint>) {
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) {
 			W x = import_work(a);
 			return export_work(&a == &b ? W::multiply(x, x) : W::multiply(x, import_work(b)));
 		}
-		if (min(a.size(), b.size()) <= 32) {
+		if (std::min(a.size(), b.size()) <= 32) {
 			F r(a.size() + b.size() - 1);
 			const F &small = a.size() < b.size() ? a : b;
 			const F &large = a.size() < b.size() ? b : a;
-			if constexpr (is_same_v<T, fps_detail::Mint>) {
-				rep(j, sz(small))
+			if constexpr (std::is_same_v<T, fps_detail::Mint>) {
+				for (int j = 0; j < (static_cast<int>(small.size())); ++j)
 					fps_detail::NTT::add_scaled(words(r) + j, words(large), large.size(), small[j].val());
 			} else
-				rep(j, sz(small))
-					rep(i, sz(large)) r[i + j] += large[i] * small[j];
+				for (int j = 0; j < (static_cast<int>(small.size())); ++j)
+					for (int i = 0; i < (static_cast<int>(large.size())); ++i) r[i + j] += large[i] * small[j];
 			return r;
 		}
 		int n = 1, size = a.size() + b.size() - 1;
@@ -2087,12 +2100,12 @@ struct FormalPowerSeries : vec<T> {
 	}
 	F &operator+=(const F &g) {
 		if (this->size() < g.size()) this->resize(g.size());
-		for (size_t i = 0; i < g.size(); ++i) (*this)[i] += g[i];
+		for (std::size_t i = 0; i < g.size(); ++i) (*this)[i] += g[i];
 		return *this;
 	}
 	F &operator-=(const F &g) {
 		if (this->size() < g.size()) this->resize(g.size());
-		for (size_t i = 0; i < g.size(); ++i) (*this)[i] -= g[i];
+		for (std::size_t i = 0; i < g.size(); ++i) (*this)[i] -= g[i];
 		return *this;
 	}
 	F &operator+=(T x) {
@@ -2103,7 +2116,7 @@ struct FormalPowerSeries : vec<T> {
 	F &operator-=(T x) { return *this += -x; }
 	F &operator*=(const F &g) { return *this = multiply(*this, g); }
 	F &operator*=(T x) {
-		if constexpr (is_same_v<T, fps_detail::Mint>) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			scale_words(*this, x);
 			return *this;
 		}
@@ -2116,7 +2129,7 @@ struct FormalPowerSeries : vec<T> {
 
 	F &operator<<=(int d) {
 		assert(d >= 0);
-		const int n = sz((*this));
+		const int n = static_cast<int>(this->size());
 		if (d >= n) return *this = F(n);
 		this->insert(this->begin(), d, T(0));
 		this->resize(n);
@@ -2124,7 +2137,7 @@ struct FormalPowerSeries : vec<T> {
 	}
 	F &operator>>=(int d) {
 		assert(d >= 0);
-		const int n = sz((*this));
+		const int n = static_cast<int>(this->size());
 		if (d >= n) return *this = F(n);
 		this->erase(this->begin(), this->begin() + d);
 		this->resize(n);
@@ -2145,11 +2158,11 @@ struct FormalPowerSeries : vec<T> {
 
 	F pre(int n) const {
 		assert(n >= 0);
-		return F(this->begin(), this->begin() + min<int>(n, this->size()));
+		return F(this->begin(), this->begin() + std::min<int>(n, this->size()));
 	}
 
 	F div_series(const F &g, int deg = -1) const {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).div_series(import_work(g), deg));
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).div_series(import_work(g), deg));
 		if (deg < 0) deg = this->size();
 		assert(deg >= 0);
 		if (!deg) return {};
@@ -2169,28 +2182,28 @@ struct FormalPowerSeries : vec<T> {
 		ntt_half(inverse);
 		const Word norm = T::mod() - (T::mod() - 1) / length;
 		transform(1).scale(words(inverse), length, norm);
-		fps_detail::NTT::CompositionWords storage(new (align_val_t(64)) uint[(2 * count - 1) * length]);
+		fps_detail::NTT::CompositionWords storage(new (std::align_val_t(64)) unsigned int[(2 * count - 1) * length]);
 		Word *denominator = storage.get(), *quotient = denominator + count * length;
-		const int first = min<int>(block, g.size());
-		copy_n(words(g), first, denominator);
-		fill(denominator + first, denominator + block, 0u);
+		const int first = std::min<int>(block, g.size());
+		std::copy_n(words(g), first, denominator);
+		std::fill(denominator + first, denominator + block, 0u);
 		ntt_half(denominator, length);
 		base error(length);
-		rep(i, 1, count) {
-			const int offset = i * block, n = min(block, deg - offset);
+		for (int i = 1; i < count; ++i) {
+			const int offset = i * block, n = std::min(block, deg - offset);
 			Word *h = denominator + i * length, *q = quotient + (i - 1) * length;
-			const int available = max(0, min<int>(block, sz(g) - offset));
-			if (available) copy_n(words(g) + offset, available, h);
-			fill(h + available, h + block, 0u);
+			const int available = std::max(0, std::min<int>(block, static_cast<int>(g.size()) - offset));
+			if (available) std::copy_n(words(g) + offset, available, h);
+			std::fill(h + available, h + block, 0u);
 			ntt_half(h, length);
-			copy_n(words(r) + offset - block, block, q);
+			std::copy_n(words(r) + offset - block, block, q);
 			ntt_half(q, length);
 			fps_detail::NTT::scale_normalize(q, length, norm);
 
 			for (int j = 0; j < i; j += 4) {
 				const Word *a[4], *b[4], *c[4];
-				int terms = min(4, i - j);
-				rep(k, terms) {
+				int terms = std::min(4, i - j);
+				for (int k = 0; k < terms; ++k) {
 					a[k] = quotient + (j + k) * length;
 					b[k] = denominator + (i - j - k) * length;
 					c[k] = denominator + (i - j - k - 1) * length;
@@ -2205,24 +2218,24 @@ struct FormalPowerSeries : vec<T> {
 						fps_detail::NTT::template accumulate_wide<count, false, false>(words(error) + block, a, b, c, block, true);
 					}
 				};
-				if (terms == 4) update(integral_constant<int, 4>{});
-				else if (terms == 3) update(integral_constant<int, 3>{});
-				else if (terms == 2) update(integral_constant<int, 2>{});
-				else update(integral_constant<int, 1>{});
+				if (terms == 4) update(std::integral_constant<int, 4>{});
+				else if (terms == 3) update(std::integral_constant<int, 3>{});
+				else if (terms == 2) update(std::integral_constant<int, 2>{});
+				else update(std::integral_constant<int, 1>{});
 			}
 			ntt_inverse(error);
-			rep(j, block) error[j] = (offset + j < sz((*this)) ? (*this)[offset + j] : T(0)) - error[j];
+			for (int j = 0; j < block; ++j) error[j] = (offset + j < static_cast<int>(this->size()) ? (*this)[offset + j] : T(0)) - error[j];
 			ntt_half(error);
 			pointwise(error, error, inverse, length);
 			ntt_inverse(error);
-			copy_n(error.begin(), n, r.begin() + offset);
+			std::copy_n(error.begin(), n, r.begin() + offset);
 		}
 		return r;
 	}
 
 	F inv(int deg = -1) const {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).inv(deg));
-		if (deg < 0) deg = sz((*this));
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).inv(deg));
+		if (deg < 0) deg = static_cast<int>(this->size());
 		assert(deg >= 0);
 		if (deg == 0) return {};
 		assert(!this->empty() && (*this)[0] != T(0));
@@ -2230,7 +2243,7 @@ struct FormalPowerSeries : vec<T> {
 		auto terms = sparse_terms(deg, 32);
 		if (terms.size() <= 32) {
 			g.resize(deg);
-			rep(i, 1, deg) {
+			for (int i = 1; i < deg; ++i) {
 				for (auto [j, x] : terms) {
 					if (j > i) break;
 					g[i] -= x * g[i - j];
@@ -2247,49 +2260,49 @@ struct FormalPowerSeries : vec<T> {
 			return F{1}.div_series(*this, deg);
 #endif
 		}
-		g.resize(min(deg, 32));
-		rep(i, 1, sz(g))
+		g.resize(std::min(deg, 32));
+		for (int i = 1; i < (static_cast<int>(g.size())); ++i)
 			g[i] =
-				-g[0] * dot(this->data() + 1, g.data() + i - 1, min<int>(i, this->size() - 1));
+				-g[0] * dot(this->data() + 1, g.data() + i - 1, std::min<int>(i, this->size() - 1));
 #if defined(__x86_64__) || defined(__i386__)
 		fps_detail::NTT::CompositionWords storage;
 		Word *a = nullptr, *b = nullptr;
 		if (deg > 96 && fps_detail::NTT::vectorized()) {
 			int capacity = 64;
 			while (capacity < deg && capacity < (1 << 23)) capacity <<= 1;
-			storage.reset(new (align_val_t(64)) uint[2 * capacity]);
+			storage.reset(new (std::align_val_t(64)) unsigned int[2 * capacity]);
 			a = storage.get();
 			b = a + capacity;
 			g.reserve(capacity);
-			transform(max(32, capacity / 16));
+			transform(std::max(32, capacity / 16));
 		}
 #endif
-		while (sz(g) < deg) {
-			const int m = sz(g), n = 2 * m;
+		while (static_cast<int>(g.size()) < deg) {
+			const int m = static_cast<int>(g.size()), n = 2 * m;
 			if (m >= 32 && (deg - m <= 32 || (m >= 512 && deg - m <= 96))) {
 				g.resize(deg);
-				rep(i, m, deg) {
-					const int count = min<int>(i, this->size() - 1);
+				for (int i = m; i < deg; ++i) {
+					const int count = std::min<int>(i, this->size() - 1);
 					g[i] = -g[0] * dot(this->data() + 1, g.data() + i - 1, count);
 				}
 				break;
 			}
 #if defined(__x86_64__) || defined(__i386__)
 			if (m >= 64 && n <= (1 << 23) && fps_detail::NTT::vectorized()) {
-				int lo = min<int>(m, this->size());
-				copy_n(words(*this), lo, a);
-				fill(a + lo, a + m, Word(0));
-				copy_n(words(g), m, b);
-				int hi = max(0, min<int>(m, this->size() - m));
+				int lo = std::min<int>(m, this->size());
+				std::copy_n(words(*this), lo, a);
+				std::fill(a + lo, a + m, Word(0));
+				std::copy_n(words(g), m, b);
+				int hi = std::max(0, std::min<int>(m, this->size() - m));
 				if (hi) fps_detail::NTT::inverse_fold8(a, words(*this) + m, hi);
-				transform(max(1, m / 16)).template inverse_cubic8<false>(a, b, m);
+				transform(std::max(1, m / 16)).template inverse_cubic8<false>(a, b, m);
 				g.resize(n);
-				copy_n(a, m, words(g) + m);
-				lo = min<int>(n, this->size());
-				copy_n(words(*this), lo, a);
-				fill(a + lo, a + n, Word(0));
-				copy_n(words(g), m, b);
-				transform(max(1, n / 16)).template inverse_cubic8<true>(a, b, n);
+				std::copy_n(a, m, words(g) + m);
+				lo = std::min<int>(n, this->size());
+				std::copy_n(words(*this), lo, a);
+				std::fill(a + lo, a + n, Word(0));
+				std::copy_n(words(g), m, b);
+				transform(std::max(1, n / 16)).template inverse_cubic8<true>(a, b, n);
 				fps_detail::NTT::inverse_recover8(words(g), a, m);
 
 			} else
@@ -2302,7 +2315,7 @@ struct FormalPowerSeries : vec<T> {
 				ntt_half(r);
 				pointwise(f, f, r, n);
 				ntt_inverse(f);
-				fill(f.begin(), f.begin() + m, T(0));
+				std::fill(f.begin(), f.begin() + m, T(0));
 				ntt(f);
 				pointwise(f, f, r, n);
 				ntt_inverse(f);
@@ -2310,7 +2323,7 @@ struct FormalPowerSeries : vec<T> {
 				const T scale = -inv * inv;
 				g.resize(n);
 				transform(1).scale(words(f) + m, m, scale.val());
-				copy_n(f.begin() + m, m, g.begin() + m);
+				std::copy_n(f.begin() + m, m, g.begin() + m);
 			}
 		}
 		g.resize(deg);
@@ -2318,18 +2331,18 @@ struct FormalPowerSeries : vec<T> {
 	}
 
 	F sqrt(int deg = -1) const {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).sqrt(deg));
-		if (deg < 0) deg = sz((*this));
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).sqrt(deg));
+		if (deg < 0) deg = static_cast<int>(this->size());
 		assert(deg >= 0);
 		F f = pre(deg);
 		f.trim();
 		int first = 0;
-		while (first < sz(f) && f[first] == T(0)) ++first;
-		if (first == sz(f)) return F(deg);
+		while (first < static_cast<int>(f.size()) && f[first] == T(0)) ++first;
+		if (first == static_cast<int>(f.size())) return F(deg);
 		if (first & 1) return {};
 		const T constant = mod_sqrt(f[first]);
 		if (constant == T(0)) return {};
-		if (first + 1 == sz(f)) {
+		if (first + 1 == static_cast<int>(f.size())) {
 			F result(deg);
 			result[first / 2] = constant;
 			return result;
@@ -2338,11 +2351,11 @@ struct FormalPowerSeries : vec<T> {
 		f.erase(f.begin(), f.begin() + first);
 		f.resize(target);
 		const T half = T(2).inv(), scale = half / constant;
-		F g(min(target, 32));
+		F g(std::min(target, 32));
 		g[0] = constant;
-		rep(i, 1, sz(g)) {
+		for (int i = 1; i < (static_cast<int>(g.size())); ++i) {
 			T sum = 0;
-			rep(j, 1, i) sum += g[j] * g[i - j];
+			for (int j = 1; j < i; ++j) sum += g[j] * g[i - j];
 			g[i] = (f[i] - sum) * scale;
 		}
 		if (target > 256) {
@@ -2354,26 +2367,26 @@ struct FormalPowerSeries : vec<T> {
 			inverse.resize(length);
 			ntt_half(inverse);
 			const Word half_norm = T::mod() - (T::mod() - 1) / (2 * length);
-			const int levels = __builtin_ctz((uint)length);
+			const int levels = __builtin_ctz((unsigned int)length);
 			T root_norm = T::raw(T::mod() - (T::mod() - 1) / (1 << (levels / 2)));
 			if (levels & 1) root_norm *= T::raw(441024591);
 			transform(1).scale(words(inverse), length, half_norm);
-			fps_detail::NTT::CompositionWords storage(new (align_val_t(64)) uint[(count - 1) * length]);
+			fps_detail::NTT::CompositionWords storage(new (std::align_val_t(64)) unsigned int[(count - 1) * length]);
 			Word *cache = storage.get();
 			base error(length);
 			base zero(length);
 			g.resize(target);
-			rep(i, 1, count) {
-				int offset = i * block, n = min(block, target - offset);
+			for (int i = 1; i < count; ++i) {
+				int offset = i * block, n = std::min(block, target - offset);
 				Word *q = cache + (i - 1) * length;
-				copy_n(words(g) + offset - block, block, q);
+				std::copy_n(words(g) + offset - block, block, q);
 				ntt_half(q, length);
 				fps_detail::NTT::scale_normalize(q, length, root_norm.val());
 
 				for (int j = 0; j < (i + 1) / 2; j += 6) {
 					const Word *a[6], *b[6], *c[6];
-					int terms = min(6, (i + 1) / 2 - j);
-					rep(k, terms) {
+					int terms = std::min(6, (i + 1) / 2 - j);
+					for (int k = 0; k < terms; ++k) {
 						a[k] = cache + (j + k) * length;
 						b[k] = (j + k ? cache + (i - j - k) * length : words(zero));
 						c[k] = cache + (i - j - k - 1) * length;
@@ -2388,37 +2401,37 @@ struct FormalPowerSeries : vec<T> {
 							fps_detail::NTT::template accumulate_wide<count, false, true>(words(error) + block, a, b, c, block, true);
 						}
 					};
-					if (terms == 6) update(integral_constant<int, 6>{});
-					else if (terms == 5) update(integral_constant<int, 5>{});
-					else if (terms == 4) update(integral_constant<int, 4>{});
-					else if (terms == 3) update(integral_constant<int, 3>{});
-					else if (terms == 2) update(integral_constant<int, 2>{});
-					else update(integral_constant<int, 1>{});
+					if (terms == 6) update(std::integral_constant<int, 6>{});
+					else if (terms == 5) update(std::integral_constant<int, 5>{});
+					else if (terms == 4) update(std::integral_constant<int, 4>{});
+					else if (terms == 3) update(std::integral_constant<int, 3>{});
+					else if (terms == 2) update(std::integral_constant<int, 2>{});
+					else update(std::integral_constant<int, 1>{});
 				}
 				fps_detail::NTT::square_fold(words(error), cache + (i / 2) * length, block, i & 1);
 				ntt_inverse(error);
-				rep(j, block) error[j] = (offset + j < target ? f[offset + j] : T(0)) - error[j];
+				for (int j = 0; j < block; ++j) error[j] = (offset + j < target ? f[offset + j] : T(0)) - error[j];
 				ntt_half(error);
 				pointwise(error, error, inverse, length);
 				ntt_inverse(error);
-				copy_n(error.begin(), n, g.begin() + offset);
+				std::copy_n(error.begin(), n, g.begin() + offset);
 			}
 			g.insert(g.begin(), shift, T(0));
 			return g;
 		}
 		F h;
 		base cache;
-		if (sz(g) < target) {
+		if (static_cast<int>(g.size()) < target) {
 			h = g.pre(16).inv(16);
 			cache = h;
 			cache.resize(32);
 			ntt(cache);
 		}
-		while (sz(g) < target) {
-			const int m = sz(g), n = 2 * m;
+		while (static_cast<int>(g.size()) < target) {
+			const int m = static_cast<int>(g.size()), n = 2 * m;
 			if (target - m <= 32) {
 				g.resize(target);
-				rep(i, m, target)
+				for (int i = m; i < target; ++i)
 					g[i] = (f[i] - dot(g.data() + 1, g.data() + i - 1, i - 1)) * scale;
 				break;
 			}
@@ -2433,14 +2446,14 @@ struct FormalPowerSeries : vec<T> {
 			ntt(cache);
 			pointwise(error, a, a, n);
 			ntt_inverse(error);
-			fill(error.begin(), error.begin() + m, T(0));
-			rep(i, m, n) error[i] = (i < target ? f[i] : T(0)) - error[i] * in;
+			std::fill(error.begin(), error.begin() + m, T(0));
+			for (int i = m; i < n; ++i) error[i] = (i < target ? f[i] : T(0)) - error[i] * in;
 			ntt(error);
 			pointwise(error, error, cache, n);
 			F::scale_words(error, half);
 			ntt_inverse(error);
-			g.resize(min(n, target));
-			rep(i, m, sz(g)) g[i] = error[i] * in;
+			g.resize(std::min(n, target));
+			for (int i = m; i < (static_cast<int>(g.size())); ++i) g[i] = error[i] * in;
 		}
 		g.resize(target);
 		g.insert(g.begin(), shift, T(0));
@@ -2448,15 +2461,15 @@ struct FormalPowerSeries : vec<T> {
 	}
 
 	static T bostan_mori(F p, F q, long long k) {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) return T::raw(W::bostan_mori(import_work(p), import_work(q), k).val());
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) return T::raw(W::bostan_mori(import_work(p), import_work(q), k).val());
 		assert(k >= 0 && !q.empty() && q[0] != T(0));
 		p.trim();
 		q.trim();
 		if (p.empty()) return 0;
 		auto coefficient = [](const base &p, const base &q, int k) {
-			F inverse(q.begin(), q.begin() + min<int>(k + 1, q.size()));
+			F inverse(q.begin(), q.begin() + std::min<int>(k + 1, q.size()));
 			inverse = inverse.inv(k + 1);
-			return dot(p.data(), inverse.data() + k, min<int>(k + 1, p.size()));
+			return dot(p.data(), inverse.data() + k, std::min<int>(k + 1, p.size()));
 		};
 		if (k < 32) return coefficient(p, q, k);
 		T answer = 0;
@@ -2467,7 +2480,7 @@ struct FormalPowerSeries : vec<T> {
 		}
 		if (p.empty()) return answer;
 		if (q.size() == 2) return answer + p[0] / q[0] * (-q[1] / q[0]).pow(k);
-		const int d = sz(q) - 1;
+		const int d = static_cast<int>(q.size()) - 1;
 		if (k < d) return answer + coefficient(p, q, k);
 		int n = 1;
 		while (n < d) n <<= 1;
@@ -2476,25 +2489,25 @@ struct FormalPowerSeries : vec<T> {
 		T correction = 1;
 		const T step = T(3).pow((T::mod() - 1) / (2 * n));
 		base powers(n), twists(n), a = p, b = q;
-		if constexpr (is_same_v<T, fps_detail::Mint>) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			auto &plan = transform(n);
-			rep(i, n) words(twists)[i] = plan.inverse_root_quotients[i] * (0u - T::mod());
+			for (int i = 0; i < n; ++i) words(twists)[i] = plan.inverse_root_quotients[i] * (0u - T::mod());
 		} else {
 			const auto &roots = inverse_ntt_roots(2 * n);
-			rep(i, n) twists[i] = roots[2 * i];
+			for (int i = 0; i < n; ++i) twists[i] = roots[2 * i];
 		}
 		T lead = q.back();
-		fill(all(powers), T(1));
+		std::fill(powers.begin(), powers.end(), T(1));
 		geometric_scale(powers, inv, step);
 		a.resize(2 * n);
 		b.resize(2 * n);
 		ntt(a);
 		ntt(b);
 		auto doubling = [&](base &v, T leading) {
-			if constexpr (is_same_v<T, fps_detail::Mint>) {
+			if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 				Word *odd = words(v) + n;
-				copy_n(words(v), n, odd);
-				auto &plan = transform(max(1, n / 2));
+				std::copy_n(words(v), n, odd);
+				auto &plan = transform(std::max(1, n / 2));
 				plan.template fft<true>(odd, n);
 				odd[0] = fps_detail::NTT::sub(odd[0], (T(2 * n) * leading).v);
 				fps_detail::NTT::product(odd, odd, words(powers), n);
@@ -2505,22 +2518,22 @@ struct FormalPowerSeries : vec<T> {
 				odd[0] -= T(2 * n) * leading;
 				pointwise(odd, odd, powers, n);
 				ntt(odd);
-				v.insert(v.end(), all(odd));
+				v.insert(v.end(), odd.begin(), odd.end());
 			}
 		};
 		while (k) {
-			if constexpr (is_same_v<T, fps_detail::Mint>) {
+			if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 				if (k & 1) fps_detail::NTT::reduce_pairs<true>(words(a), words(b), words(twists), n);
 				else fps_detail::NTT::reduce_pairs<false>(words(a), words(b), words(twists), n);
 			} else {
-				rep(i, n) {
+				for (int i = 0; i < n; ++i) {
 					T u = a[2 * i] * b[2 * i + 1], v = a[2 * i + 1] * b[2 * i];
 					a[i] = k & 1 ? (u - v) * twists[i] : u + v;
 					b[i] = b[2 * i] * b[2 * i + 1];
 				}
 			}
 			correction *= half;
-			if constexpr (!is_same_v<T, fps_detail::Mint>) {
+			if constexpr (!std::is_same_v<T, fps_detail::Mint>) {
 				a.resize(n);
 				b.resize(n);
 			}
@@ -2539,20 +2552,20 @@ struct FormalPowerSeries : vec<T> {
 			return answer + correction * coefficient(a, b, k);
 		}
 		T numerator = 0, denominator = 0;
-		rep(i, n) numerator += a[i], denominator += b[i];
+		for (int i = 0; i < n; ++i) numerator += a[i], denominator += b[i];
 		if (d == n) denominator -= T(n) * lead;
 		return answer + correction * numerator / denominator;
 	}
 
 	static T linear_recurrence(const base &initial, const base &coefficients, long long k) {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) return T::raw(W::linear_recurrence(import_work(initial), import_work(coefficients), k).val());
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) return T::raw(W::linear_recurrence(import_work(initial), import_work(coefficients), k).val());
 		assert(k >= 0 && initial.size() == coefficients.size());
-		const int d = sz(initial);
+		const int d = static_cast<int>(initial.size());
 		if (k < d) return initial[k];
 		if (d == 0) return 0;
 		F q(d + 1);
 		q[0] = 1;
-		rep(i, d) q[i + 1] = -coefficients[i];
+		for (int i = 0; i < d; ++i) q[i + 1] = -coefficients[i];
 		q.trim();
 		if (q.size() == 1) return 0;
 		F p = multiply(F(initial), q).pre(d);
@@ -2560,7 +2573,7 @@ struct FormalPowerSeries : vec<T> {
 	}
 
 	F compose(const F &inner, int deg = -1) const {
-		if (deg < 0) deg = sz((*this));
+		if (deg < 0) deg = static_cast<int>(this->size());
 		assert(deg >= 0 && (inner.empty() || inner[0] == T(0)));
 		if (deg == 0) return {};
 		F f = pre(deg), g = inner.pre(deg);
@@ -2573,16 +2586,16 @@ struct FormalPowerSeries : vec<T> {
 		}
 		int first = 1;
 		while (g[first] == T(0)) ++first;
-		if (first + 1 == sz(g)) {
+		if (first + 1 == static_cast<int>(g.size())) {
 			F result(deg);
 			T power = 1;
-			for (int i = 0; i < sz(f) && (long long)i * first < deg; ++i)
+			for (int i = 0; i < static_cast<int>(f.size()) && (long long)i * first < deg; ++i)
 				result[i * first] = f[i] * power, power *= g[first];
 			return result;
 		}
 		if (deg <= 32 || f.size() <= 8) {
 			F result;
-			per(i, sz(f)) {
+			for (int i = (static_cast<int>(f.size())) - 1; i >= 0; --i) {
 				result = multiply(result, g).pre(deg);
 				result += f[i];
 			}
@@ -2593,36 +2606,36 @@ struct FormalPowerSeries : vec<T> {
 		while (size < deg) size <<= 1;
 		assert(size <= (1 << 22));
 		CompositionNTT transform(size);
-		vec<uint> p(2 * size), q(size);
-		rep(i, sz(f)) {
-			if constexpr (is_same_v<T, fps_detail::Mint>) p[i] = f[i].v;
+		std::vector<unsigned int> p(2 * size), q(size);
+		for (int i = 0; i < (static_cast<int>(f.size())); ++i) {
+			if constexpr (std::is_same_v<T, fps_detail::Mint>) p[i] = f[i].v;
 			else p[i] = transform.in(f[i].val());
 		}
-		rep(i, sz(g)) {
-			if constexpr (is_same_v<T, fps_detail::Mint>) q[i] = g[i].v;
+		for (int i = 0; i < (static_cast<int>(g.size())); ++i) {
+			if constexpr (std::is_same_v<T, fps_detail::Mint>) q[i] = g[i].v;
 			else q[i] = transform.in(g[i].val());
 		}
-		uint a = transform.one, b = transform.one;
+		unsigned int a = transform.one, b = transform.one;
 		transform.compose(p.data(), q.data(), 1, size, a, b);
 		F result(deg);
-		rep(i, deg) {
-			if constexpr (is_same_v<T, fps_detail::Mint>) result[i] = T::word(p[i]);
+		for (int i = 0; i < deg; ++i) {
+			if constexpr (std::is_same_v<T, fps_detail::Mint>) result[i] = T::word(p[i]);
 			else result[i] = T::raw(transform.out(p[i]));
 		}
 		return result;
 	}
 
 	F compositional_inverse(int deg = -1) const {
-		if (deg < 0) deg = sz((*this));
+		if (deg < 0) deg = static_cast<int>(this->size());
 		assert(deg >= 0 && (this->empty() || (*this)[0] == T(0)));
 		if (deg == 0) return {};
 		if (deg == 1) return F(1);
 		assert(this->size() >= 2 && (*this)[1] != T(0));
-		if constexpr (!is_same_v<T, fps_detail::Mint>)
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>)
 			return export_work(import_work(*this).compositional_inverse(deg));
 		else {
 			T w = (*this)[1].inv();
-			int length = min<int>(deg, this->size());
+			int length = std::min<int>(deg, this->size());
 			int first = 2;
 			while (first < length && (*this)[first] == T(0)) ++first;
 			if (first == length) {
@@ -2639,14 +2652,14 @@ struct FormalPowerSeries : vec<T> {
 			F h(n);
 			{
 				fps_detail::NTT t(size);
-				fps_detail::NTT::CompositionWords storage(static_cast<uint *>(::operator new[](8 * size * sizeof(uint), align_val_t(64))));
+				fps_detail::NTT::CompositionWords storage(static_cast<unsigned int *>(::operator new[](8 * size * sizeof(unsigned int), std::align_val_t(64))));
 				auto *p = storage.get(), *q = p + 4 * size;
-				copy_n(words(*this), length, q);
-				fill_n(q + length, 2 * size - length, 0u);
+				std::copy_n(words(*this), length, q);
+				std::fill_n(q + length, 2 * size - length, 0u);
 				t.geometric(q, length, T(-1).v, w.v);
 				auto factor = t.reversion_projection(p, q, size);
 				t.product(p + size - n, p + size - n, words(inv) + size - n, n);
-				rep(i, n) h[i] = T::word(p[size - 1 - i]);
+				for (int i = 0; i < n; ++i) h[i] = T::word(p[size - 1 - i]);
 				scale_words(h, T(size - 1) * T::word(factor));
 			}
 			h = h.log(n);
@@ -2654,7 +2667,7 @@ struct FormalPowerSeries : vec<T> {
 			h = h.exp(n);
 			scale_words(h, w);
 			F result(deg);
-			copy(all(h), result.begin() + 1);
+			std::copy(h.begin(), h.end(), result.begin() + 1);
 			return result;
 		}
 	}
@@ -2665,8 +2678,8 @@ struct FormalPowerSeries : vec<T> {
 		return ans;
 	}
 
-	vec<T> eval(const vec<T> &xs) const {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(W(import_work(*this).eval(import_work(xs))));
+	std::vector<T> eval(const std::vector<T> &xs) const {
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) return export_work(W(import_work(*this).eval(import_work(xs))));
 		if (xs.empty()) return {};
 		if (this->size() <= 32 || xs.size() <= 32) {
 			base r;
@@ -2676,95 +2689,95 @@ struct FormalPowerSeries : vec<T> {
 		}
 		constexpr int block = 8;
 		int length = block;
-		while (length < (int)max(this->size(), xs.size())) length <<= 1;
+		while (length < (int)std::max(this->size(), xs.size())) length <<= 1;
 		assert(length <= (1 << 23));
 		int size = length / block;
-		vec<base> frequency;
+		std::vector<base> frequency;
 		auto tree = product_tree(xs, size, block, true, &frequency);
 		F root = *this;
 		root.resize(length);
-		reverse(all(root));
+		std::reverse(root.begin(), root.end());
 		root = root.div_series(tree[1], length);
 		return evaluate_tree(xs, tree, frequency, size, block, std::move(root), true);
 	}
-	vec<T> multipoint_eval(const vec<T> &xs) const { return eval(xs); }
+	std::vector<T> multipoint_eval(const std::vector<T> &xs) const { return eval(xs); }
 
-	static F interpolate(const vec<T> &xs, const vec<T> &ys) {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(W::interpolate(import_work(xs), import_work(ys)));
+	static F interpolate(const std::vector<T> &xs, const std::vector<T> &ys) {
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) return export_work(W::interpolate(import_work(xs), import_work(ys)));
 		assert(xs.size() == ys.size());
-		const int n = sz(xs);
+		const int n = static_cast<int>(xs.size());
 		if (n == 0) return {};
 		constexpr int block = 8;
 		int size = 1;
-		vec<base> frequency;
+		std::vector<base> frequency;
 		auto tree = product_tree(xs, size, block, true, &frequency);
 		const int length = size * block;
 		F root(length);
-		rep(i, n) root[length - n + i] = T(n - i) * tree[1][i];
+		for (int i = 0; i < n; ++i) root[length - n + i] = T(n - i) * tree[1][i];
 		auto flip = [&] {
-			rep(i, 1, 2 * size) {
-				reverse(all(tree[i]));
+			for (int i = 1; i < (2 * size); ++i) {
+				std::reverse(tree[i].begin(), tree[i].end());
 				base &a = frequency[i];
 				if (a.empty()) continue;
-				const int length = sz(a), d = sz(tree[i]) - 1;
-				for (int j = 2; j < length; j <<= 1) reverse(a.begin() + j, a.begin() + 2 * j);
+				const int length = static_cast<int>(a.size()), d = static_cast<int>(tree[i].size()) - 1;
+				for (int j = 2; j < length; j <<= 1) std::reverse(a.begin() + j, a.begin() + 2 * j);
 				if (d == length / 2) {
-					rep(j, length / 2, length) a[j] = -a[j];
+					for (int j = length / 2; j < length; ++j) a[j] = -a[j];
 				} else {
 					const auto &roots = ntt_roots(length);
 					base phase(length, T(1));
 					for (int half = 1; half < length; half <<= 1) {
 						const T step = roots[half].pow(d);
-						rep(j, half) phase[half + j] = phase[j] * step;
+						for (int j = 0; j < half; ++j) phase[half + j] = phase[j] * step;
 					}
-					rep(j, length) a[j] *= phase[j];
+					for (int j = 0; j < length; ++j) a[j] *= phase[j];
 				}
 			}
 		};
 		root = root.div_series(tree[1], length);
 		base den = evaluate_tree(xs, tree, frequency, size, block, std::move(root));
 		flip();
-		vec<F> value(2 * size);
+		std::vector<F> value(2 * size);
 		base weights(n);
 		batch_inverse(weights, den);
 		pointwise(weights, weights, ys, n);
 		for (int i = 0; i * block < n; ++i) {
-			const int d = min(block, n - i * block);
+			const int d = std::min(block, n - i * block);
 			F &f = value[size + i];
 			f.resize(d);
 			const F &q = tree[size + i];
 #if defined(__x86_64__) || defined(__i386__)
-			if constexpr (is_same_v<T, fps_detail::Mint>) {
+			if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 				if (d == 8 && fps_detail::NTT::vectorized()) {
 					fps_detail::NTT::interpolate_leaf8(words(f), words(q), words(xs) + i * block, words(weights) + i * block);
 					continue;
 				}
 			}
 #endif
-			rep(j, i * block, i * block + d) {
+			for (int j = i * block; j < (i * block + d); ++j) {
 				T coefficient = 1;
 				f[d - 1] += weights[j];
-				per(k, d - 1) {
+				for (int k = (d - 1) - 1; k >= 0; --k) {
 					coefficient = q[k + 1] + xs[j] * coefficient;
 					f[k] += weights[j] * coefficient;
 				}
 			}
 		}
-		per(i, 1, size) {
+		for (int i = (size)-1; i >= 1; --i) {
 			if (value[2 * i + 1].empty()) {
 				value[i] = std::move(value[2 * i]);
 				continue;
 			}
-			const int length = sz(frequency[2 * i]);
-			if (length && sz(frequency[2 * i + 1]) == length) {
+			const int length = static_cast<int>(frequency[2 * i].size());
+			if (length && static_cast<int>(frequency[2 * i + 1].size()) == length) {
 				base a = std::move(value[2 * i]), b = std::move(value[2 * i + 1]);
 				a.resize(length);
 				b.resize(length);
 				ntt(a);
 				ntt(b);
-				if constexpr (is_same_v<T, fps_detail::Mint>) fps_detail::NTT::combine(words(a), words(b), words(frequency[2 * i]), words(frequency[2 * i + 1]), length);
+				if constexpr (std::is_same_v<T, fps_detail::Mint>) fps_detail::NTT::combine(words(a), words(b), words(frequency[2 * i]), words(frequency[2 * i + 1]), length);
 				else
-					rep(j, length) a[j] = a[j] * frequency[2 * i + 1][j] + b[j] * frequency[2 * i][j];
+					for (int j = 0; j < length; ++j) a[j] = a[j] * frequency[2 * i + 1][j] + b[j] * frequency[2 * i][j];
 				intt(a);
 				a.resize(tree[i].size() - 1);
 				value[i] = std::move(a);
@@ -2781,7 +2794,7 @@ struct FormalPowerSeries : vec<T> {
 			*this *= T(1) + c;
 			return;
 		}
-		per(i, d, sz((*this)))(*this)[i] += (*this)[i - d] * c;
+		for (int i = (static_cast<int>(this->size())) - 1; i >= d; --i) (*this)[i] += (*this)[i - d] * c;
 	}
 	void onediv(int d, T c) {
 		assert(d >= 0);
@@ -2789,37 +2802,37 @@ struct FormalPowerSeries : vec<T> {
 			*this /= T(1) + c;
 			return;
 		}
-		rep(i, d, sz((*this)))(*this)[i] -= (*this)[i - d] * c;
+		for (int i = d; i < (static_cast<int>(this->size())); ++i) (*this)[i] -= (*this)[i - d] * c;
 	}
 
 	F diff() const {
-		const int n = sz((*this));
+		const int n = static_cast<int>(this->size());
 		F r(n);
-		if constexpr (is_same_v<T, fps_detail::Mint>) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			if (n > 1) fps_detail::NTT::weighted(words(r), words(*this) + 1, n - 1, 1);
 		} else
-			rep(i, 1, n) r[i - 1] = (*this)[i] * i;
+			for (int i = 1; i < n; ++i) r[i - 1] = (*this)[i] * i;
 		return r;
 	}
 	F integral() const {
-		const int n = sz((*this));
+		const int n = static_cast<int>(this->size());
 		assert(unsigned(n) < unsigned(T::mod()));
 		F r(n);
 		const auto &inv = inverses(n);
-		if constexpr (is_same_v<T, fps_detail::Mint>) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			if (n > 1) fps_detail::NTT::product(words(r) + 1, words(*this), words(inv) + 1, n - 1);
 		} else
-			rep(i, 1, n) r[i] = (*this)[i - 1] * inv[i];
+			for (int i = 1; i < n; ++i) r[i] = (*this)[i - 1] * inv[i];
 		return r;
 	}
 
 	F log(int deg = -1) const {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).log(deg));
-		if (deg < 0) deg = sz((*this));
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).log(deg));
+		if (deg < 0) deg = static_cast<int>(this->size());
 		assert(deg >= 0);
 		if (deg == 0) return {};
 		assert(!this->empty() && (*this)[0] == T(1));
-		F derivative(min<int>(deg, this->size()));
+		F derivative(std::min<int>(deg, this->size()));
 		if (derivative.size() > 1) fps_detail::NTT::weighted(words(derivative) + 1, words(*this) + 1, derivative.size() - 1, 1);
 		F r = derivative.div_series(*this, deg);
 		const auto &inv = inverses(deg - 1);
@@ -2828,8 +2841,8 @@ struct FormalPowerSeries : vec<T> {
 	}
 
 	F exp(int deg = -1) const {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).exp(deg));
-		if (deg < 0) deg = sz((*this));
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).exp(deg));
+		if (deg < 0) deg = static_cast<int>(this->size());
 		assert(deg >= 0);
 		if (deg == 0) return {};
 		assert(this->empty() || (*this)[0] == T(0));
@@ -2839,7 +2852,7 @@ struct FormalPowerSeries : vec<T> {
 			for (auto &[j, x] : terms) x *= T(j);
 			F g(deg);
 			g[0] = 1;
-			rep(i, 1, deg) {
+			for (int i = 1; i < deg; ++i) {
 				for (auto [j, x] : terms) {
 					if (j > i) break;
 					g[i] += x * g[i - j];
@@ -2848,12 +2861,12 @@ struct FormalPowerSeries : vec<T> {
 			}
 			return g;
 		}
-		const int initial = min(deg, 32);
+		const int initial = std::min(deg, 32);
 		F g(initial);
 		g[0] = 1;
-		rep(i, 1, initial) {
+		for (int i = 1; i < initial; ++i) {
 			T sum = 0;
-			for (int j = 1; j <= i && j < sz((*this)); ++j)
+			for (int j = 1; j <= i && j < static_cast<int>(this->size()); ++j)
 				sum += T(j) * (*this)[j] * g[i - j];
 			g[i] = sum * iv[i];
 		}
@@ -2868,30 +2881,30 @@ struct FormalPowerSeries : vec<T> {
 			ntt_half(inverse);
 			const Word norm = T::mod() - (T::mod() - 1) / length;
 			transform(1).scale(words(inverse), length, norm);
-			fps_detail::NTT::CompositionWords storage(new (align_val_t(64)) uint[(2 * count - 1) * length]);
+			fps_detail::NTT::CompositionWords storage(new (std::align_val_t(64)) unsigned int[(2 * count - 1) * length]);
 			Word *derivative = storage.get(), *cache = derivative + count * length;
-			fill(derivative, derivative + block, 0u);
+			std::fill(derivative, derivative + block, 0u);
 			base error(length);
-			const int initial_count = min<int>(block, this->size());
+			const int initial_count = std::min<int>(block, this->size());
 			if (initial_count > 1) fps_detail::NTT::weighted(derivative + 1, words(*this) + 1, initial_count - 1, 1);
 			ntt_half(derivative, length);
 			g.resize(deg);
-			rep(i, 1, count) {
-				int offset = i * block, n = min(block, deg - offset);
+			for (int i = 1; i < count; ++i) {
+				int offset = i * block, n = std::min(block, deg - offset);
 				Word *d = derivative + i * length;
-				const int derivative_count = max(0, min<int>(n, sz((*this)) - offset));
+				const int derivative_count = std::max(0, std::min<int>(n, static_cast<int>(this->size()) - offset));
 				if (derivative_count) fps_detail::NTT::weighted(d, words(*this) + offset, derivative_count, offset);
-				fill(d + derivative_count, d + block, 0u);
+				std::fill(d + derivative_count, d + block, 0u);
 				ntt_half(d, length);
 				Word *q = cache + (i - 1) * length;
-				copy_n(words(g) + offset - block, block, q);
+				std::copy_n(words(g) + offset - block, block, q);
 				ntt_half(q, length);
 				fps_detail::NTT::scale_normalize(q, length, norm);
-				fill(all(error), T(0));
+				std::fill(error.begin(), error.end(), T(0));
 				for (int j = 0; j < i; j += 3) {
 					const Word *a[3], *b[3], *c[3];
-					int terms = min(3, i - j);
-					rep(k, terms) {
+					int terms = std::min(3, i - j);
+					for (int k = 0; k < terms; ++k) {
 						a[k] = cache + (j + k) * length;
 						b[k] = derivative + (i - j - k) * length;
 						c[k] = derivative + (i - j - k - 1) * length;
@@ -2901,21 +2914,21 @@ struct FormalPowerSeries : vec<T> {
 						fps_detail::NTT::template accumulate_batch<count>(words(error), a, b, c, block, false);
 						fps_detail::NTT::template accumulate_batch<count>(words(error) + block, a, b, c, block, true);
 					};
-					if (terms == 3) update(integral_constant<int, 3>{});
-					else if (terms == 2) update(integral_constant<int, 2>{});
-					else update(integral_constant<int, 1>{});
+					if (terms == 3) update(std::integral_constant<int, 3>{});
+					else if (terms == 2) update(std::integral_constant<int, 2>{});
+					else update(std::integral_constant<int, 1>{});
 				}
 				ntt_inverse(error);
-				fill(error.begin() + block, error.end(), T(0));
+				std::fill(error.begin() + block, error.end(), T(0));
 				ntt_half(error);
 				pointwise(error, error, inverse, length);
 				ntt_inverse(error);
 				fps_detail::NTT::product(words(error), words(error), words(iv) + offset, n);
-				fill(error.begin() + n, error.end(), T(0));
+				std::fill(error.begin() + n, error.end(), T(0));
 				ntt_half(error);
 				fps_detail::NTT::product(words(error), words(error), cache, length);
 				ntt_inverse(error);
-				copy_n(error.begin(), n, g.begin() + offset);
+				std::copy_n(error.begin(), n, g.begin() + offset);
 			}
 			return g;
 		}
@@ -2923,15 +2936,15 @@ struct FormalPowerSeries : vec<T> {
 		base cache = h;
 		cache.resize(32);
 		ntt(cache);
-		while (sz(g) < deg) {
-			const int m = sz(g), n = 2 * m;
+		while (static_cast<int>(g.size()) < deg) {
+			const int m = static_cast<int>(g.size()), n = 2 * m;
 			if (deg - m <= 32) {
-				base derivative(min<int>(deg, this->size()));
-				rep(i, 1, sz(derivative)) derivative[i] = T(i) * (*this)[i];
-				derivative.resize(max<int>(1, derivative.size()));
+				base derivative(std::min<int>(deg, this->size()));
+				for (int i = 1; i < (static_cast<int>(derivative.size())); ++i) derivative[i] = T(i) * (*this)[i];
+				derivative.resize(std::max<int>(1, derivative.size()));
 				g.resize(deg);
-				rep(i, m, deg) {
-					const int count = min<int>(i, derivative.size() - 1);
+				for (int i = m; i < deg; ++i) {
+					const int count = std::min<int>(i, derivative.size() - 1);
 					g[i] = dot(derivative.data() + 1, g.data() + i - 1, count) * iv[i];
 				}
 				break;
@@ -2946,33 +2959,33 @@ struct FormalPowerSeries : vec<T> {
 			cache = h;
 			cache.resize(n);
 			ntt(cache);
-			fill(all(b), T(0));
-			for (int i = 1; i < m && i < sz((*this)); ++i) b[i - 1] = T(i) * (*this)[i];
+			std::fill(b.begin(), b.end(), T(0));
+			for (int i = 1; i < m && i < static_cast<int>(this->size()); ++i) b[i - 1] = T(i) * (*this)[i];
 			ntt(b);
 			pointwise(b, b, a, m);
 			ntt_inverse(b);
 			error[m - 1] = b[m - 1] * im;
-			rep(i, m - 1) error[m + i] = b[i] * im - T(i + 1) * g[i + 1];
+			for (int i = 0; i < (m - 1); ++i) error[m + i] = b[i] * im - T(i + 1) * g[i + 1];
 			ntt(error);
 			pointwise(error, error, cache, n);
 			ntt_inverse(error);
-			per(i, m, min(n, deg))
-				error[i] = (i < sz((*this)) ? (*this)[i] : T(0)) + error[i - 1] * in * iv[i];
-			fill(error.begin(), error.begin() + m, T(0));
-			fill(error.begin() + min(n, deg), error.end(), T(0));
+			for (int i = (std::min(n, deg)) - 1; i >= m; --i)
+				error[i] = (i < static_cast<int>(this->size()) ? (*this)[i] : T(0)) + error[i - 1] * in * iv[i];
+			std::fill(error.begin(), error.begin() + m, T(0));
+			std::fill(error.begin() + std::min(n, deg), error.end(), T(0));
 			ntt(error);
 			pointwise(error, error, a, n);
 			ntt_inverse(error);
-			g.resize(min(n, deg));
-			rep(i, m, sz(g)) g[i] = error[i] * in;
+			g.resize(std::min(n, deg));
+			for (int i = m; i < (static_cast<int>(g.size())); ++i) g[i] = error[i] * in;
 		}
 		return g;
 	}
 
 	F pow(long long k) const {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).pow(k));
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) return export_work(import_work(*this).pow(k));
 		assert(k >= 0);
-		const int n = sz((*this));
+		const int n = static_cast<int>(this->size());
 		if (n == 0) return {};
 		if (k == 0) {
 			F r(n);
@@ -2998,45 +3011,45 @@ struct FormalPowerSeries : vec<T> {
 		f = f.exp(len);
 		f *= lead.pow(k);
 		F r(n);
-		rep(i, len) r[shift + i] = f[i];
+		for (int i = 0; i < len; ++i) r[shift + i] = f[i];
 		return r;
 	}
 
 	F shift(T c) {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) {
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) {
 			W f = import_work(*this);
 			f.shift(fps_detail::Mint::raw(c.val()));
 			return *this = export_work(f);
 		}
-		const int n = sz((*this));
+		const int n = static_cast<int>(this->size());
 		if (n <= 1 || c == T(0)) return *this;
 		assert(unsigned(n) < unsigned(T::mod()));
-		if constexpr (is_same_v<T, fps_detail::Mint>) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			F a(n), b(n), weights;
 			Word fact = fps_detail::NTT::one;
-			rep(i, n) {
+			for (int i = 0; i < n; ++i) {
 				words(a)[i] = fact;
 				fact = (unsigned long long)fact * (i + 1) % T::mod();
 			}
 			const Word last = T::word(words(a)[n - 1]).inv().v;
 			Word invfact = last;
-			per(i, n) {
+			for (int i = (n)-1; i >= 0; --i) {
 				words(b)[i] = invfact;
 				invfact = (unsigned long long)invfact * i % T::mod();
 			}
 			fps_detail::NTT::product(words(a), words(a), words(*this), n);
-			reverse(all(a));
+			std::reverse(a.begin(), a.end());
 			weights = b;
 			geometric_scale(b, T(1), c);
 			F prod = multiply(a, b);
-			reverse(prod.begin(), prod.begin() + n);
+			std::reverse(prod.begin(), prod.begin() + n);
 			fps_detail::NTT::product(words(*this), words(prod), words(weights), n);
 			return *this;
 		}
 		const auto &inv = inverses(n);
 		F a(n), b(n);
 		T fact = 1, invfact = 1, cpow = 1;
-		rep(i, n) {
+		for (int i = 0; i < n; ++i) {
 			a[n - 1 - i] = (*this)[i] * fact;
 			b[i] = cpow * invfact;
 			fact *= i + 1;
@@ -3045,31 +3058,31 @@ struct FormalPowerSeries : vec<T> {
 		}
 		F prod = multiply(a, b);
 		invfact = 1;
-		rep(i, n) {
+		for (int i = 0; i < n; ++i) {
 			(*this)[i] = prod[n - 1 - i] * invfact;
 			invfact *= inv[i + 1];
 		}
 		return *this;
 	}
 
-	pair<F, F> divmod(const F &divisor) const {
-		if constexpr (!is_same_v<T, fps_detail::Mint>) {
+	std::pair<F, F> divmod(const F &divisor) const {
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) {
 			auto [q, r] = import_work(*this).divmod(import_work(divisor));
 			return {export_work(q), export_work(r)};
 		}
 		F a = *this;
 		a.trim();
-		int m = sz(divisor);
+		int m = static_cast<int>(divisor.size());
 		while (m && divisor[m - 1] == T(0)) --m;
 		assert(m);
-		if (sz(a) < m) return {{}, std::move(a)};
-		const int qn = sz(a) - m + 1;
-		if (m <= 2 || (size_t)m * qn <= 4096) {
+		if (static_cast<int>(a.size()) < m) return {{}, std::move(a)};
+		const int qn = static_cast<int>(a.size()) - m + 1;
+		if (m <= 2 || (std::size_t)m * qn <= 4096) {
 			F q(qn);
 			const T inv = divisor[m - 1].inv();
-			per(i, qn) {
+			for (int i = (qn)-1; i >= 0; --i) {
 				q[i] = a[i + m - 1] * inv;
-				rep(j, m) a[i + j] -= q[i] * divisor[j];
+				for (int j = 0; j < m; ++j) a[i + j] -= q[i] * divisor[j];
 			}
 			a.resize(m - 1);
 			a.trim();
@@ -3077,14 +3090,14 @@ struct FormalPowerSeries : vec<T> {
 			return {std::move(q), std::move(a)};
 		}
 		F ra = a, rb(divisor.begin(), divisor.begin() + m);
-		reverse(all(ra));
-		reverse(all(rb));
+		std::reverse(ra.begin(), ra.end());
+		std::reverse(rb.begin(), rb.end());
 		F q = ra.pre(qn).div_series(rb, qn);
-		reverse(all(q));
-		reverse(all(rb));
+		std::reverse(q.begin(), q.end());
+		std::reverse(rb.begin(), rb.end());
 		F product = multiply(rb.pre(m - 1), q.pre(m - 1));
 		a.resize(m - 1);
-		rep(i, min<int>(a.size(), product.size())) a[i] -= product[i];
+		for (int i = 0; i < (std::min<int>(a.size(), product.size())); ++i) a[i] -= product[i];
 		a.trim();
 		q.trim();
 		return {std::move(q), std::move(a)};
@@ -3093,22 +3106,22 @@ struct FormalPowerSeries : vec<T> {
   private:
 	static W import_work(const base &a) {
 		W r(a.size());
-		rep(i, sz(a)) r[i] = fps_detail::Mint::raw(a[i].val());
+		for (int i = 0; i < (static_cast<int>(a.size())); ++i) r[i] = fps_detail::Mint::raw(a[i].val());
 		return r;
 	}
 	static F export_work(const W &a) {
 		F r(a.size());
-		rep(i, sz(a)) r[i] = T::raw(a[i].val());
+		for (int i = 0; i < (static_cast<int>(a.size())); ++i) r[i] = T::raw(a[i].val());
 		return r;
 	}
 	static fps_detail::NTT &transform(int n) {
 		static fps_detail::NTT t(1, false);
-		if (sz(t.roots) < n) t = fps_detail::NTT(n, false);
+		if (static_cast<int>((t.roots).size()) < n) t = fps_detail::NTT(n, false);
 		return t;
 	}
 	using Word = fps_detail::NTT::U;
 	static Word *words(base &a) {
-		static_assert(sizeof(T) == sizeof(Word) && is_trivially_copyable_v<T>);
+		static_assert(sizeof(T) == sizeof(Word) && std::is_trivially_copyable_v<T>);
 		return reinterpret_cast<Word *>(a.data());
 	}
 	static const Word *words(const base &a) { return reinterpret_cast<const Word *>(a.data()); }
@@ -3116,31 +3129,31 @@ struct FormalPowerSeries : vec<T> {
 	static void transform_inplace(base &a) {
 		int n = a.size();
 		assert(n && !(n & (n - 1)) && n <= (1 << 23));
-		auto &t = transform(max(1, n / 2));
+		auto &t = transform(std::max(1, n / 2));
 		t.template fft<inverse>(words(a), n);
-		if constexpr (!is_same_v<T, fps_detail::Mint>) t.normalize(words(a), n);
+		if constexpr (!std::is_same_v<T, fps_detail::Mint>) t.normalize(words(a), n);
 	}
 	static void ntt(base &a) { transform_inplace<false>(a); }
 	static void ntt_half(Word *a, int n) {
-		copy_n(a, n / 2, a + n / 2);
-		transform(max(1, n / 2)).template fft<false>(a, n, n / 2);
+		std::copy_n(a, n / 2, a + n / 2);
+		transform(std::max(1, n / 2)).template fft<false>(a, n, n / 2);
 	}
 	static void ntt_half(base &a) {
 		int n = a.size();
-		copy_n(a.begin(), n / 2, a.begin() + n / 2);
-		transform(max(1, n / 2)).template fft<false>(words(a), n, n / 2);
+		std::copy_n(a.begin(), n / 2, a.begin() + n / 2);
+		transform(std::max(1, n / 2)).template fft<false>(words(a), n, n / 2);
 	}
 	static void ntt_inverse(base &a) { transform_inplace<true>(a); }
 	static void scale_words(base &a, T factor) {
 		if (a.empty()) return;
-		if constexpr (is_same_v<T, fps_detail::Mint>) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			auto &t = transform(1);
 			t.scale(words(a), a.size(), factor.val());
 		} else
 			for (T &x : a) x *= factor;
 	}
 	static void geometric_scale(base &a, T first, T step) {
-		if constexpr (is_same_v<T, fps_detail::Mint>) fps_detail::NTT::geometric(words(a), a.size(), first.v, step.v);
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) fps_detail::NTT::geometric(words(a), a.size(), first.v, step.v);
 		else
 			for (T &x : a) {
 				x *= first;
@@ -3150,7 +3163,7 @@ struct FormalPowerSeries : vec<T> {
 	static void batch_inverse(base &dst, const base &src) {
 		int n = src.size();
 #if defined(__x86_64__) || defined(__i386__)
-		if constexpr (is_same_v<T, fps_detail::Mint>) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			if (n >= 128 && fps_detail::NTT::vectorized()) {
 				fps_detail::NTT::batch_inverse8(words(dst), words(src), n);
 				return;
@@ -3159,51 +3172,51 @@ struct FormalPowerSeries : vec<T> {
 #endif
 		base prefix(n);
 		T p = 1;
-		rep(i, n) prefix[i] = p, p *= src[i];
+		for (int i = 0; i < n; ++i) prefix[i] = p, p *= src[i];
 		assert(p != T(0));
 		p = p.inv();
-		per(i, n) {
+		for (int i = (n)-1; i >= 0; --i) {
 			dst[i] = prefix[i] * p;
 			p *= src[i];
 		}
 	}
 	static void pointwise(base &r, const base &a, const base &b, int n) {
-		if constexpr (is_same_v<T, fps_detail::Mint>) fps_detail::NTT::product(words(r), words(a), words(b), n);
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) fps_detail::NTT::product(words(r), words(a), words(b), n);
 		else
-			rep(i, n) r[i] = a[i] * b[i];
+			for (int i = 0; i < n; ++i) r[i] = a[i] * b[i];
 	}
-	vec<pair<int, T>> sparse_terms(int deg, int limit) const {
-		vec<pair<int, T>> terms;
-		for (int i = 1; i < min<int>(deg, this->size()) && sz(terms) <= limit; ++i)
+	std::vector<std::pair<int, T>> sparse_terms(int deg, int limit) const {
+		std::vector<std::pair<int, T>> terms;
+		for (int i = 1; i < std::min<int>(deg, this->size()) && static_cast<int>(terms.size()) <= limit; ++i)
 			if ((*this)[i] != T(0)) terms.emplace_back(i, (*this)[i]);
 		return terms;
 	}
-	static base evaluate_tree(const base &points, const vec<F> &tree,
-							  vec<base> &frequency, int size, int block, F root, bool consume = false) {
+	static base evaluate_tree(const base &points, const std::vector<F> &tree,
+							  std::vector<base> &frequency, int size, int block, F root, bool consume = false) {
 		base result(points.size());
 #if defined(__x86_64__) || defined(__i386__)
-		if constexpr (is_same_v<T, fps_detail::Mint>) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			if (block == 8 && fps_detail::NTT::vectorized()) {
 				const int total = size * block;
-				auto &plan = transform(max(1, total / 2));
+				auto &plan = transform(std::max(1, total / 2));
 				fps_detail::NTT::CompositionWords scratch;
-				if (!consume) scratch.reset(new (align_val_t(64)) uint[2 * total]);
+				if (!consume) scratch.reset(new (std::align_val_t(64)) unsigned int[2 * total]);
 				for (int level = 1; level <= size; level <<= 1) {
 					const int length = total / level, half = length / 2;
-					rep(node, level, 2 * level) {
+					for (int node = level; node < (2 * level); ++node) {
 						const int offset = (node - level) * length;
-						if (offset >= sz(points)) break;
+						if (offset >= static_cast<int>(points.size())) break;
 						Word *cur = words(root) + offset;
 						if (length == 8) {
-							fps_detail::NTT::evaluate_leaf8(words(result) + offset, cur, words(tree[node]), tree[node].size(), words(points) + offset, min<int>(8, points.size() - offset));
-						} else if (offset + half >= sz(points)) {
-							copy_n(cur + half, half, cur);
+							fps_detail::NTT::evaluate_leaf8(words(result) + offset, cur, words(tree[node]), tree[node].size(), words(points) + offset, std::min<int>(8, points.size() - offset));
+						} else if (offset + half >= static_cast<int>(points.size())) {
+							std::copy_n(cur + half, half, cur);
 						} else if (!frequency[2 * node].empty()) {
 							Word *a = consume ? words(frequency[2 * node]) : scratch.get();
 							Word *b = consume ? words(frequency[2 * node + 1]) : scratch.get() + total;
 							if (!consume) {
-								copy_n(words(frequency[2 * node]), length, a);
-								copy_n(words(frequency[2 * node + 1]), length, b);
+								std::copy_n(words(frequency[2 * node]), length, a);
+								std::copy_n(words(frequency[2 * node + 1]), length, b);
 							}
 							plan.template fft<false>(cur, length);
 							fps_detail::NTT::product(a, a, cur, length);
@@ -3217,8 +3230,8 @@ struct FormalPowerSeries : vec<T> {
 							alignas(32) Word left[8], right[8];
 							assert(length == 16);
 							fps_detail::NTT::evaluate_middle8(left, right, cur, words(tree[2 * node + 1]), tree[2 * node + 1].size(), words(tree[2 * node]), tree[2 * node].size());
-							copy_n(left, 8, cur);
-							copy_n(right, 8, cur + 8);
+							std::copy_n(left, 8, cur);
+							std::copy_n(right, 8, cur + 8);
 						}
 					}
 				}
@@ -3227,30 +3240,31 @@ struct FormalPowerSeries : vec<T> {
 		}
 #endif
 		auto dfs = [&](auto &&self, int node, int l, int r, F cur) -> void {
-			if (l * block >= sz(points)) return;
+			if (l * block >= static_cast<int>(points.size())) return;
 			const int length = (r - l) * block, half = length / 2;
 			if (r - l == 1 || length <= 8) {
 #if defined(__x86_64__) || defined(__i386__)
-				if constexpr (is_same_v<T, fps_detail::Mint>) {
+				if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 					if (length == 8 && fps_detail::NTT::vectorized()) {
-						const int count = min<int>(8, points.size() - l * block);
+						const int count = std::min<int>(8, points.size() - l * block);
 						fps_detail::NTT::evaluate_leaf8(words(result) + l * block, words(cur), words(tree[node]), tree[node].size(), words(points) + l * block, count);
 						return;
 					}
 				}
 #endif
 				base polynomial(length);
-				rep(i, length) for (int j = 0; j + i < length && j < sz(tree[node]); ++j)
-					polynomial[length - 1 - i - j] += cur[i] * tree[node][j];
-				rep(i, l * block, min<int>(r * block, points.size())) {
+				for (int i = 0; i < length; ++i)
+					for (int j = 0; j + i < length && j < static_cast<int>(tree[node].size()); ++j)
+						polynomial[length - 1 - i - j] += cur[i] * tree[node][j];
+				for (int i = l * block; i < (std::min<int>(r * block, points.size())); ++i) {
 					T value = 0;
-					per(j, length) value = value * points[i] + polynomial[j];
+					for (int j = (length)-1; j >= 0; --j) value = value * points[i] + polynomial[j];
 					result[i] = value;
 				}
 				return;
 			}
 			const int mid = (l + r) / 2;
-			if (mid * block >= sz(points)) {
+			if (mid * block >= static_cast<int>(points.size())) {
 				self(self, 2 * node, l, mid, F(cur.begin() + half, cur.end()));
 				return;
 			}
@@ -3275,7 +3289,7 @@ struct FormalPowerSeries : vec<T> {
 				right.resize(half);
 				bool done = false;
 #if defined(__x86_64__) || defined(__i386__)
-				if constexpr (is_same_v<T, fps_detail::Mint>) {
+				if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 					if (length == 16 && fps_detail::NTT::vectorized()) {
 						fps_detail::NTT::evaluate_middle8(words(left), words(right), words(cur), words(tree[2 * node + 1]), tree[2 * node + 1].size(), words(tree[2 * node]), tree[2 * node].size());
 						done = true;
@@ -3284,8 +3298,8 @@ struct FormalPowerSeries : vec<T> {
 #endif
 				if (!done) {
 					F a = multiply(cur, tree[2 * node + 1]), b = multiply(cur, tree[2 * node]);
-					copy_n(a.begin() + half, half, left.begin());
-					copy_n(b.begin() + half, half, right.begin());
+					std::copy_n(a.begin() + half, half, left.begin());
+					std::copy_n(b.begin() + half, half, right.begin());
 				}
 			}
 			self(self, 2 * node, l, mid, std::move(left));
@@ -3295,30 +3309,30 @@ struct FormalPowerSeries : vec<T> {
 		return result;
 	}
 	static void inverse_extend(F &h, const base &a, const base &cache) {
-		const int m = sz(cache);
+		const int m = static_cast<int>(cache.size());
 		const T im = T::raw(T::mod() - (T::mod() - 1) / m);
 		base b(m);
 		pointwise(b, a, cache, m);
 		ntt_inverse(b);
-		fill(b.begin(), b.begin() + m / 2, T(0));
+		std::fill(b.begin(), b.begin() + m / 2, T(0));
 		ntt(b);
 		pointwise(b, b, cache, m);
 		ntt_inverse(b);
 		h.resize(m);
-		rep(i, m / 2, m) h[i] = -b[i] * im * im;
+		for (int i = m / 2; i < m; ++i) h[i] = -b[i] * im * im;
 	}
 	static T dot(const T *a, const T *b, int n) {
 
 #if defined(__x86_64__) || defined(__i386__)
-		if constexpr (is_same_v<T, fps_detail::Mint>) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			if (n >= 64 && fps_detail::NTT::vectorized())
 				return T::word(fps_detail::NTT::reverse_dot8(reinterpret_cast<const Word *>(a), reinterpret_cast<const Word *>(b), n));
 		}
 #endif
-		uint result = 0;
+		unsigned int result = 0;
 		for (int i = 0; i < n; i += 16) {
 			unsigned long long sum = 0;
-			rep(j, i, min(n, i + 16))
+			for (int j = i; j < (std::min(n, i + 16)); ++j)
 				sum += (unsigned long long)a[j].val() * b[-j].val();
 			result += sum % T::mod();
 			if (result >= T::mod()) result -= T::mod();
@@ -3329,7 +3343,7 @@ struct FormalPowerSeries : vec<T> {
 	using CompositionNTT = fps_detail::NTT;
 	static void intt(base &a) {
 		ntt_inverse(a);
-		const T inv = T::raw(T::mod() - (T::mod() - 1) / sz(a));
+		const T inv = T::raw(T::mod() - (T::mod() - 1) / static_cast<int>(a.size()));
 		scale_words(a, inv);
 	}
 	static T mod_sqrt(T a) {
@@ -3349,32 +3363,32 @@ struct FormalPowerSeries : vec<T> {
 	}
 	static const base &inverse_ntt_roots(int n) {
 		static base roots{1};
-		while (sz(roots) < n) {
-			const int m = sz(roots);
+		while (static_cast<int>(roots.size()) < n) {
+			const int m = static_cast<int>(roots.size());
 			const T step = T(3).pow((T::mod() - 1) / (2 * m)).inv();
 			roots.resize(2 * m);
-			rep(i, m) roots[m + i] = roots[i] * step;
+			for (int i = 0; i < m; ++i) roots[m + i] = roots[i] * step;
 		}
 		return roots;
 	}
 	static const base &ntt_roots(int n) {
 		static base roots{1};
-		while (sz(roots) < n) {
-			const int m = sz(roots);
+		while (static_cast<int>(roots.size()) < n) {
+			const int m = static_cast<int>(roots.size());
 			const T step = T(3).pow((T::mod() - 1) / (2 * m));
 			roots.resize(2 * m);
-			rep(i, m) roots[m + i] = roots[i] * step;
+			for (int i = 0; i < m; ++i) roots[m + i] = roots[i] * step;
 		}
 		return roots;
 	}
-	static vec<F> product_tree(const vec<T> &xs, int &size, int block,
-							   bool reciprocal,
-							   vec<vec<T>> *frequency = nullptr) {
-		const int groups = (sz(xs) + block - 1) / block;
+	static std::vector<F> product_tree(const std::vector<T> &xs, int &size, int block,
+									   bool reciprocal,
+									   std::vector<std::vector<T>> *frequency = nullptr) {
+		const int groups = (static_cast<int>(xs.size()) + block - 1) / block;
 		while (size < groups) size <<= 1;
-		vec<F> tree(2 * size);
+		std::vector<F> tree(2 * size);
 		if (frequency) frequency->resize(2 * size);
-		rep(i, size) {
+		for (int i = 0; i < size; ++i) {
 			if (i >= groups) {
 				tree[size + i] = {1};
 				continue;
@@ -3382,25 +3396,25 @@ struct FormalPowerSeries : vec<T> {
 			F p;
 			p.reserve(block + 1);
 			p.push_back(T(1));
-			rep(j, i * block, min<int>((i + 1) * block, xs.size())) {
-				const int d = sz(p) - 1;
+			for (int j = i * block; j < (std::min<int>((i + 1) * block, xs.size())); ++j) {
+				const int d = static_cast<int>(p.size()) - 1;
 				if (reciprocal) {
 					p.push_back(0);
-					per(k, 1, d + 2) p[k] -= xs[j] * p[k - 1];
+					for (int k = (d + 2) - 1; k >= 1; --k) p[k] -= xs[j] * p[k - 1];
 				} else {
 					p.push_back(p.back());
-					per(k, 1, d + 1) p[k] = p[k - 1] - xs[j] * p[k];
+					for (int k = (d + 1) - 1; k >= 1; --k) p[k] = p[k - 1] - xs[j] * p[k];
 					p[0] *= -xs[j];
 				}
 			}
 			tree[size + i] = std::move(p);
 		}
-		per(i, 1, size) {
+		for (int i = (size)-1; i >= 1; --i) {
 			if (tree[2 * i + 1].size() == 1 && tree[2 * i + 1][0] == T(1)) {
 				tree[i] = tree[2 * i];
 				continue;
 			}
-			int depth = 31 - __builtin_clz((uint)i);
+			int depth = 31 - __builtin_clz((unsigned int)i);
 			int length = (size >> depth) * block;
 			if (frequency && length >= 32) {
 				auto &a = (*frequency)[2 * i];
@@ -3408,30 +3422,30 @@ struct FormalPowerSeries : vec<T> {
 				auto transform = [&](base &a, const F &p) {
 					if (a.empty()) {
 						a.resize(length);
-						copy(all(p), a.begin());
+						std::copy(p.begin(), p.end(), a.begin());
 						ntt(a);
 					} else {
 						const int half = length / 2;
 						base odd(half);
-						copy_n(p.begin(), min<int>(half, p.size()), odd.begin());
-						if (sz(p) > half) odd[0] -= p[half];
+						std::copy_n(p.begin(), std::min<int>(half, p.size()), odd.begin());
+						if (static_cast<int>(p.size()) > half) odd[0] -= p[half];
 						geometric_scale(odd, T(1), ntt_roots(length)[length / 2]);
 						ntt(odd);
-						a.insert(a.end(), all(odd));
+						a.insert(a.end(), odd.begin(), odd.end());
 					}
 				};
 				transform(a, tree[2 * i]);
 				transform(b, tree[2 * i + 1]);
-				vec<T> c(length);
+				std::vector<T> c(length);
 				pointwise(c, a, b, length);
 				if (i > 1) (*frequency)[i] = c;
 				ntt_inverse(c);
 				const int n = (int)(tree[2 * i].size() + tree[2 * i + 1].size() - 1);
 				tree[i].resize(n);
 				const T inv = T::raw(T::mod() - (T::mod() - 1) / length);
-				if constexpr (is_same_v<T, fps_detail::Mint>) fps_detail::NTT::scale_copy(words(tree[i]), words(c), min(n, length), inv.val());
+				if constexpr (std::is_same_v<T, fps_detail::Mint>) fps_detail::NTT::scale_copy(words(tree[i]), words(c), std::min(n, length), inv.val());
 				else
-					rep(j, min(n, length)) tree[i][j] = c[j] * inv;
+					for (int j = 0; j < (std::min(n, length)); ++j) tree[i][j] = c[j] * inv;
 				if (n == length + 1) {
 					const T lead = tree[2 * i].back() * tree[2 * i + 1].back();
 					tree[i][0] -= lead;
@@ -3446,11 +3460,11 @@ struct FormalPowerSeries : vec<T> {
 	void trim() {
 		while (!this->empty() && this->back() == T(0)) this->pop_back();
 	}
-	static const vec<T> &inverses(int n) {
+	static const std::vector<T> &inverses(int n) {
 		assert(unsigned(n) < unsigned(T::mod()));
-		static vec<T> inv{0, 1};
+		static std::vector<T> inv{0, 1};
 #if defined(__x86_64__) || defined(__i386__)
-		if constexpr (is_same_v<T, fps_detail::Mint>) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			int first = inv.size(), count = (n + 1 - first) / 8 * 8;
 			if (count >= 256 && fps_detail::NTT::vectorized()) {
 				inv.reserve(n + 1);
@@ -3459,8 +3473,8 @@ struct FormalPowerSeries : vec<T> {
 			}
 		}
 #endif
-		while (sz(inv) <= n) {
-			const int i = sz(inv);
+		while (static_cast<int>(inv.size()) <= n) {
+			const int i = static_cast<int>(inv.size());
 			inv.push_back(-inv[T::mod() % i] * (T::mod() / i));
 		}
 		return inv;

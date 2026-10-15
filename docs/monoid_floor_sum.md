@@ -13,3 +13,5 @@ auto result = monoid_floor_sum<S, op, e>(n, m, a, b, x, y);
 ```text
 y^h(0), x, y^(h(1)-h(0)), x, y^(h(2)-h(1)), ..., x, y^(h(n)-h(n-1))
 ```
+
+時間は `O(log(n+a+b+m+2))`、追加空間は `O(1)` です。`op`・`e` と `S` のコピーは `O(1)` とします。

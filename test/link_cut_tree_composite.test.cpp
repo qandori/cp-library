@@ -1,6 +1,13 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/dynamic_tree_vertex_set_path_composite"
 #include "../data_structure/link_cut_tree.hpp"
 #include "../math/mint.hpp"
+#include <array>
+#include <iostream>
+#include <set>
+#include <tuple>
+#include <vector>
+
+using namespace std;
 
 using S = array<mint, 2>;
 S op(const S &a, const S &b) { return {a[0] * b[0], a[1] * b[0] + b[1]}; }
@@ -10,15 +17,15 @@ int main() {
 	cin.tie(nullptr)->sync_with_stdio(false);
 	int n, q;
 	cin >> n >> q;
-	vec<S> values(n);
+	vector<S> values(n);
 	for (auto &v : values) cin >> v[0] >> v[1];
 	LinkCutTree<S, op, e> tree(values);
-	rep(n - 1) {
+	for (int repeat_index = 0; repeat_index < (n - 1); ++repeat_index) {
 		int u, v;
 		cin >> u >> v;
 		tree.link(u, v);
 	}
-	rep(q) {
+	for (int repeat_index = 0; repeat_index < q; ++repeat_index) {
 		int type, u;
 		cin >> type >> u;
 		if (type == 0) {

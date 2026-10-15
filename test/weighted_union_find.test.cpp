@@ -1,13 +1,17 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/unionfind_with_potential"
 #include "../data_structure/weighted_union_find.hpp"
 #include "../math/mint.hpp"
+#include <iostream>
+#include <tuple>
+
+using namespace std;
 
 int main() {
 	cin.tie(nullptr)->sync_with_stdio(false);
 	int n, q;
 	cin >> n >> q;
 	WeightedUnionFind<mint> uf(n);
-	rep(q) {
+	for (int repeat_index = 0; repeat_index < q; ++repeat_index) {
 		int t, u, v;
 		cin >> t >> u >> v;
 		if (t == 0) {

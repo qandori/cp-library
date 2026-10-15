@@ -1,7 +1,14 @@
 #ifndef LOW_LINK_HPP
 #define LOW_LINK_HPP
 
-#include "../template.hpp"
+#include <algorithm>
+#include <cassert>
+#include <cstddef>
+#include <cstdint>
+#include <limits>
+#include <memory>
+#include <utility>
+#include <vector>
 
 struct LowLink {
 	struct Arc {
@@ -11,27 +18,27 @@ struct LowLink {
 		int v, parent, next;
 	};
 	int n;
-	vec<pair<int, int>> edges;
-	vec<int> ord, low, articulation, bridges;
+	std::vector<std::pair<int, int>> edges;
+	std::vector<int> ord, low, articulation, bridges;
 	explicit LowLink(int n) : n(n) { assert(n >= 0); }
 	int add_edge(int u, int v) {
 		assert(0 <= u && u < n && 0 <= v && v < n);
-		assert(edges.size() < size_t(numeric_limits<int>::max() / 2));
-		int id = sz(edges);
+		assert(edges.size() < std::size_t(std::numeric_limits<int>::max() / 2));
+		int id = static_cast<int>(edges.size());
 		edges.emplace_back(u, v);
 		return id;
 	}
 	void build() {
-		assert(n >= 0 && edges.size() <= size_t(numeric_limits<int>::max() / 2));
-		vec<int> start(size_t(n) + 1);
+		assert(n >= 0 && edges.size() <= std::size_t(std::numeric_limits<int>::max() / 2));
+		std::vector<int> start(std::size_t(n) + 1);
 		for (auto [u, v] : edges) {
 			assert(0 <= u && u < n && 0 <= v && v < n);
 			++start[u + 1], ++start[v + 1];
 		}
-		rep(v, n) start[v + 1] += start[v];
-		unique_ptr<Arc[]> adj(new Arc[2 * edges.size()]);
+		for (int v = 0; v < n; ++v) start[v + 1] += start[v];
+		std::unique_ptr<Arc[]> adj(new Arc[2 * edges.size()]);
 		low.assign(start.begin(), start.end() - 1);
-		rep(i, sz(edges)) {
+		for (int i = 0; i < (static_cast<int>(edges.size())); ++i) {
 			auto [u, v] = edges[i];
 			adj[low[u]++] = {v, i};
 			adj[low[v]++] = {u, i};
@@ -40,11 +47,11 @@ struct LowLink {
 		low.assign(n, -1);
 		articulation.clear();
 		bridges.clear();
-		vec<uint8_t> cut(n);
-		vec<Frame> stack;
+		std::vector<std::uint8_t> cut(n);
+		std::vector<Frame> stack;
 		stack.reserve(n);
 		int timer = 0;
-		rep(root, n) {
+		for (int root = 0; root < n; ++root) {
 			if (ord[root] != -1) continue;
 			int children = 0;
 			ord[root] = low[root] = timer++;
@@ -58,7 +65,7 @@ struct LowLink {
 					if (stack.empty()) cut[v] = children > 1;
 					else {
 						int p = stack.back().v;
-						chmin(low[p], low[v]);
+						low[p] = std::min(low[p], low[v]);
 						if (ord[p] < low[v]) bridges.push_back(id);
 						if (p != root && ord[p] <= low[v]) cut[p] = 1;
 					}
@@ -67,7 +74,7 @@ struct LowLink {
 				auto [to, id] = adj[f.next++];
 				if (id == f.parent) continue;
 				if (ord[to] != -1) {
-					chmin(low[v], ord[to]);
+					low[v] = std::min(low[v], ord[to]);
 					continue;
 				}
 				children += v == root;
@@ -75,12 +82,13 @@ struct LowLink {
 				stack.push_back({to, id, start[to]});
 			}
 		}
-		rep(v, n) if (cut[v]) articulation.push_back(v);
+		for (int v = 0; v < n; ++v)
+			if (cut[v]) articulation.push_back(v);
 	}
 	bool is_bridge(int id) const {
-		assert(0 <= id && id < sz(edges) && sz(ord) == n);
+		assert(0 <= id && id < static_cast<int>(edges.size()) && static_cast<int>(ord.size()) == n);
 		auto [u, v] = edges[id];
-		if (ord[u] > ord[v]) swap(u, v);
+		if (ord[u] > ord[v]) std::swap(u, v);
 		return ord[u] < low[v];
 	}
 };

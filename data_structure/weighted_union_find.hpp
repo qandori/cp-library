@@ -1,19 +1,22 @@
 #ifndef WEIGHTED_UNION_FIND_HPP
 #define WEIGHTED_UNION_FIND_HPP
 
-#include "../template.hpp"
+#include <cassert>
+#include <cstdint>
+#include <utility>
+#include <vector>
 
-template <class T = int64_t>
+template <class T = std::int64_t>
 struct WeightedUnionFind {
-	vec<int> parent;
-	vec<T> delta;
+	std::vector<int> parent;
+	std::vector<T> delta;
 	explicit WeightedUnionFind(int n) {
 		assert(n >= 0);
 		parent.assign(n, -1);
 		delta.resize(n);
 	}
 	int leader(int x) {
-		assert(0 <= x && x < sz(parent));
+		assert(0 <= x && x < static_cast<int>(parent.size()));
 		if (parent[x] < 0) return x;
 		int r = leader(parent[x]);
 		delta[x] += delta[parent[x]];
@@ -33,7 +36,7 @@ struct WeightedUnionFind {
 		int rx = leader(x), ry = leader(y);
 		w += delta[x] - delta[y];
 		if (rx == ry) return w == T(0);
-		if (parent[rx] > parent[ry]) swap(rx, ry), w = -w;
+		if (parent[rx] > parent[ry]) std::swap(rx, ry), w = -w;
 		parent[rx] += parent[ry];
 		parent[ry] = rx;
 		delta[ry] = w;

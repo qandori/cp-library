@@ -1,17 +1,23 @@
 #ifndef LINK_CUT_TREE_HPP
 #define LINK_CUT_TREE_HPP
 
-#include "../template.hpp"
+#include <cassert>
+#include <cstddef>
+#include <cstdint>
+#include <limits>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 template <class S, auto op, auto e, bool commutative = false>
 class LinkCutTree {
-	static constexpr bool scalar = commutative && is_arithmetic_v<S>;
+	static constexpr bool scalar = commutative && std::is_arithmetic_v<S>;
 	struct Empty {};
-	using Back = conditional_t<commutative, Empty, S>;
+	using Back = std::conditional_t<commutative, Empty, S>;
 	struct Node {
 		int ch[2] = {}, parent = 0;
-		uint32_t count : 31 = 1;
-		uint32_t rev : 1 = 0;
+		std::uint32_t count : 31 = 1;
+		std::uint32_t rev : 1 = 0;
 		S value, prod;
 		[[no_unique_address]] Back back;
 		static Back make_back(const S &v) {
@@ -20,10 +26,10 @@ class LinkCutTree {
 		}
 		explicit Node(const S &v) : value(v), prod(v), back(make_back(v)) {}
 	};
-	vec<Node> t;
+	std::vector<Node> t;
 	void init(int n) {
-		assert(0 <= n && n < numeric_limits<int>::max());
-		t.reserve(size_t(n) + 1);
+		assert(0 <= n && n < std::numeric_limits<int>::max());
+		t.reserve(std::size_t(n) + 1);
 		t.emplace_back(e());
 		t[0].count = 0;
 	}
@@ -51,8 +57,11 @@ class LinkCutTree {
 	}
 	void flip(int x) {
 		if (!x) return;
-		swap(t[x].ch[0], t[x].ch[1]);
-		if constexpr (!commutative) swap(t[x].prod, t[x].back);
+		std::swap(t[x].ch[0], t[x].ch[1]);
+		if constexpr (!commutative) {
+			using std::swap;
+			swap(t[x].prod, t[x].back);
+		}
 		t[x].rev ^= 1;
 	}
 	void push(int x) {
@@ -117,14 +126,14 @@ class LinkCutTree {
   public:
 	explicit LinkCutTree(int n = 0) {
 		init(n);
-		rep(n) t.emplace_back(t[0].value);
+		for (int repeat_index = 0; repeat_index < n; ++repeat_index) t.emplace_back(t[0].value);
 	}
-	explicit LinkCutTree(const vec<S> &values) {
-		assert(values.size() < size_t(numeric_limits<int>::max()));
-		init(sz(values));
+	explicit LinkCutTree(const std::vector<S> &values) {
+		assert(values.size() < std::size_t(std::numeric_limits<int>::max()));
+		init(static_cast<int>(values.size()));
 		for (const S &v : values) t.emplace_back(v);
 	}
-	int size() const { return t.empty() ? 0 : sz(t) - 1; }
+	int size() const { return t.empty() ? 0 : static_cast<int>(t.size()) - 1; }
 	S get(int v) const { return t[node(v)].value; }
 	void set(int v, S value) {
 		int x = node(v);

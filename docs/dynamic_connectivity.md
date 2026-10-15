@@ -25,13 +25,17 @@ bool connected = graph.same(0, 2);
 連結成分の集約が必要な場合は、可換かつ結合則を満たす演算 `op` と単位元 `e()` を指定します。
 
 ```cpp
-int64_t op(int64_t a, int64_t b) { return a + b; }
-int64_t e() { return 0; }
+std::int64_t op(std::int64_t a, std::int64_t b) { return a + b; }
+std::int64_t e() { return 0; }
 
-DynamicConnectivity<int64_t, op, e> graph(vector<int64_t>{1, 2, 3});
+DynamicConnectivity<std::int64_t, op, e> graph(std::vector<std::int64_t>{1, 2, 3});
 graph.link(0, 1);
 graph.set(1, graph.get(1) + 5);
 auto value = graph.prod(0);
 ```
 
 `get(v)`・`set(v, value)` は頂点値の取得・更新、`prod(v)` は連結成分の集約です。頂点数だけで構築した場合、初期値は単位元です。
+
+`n` を頂点数、`m` を同時に保持する異なる辺数の最大値として、構築は `O(n)`、`link`・`cut` は期待償却 `O(log^2 n)`、`same`・`size(v)`・`set`・`prod` は償却 `O(log n)`、`count` は期待 `O(1)`、`get`・個数取得は `O(1)` です。`reserve(k)` は期待 `O(m+k)` です。
+
+上位レベルを初めて使う際には、1 レベルあたり別途 `O(n)` の初期化が入ります。空間は `O(m + n log n)` です。`op`・`e` と値のコピーは `O(1)` とします。

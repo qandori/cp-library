@@ -3,7 +3,7 @@
 ```cpp
 #include "lib/data_structure/wavelet_matrix.hpp"
 
-WaveletMatrix<int> wm(vector<int>{3, 1, 4, 1, 5});
+WaveletMatrix<int> wm(std::vector<int>{3, 1, 4, 1, 5});
 auto value = wm.kth_smallest(0, 5, 2);
 ```
 
@@ -21,4 +21,8 @@ auto value = wm.kth_smallest(0, 5, 2);
 | `range_sum(l, r)` | 区間和 |
 | `sum_smallest(l, r, k)` / `sum_largest(l, r, k)` | 下位／上位 `k` 個の和 |
 
-和の前処理は必要時に行います。構築時に済ませる場合は `WaveletMatrix<T> wm(a, true)` とします。整数の和は 32 bit 型なら `int64_t`、64 bit 型なら `__int128_t` です。`WaveletMatrix<T, Sum>` で和の型を指定できます。
+和の前処理は必要時に行います。構築時に済ませる場合は `WaveletMatrix<T> wm(a, true)` とします。整数の和は 32 bit 型なら `std::int64_t`、64 bit 型なら `__int128_t` です。`WaveletMatrix<T, Sum>` で和の型を指定できます。
+
+要素数を `n`、異なる値の数を `σ` として、整数型の構築は `O(n log(σ+1))`、その他の型は `O(n log n)` 時間です。`access` は `O(1)`、`select` は `O(log(σ+1))`、その他の問い合わせは `O(log(σ+1))` です。
+
+和の前処理は時間・追加空間ともに `O(n log(σ+1))` で、前処理後の `range_sum` は `O(1)`、上下位の和は `O(log(σ+1))` です。和を使う最初の問い合わせには前処理時間が加わります。全体の空間は和を含めて `O(n log(σ+1))` です。比較・算術演算は `O(1)` とします。

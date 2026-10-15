@@ -1,6 +1,13 @@
 #include "data_structure/weighted_union_find.hpp"
-#include "data_structure/weighted_union_find.hpp"
 #include "math/mint.hpp"
+#include <cassert>
+#include <cstdint>
+#include <iterator>
+#include <random>
+#include <utility>
+#include <vector>
+
+using namespace std;
 
 int main() {
 	WeightedUnionFind<> uf(6);
@@ -26,29 +33,30 @@ int main() {
 	assert(wide.merge(0, 1, large) && wide.merge(1, 2, large));
 	assert(wide.diff(0, 2) == large * 2);
 	mt19937 random(123);
-	rep(200) {
+	for (int repeat_index = 0; repeat_index < 200; ++repeat_index) {
 		int n = 1 + random() % 25;
 		WeightedUnionFind<> current(n);
-		vec<vec<pair<int, int64_t>>> g(n);
-		rep(300) {
+		vector<vector<pair<int, int64_t>>> g(n);
+		for (int repeat_index = 0; repeat_index < 300; ++repeat_index) {
 			int x = random() % n, y = random() % n;
 			int64_t w = int(random() % 2001) - 1000;
-			vec<int> seen(n), todo{x};
-			vec<int64_t> distance(n);
+			vector<int> seen(n), todo{x};
+			vector<int64_t> distance(n);
 			seen[x] = 1;
-			rep(i, sz(todo)) {
+			for (int i = 0; i < (static_cast<int>(todo.size())); ++i) {
 				int v = todo[i];
-				for (auto [to, cost] : g[v]) if (!seen[to]) {
-					seen[to] = 1;
-					distance[to] = distance[v] + cost;
-					todo.push_back(to);
-				}
+				for (auto [to, cost] : g[v])
+					if (!seen[to]) {
+						seen[to] = 1;
+						distance[to] = distance[v] + cost;
+						todo.push_back(to);
+					}
 			}
-			rep(v, n) {
+			for (int v = 0; v < n; ++v) {
 				assert(current.same(x, v) == bool(seen[v]));
 				if (seen[v]) assert(current.diff(x, v) == distance[v]);
 			}
-			assert(current.size(x) == sz(todo));
+			assert(current.size(x) == static_cast<int>(todo.size()));
 			bool valid = !seen[y] || distance[y] == w;
 			assert(current.merge(x, y, w) == valid);
 			if (valid && !seen[y]) {
@@ -58,6 +66,6 @@ int main() {
 		}
 	}
 	WeightedUnionFind<> chain(100000);
-	rep(i, 99999) assert(chain.merge(i, i + 1, 1));
+	for (int i = 0; i < 99999; ++i) assert(chain.merge(i, i + 1, 1));
 	assert(chain.diff(0, 99999) == 99999 && chain.size(99999) == 100000);
 }

@@ -1,5 +1,12 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/dynamic_tree_vertex_add_path_sum"
 #include "../data_structure/link_cut_tree.hpp"
+#include <cstdint>
+#include <iostream>
+#include <set>
+#include <tuple>
+#include <vector>
+
+using namespace std;
 
 int64_t op(int64_t a, int64_t b) { return a + b; }
 int64_t e() { return 0; }
@@ -8,15 +15,15 @@ int main() {
 	cin.tie(nullptr)->sync_with_stdio(false);
 	int n, q;
 	cin >> n >> q;
-	vec<int64_t> values(n);
+	vector<int64_t> values(n);
 	for (auto &v : values) cin >> v;
 	LinkCutTree<int64_t, op, e, true> tree(values);
-	rep(n - 1) {
+	for (int repeat_index = 0; repeat_index < (n - 1); ++repeat_index) {
 		int u, v;
 		cin >> u >> v;
 		tree.link(u, v);
 	}
-	rep(q) {
+	for (int repeat_index = 0; repeat_index < q; ++repeat_index) {
 		int type, u;
 		cin >> type >> u;
 		if (type == 0) {

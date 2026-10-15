@@ -1,7 +1,9 @@
 #define COMB_MAX 20
 #include "data_structure/disjoint_sparse_table.hpp"
+#include "data_structure/dynamic_bit_vector.hpp"
 #include "data_structure/dynamic_connectivity.hpp"
 #include "data_structure/dynamic_segtree.hpp"
+#include "data_structure/dynamic_wavelet_matrix.hpp"
 #include "data_structure/li_chao_tree.hpp"
 #include "data_structure/link_cut_tree.hpp"
 #include "data_structure/slope_trick.hpp"
@@ -29,6 +31,10 @@ std::int64_t zero() { return 0; }
 
 int main() {
 	assert(vector == 0 && min == 0);
+	DynamicWaveletMatrix<int> dynamic(std::vector<int>{3, 1, 4});
+	dynamic.insert(1, -2);
+	dynamic.set(2, 5);
+	assert(dynamic.erase(0) == 3 && dynamic.kth_smallest(0, 3, 1) == 4);
 	assert(edit_distance("kitten", "sitting") == 3);
 	assert(lcs_length("abcde", "ace") == 3 && lcs("abcde", "ace") == "ace");
 	SlopeTrick<> slope;

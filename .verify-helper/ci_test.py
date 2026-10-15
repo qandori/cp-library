@@ -349,7 +349,7 @@ class IncrementalVerification(unittest.TestCase):
             plan = build_plan(ROOT, previous, environment="test")
         self.assertFalse(plan["full"])
         self.assertEqual(plan["headers"], ["data_structure/wavelet_matrix.hpp"])
-        self.assertEqual(plan["unit"], ["test/unit/standalone.cpp", "test/unit/wavelet_matrix.cpp"])
+        self.assertEqual(plan["unit"], ["test/unit/dynamic_wavelet_matrix.cpp", "test/unit/standalone.cpp", "test/unit/wavelet_matrix.cpp"])
         self.assertEqual(plan["verification"], ["test/wavelet_matrix_freq.test.cpp", "test/wavelet_matrix_kth.test.cpp", "test/wavelet_matrix_sum.test.cpp"])
 
     def test_repository_mint_dependencies(self):
@@ -368,6 +368,21 @@ class IncrementalVerification(unittest.TestCase):
         self.assertIn("test/convolution.test.cpp", plan["verification"])
         self.assertIn("test/weighted_union_find.test.cpp", plan["verification"])
         self.assertNotIn("test/unit/lca.cpp", plan["unit"])
+
+    def test_repository_dynamic_bit_vector_dependencies(self):
+        previous = build_plan(ROOT, environment="test")["state"]
+        original = Path.read_bytes
+
+        def changed(path):
+            data = original(path)
+            return data + b"\n" if path == ROOT / "data_structure/dynamic_bit_vector.hpp" else data
+
+        with patch.object(Path, "read_bytes", changed):
+            plan = build_plan(ROOT, previous, environment="test")
+        self.assertEqual(plan["headers"], ["data_structure/dynamic_bit_vector.hpp", "data_structure/dynamic_wavelet_matrix.hpp"])
+        self.assertEqual(plan["unit"], ["test/unit/dynamic_bit_vector.cpp", "test/unit/dynamic_wavelet_matrix.cpp", "test/unit/standalone.cpp"])
+        self.assertEqual(plan["sanitize"], plan["unit"])
+        self.assertEqual(plan["verification"], ["test/dynamic_wavelet_matrix_freq.test.cpp", "test/dynamic_wavelet_matrix_kth.test.cpp"])
 
 
 if __name__ == "__main__":

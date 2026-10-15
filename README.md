@@ -34,6 +34,8 @@
 | `data_structure/li_chao_tree.hpp` | Li Chao Tree | [使い方](docs/li_chao_tree.md) |
 | `data_structure/link_cut_tree.hpp` | Link Cut Tree | [使い方](docs/link_cut_tree.md) |
 | `data_structure/wavelet_matrix.hpp` | Wavelet Matrix | [使い方](docs/wavelet_matrix.md) |
+| `data_structure/dynamic_wavelet_matrix.hpp` | Dynamic Wavelet Matrix | [使い方](docs/dynamic_wavelet_matrix.md) |
+| `data_structure/dynamic_bit_vector.hpp` | Dynamic Bit Vector | [使い方](docs/dynamic_bit_vector.md) |
 | `data_structure/weighted_union_find.hpp` | 重み付き Union-Find | [使い方](docs/weighted_union_find.md) |
 | `graph/dijkstra.hpp` | Dijkstra | [使い方](docs/dijkstra.md) |
 | `graph/lca.hpp` | LCA | [使い方](docs/lca.md) |

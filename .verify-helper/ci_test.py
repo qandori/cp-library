@@ -1,10 +1,16 @@
 import copy
+import contextlib
+import io
+from importlib.util import find_spec
 from pathlib import Path
+import runpy
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
 
-from ci import ROOT, build_plan, read_json, verify_selected, write_json
+from ci import GROUPS, ROOT, VERSION, build_plan, invalidate_selected, read_json, record_success, verify_selected, write_json
+from documentation import source_paths
 
 
 class Marker:
@@ -71,7 +77,7 @@ class IncrementalVerification(unittest.TestCase):
         self.write("test/benchmark/result.md", "Updated benchmark\n")
         self.write("math/mint.hpp", "#pragma once\n")
         plan = self.plan(self.previous)
-        for group in ("headers", "unit", "verification"):
+        for group in GROUPS:
             self.assertEqual(plan[group], [])
 
     def test_transitive_header_change(self):
@@ -152,15 +158,26 @@ class IncrementalVerification(unittest.TestCase):
         self.assertIn("test/comb.test.cpp", self.plan(previous)["verification"])
 
     def test_common_configuration_and_environment_changes(self):
-        self.assertTrue(self.plan(self.previous, environment="new compiler")["full"])
+        changed = self.plan(self.previous, environment="new compiler")
+        for group in GROUPS:
+            self.assertEqual(changed[group], self.plan()[group])
         self.write(".verify-helper/config.toml", "changed = true\n")
-        self.assertTrue(self.plan(self.previous)["full"])
+        changed = self.plan(self.previous)
+        for group in ("headers", "unit", "sanitize"):
+            self.assertEqual(changed[group], [])
+        for group in ("verification", "bundles"):
+            self.assertEqual(changed[group], self.plan()[group])
 
     def test_forced_or_unsupported_dependency_runs_everything(self):
         self.assertTrue(self.plan(self.previous, force=True)["full"])
         for source in ("#include HEADER\n", '#include_next "other.hpp"\n', '#if __has_include("other.hpp")\n#endif\n'):
             self.write("math/mint.hpp", source)
-            self.assertTrue(self.plan(self.previous)["full"])
+            changed = self.plan(self.previous)
+            self.assertEqual(changed["headers"], ["math/comb.hpp", "math/mint.hpp"])
+            self.assertEqual(changed["verification"], ["test/comb.test.cpp"])
+            repeated = self.plan(changed["state"])
+            self.assertEqual(repeated["headers"], changed["headers"])
+            self.assertEqual(repeated["verification"], changed["verification"])
 
     def test_bad_cache_and_failed_previous_run(self):
         for previous in (None, [], {}, {"version": 999}):
@@ -177,6 +194,125 @@ class IncrementalVerification(unittest.TestCase):
         self.write("math/mint.hpp", "#pragma once\nusing mint = int;\n")
         successful = self.plan(self.previous)["state"]
         self.assertEqual(self.plan(successful)["verification"], [])
+
+    def test_auxiliary_scripts_do_not_invalidate_tests(self):
+        for name in (".verify-helper/ci.py", ".verify-helper/ci_test.py", "test/verify_edit_distance_simd.py", ".gitignore"):
+            self.write(name, "Updated auxiliary file\n")
+        for group in GROUPS:
+            self.assertEqual(self.plan(self.previous)[group], [])
+
+    @unittest.skipUnless(find_spec("yaml"), "Workflow parsing requires PyYAML from test/requirements.txt")
+    def test_unrelated_workflow_does_not_invalidate_tests(self):
+        self.write(".github/workflows/verify.yml", "jobs:\n  site:\n    steps:\n      - run: echo documentation\n")
+        for group in GROUPS:
+            self.assertEqual(self.plan(self.previous)[group], [])
+
+    @unittest.skipUnless(find_spec("yaml"), "Workflow parsing requires PyYAML from test/requirements.txt")
+    def test_workflow_test_command_invalidates_only_its_checks(self):
+        workflow = "jobs:\n  verify:\n    steps:\n      - run: python test/verify.py --unit-only --cxx g++ clang++\n"
+        self.write(".github/workflows/verify.yml", workflow)
+        previous = self.plan()["state"]
+        self.write(".github/workflows/verify.yml", workflow.replace("--cxx g++ clang++", "--cxx g++"))
+        plan = self.plan(previous)
+        for group in ("headers", "unit"):
+            self.assertEqual(plan[group], self.plan()[group])
+        for group in ("sanitize", "verification", "bundles"):
+            self.assertEqual(plan[group], [])
+
+    def test_workflow_parser_unavailable_invalidates_on_workflow_changes(self):
+        self.write(".github/workflows/verify.yml", "jobs: {}\n")
+        with patch.dict(sys.modules, {"yaml": None}):
+            previous = self.plan()["state"]
+            self.write(".github/workflows/verify.yml", "jobs: {}\n# changed\n")
+            plan = self.plan(previous)
+        for group in GROUPS:
+            self.assertEqual(plan[group], self.plan()[group])
+
+    def test_dependency_requirements_only_invalidate_helper_checks(self):
+        self.write("test/requirements.txt", "online-judge-verify-helper==new-version\n")
+        plan = self.plan(self.previous)
+        for group in ("headers", "unit", "sanitize"):
+            self.assertEqual(plan[group], [])
+        for group in ("verification", "bundles"):
+            self.assertEqual(plan[group], self.plan()[group])
+
+    def test_unit_runner_only_invalidates_cpp_checks(self):
+        self.write("test/verify.py", "Changed test runner\n")
+        plan = self.plan(self.previous)
+        for group in ("headers", "unit", "sanitize"):
+            self.assertEqual(plan[group], self.plan()[group])
+        for group in ("verification", "bundles"):
+            self.assertEqual(plan[group], [])
+
+    def test_bundle_runner_only_invalidates_bundles(self):
+        self.write(".verify-helper/check-docs.py", "Changed bundle checker\n")
+        plan = self.plan(self.previous)
+        for group in ("headers", "unit", "sanitize", "verification"):
+            self.assertEqual(plan[group], [])
+        self.assertEqual(plan["bundles"], self.plan()["bundles"])
+
+    def test_helper_package_change_does_not_invalidate_cpp_checks(self):
+        environment = {group: "compiler" if group in ("headers", "unit", "sanitize") else "helper" for group in GROUPS}
+        previous = self.plan(environment=environment)["state"]
+        environment["verification"] = environment["bundles"] = "new helper"
+        plan = self.plan(previous, environment=environment)
+        for group in ("headers", "unit", "sanitize"):
+            self.assertEqual(plan[group], [])
+        for group in ("verification", "bundles"):
+            self.assertEqual(plan[group], self.plan()[group])
+
+    def test_completed_stages_survive_later_failure(self):
+        self.write("math/mint.hpp", "#pragma once\nusing mint = int;\n")
+        plan = self.plan(self.previous)
+        pending = invalidate_selected(self.previous, plan)
+        completed = record_success(pending, plan, ["headers", "unit"])
+        retry = self.plan(completed)
+        self.assertEqual(retry["headers"], [])
+        self.assertEqual(retry["unit"], [])
+        self.assertEqual(retry["sanitize"], ["test/unit/comb.cpp", "test/unit/mint.cpp"])
+        self.assertEqual(retry["verification"], ["test/comb.test.cpp"])
+        self.assertEqual(retry["bundles"], ["math/comb.hpp", "math/mint.hpp"])
+        completed = record_success(completed, plan, ["sanitize", "verification", "bundles"])
+        for group in GROUPS:
+            self.assertEqual(self.plan(completed)[group], [])
+
+    def test_forced_failed_checks_cannot_reuse_old_success(self):
+        plan = self.plan(self.previous, force=True)
+        pending = invalidate_selected(self.previous, plan)
+        for group in GROUPS:
+            self.assertEqual(pending["targets"][group], {})
+        partial = record_success(pending, plan, ["headers", "unit", "sanitize"])
+        retry = self.plan(partial)
+        for group in ("headers", "unit", "sanitize"):
+            self.assertEqual(retry[group], [])
+        for group in ("verification", "bundles"):
+            self.assertEqual(retry[group], plan[group])
+
+    def test_old_and_corrupt_cache_are_discarded(self):
+        for previous in ({"version": 1, "targets": {}}, {"version": VERSION, "targets": []},
+                         {"version": VERSION, "targets": {"headers": []}}):
+            plan = self.plan(previous)
+            self.assertTrue(plan["full"])
+            state = invalidate_selected(previous, plan)
+            self.assertTrue(all(not values for values in state["targets"].values()))
+        with self.assertRaises(ValueError):
+            record_success(self.previous, self.plan(), ["unknown"])
+
+    def test_documentation_only_discovers_libraries_and_judge_drivers(self):
+        self.write("test/benchmark/comb.cpp", '#include "math/comb.hpp"\n')
+        self.write("test/verify.py", "raise RuntimeError('must not be analyzed')\n")
+        paths = source_paths(self.plan(), [])
+        self.assertEqual(paths, list(map(Path, ["graph/lca.hpp", "math/comb.hpp", "math/mint.hpp",
+                                              "test/comb.test.cpp", "test/lca.test.cpp"])))
+        self.assertEqual(source_paths(self.plan(), [Path("test")]), paths[:3])
+
+    def test_sanitizer_uses_its_own_selection(self):
+        selection = self.root / "selection.json"
+        write_json(selection, {"headers": [], "unit": ["test/unit/comb.cpp"], "sanitize": []})
+        with patch.object(sys, "argv", ["verify.py", "--unit-only", "--sanitize", "--selection", str(selection)]), \
+                patch("subprocess.run") as run, contextlib.redirect_stdout(io.StringIO()):
+            runpy.run_path(str(ROOT / "test/verify.py"), run_name="__main__")
+        run.assert_not_called()
 
     def test_verification_never_skips_selected_or_runs_unselected(self):
         plan = self.plan(self.previous)

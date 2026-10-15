@@ -14,12 +14,13 @@ parser.add_argument("--sanitize", action="store_true")
 parser.add_argument("--selection", type=Path)
 args = parser.parse_args()
 if args.selection and not args.unit_only:
-    parser.error("--selection requires --unit-only; use .verify-helper/ci.py docs for Library Checker tests")
+    parser.error("--selection requires --unit-only; use .verify-helper/ci.py judge for Library Checker tests")
 selection = json.loads(args.selection.read_text()) if args.selection else None
 headers = ([root / path for path in selection["headers"]] if selection is not None else
            sorted(path for folder in ("convolution", "data_structure", "graph", "math", "string")
                   for path in (root / folder).rglob("*.hpp")))
-sources = ([root / path for path in selection["unit"]] if selection is not None else
+source_group = "sanitize" if args.sanitize and selection is not None and "sanitize" in selection else "unit"
+sources = ([root / path for path in selection[source_group]] if selection is not None else
            sorted((root / "test/unit").rglob("*.cpp")))
 with tempfile.TemporaryDirectory(prefix="kyopro-verify-") as directory:
     for compiler in args.cxx:

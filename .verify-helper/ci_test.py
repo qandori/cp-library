@@ -110,6 +110,19 @@ class IncrementalVerification(unittest.TestCase):
         self.assertIn("math/comb.hpp", plan["headers"])
         self.assertIn("test/comb.test.cpp", plan["verification"])
 
+    def test_string_header_and_dependencies(self):
+        self.write("string/lcs.hpp", "#pragma once\n")
+        self.write("test/unit/lcs.cpp", '#include "string/lcs.hpp"\n')
+        self.write("test/lcs.test.cpp", '#include "../string/lcs.hpp"\n')
+        plan = self.plan(self.previous)
+        self.assertEqual(plan["headers"], ["string/lcs.hpp"])
+        self.assertEqual(plan["unit"], ["test/unit/lcs.cpp"])
+        self.assertEqual(plan["verification"], ["test/lcs.test.cpp"])
+        self.write("string/lcs.hpp", "#pragma once\nint lcs();\n")
+        changed = self.plan(plan["state"])
+        for group in ("headers", "unit", "verification"):
+            self.assertEqual(changed[group], plan[group])
+
     def test_deleted_test_is_not_run(self):
         (self.root / "test/comb.test.cpp").unlink()
         plan = self.plan(self.previous)

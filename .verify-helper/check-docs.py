@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--selection', type=pathlib.Path)
 args = parser.parse_args()
 selected = set(json.loads(args.selection.read_text())['headers']) if args.selection else None
-headers = sorted(path for folder in ('convolution', 'data_structure', 'graph', 'math') for path in (root / folder).rglob('*.hpp'))
+headers = sorted(path for folder in ('convolution', 'data_structure', 'graph', 'math', 'string') for path in (root / folder).rglob('*.hpp'))
 compiled = 0
 for header in headers:
     path = header.relative_to(root)

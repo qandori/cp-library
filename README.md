@@ -38,6 +38,8 @@
 | `graph/dijkstra.hpp` | Dijkstra | [使い方](docs/dijkstra.md) |
 | `graph/lca.hpp` | LCA | [使い方](docs/lca.md) |
 | `graph/low_link.hpp` | Low-Link | [使い方](docs/low_link.md) |
+| `string/lcs.hpp` | 最長共通部分列 | [使い方](docs/lcs.md) |
+| `string/edit_distance.hpp` | 編集距離 | [使い方](docs/edit_distance.md) |
 | `math/mint.hpp` | modint998244353 | [使い方](docs/mint.md) |
 | `math/comb.hpp` | 階乗・逆階乗と二項係数 | [使い方](docs/comb.md) |
 | `math/factorize.hpp` | 素因数分解・素数判定 | [使い方](docs/factorize.md) |

@@ -15,6 +15,8 @@
 #include "math/fps.hpp"
 #include "math/monoid_floor_sum.hpp"
 #include "math/sqrt_floor.hpp"
+#include "string/edit_distance.hpp"
+#include "string/lcs.hpp"
 
 #if defined(TEMPLATE_HPP) || defined(rep) || defined(per) || defined(vec) || defined(all) || defined(sz) || defined(uint)
 #error "Library headers must not load template macros"
@@ -26,6 +28,8 @@ std::int64_t zero() { return 0; }
 
 int main() {
 	assert(vector == 0 && min == 0);
+	assert(edit_distance("kitten", "sitting") == 3);
+	assert(lcs_length("abcde", "ace") == 3 && lcs("abcde", "ace") == "ace");
 	SlopeTrick<> slope;
 	slope.add_abs(3);
 	assert(slope.eval(5) == 2);

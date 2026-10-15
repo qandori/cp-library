@@ -11,3 +11,4 @@ exclude:
   - test/unit
   - test/benchmark
   - test/verify.py
+  - test/verify_edit_distance_simd.py

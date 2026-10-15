@@ -17,7 +17,7 @@ if args.selection and not args.unit_only:
     parser.error("--selection requires --unit-only; use .verify-helper/ci.py docs for Library Checker tests")
 selection = json.loads(args.selection.read_text()) if args.selection else None
 headers = ([root / path for path in selection["headers"]] if selection is not None else
-           sorted(path for folder in ("convolution", "data_structure", "graph", "math")
+           sorted(path for folder in ("convolution", "data_structure", "graph", "math", "string")
                   for path in (root / folder).rglob("*.hpp")))
 sources = ([root / path for path in selection["unit"]] if selection is not None else
            sorted((root / "test/unit").rglob("*.cpp")))

@@ -146,7 +146,7 @@ def build_plan(root, previous=None, *, environment, force=False):
         "unit": ("test/verify.py",),
         "sanitize": ("test/verify.py",),
         "verification": (".verify-helper/config.toml", "test/requirements.txt"),
-        "bundles": (".verify-helper/check-docs.py", ".verify-helper/documentation.py",
+        "bundles": (".verify-helper/check-docs.py", ".verify-helper/documentation.py", ".verify-helper/verification.py",
                     ".verify-helper/config.toml", "test/requirements.txt"),
     }
     fingerprints = {}
@@ -249,10 +249,11 @@ def main():
             write_json(args.state, record_success(read_json(args.state), plan, args.groups))
         elif args.command == "judge":
             import onlinejudge.service
-            from onlinejudge_verify import marker, verify
+            from onlinejudge_verify import verify
+            from verification import get_marker
 
             logging.basicConfig(level=logging.INFO)
-            verification = marker.get_verification_marker(jobs=2)
+            verification = get_marker()
             with verification:
                 verify_selected(plan, verification, lambda paths: verify.main(
                     paths, marker=verification, timeout=3000, tle=10, jobs=2))

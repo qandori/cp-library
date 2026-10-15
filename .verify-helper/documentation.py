@@ -9,14 +9,14 @@ def source_paths(plan, excluded):
 
 
 def generate(plan):
-    from onlinejudge_verify import marker
     from onlinejudge_verify.documentation import build, configure, main
+    from verification import get_marker
 
     root = Path.cwd().resolve()
     config = main.load_render_config(basedir=root)
     excluded = [Path(path) for path in config.config_yml.get("exclude", [])]
     paths = source_paths(plan, excluded)
-    verification = marker.get_verification_marker(jobs=2)
+    verification = get_marker()
     depends_on, required_by, verified_with = configure._build_dependency_graph(paths, basedir=root)
     status = configure._build_verification_status(paths, verified_with=verified_with, basedir=root, marker=verification)
     stats = [configure._get_source_code_stat(

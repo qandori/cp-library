@@ -4,6 +4,7 @@
 #include "data_structure/dynamic_segtree.hpp"
 #include "data_structure/li_chao_tree.hpp"
 #include "data_structure/link_cut_tree.hpp"
+#include "data_structure/slope_trick.hpp"
 #include "data_structure/wavelet_matrix.hpp"
 #include "data_structure/weighted_union_find.hpp"
 #include "graph/dijkstra.hpp"
@@ -25,6 +26,9 @@ std::int64_t zero() { return 0; }
 
 int main() {
 	assert(vector == 0 && min == 0);
+	SlopeTrick<> slope;
+	slope.add_abs(3);
+	assert(slope.eval(5) == 2);
 	const std::vector<std::int64_t> values{1, 2, 3};
 	DisjointSparseTable<std::int64_t, add, zero> table(values);
 	assert(table.prod(0, 3) == 6);

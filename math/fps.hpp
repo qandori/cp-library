@@ -1222,7 +1222,6 @@ struct NTT {
 			copy_n(b, n / 2, b + n / 2);
 			inverse_partial8<false>(b, n, n / 2);
 		} else inverse_partial8<false>(b, n);
-		I8 p = _mm256_set1_epi32(twice);
 		for (int i = 0; i < n; i += 8 * 8) {
 			U ws[8], qs[8];
 			rep(j, 8) {

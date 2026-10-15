@@ -8,17 +8,22 @@
 
 ## ライブラリ
 
-| ファイル | 内容 |
-| --- | --- |
-| `template.hpp` | `rep`・`per`・`chmin`・`chmax` などの共通テンプレート |
-| `data_structure/disjoint_sparse_table.hpp` | Disjoint Sparse Table |
-| `data_structure/wavelet_matrix.hpp` | Wavelet Matrix |
-| `data_structure/weighted_union_find.hpp` | 重み付き Union-Find |
-| `graph/dijkstra.hpp` | dijkstra（到達不能は `-1`） |
-| `math/mint.hpp` | modint998244353 |
-| `math/comb.hpp` | 階乗・逆階乗と二項係数 |
-| `math/fps.hpp` | 形式的冪級数 `fps` |
-| `math/sqrt_floor.hpp` | Mod of Linear の列を $O\left(\sqrt{N}\right)$ 個の等差数列に分割 |
+| ファイル | 内容 | 使い方 |
+| --- | --- | --- |
+| `template.hpp` | 共通テンプレート | [使い方](docs/template.md) |
+| `data_structure/disjoint_sparse_table.hpp` | Disjoint Sparse Table | [使い方](docs/disjoint_sparse_table.md) |
+| `data_structure/li_chao_tree.hpp` | Li Chao Tree | [使い方](docs/li_chao_tree.md) |
+| `data_structure/link_cut_tree.hpp` | Link Cut Tree | [使い方](docs/link_cut_tree.md) |
+| `data_structure/wavelet_matrix.hpp` | Wavelet Matrix | [使い方](docs/wavelet_matrix.md) |
+| `data_structure/weighted_union_find.hpp` | 重み付き Union-Find | [使い方](docs/weighted_union_find.md) |
+| `graph/dijkstra.hpp` | Dijkstra | [使い方](docs/dijkstra.md) |
+| `graph/low_link.hpp` | Low-Link | [使い方](docs/low_link.md) |
+| `math/mint.hpp` | modint998244353 | [使い方](docs/mint.md) |
+| `math/comb.hpp` | 階乗・逆階乗と二項係数 | [使い方](docs/comb.md) |
+| `math/factorize.hpp` | 素因数分解・素数判定 | [使い方](docs/factorize.md) |
+| `math/monoid_floor_sum.hpp` | monoid floor sum | [使い方](docs/monoid_floor_sum.md) |
+| `math/fps.hpp` | 形式的冪級数 | [使い方](docs/fps.md) |
+| `math/sqrt_floor.hpp` | Mod of Linear の列の等差数列分割 | [使い方](docs/sqrt_floor.md) |
 
 ## 使い方
 

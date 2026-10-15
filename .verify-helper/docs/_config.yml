@@ -4,6 +4,8 @@ url: https://qandori.github.io
 baseurl: /cp-library
 repository: qandori/cp-library
 lang: ja
+kramdown:
+  math_engine: mathjax
 exclude:
   - README.md
   - test/unit

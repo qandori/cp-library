@@ -10,13 +10,13 @@ std::vector<long long> a{3, 1, 0, 3}, b{5, 1, 3, 3, 2};
 auto c = min_plus_convolution_convex(a, b);
 ```
 
-min-plus は `min_{i+j=k}(a[i]+b[j])`、max-plus は `max_{i+j=k}(a[i]+b[j])` を計算します。
+min-plus は $$\min_{i+j=k}(a_i+b_j)$$、max-plus は $$\max_{i+j=k}(a_i+b_j)$$ を計算します。
 
-| 関数 | `a` の条件 | 時間計算量 |
+| 関数 | $$a$$ の条件 | 時間計算量 |
 | --- | --- | --- |
-| `min_plus_convolution_convex` | 隣接差が単調非減少 | `O(L)` |
-| `max_plus_convolution_concave` | 隣接差が単調非増加 | `O(L)` |
-| `min_plus_convolution_concave` | 隣接差が単調非増加 | `O(L log L)` |
-| `max_plus_convolution_convex` | 隣接差が単調非減少 | `O(L log L)` |
+| `min_plus_convolution_convex` | 隣接差が単調非減少 | $$O(L)$$ |
+| `max_plus_convolution_concave` | 隣接差が単調非増加 | $$O(L)$$ |
+| `min_plus_convolution_concave` | 隣接差が単調非増加 | $$O(L \log L)$$ |
+| `max_plus_convolution_convex` | 隣接差が単調非減少 | $$O(L \log L)$$ |
 
-`b` は任意です。要素と和は有限で、係数型に収まるものとします。`L = a.size()+b.size()` として、追加空間はいずれも `O(L)` です。
+$$b$$ は任意です。要素と和は有限で、係数型に収まるものとします。$$L = \lvert a\rvert + \lvert b\rvert$$ として、追加空間はいずれも $$O(L)$$ です。

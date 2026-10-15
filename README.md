@@ -39,6 +39,7 @@
 | `data_structure/weighted_union_find.hpp` | 重み付き Union-Find | [使い方](docs/weighted_union_find.md) |
 | `graph/dijkstra.hpp` | Dijkstra | [使い方](docs/dijkstra.md) |
 | `graph/lca.hpp` | LCA | [使い方](docs/lca.md) |
+| `graph/hld.hpp` | Heavy-Light Decomposition | [使い方](docs/hld.md) |
 | `graph/low_link.hpp` | Low-Link | [使い方](docs/low_link.md) |
 | `string/lcs.hpp` | 最長共通部分列 | [使い方](docs/lcs.md) |
 | `string/edit_distance.hpp` | 編集距離 | [使い方](docs/edit_distance.md) |

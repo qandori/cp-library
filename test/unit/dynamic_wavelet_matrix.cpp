@@ -91,12 +91,54 @@ void random_test() {
 	wm.clear();
 	a.clear();
 	check(wm, a);
-	wm.build(std::vector<T>(1100, value()));
+	a.assign(1100, value());
+	wm.build(a);
+	check(wm, a);
 	while (!wm.empty()) wm.pop_back();
+	a.clear();
 	check(wm, a);
 }
 
+template <class T>
+void common_values_test() {
+	using U = std::make_unsigned_t<T>;
+	for (T base : {T(0), std::numeric_limits<T>::min(), T(std::numeric_limits<T>::max() - 15)}) {
+		std::vector<T> a(65);
+		for (int i = 0; i < 65; ++i) a[i] = T(base + (i & 7));
+		DynamicWaveletMatrix<T> wm(a);
+		check(wm, a);
+		for (int bit : {0, 1, 7, 15, 31, 32, 62, 63}) {
+			T changed = T(U(base) ^ (U(1) << bit));
+			wm.set(0, changed), a[0] = changed;
+			check(wm, a);
+			wm.set(0, base), a[0] = base;
+			check(wm, a);
+			wm.push_back(changed), a.push_back(changed);
+			check(wm, a);
+			assert(wm.pop_back() == a.back());
+			a.pop_back();
+			check(wm, a);
+		}
+		for (int i = 0; i < 65; ++i) wm.set(i, base), a[i] = base;
+		check(wm, a);
+		auto moved = std::move(wm);
+		check(moved, a);
+		check(wm, std::vector<T>{});
+		wm.push_back(base);
+		check(wm, std::vector<T>{base});
+		wm.swap(moved);
+		check(wm, a);
+		check(moved, std::vector<T>{base});
+		wm.clear();
+		check(wm, std::vector<T>{});
+		wm.build(a);
+		check(wm, a);
+	}
+}
+
 int main() {
+	common_values_test<std::int64_t>();
+	common_values_test<std::uint64_t>();
 	random_test<std::int64_t, 64>();
 	random_test<std::uint64_t, 64>();
 	random_test<int, 32>();

@@ -4,11 +4,13 @@
 #include "dynamic_bit_vector.hpp"
 #include <algorithm>
 #include <array>
+#include <bit>
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <limits>
 #include <optional>
+#include <tuple>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -42,6 +44,15 @@ class DynamicWaveletMatrix {
 			else l -= a, r -= b;
 		}
 		return {l, r};
+	}
+
+	static std::tuple<int, bool, int> move_rank(BitVector &row, int from, int to, bool value) {
+		if constexpr (requires { row.move_rank(from, to, value); }) return row.move_rank(from, to, value);
+		else {
+			auto [rank, old] = row.erase_rank(from);
+			int next = row.insert(to, value);
+			return {rank, old, next};
+		}
 	}
 
   public:
@@ -85,15 +96,18 @@ class DynamicWaveletMatrix {
 		}
 		std::vector<std::uint64_t> packed((values.size() + 63) / 64);
 		for (int d = 0; d < Bits; ++d) {
-			std::fill(packed.begin(), packed.end(), 0);
 			int shift = Bits - 1 - d, zero = n;
-			for (int i = 0; i < n; ++i) {
-				bool value = (current[i] >> shift) & 1;
-				packed[i >> 6] |= std::uint64_t(value) << (i & 63);
-				zero -= value;
+			for (int i = 0; i < n;) {
+				std::uint64_t word = 0;
+				int end = std::min(64, n - i);
+				for (int j = 0; j < end; ++j) word |= std::uint64_t((current[i + j] >> shift) & 1) << j;
+				packed[i >> 6] = word;
+				zero -= std::popcount(word);
+				i += end;
 			}
 			middle[d] = zero;
 			bits[d].build(n, packed);
+			if (d + 1 == Bits || !zero || zero == n) continue;
 			std::array<int, 2> offset{0, zero};
 			for (U value : current) next[offset[(value >> shift) & 1]++] = value;
 			current.swap(next);
@@ -149,10 +163,9 @@ class DynamicWaveletMatrix {
 				middle[d] += int(previous) - int(bit);
 				p = bit ? middle[d] + rank : p - rank;
 			} else {
-				auto [rank, previous] = bits[d].erase_rank(old);
+				auto [rank, previous, next] = move_rank(bits[d], old, p, bit);
 				old = previous ? z + rank : old - rank;
 				middle[d] -= !previous;
-				int next = bits[d].insert(p, bit);
 				p = bit ? middle[d] + next : p - next;
 				middle[d] += !bit;
 			}
@@ -189,6 +202,14 @@ class DynamicWaveletMatrix {
 		assert(0 <= k && k < r - l);
 		U result = 0;
 		for (int d = 0; d < Bits; ++d) {
+			if (r - l == 1) {
+				for (; d < Bits; ++d) {
+					auto [rank, bit] = bits[d].access_rank(l);
+					result = U((result << 1) | bit);
+					l = bit ? middle[d] + rank : l - rank;
+				}
+				break;
+			}
 			auto [a, b] = bits[d].rank1(l, r);
 			int zero = r - l - b + a;
 			bool value = k >= zero;

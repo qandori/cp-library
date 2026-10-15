@@ -18,6 +18,8 @@ auto position = bits.select1(0);
 
 `access(i)`・`operator[]` は bit の取得、`count()` は全体の 1 の個数です。`insert(i,b)` は挿入前の `rank1(i)`、`erase(i)` は削除した bit を返します。`access_rank(i)`・`erase_rank(i)`・`set_rank(i,b)` は操作前の `rank1(i)` と bit の組を返します。
 
+`move_rank(from,to,b)` は `from` を削除した列の `to` に `b` を挿入し、操作前の `rank1(from)`・削除した bit・挿入直前の `rank1(to)` を tuple で返します。
+
 `build(a)` で再構築できます。`reserve(n)` は要素数の予約、`memory_usage()` は確保済みノード領域のバイト数です。`clear()` は容量を保持して空にします。`push_back(b)`・`pop_back()` も利用できます。
 
-要素数を $$n$$ として、構築は $$O(n)$$、挿入は償却 $$O(\log n)$$、削除・更新・順位検索・取得は $$O(\log n)$$ です。サイズ・全体の個数・`clear` は $$O(1)$$、`reserve(N)` は $$O(N)$$、空間は $$O(N)$$ です。$$N$$ は過去の最大要素数と予約容量の最大値です。
+要素数を $$n$$ として、構築は $$O(n)$$、挿入・移動は償却 $$O(\log n)$$、削除・更新・順位検索・取得は $$O(\log n)$$ です。サイズ・全体の個数・`clear` は $$O(1)$$、`reserve(N)` は $$O(N)$$、空間は $$O(N)$$ です。$$N$$ は過去の最大要素数と予約容量の最大値です。

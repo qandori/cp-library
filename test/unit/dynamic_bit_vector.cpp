@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <numeric>
 #include <random>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -41,7 +42,7 @@ void random_test() {
 	BV bits(std::vector<bool>(a.begin(), a.end()));
 	check(bits, a);
 	for (int i = 0; i < 6000; ++i) {
-		int op = random() % 5, p = random() % (a.size() + 1);
+		int op = random() % 7, p = random() % (a.size() + 1);
 		if (!a.empty() && p == int(a.size()) && op > 1) --p;
 		bool value = random() & 1;
 		int before = std::accumulate(a.begin(), a.begin() + p, 0);
@@ -51,9 +52,17 @@ void random_test() {
 		} else if (op <= 3) {
 			assert(bits.erase_rank(p) == std::pair(before, bool(a[p])));
 			a.erase(a.begin() + p);
-		} else {
+		} else if (op == 4) {
 			assert(bits.set_rank(p, value) == std::pair(before, bool(a[p])));
 			a[p] = value;
+		} else {
+			int to = op == 5 ? random() % a.size() : (i & 1) ? 0
+															 : int(a.size()) - 1;
+			bool old = a[p];
+			a.erase(a.begin() + p);
+			int next = std::accumulate(a.begin(), a.begin() + to, 0);
+			a.insert(a.begin() + to, value);
+			assert(bits.move_rank(p, to, value) == std::tuple(before, old, next));
 		}
 		if (i % 311 == 0) check(bits, a);
 	}
@@ -82,6 +91,26 @@ void random_test() {
 }
 
 int main() {
+	for (int size = 1; size <= 8; ++size)
+		for (unsigned mask = 0; mask < (1U << size); ++mask) {
+			std::vector<bool> a(size);
+			for (int i = 0; i < size; ++i) a[i] = (mask >> i) & 1;
+			DynamicBitVector<128, 4> base(a);
+			for (int from = 0; from < size; ++from)
+				for (int to = 0; to < size; ++to)
+					for (bool value : {false, true}) {
+						auto bits = base;
+						std::vector<unsigned char> b(a.begin(), a.end());
+						int before = std::accumulate(b.begin(), b.begin() + from, 0);
+						bool old = b[from];
+						b.erase(b.begin() + from);
+						int next = std::accumulate(b.begin(), b.begin() + to, 0);
+						b.insert(b.begin() + to, value);
+						assert(bits.move_rank(from, to, value) == std::tuple(before, old, next));
+						assert(bits.size() == size && bits.count() == std::accumulate(b.begin(), b.end(), 0));
+						for (int i = 0; i < size; ++i) assert(bits[i] == bool(b[i]));
+					}
+		}
 	random_test<128, 4>();
 	random_test<256, 8>();
 	random_test<512, 8>();

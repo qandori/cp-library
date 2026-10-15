@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <limits>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -22,11 +23,9 @@ class DynamicBitVector {
 		std::array<std::uint16_t, words> prefix{};
 		int length = 0, ones = 0;
 	};
-	struct Edge {
-		int id = 0, size = 0, ones = 0;
-	};
 	struct Node {
-		std::array<Edge, Branch> edges{};
+		std::array<int, Branch> ids{};
+		std::array<int, Branch + 1> sizes{}, sums{};
 		int count = 0;
 	};
 	std::vector<Leaf> leaves;
@@ -39,8 +38,8 @@ class DynamicBitVector {
 		if (shift && w + 1 < count) value |= data[w + 1] << (64 - shift);
 		return value;
 	}
-	int length(int id) const { return id & 1 ? leaves[id >> 1].length : nodes[id >> 1].edges[nodes[id >> 1].count - 1].size; }
-	int ones(int id) const { return id & 1 ? leaves[id >> 1].ones : nodes[id >> 1].edges[nodes[id >> 1].count - 1].ones; }
+	int length(int id) const { return id & 1 ? leaves[id >> 1].length : nodes[id >> 1].sizes[nodes[id >> 1].count]; }
+	int ones(int id) const { return id & 1 ? leaves[id >> 1].ones : nodes[id >> 1].sums[nodes[id >> 1].count]; }
 	int make_leaf(const Leaf &leaf) {
 		if (free_leaf) {
 			int id = free_leaf;
@@ -60,16 +59,15 @@ class DynamicBitVector {
 		auto &node = nodes[id >> 1];
 		int size = 0, count = 0;
 		for (int i = 0; i < node.count; ++i) {
-			auto &edge = node.edges[i];
-			edge.size = size += length(edge.id);
-			edge.ones = count += ones(edge.id);
+			node.sizes[i + 1] = size += length(node.ids[i]);
+			node.sums[i + 1] = count += ones(node.ids[i]);
 		}
 	}
 	int make_node(const int *children, int count) {
 		Node node;
 		node.count = count;
 		int size = 0, sum = 0;
-		for (int i = 0; i < count; ++i) node.edges[i] = {children[i], size += length(children[i]), sum += ones(children[i])};
+		for (int i = 0; i < count; ++i) node.ids[i] = children[i], node.sizes[i + 1] = size += length(children[i]), node.sums[i + 1] = sum += ones(children[i]);
 		if (free_node) {
 			int id = free_node;
 			free_node = nodes[id >> 1].count;
@@ -88,13 +86,13 @@ class DynamicBitVector {
 	static int child(const Node &node, int p) {
 		if constexpr (Branch <= 8) {
 			int i = 0;
-			while (i + 1 < node.count && p >= node.edges[i].size) ++i;
+			while (i + 1 < node.count && p >= node.sizes[i + 1]) ++i;
 			return i;
 		} else {
 			int l = 0, r = node.count - 1;
 			while (l < r) {
 				int m = (l + r) / 2;
-				if (p < node.edges[m].size) r = m;
+				if (p < node.sizes[m + 1]) r = m;
 				else l = m + 1;
 			}
 			return l;
@@ -110,8 +108,8 @@ class DynamicBitVector {
 		while (!(id & 1)) {
 			const auto &node = nodes[id >> 1];
 			int j = child(node, p);
-			if (j) p -= node.edges[j - 1].size, result += node.edges[j - 1].ones;
-			id = node.edges[j].id;
+			p -= node.sizes[j], result += node.sums[j];
+			id = node.ids[j];
 		}
 		return result + rank_leaf(leaves[id >> 1], p);
 	}
@@ -155,7 +153,7 @@ class DynamicBitVector {
 	bool rebalance(int parent, int j) {
 		auto &node = nodes[parent >> 1];
 		int l = j ? j - 1 : 0, r = l + 1;
-		int left = node.edges[l].id, right = node.edges[r].id;
+		int left = node.ids[l], right = node.ids[r];
 		bool merge;
 		if (left & 1) {
 			auto &a = leaves[left >> 1], &b = leaves[right >> 1];
@@ -175,21 +173,21 @@ class DynamicBitVector {
 			auto &a = nodes[left >> 1], &b = nodes[right >> 1];
 			std::array<int, 2 * Branch> children;
 			int size = a.count + b.count;
-			for (int i = 0; i < a.count; ++i) children[i] = a.edges[i].id;
-			for (int i = 0; i < b.count; ++i) children[a.count + i] = b.edges[i].id;
+			for (int i = 0; i < a.count; ++i) children[i] = a.ids[i];
+			for (int i = 0; i < b.count; ++i) children[a.count + i] = b.ids[i];
 			merge = size <= Branch;
 			a.count = merge ? size : size / 2;
-			for (int i = 0; i < a.count; ++i) a.edges[i].id = children[i];
+			for (int i = 0; i < a.count; ++i) a.ids[i] = children[i];
 			pull(left);
 			if (merge) release_node(right);
 			else {
 				b.count = size - a.count;
-				for (int i = 0; i < b.count; ++i) b.edges[i].id = children[a.count + i];
+				for (int i = 0; i < b.count; ++i) b.ids[i] = children[a.count + i];
 				pull(right);
 			}
 		}
 		if (merge) {
-			for (int i = r; i + 1 < node.count; ++i) node.edges[i].id = node.edges[i + 1].id;
+			for (int i = r; i + 1 < node.count; ++i) node.ids[i] = node.ids[i + 1];
 			--node.count;
 		}
 		pull(parent);
@@ -294,15 +292,15 @@ class DynamicBitVector {
 			int a = child(node, l), b;
 			if constexpr (Branch <= 8) {
 				b = a;
-				while (b + 1 < node.count && r >= node.edges[b].size) ++b;
+				while (b + 1 < node.count && r >= node.sizes[b + 1]) ++b;
 			} else b = child(node, r);
 			if (a != b) {
-				int x = a ? node.edges[a - 1].ones : 0, y = b ? node.edges[b - 1].ones : 0;
-				return {before + x + rank_node(node.edges[a].id, l - (a ? node.edges[a - 1].size : 0)),
-						before + y + rank_node(node.edges[b].id, r - (b ? node.edges[b - 1].size : 0))};
+				int x = node.sums[a], y = node.sums[b];
+				return {before + x + rank_node(node.ids[a], l - node.sizes[a]),
+						before + y + rank_node(node.ids[b], r - node.sizes[b])};
 			}
-			if (a) l -= node.edges[a - 1].size, r -= node.edges[a - 1].size, before += node.edges[a - 1].ones;
-			id = node.edges[a].id;
+			l -= node.sizes[a], r -= node.sizes[a], before += node.sums[a];
+			id = node.ids[a];
 		}
 		const auto &leaf = leaves[id >> 1];
 		return {before + rank_leaf(leaf, l), before + rank_leaf(leaf, r)};
@@ -315,8 +313,8 @@ class DynamicBitVector {
 		while (!(id & 1)) {
 			const auto &node = nodes[id >> 1];
 			int j = child(node, p);
-			if (j) p -= node.edges[j - 1].size, before += node.edges[j - 1].ones;
-			id = node.edges[j].id;
+			p -= node.sizes[j], before += node.sums[j];
+			id = node.ids[j];
 		}
 		const auto &leaf = leaves[id >> 1];
 		return {before + rank_leaf(leaf, p), (leaf.data[p >> 6] >> (p & 63)) & 1};
@@ -328,8 +326,8 @@ class DynamicBitVector {
 		while (!(id & 1)) {
 			const auto &node = nodes[id >> 1];
 			int j = child(node, p);
-			if (j) p -= node.edges[j - 1].size;
-			id = node.edges[j].id;
+			p -= node.sizes[j];
+			id = node.ids[j];
 		}
 		return (leaves[id >> 1].data[p >> 6] >> (p & 63)) & 1;
 	}
@@ -352,8 +350,8 @@ class DynamicBitVector {
 			const auto &node = nodes[id >> 1];
 			int j = child(node, p);
 			path[depth] = id, slots[depth++] = j;
-			if (j) p -= node.edges[j - 1].size, before += node.edges[j - 1].ones;
-			id = node.edges[j].id;
+			p -= node.sizes[j], before += node.sums[j];
+			id = node.ids[j];
 		}
 		before = known >= 0 ? known : before + rank_leaf(leaves[id >> 1], p);
 		int split = 0;
@@ -376,16 +374,16 @@ class DynamicBitVector {
 			int j = slots[depth];
 			auto &node = nodes[id >> 1];
 			if (!split) {
-				for (int i = j; i < node.count; ++i) ++node.edges[i].size, node.edges[i].ones += value;
+				for (int i = j; i < node.count; ++i) ++node.sizes[i + 1], node.sums[i + 1] += value;
 				continue;
 			}
 			std::array<int, Branch + 1> children;
-			for (int i = 0; i <= j; ++i) children[i] = node.edges[i].id;
+			for (int i = 0; i <= j; ++i) children[i] = node.ids[i];
 			children[j + 1] = split;
-			for (int i = j + 1; i < node.count; ++i) children[i + 1] = node.edges[i].id;
+			for (int i = j + 1; i < node.count; ++i) children[i + 1] = node.ids[i];
 			int count = node.count + 1;
 			node.count = count <= Branch ? count : count / 2;
-			for (int i = 0; i < node.count; ++i) node.edges[i].id = children[i];
+			for (int i = 0; i < node.count; ++i) node.ids[i] = children[i];
 			pull(id);
 			int first = node.count;
 			split = count <= Branch ? 0 : make_node(children.data() + first, count - first);
@@ -407,8 +405,8 @@ class DynamicBitVector {
 			const auto &node = nodes[id >> 1];
 			int j = child(node, p);
 			path[depth] = id, slots[depth++] = j;
-			if (j) p -= node.edges[j - 1].size, before += node.edges[j - 1].ones;
-			id = node.edges[j].id;
+			p -= node.sizes[j], before += node.sums[j];
+			id = node.ids[j];
 		}
 		auto &leaf = leaves[id >> 1];
 		before = known >= 0 ? known : before + rank_leaf(leaf, p);
@@ -422,7 +420,7 @@ class DynamicBitVector {
 		}
 		for (int d = 0; d < depth; ++d) {
 			auto &node = nodes[path[d] >> 1];
-			for (int i = slots[d]; i < node.count; ++i) --node.edges[i].size, node.edges[i].ones -= value;
+			for (int i = slots[d]; i < node.count; ++i) --node.sizes[i + 1], node.sums[i + 1] -= value;
 		}
 		while (depth && (id & 1 ? leaves[id >> 1].length < BlockBits / 2 : nodes[id >> 1].count < Branch / 2)) {
 			int parent = path[--depth];
@@ -431,7 +429,7 @@ class DynamicBitVector {
 		}
 		if (!(root & 1) && nodes[root >> 1].count == 1) {
 			int old = root;
-			root = nodes[old >> 1].edges[0].id;
+			root = nodes[old >> 1].ids[0];
 			release_node(old);
 		}
 		return {before, value};
@@ -448,8 +446,8 @@ class DynamicBitVector {
 			const auto &node = nodes[id >> 1];
 			int j = child(node, p);
 			path[depth] = id, slots[depth++] = j;
-			if (j) p -= node.edges[j - 1].size, before += node.edges[j - 1].ones;
-			id = node.edges[j].id;
+			p -= node.sizes[j], before += node.sums[j];
+			id = node.ids[j];
 		}
 		auto &leaf = leaves[id >> 1];
 		before += rank_leaf(leaf, p);
@@ -461,11 +459,69 @@ class DynamicBitVector {
 			for (int i = (p >> 6) + 1; i <= (leaf.length - 1) / 64; ++i) leaf.prefix[i] += delta;
 			for (int d = 0; d < depth; ++d) {
 				auto &node = nodes[path[d] >> 1];
-				for (int i = slots[d]; i < node.count; ++i) node.edges[i].ones += delta;
+				for (int i = slots[d]; i < node.count; ++i) node.sums[i + 1] += delta;
 			}
 		}
 		return {before, old};
 	}
+	std::tuple<int, bool, int> move_rank(int from, int to, bool value) {
+		assert(0 <= from && from < n && 0 <= to && to < n);
+		if (from == to) {
+			auto [rank, old] = set_rank(from, value);
+			return {rank, old, rank};
+		}
+		std::array<int, 32> left_path, right_path, left_slots, right_slots;
+		int a = root, b = root, p = from, q = to + (from < to), x = 0, y = 0, left_depth = 0, right_depth = 0;
+		while (!(a & 1)) {
+			const auto &node = nodes[a >> 1];
+			int j = child(node, p);
+			left_path[left_depth] = a, left_slots[left_depth++] = j;
+			p -= node.sizes[j], x += node.sums[j];
+			a = node.ids[j];
+		}
+		while (!(b & 1)) {
+			const auto &node = nodes[b >> 1];
+			int j = child(node, q);
+			right_path[right_depth] = b, right_slots[right_depth++] = j;
+			q -= node.sizes[j], y += node.sums[j];
+			b = node.ids[j];
+		}
+		auto &left = leaves[a >> 1], &right = leaves[b >> 1];
+		if (a != b && (left.length <= BlockBits / 2 || right.length == BlockBits)) {
+			auto [rank, old] = erase_rank(from);
+			int next = insert(to, value);
+			return {rank, old, next};
+		}
+		x += rank_leaf(left, p), y += rank_leaf(right, q);
+		bool old = (left.data[p >> 6] >> (p & 63)) & 1;
+		y -= (from < to) && old;
+		erase_leaf(left, p);
+		insert_leaf(right, q - (a == b && from < to), value);
+		total += int(value) - int(old);
+		int common = 0;
+		while (common < left_depth && common < right_depth && left_path[common] == right_path[common]) {
+			auto &node = nodes[left_path[common] >> 1];
+			int l = left_slots[common], r = right_slots[common];
+			int delta = int(value) - int(old);
+			for (int i = std::min(l, r); i < std::max(l, r); ++i) {
+				node.sizes[i + 1] += l < r ? -1 : 1;
+				node.sums[i + 1] += l < r ? -int(old) : int(value);
+			}
+			if (delta)
+				for (int i = std::max(l, r); i < node.count; ++i) node.sums[i + 1] += delta;
+			++common;
+		}
+		for (int d = common; d < left_depth; ++d) {
+			auto &node = nodes[left_path[d] >> 1];
+			for (int i = left_slots[d]; i < node.count; ++i) --node.sizes[i + 1], node.sums[i + 1] -= old;
+		}
+		for (int d = common; d < right_depth; ++d) {
+			auto &node = nodes[right_path[d] >> 1];
+			for (int i = right_slots[d]; i < node.count; ++i) ++node.sizes[i + 1], node.sums[i + 1] += value;
+		}
+		return {x, old, y};
+	}
+
 	void set(int p, bool value) { set_rank(p, value); }
 	int select(bool value, int k) const {
 		if (k < 0 || k >= (value ? total : n - total)) return -1;
@@ -476,16 +532,15 @@ class DynamicBitVector {
 			int l = 0, r = node.count - 1;
 			while (l < r) {
 				int m = (l + r) / 2;
-				int count = value ? node.edges[m].ones : node.edges[m].size - node.edges[m].ones;
+				int count = value ? node.sums[m + 1] : node.sizes[m + 1] - node.sums[m + 1];
 				if (k < count) r = m;
 				else l = m + 1;
 			}
 			if (l) {
-				const auto &edge = node.edges[l - 1];
-				before += edge.size;
-				k -= value ? edge.ones : edge.size - edge.ones;
+				before += node.sizes[l];
+				k -= value ? node.sums[l] : node.sizes[l] - node.sums[l];
 			}
-			id = node.edges[l].id;
+			id = node.ids[l];
 		}
 		const auto &leaf = leaves[id >> 1];
 		for (int i = 0; i < (leaf.length + 63) / 64; ++i) {

@@ -189,7 +189,9 @@ void run(const std::vector<unsigned> &a, const std::vector<Operation> &operation
 			else wm.erase(p), wm.insert(p, value);
 		} else if (type == 3) checksum += wm.kth_smallest(l, r, k);
 		else if (type == 4) checksum += wm.range_freq(l, r, value);
-		else checksum += wm.count(l, r, value);
+		else if (type == 5) checksum += wm.count(l, r, value);
+		else if (type == 6) checksum += wm.access(p);
+		else checksum += wm.select(value, 0);
 	}
 	auto finished = std::chrono::steady_clock::now();
 	for (int i = 0; i < std::min(256, wm.size()); ++i) checksum = checksum * 713 + wm[i];
@@ -209,8 +211,10 @@ int main(int argc, char **argv) {
 	for (auto &v : a) v = random() & mask;
 	std::vector<Operation> operations;
 	for (int i = 0, size = n; i < q; ++i) {
-		int type = kind == "updates" ? 2 : kind == "queries" || kind == "short" ? 3 + random() % 3
-																				: random() % 6;
+		int type = kind == "access" ? 6 : kind == "select"					 ? 7
+									  : kind == "updates"					 ? 2
+									  : kind == "queries" || kind == "short" ? 3 + random() % 3
+																			 : random() % 6;
 		if (!size) type = 0;
 		int p = random() % (size + (type == 0));
 		if (kind == "front") p = 0;
@@ -220,7 +224,7 @@ int main(int argc, char **argv) {
 		if (type == 3 && l == r) l = 0, r = size;
 		if (kind == "short") r = std::min(r, l + 16);
 		if (type == 3 && l == r) l = 0, r = std::min(16, size);
-		operations.push_back({type, p, l, r, l < r ? int(random() % (r - l)) : 0, unsigned(random() & mask)});
+		operations.push_back({type, p, l, r, l < r ? int(random() % (r - l)) : 0, kind == "select" ? a[p] : unsigned(random() & mask)});
 		size += (type == 0) - (type == 1);
 	}
 	std::cout << mode << ' ' << kind << ' ';

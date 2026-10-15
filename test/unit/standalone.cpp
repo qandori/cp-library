@@ -20,6 +20,7 @@
 #include "math/sqrt_floor.hpp"
 #include "string/edit_distance.hpp"
 #include "string/lcs.hpp"
+#include "string/rolling_hash.hpp"
 
 #if defined(TEMPLATE_HPP) || defined(rep) || defined(per) || defined(vec) || defined(all) || defined(sz) || defined(uint)
 #error "Library headers must not load template macros"
@@ -37,6 +38,8 @@ int main() {
 	assert(dynamic.erase(0) == 3 && dynamic.kth_smallest(0, 3, 1) == 4);
 	assert(edit_distance("kitten", "sitting") == 3);
 	assert(lcs_length("abcde", "ace") == 3 && lcs("abcde", "ace") == "ace");
+	RollingHash hash("abracadabra");
+	assert(hash.get(0, 4) == hash.get(7, 11) && hash.lcp(0, hash, 7) == 4);
 	SlopeTrick<> slope;
 	slope.add_abs(3);
 	assert(slope.eval(5) == 2);

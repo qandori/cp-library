@@ -42,6 +42,21 @@
 | `math/monoid_floor_sum.hpp` | monoid floor sum | [使い方](docs/monoid_floor_sum.md) |
 | `math/fps.hpp` | 形式的冪級数 | [使い方](docs/fps.md) |
 | `math/sqrt_floor.hpp` | Mod of Linear の列の等差数列分割 | [使い方](docs/sqrt_floor.md) |
+| `data_structure/RadixHeap.hpp` | Radix Heap | [使い方](docs/radix_heap.md) |
+| `data_structure/quad_bit_vector.hpp` | Quad Bit Vector | [使い方](docs/quad_bit_vector.md) |
+| `data_structure/default_init_allocator.hpp` | Default Init Allocator | [使い方](docs/default_init_allocator.md) |
+| `data_structure/sparse_table.hpp` | Sparse Table | [使い方](docs/sparse_table.md) |
+| `math/montgomery.hpp` | Montgomery 64 | [使い方](docs/montgomery.md) |
+| `math/is_prime.hpp` | 素数判定 | [使い方](docs/is_prime.md) |
+| `math/splitmix64.hpp` | SplitMix64 | [使い方](docs/splitmix64.md) |
+| `math/prime_sieve.hpp` | 素数篩 | [使い方](docs/prime_sieve.md) |
+| `math/smawk.hpp` | SMAWK | [使い方](docs/smawk.md) |
+| `convolution/bitwise_zeta.hpp` | Bitwise Zeta / Möbius Transform | [使い方](docs/bitwise_zeta.md) |
+| `convolution/walsh_hadamard.hpp` | Walsh–Hadamard Transform | [使い方](docs/walsh_hadamard.md) |
+| `convolution/divisor_zeta.hpp` | Divisor Zeta / Möbius Transform | [使い方](docs/divisor_zeta.md) |
+| `convolution/fft.hpp` | FFT | [使い方](docs/fft.md) |
+| `convolution/ntt_mod.hpp` | NTT（法指定） | [使い方](docs/ntt_mod.md) |
+| `convolution/ntt.hpp` | NTT（998244353） | [使い方](docs/ntt.md) |
 
 ## 使い方
 

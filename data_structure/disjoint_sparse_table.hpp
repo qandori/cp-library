@@ -1,36 +1,23 @@
 #ifndef DISJOINT_SPARSE_TABLE_HPP
 #define DISJOINT_SPARSE_TABLE_HPP
 
+#include "default_init_allocator.hpp"
 #include <algorithm>
 #include <bit>
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <limits>
-#include <memory>
-#include <new>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
 template <class S, auto op, auto e = nullptr>
 class DisjointSparseTable {
-	template <class T>
-	struct Alloc : std::allocator<T> {
-		template <class U>
-		struct rebind {
-			using other = Alloc<U>;
-		};
-		Alloc() = default;
-		template <class U>
-		Alloc(const Alloc<U> &) noexcept {}
-		template <class U>
-		void construct(U *p) { ::new (static_cast<void *>(p)) U; }
-	};
 	using Value = std::conditional_t<std::is_same_v<S, bool>, std::uint8_t, S>;
 	using Reference = std::conditional_t<std::is_same_v<S, bool>, bool, const S &>;
 	int n = 0;
-	std::vector<std::vector<Value, Alloc<Value>>> data;
+	std::vector<std::vector<Value, DefaultInitAllocator<Value>>> data;
 	static decltype(auto) combine(const Value &a, const Value &b) {
 		if constexpr (std::is_same_v<S, bool>) return bool(op(bool(a), bool(b)));
 		else return op(a, b);

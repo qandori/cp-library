@@ -1,6 +1,7 @@
 #ifndef DYNAMIC_CONNECTIVITY_HPP
 #define DYNAMIC_CONNECTIVITY_HPP
 
+#include "../math/splitmix64.hpp"
 #include <algorithm>
 #include <array>
 #include <bit>
@@ -38,12 +39,7 @@ class DynamicConnectivity {
 		if (u > v) std::swap(u, v);
 		return (std::uint64_t(unsigned(u)) << 32) | unsigned(v);
 	}
-	std::uint64_t hash(std::uint64_t x) const {
-		x += seed;
-		x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
-		x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
-		return x ^ (x >> 31);
-	}
+	std::uint64_t hash(std::uint64_t x) const { return splitmix64(x + seed); }
 	int level_of(int id) const {
 		int x = edges[id].top;
 		return x > 0 ? (t[x].own >> 3) : -x - 1;

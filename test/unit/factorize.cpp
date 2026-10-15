@@ -61,7 +61,7 @@ int main() {
 	for (int repeat_index = 0; repeat_index < 10000; ++repeat_index) {
 		U n = random() | 1;
 		if (n == 1) n = 3;
-		factorize_detail::Montgomery m(n);
+		Montgomery64 m(n);
 		U a = random() % n, b = random() % n;
 		assert(m.reduce(m.in(a)) == a);
 		assert(m.reduce(m.mul(m.in(a), m.in(b))) == W(a) * b % n);

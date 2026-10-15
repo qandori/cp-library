@@ -1,6 +1,7 @@
 #ifndef CONVOLUTION_MOD_HPP
 #define CONVOLUTION_MOD_HPP
 
+#include "ntt_mod.hpp"
 #include <algorithm>
 #include <bit>
 #include <cassert>
@@ -9,41 +10,6 @@
 #include <vector>
 
 namespace convolution_mod_detail {
-template <std::uint32_t mod>
-std::uint32_t power(std::uint32_t a, std::uint32_t k) {
-	std::uint32_t result = 1;
-	for (; k; k >>= 1, a = std::uint64_t(a) * a % mod)
-		if (k & 1) result = std::uint64_t(result) * a % mod;
-	return result;
-}
-template <std::uint32_t mod, std::uint32_t root>
-void ntt(std::vector<std::uint32_t> &a, bool inverse) {
-	std::size_t n = a.size();
-	assert(std::has_single_bit(n) && (mod - 1) % n == 0);
-	for (std::size_t i = 1, j = 0; i < n; ++i) {
-		std::size_t bit = n >> 1;
-		for (; j & bit; bit >>= 1) j ^= bit;
-		j ^= bit;
-		if (i < j) std::swap(a[i], a[j]);
-	}
-	for (std::size_t width = 2; width <= n; width *= 2) {
-		std::uint32_t step = power<mod>(root, (mod - 1) / width);
-		if (inverse) step = power<mod>(step, mod - 2);
-		for (std::size_t start = 0; start < n; start += width) {
-			std::uint32_t w = 1;
-			for (std::size_t j = 0; j < width / 2; ++j) {
-				std::uint32_t x = a[start + j], y = std::uint64_t(a[start + j + width / 2]) * w % mod;
-				a[start + j] = x + y < mod ? x + y : x + y - mod;
-				a[start + j + width / 2] = x >= y ? x - y : x + mod - y;
-				w = std::uint64_t(w) * step % mod;
-			}
-		}
-	}
-	if (inverse) {
-		std::uint32_t inv = power<mod>(n, mod - 2);
-		for (auto &x : a) x = std::uint64_t(x) * inv % mod;
-	}
-}
 template <std::uint32_t mod, std::uint32_t root, class T>
 std::vector<std::uint32_t> multiply(const std::vector<T> &a, const std::vector<T> &b) {
 	std::size_t length = a.size() + b.size() - 1, n = std::bit_ceil(length);
@@ -54,19 +20,19 @@ std::vector<std::uint32_t> multiply(const std::vector<T> &a, const std::vector<T
 	};
 	for (std::size_t i = 0; i < a.size(); ++i) x[i] = reduce(a[i]);
 	for (std::size_t i = 0; i < b.size(); ++i) y[i] = reduce(b[i]);
-	ntt<mod, root>(x, false);
+	ntt_mod<mod, root>(x, false);
 	if (&a == &b) y = x;
-	else ntt<mod, root>(y, false);
+	else ntt_mod<mod, root>(y, false);
 	for (std::size_t i = 0; i < n; ++i) x[i] = std::uint64_t(x[i]) * y[i] % mod;
-	ntt<mod, root>(x, true);
+	ntt_mod<mod, root>(x, true);
 	x.resize(length);
 	return x;
 }
 inline constexpr std::uint32_t p = 754974721, q = 1224736769, r = 2013265921;
 inline constexpr __uint128_t modulus = __uint128_t(p) * q * r;
 inline __uint128_t restore(std::uint32_t a, std::uint32_t b, std::uint32_t c) {
-	static const std::uint32_t inverse_p = power<q>(p, q - 2);
-	static const std::uint32_t inverse_pq = power<r>(std::uint64_t(p) * q % r, r - 2);
+	static const std::uint32_t inverse_p = ntt_mod_detail::power<q>(p, q - 2);
+	static const std::uint32_t inverse_pq = ntt_mod_detail::power<r>(std::uint64_t(p) * q % r, r - 2);
 	std::uint64_t x = std::uint64_t(b + q - a) * inverse_p % q;
 	std::uint64_t low = a + std::uint64_t(p) * x;
 	std::uint64_t y = std::uint64_t(c + r - low % r) * inverse_pq % r;

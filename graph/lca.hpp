@@ -1,31 +1,17 @@
 #ifndef LCA_HPP
 #define LCA_HPP
 
+#include "../data_structure/sparse_table.hpp"
 #include <algorithm>
-#include <bit>
 #include <cassert>
 #include <cstddef>
 #include <limits>
-#include <memory>
-#include <new>
 #include <utility>
 #include <vector>
 
 class LCA {
-	template <class T>
-	struct Alloc : std::allocator<T> {
-		template <class U>
-		struct rebind {
-			using other = Alloc<U>;
-		};
-		Alloc() = default;
-		template <class U>
-		Alloc(const Alloc<U> &) noexcept {}
-		template <class U>
-		void construct(U *p) { ::new (static_cast<void *>(p)) U; }
-	};
 	std::vector<int> in, out, order;
-	std::vector<std::vector<int, Alloc<int>>> table;
+	SparseTable<int, [](int a, int b) { return std::min(a, b); }> table;
 	void check(int v) const {
 		assert(0 <= v && v < n && static_cast<int>(in.size()) == n);
 		(void)v;
@@ -80,14 +66,8 @@ class LCA {
 		assert(timer == n);
 		for (int i = n - 1; i >= 1; --i) out[parent[order[i]]] += out[order[i]];
 		for (int v = 0; v < n; ++v) out[v] += in[v];
-		table.emplace_back(n);
-		table[0][0] = 0;
-		for (int i = 1; i < n; ++i) table[0][i] = in[parent[order[i]]];
+		table.build(n, [&](int i) { return i ? in[parent[order[i]]] : 0; });
 		parent[root] = -1;
-		for (int k = 1; (1 << k) <= n; ++k) {
-			table.emplace_back(n - (1 << k) + 1);
-			for (int i = 0; i < static_cast<int>(table[k].size()); ++i) table[k][i] = std::min(table[k - 1][i], table[k - 1][i + (1 << (k - 1))]);
-		}
 	}
 	int lca(int u, int v) const {
 		check(u);
@@ -96,8 +76,7 @@ class LCA {
 		if (l == r) return u;
 		if (l > r) std::swap(l, r);
 		++l;
-		int k = std::bit_width(unsigned(r - l + 1)) - 1;
-		return order[std::min(table[k][l], table[k][r - (1 << k) + 1])];
+		return order[table.prod_unchecked(l, r + 1)];
 	}
 	int dist(int u, int v) const {
 		int w = lca(u, v);

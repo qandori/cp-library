@@ -125,6 +125,27 @@ int main() {
 	check({numeric_limits<int64_t>::min(), numeric_limits<int64_t>::max(), -1, 0, 1});
 	check(vector<int64_t>(65, numeric_limits<int64_t>::max()));
 	check(vector<int64_t>(65, numeric_limits<int64_t>::min()));
+	for (int n = 2; n <= 8; ++n) {
+		vector<int64_t> a(n);
+		iota(a.begin(), a.end(), 0);
+		do {
+			WaveletMatrix wm(a);
+			for (int k = 0; k <= n; ++k) {
+				if (k < n) assert(wm.kth_smallest(0, n, k) == k && wm.kth_largest(0, n, k) == n - 1 - k);
+				assert(wm.sum_smallest(0, n, k) == k * (k - 1) / 2);
+				assert(wm.sum_largest(0, n, k) == k * (2 * n - k - 1) / 2);
+			}
+		} while (next_permutation(a.begin(), a.end()));
+	}
+	for (int n : {2, 8, 9, 64, 65, 1024, 4097}) {
+		vector<int64_t> a(n);
+		for (int i = 0; i < n; ++i) a[i] = i / 3 - n / 6;
+		check(a);
+		check_large(a);
+		reverse(a.begin(), a.end());
+		check(a);
+		check_large(a);
+	}
 	mt19937_64 random(456);
 	for (int n : {2, 3, 63, 64, 65, 127, 128, 129, 1000}) {
 		vector<int64_t> a(n);
@@ -171,6 +192,12 @@ int main() {
 		check_large(a);
 	}
 	check_large(vector<int64_t>{numeric_limits<int64_t>::min(), numeric_limits<int64_t>::max(), 0});
+	check_large(vector<int64_t>{numeric_limits<int64_t>::min(), -1, 0, numeric_limits<int64_t>::max()});
+	check_large(vector<int64_t>{numeric_limits<int64_t>::max(), 0, -1, numeric_limits<int64_t>::min()});
+	check_large(vector<uint64_t>{0, 1, numeric_limits<uint64_t>::max()});
+	check_large(vector<uint64_t>{numeric_limits<uint64_t>::max(), 1, 0});
+	check_large(vector<bool>{false, false, true, true});
+	check_large(vector<bool>{true, true, false, false});
 	check_large(vector<int64_t>{numeric_limits<int64_t>::min(), numeric_limits<int64_t>::max(), -1, 1});
 	vector<int64_t> shift(2049);
 	for (int i = 0; i < (static_cast<int>(shift.size())); ++i) shift[i] = numeric_limits<int64_t>::min() + i % 5;
@@ -190,4 +217,26 @@ int main() {
 	WaveletMatrix<string> words(vector<string>{"b", "a", "b", "z"});
 	assert(words.kth_smallest(0, 4, 1) == "b" && words.select("b", 1) == 2);
 	assert(words.prev_value(0, 4, "b") == optional<string>("a"));
+	words.build({"a", "b", "b", "z"});
+	assert(words.count(1, 3, "b") == 2 && words.select("b", 1) == 2 && words.kth_smallest(0, 4, 1) == "b");
+	words.build({"z", "b", "b", "a"});
+	assert(words.range_freq(1, 4, "b") == 1 && words.select("b", 1) == 2 && words.kth_largest(0, 4, 1) == "b");
+	words.build({"b", "a", "b", "z"});
+	assert(words.kth_smallest(0, 4, 1) == "b" && words.count(1, 4, "b") == 1);
+	WaveletMatrix<int64_t> reused;
+	for (auto a : vector<vector<int64_t>>{{1, 1, 2, 3}, {3, 2, 1, 1}, {3, 1, 2, 1}, {numeric_limits<int64_t>::min(), numeric_limits<int64_t>::max()}, {numeric_limits<int64_t>::max(), 0, numeric_limits<int64_t>::min(), 1}, {}, {5, 5}}) {
+		reused.build(a);
+		reused.prepare_sum();
+		sort(a.begin(), a.end());
+		__int128_t total = 0;
+		int n = static_cast<int>(a.size());
+		for (int k = 0; k <= n; ++k) {
+			assert(reused.sum_smallest(0, n, k) == total);
+			if (k < n) {
+				assert(reused.kth_smallest(0, n, k) == a[k]);
+				total += a[k];
+			}
+		}
+		assert(reused.range_sum(0, n) == total);
+	}
 }

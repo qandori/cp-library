@@ -31,7 +31,10 @@ void run(int n, int q, int mode) {
 	vector<T> a(n);
 	for (auto &x : a) x = mode == 0 ? T(rng() % 1000000000) : mode == 1 ? T(rng() % 256)
 																		: T(rng());
-	if (mode == 3) sort(a.begin(), a.end());
+	if (mode == 5)
+		for (auto &x : a) x = T(rng() % max(1, n / 8));
+	if (mode == 3 || mode == 4) sort(a.begin(), a.end());
+	if (mode == 4) reverse(a.begin(), a.end());
 	vector<Query> queries(q);
 	for (auto &z : queries) {
 		z.l = rng() % n;

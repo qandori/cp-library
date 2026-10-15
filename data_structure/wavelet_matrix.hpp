@@ -66,7 +66,7 @@ class WaveletMatrix {
 			return a;
 		}
 	};
-	int n = 0, levels = 0;
+	int n = 0, levels = 0, ordered = 0;
 	std::vector<T> values;
 	std::vector<std::uint32_t> original;
 	std::vector<int> positions, offsets;
@@ -80,9 +80,26 @@ class WaveletMatrix {
 	mutable bool sum_ready = false, narrow_sums = false;
 	static constexpr bool supports_sum = requires(const T &x, Sum s) { Sum(x); s + s; s - s; s * 1; };
 	std::array<std::uint32_t, 8> small_codes(int l, int r) const {
-		std::array<std::uint32_t, 8> a{};
+		std::array<std::uint32_t, 8> a;
+		a.fill(std::numeric_limits<std::uint32_t>::max());
 		for (int i = 0; i < r - l; ++i) a[i] = original[l + i];
-		std::sort(a.begin(), a.begin() + (r - l));
+		auto swap = [&](int i, int j) {
+			auto lo = std::min(a[i], a[j]), hi = std::max(a[i], a[j]);
+			a[i] = lo;
+			a[j] = hi;
+		};
+		swap(0, 1), swap(2, 3);
+		if (r - l <= 4) {
+			swap(0, 2), swap(1, 3), swap(1, 2);
+		} else {
+			swap(4, 5), swap(6, 7);
+			swap(0, 2), swap(1, 3), swap(4, 6), swap(5, 7);
+			swap(1, 2), swap(5, 6), swap(0, 4), swap(3, 7);
+			swap(1, 5), swap(2, 6);
+			swap(1, 4), swap(3, 6);
+			swap(2, 4), swap(3, 5);
+			swap(3, 4);
+		}
 		return a;
 	}
 	void check(int l, int r) const { assert(0 <= l && l <= r && r <= n); }
@@ -113,7 +130,12 @@ class WaveletMatrix {
 	int less_than(int l, int r, std::uint32_t x) const {
 		if (!x || l == r) return 0;
 		if (x >= values.size()) return r - l;
+		if (ordered) return std::clamp(ordered > 0 ? offsets[x] - l : r - n + offsets[x], 0, r - l);
 		int answer = 0;
+		if (r - l <= 8) {
+			for (int i = l; i < r; ++i) answer += original[i] < x;
+			return answer;
+		}
 		for (int d = 0; d < levels; ++d) {
 			int digit = (x >> (2 * (levels - 1 - d))) & 3;
 			int a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);
@@ -126,6 +148,19 @@ class WaveletMatrix {
 	}
 	std::vector<std::uint32_t> compress(const std::vector<T> &a) {
 		std::vector<std::uint32_t> current(n);
+		bool ascending = std::is_sorted(a.begin(), a.end());
+		if (ascending || std::is_sorted(a.rbegin(), a.rend())) {
+			ordered = ascending ? 1 : -1;
+			values.clear();
+			values.reserve(n);
+			for (int i = 0; i < n; ++i) {
+				int j = ascending ? i : n - 1 - i;
+				if (values.empty() || values.back() != a[j]) values.push_back(a[j]);
+				current[j] = static_cast<int>(values.size()) - 1;
+			}
+			values.shrink_to_fit();
+			return current;
+		}
 		if constexpr (std::is_integral_v<T> && !std::is_same_v<T, bool> && sizeof(T) <= 8) {
 			if (n >= 1024) {
 				using U = std::make_unsigned_t<T>;
@@ -133,7 +168,7 @@ class WaveletMatrix {
 					U key;
 					std::uint32_t index;
 				};
-				std::vector<Item> order(n), next(n);
+				std::vector<Item> order(n);
 				U lo = std::numeric_limits<U>::max(), hi = 0;
 				constexpr U sign = std::is_signed_v<T> ? U(1) << (sizeof(T) * 8 - 1) : U(0);
 				for (int i = 0; i < n; ++i) {
@@ -142,6 +177,21 @@ class WaveletMatrix {
 					lo = std::min(lo, key);
 					hi = std::max(hi, key);
 				}
+				if (hi - lo < 65536 && std::uint64_t(hi - lo) < unsigned(n)) {
+					std::vector<int> codes(std::size_t(hi - lo) + 1, -1);
+					for (const auto &v : order) codes[v.key - lo] = 0;
+					values.clear();
+					values.reserve(codes.size());
+					for (std::size_t i = 0; i < codes.size(); ++i)
+						if (codes[i] == 0) {
+							codes[i] = static_cast<int>(values.size());
+							values.push_back(T(U(lo + U(i)) ^ sign));
+						}
+					for (const auto &v : order) current[v.index] = codes[v.key - lo];
+					values.shrink_to_fit();
+					return current;
+				}
+				std::vector<Item> next(n);
 				for (int shift = 0, width = std::bit_width(U(lo ^ hi)); shift < width; shift += 11) {
 					std::array<int, 2048> offsets{};
 					for (const auto &v : order) ++offsets[(v.key >> shift) & 2047];
@@ -237,10 +287,10 @@ class WaveletMatrix {
 			narrow_sums = positive <= std::numeric_limits<std::int64_t>::max() && negative >= std::numeric_limits<std::int64_t>::min();
 		}
 		if (narrow_sums) {
-			compact_prefix.resize(3 * levels + 1);
+			compact_prefix.resize(ordered ? 1 : 3 * levels + 1);
 			prefix_sum(compact_prefix[0], original, 0, n);
 		} else {
-			sum_prefix.resize(3 * levels + 1);
+			sum_prefix.resize(ordered ? 1 : 3 * levels + 1);
 			prefix_sum(sum_prefix[0], original, 0, n);
 		}
 	}
@@ -251,6 +301,7 @@ class WaveletMatrix {
 		sum_ready = narrow_sums = false;
 		n = static_cast<int>(a.size());
 		dense = false;
+		ordered = 0;
 		if (!n || std::all_of(a.begin() + 1, a.end(), [&](const T &x) { return x == a.front(); })) {
 			values.clear();
 			if (n) values.push_back(a.front());
@@ -268,13 +319,22 @@ class WaveletMatrix {
 		if constexpr (std::is_integral_v<T> && sizeof(T) <= 8)
 			dense = std::uint64_t(values.back()) - std::uint64_t(values.front()) == values.size() - 1;
 		offsets.assign(values.size() + 1, 0);
-		positions.resize(n);
+		levels = (std::bit_width(unsigned(static_cast<int>(values.size()) - 1)) + 1) / 2;
 		for (std::uint32_t x : original) ++offsets[x + 1];
 		for (int i = 0; i < static_cast<int>(values.size()); ++i) offsets[i + 1] += offsets[i];
+		if (ordered) {
+			positions.clear();
+			bits.clear();
+			middle.clear();
+			if constexpr (supports_sum)
+				if (with_sum) init_sum();
+			sum_ready = with_sum;
+			return;
+		}
+		positions.resize(n);
 		auto cursor = offsets;
 		for (int i = 0; i < n; ++i) positions[cursor[original[i]]++] = i;
 		auto current = original;
-		levels = (std::bit_width(unsigned(static_cast<int>(values.size()) - 1)) + 1) / 2;
 		bits.clear();
 		bits.reserve(levels);
 		middle.resize(levels);
@@ -290,8 +350,8 @@ class WaveletMatrix {
 				if (with_sum) {
 					if (narrow_sums) partition_sum(compact_prefix, current, next, d);
 					else partition_sum(sum_prefix, current, next, d);
-				} else partition(current, next, d);
-			} else partition(current, next, d);
+				} else if (d + 1 < levels) partition(current, next, d);
+			} else if (d + 1 < levels) partition(current, next, d);
 		}
 		sum_ready = with_sum;
 	}
@@ -340,11 +400,21 @@ class WaveletMatrix {
 		if (c == values.size() || values[c] != x) return 0;
 		if (!levels) return r - l;
 		int start = offsets[c], end = offsets[c + 1];
+		if (ordered) {
+			int first = ordered > 0 ? start : n - end;
+			return std::max(0, std::min(r, first + (end - start)) - std::max(l, first));
+		}
 		if (l == 0 && r == n) return end - start;
 		if (end - start == 1) return int(l <= positions[start]) & int(positions[start] < r);
 		if (end - start <= 16) {
-			const int *first = positions.data() + start, *last = positions.data() + end;
-			return std::lower_bound(first, last, r) - std::lower_bound(first, last, l);
+			int answer = 0;
+			for (int i = start; i < end; ++i) answer += unsigned(positions[i] - l) < unsigned(r - l);
+			return answer;
+		}
+		if (r - l <= 8) {
+			int answer = 0;
+			for (int i = l; i < r; ++i) answer += original[i] == c;
+			return answer;
 		}
 		auto [a, b] = interval(l, r, c);
 		return b - a;
@@ -353,12 +423,14 @@ class WaveletMatrix {
 	int select(const T &x, int k) const {
 		std::uint32_t c = code(x);
 		if (k < 0 || c == values.size() || values[c] != x || k >= offsets[c + 1] - offsets[c]) return -1;
+		if (ordered) return (ordered > 0 ? offsets[c] : n - offsets[c + 1]) + k;
 		return levels ? positions[offsets[c] + k] : k;
 	}
 	T kth_smallest(int l, int r, int k) const {
 		check(l, r);
 		assert(0 <= k && k < r - l);
 		if (!levels) return values[0];
+		if (ordered) return values[original[ordered > 0 ? l + k : r - 1 - k]];
 		if (r - l <= 8) return values[small_codes(l, r)[k]];
 		std::uint32_t x = 0;
 		for (int d = 0; d < levels; ++d) {
@@ -393,6 +465,10 @@ class WaveletMatrix {
 			return;
 		}
 		init_sum();
+		if (ordered) {
+			sum_ready = true;
+			return;
+		}
 		std::vector<std::uint32_t> current = original, next(n);
 		if (narrow_sums)
 			for (int d = 0; d < levels; ++d) partition_sum(compact_prefix, current, next, d);
@@ -423,6 +499,7 @@ class WaveletMatrix {
 		if (!k) return Sum(0);
 		if (k == r - l) return range_sum(l, r);
 		if (!levels) return Sum(values[0]) * k;
+		if (ordered) return ordered > 0 ? range_sum(l, l + k) : range_sum(r - k, r);
 		if (k == 1) return Sum(kth_smallest(l, r, 0));
 		if (r - l <= 8) {
 			auto a = small_codes(l, r);
@@ -441,6 +518,7 @@ class WaveletMatrix {
 		assert(0 <= k && k <= r - l);
 		if (!k) return Sum(0);
 		if (!levels) return Sum(values[0]) * k;
+		if (ordered) return ordered > 0 ? range_sum(r - k, r) : range_sum(l, l + k);
 		if (k == 1) return Sum(kth_largest(l, r, 0));
 		if (k == r - l) return range_sum(l, r);
 		if (r - l <= 8) {

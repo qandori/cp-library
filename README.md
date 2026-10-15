@@ -44,6 +44,7 @@
 | `math/comb.hpp` | 階乗・逆階乗と二項係数 | [使い方](docs/comb.md) |
 | `math/factorize.hpp` | 素因数分解・素数判定 | [使い方](docs/factorize.md) |
 | `math/monoid_floor_sum.hpp` | monoid floor sum | [使い方](docs/monoid_floor_sum.md) |
+| `math/min_of_mod_of_linear.hpp` | Mod of Linear の最小値 | [使い方](docs/min_of_mod_of_linear.md) |
 | `math/fps.hpp` | 形式的冪級数 | [使い方](docs/fps.md) |
 | `math/sqrt_floor.hpp` | Mod of Linear の列の等差数列分割 | [使い方](docs/sqrt_floor.md) |
 | `data_structure/RadixHeap.hpp` | Radix Heap | [使い方](docs/radix_heap.md) |

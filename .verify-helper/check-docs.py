@@ -1,3 +1,5 @@
+import argparse
+import json
 import pathlib
 import re
 import subprocess
@@ -6,7 +8,12 @@ import yaml
 
 
 root = pathlib.Path(__file__).resolve().parents[1]
-headers = sorted(path for folder in ('convolution', 'data_structure', 'graph', 'math') for path in (root / folder).glob('*.hpp'))
+parser = argparse.ArgumentParser()
+parser.add_argument('--selection', type=pathlib.Path)
+args = parser.parse_args()
+selected = set(json.loads(args.selection.read_text())['headers']) if args.selection else None
+headers = sorted(path for folder in ('convolution', 'data_structure', 'graph', 'math') for path in (root / folder).rglob('*.hpp'))
+compiled = 0
 for header in headers:
     path = header.relative_to(root)
     doc = root / '.verify-helper/markdown' / (str(path) + '.md')
@@ -15,5 +22,7 @@ for header in headers:
     code = data['data']['bundledCode']
     assert 'Traceback (most recent call last)' not in code, f'{path}: bundle failed'
     assert not re.search(r'^\s*#\s*include\s*"', code, re.MULTILINE), f'{path}: local include remains'
-    subprocess.run(['g++', '-std=c++23', '-fsyntax-only', '-x', 'c++', '-'], input=code, text=True, check=True, cwd=root)
-print(f'Checked documentation and bundled code for {len(headers)} libraries')
+    if selected is None or path.as_posix() in selected:
+        subprocess.run(['g++', '-std=c++23', '-fsyntax-only', '-x', 'c++', '-'], input=code, text=True, check=True, cwd=root)
+        compiled += 1
+print(f'Checked documentation for {len(headers)} libraries; compiled {compiled} affected bundles')

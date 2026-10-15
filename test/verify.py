@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 from pathlib import Path
 import shutil
@@ -10,13 +11,20 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--cxx", nargs="+", default=["g++", "clang++"])
 parser.add_argument("--unit-only", action="store_true")
 parser.add_argument("--sanitize", action="store_true")
+parser.add_argument("--selection", type=Path)
 args = parser.parse_args()
+if args.selection and not args.unit_only:
+    parser.error("--selection requires --unit-only; use .verify-helper/ci.py docs for Library Checker tests")
+selection = json.loads(args.selection.read_text()) if args.selection else None
+headers = ([root / path for path in selection["headers"]] if selection is not None else
+           sorted(path for folder in ("convolution", "data_structure", "graph", "math")
+                  for path in (root / folder).rglob("*.hpp")))
+sources = ([root / path for path in selection["unit"]] if selection is not None else
+           sorted((root / "test/unit").rglob("*.cpp")))
 with tempfile.TemporaryDirectory(prefix="kyopro-verify-") as directory:
     for compiler in args.cxx:
         flags = ["-std=c++23", "-O2", "-Wall", "-Wextra", "-DDEBUG=1", "-I", str(root)]
-        headers = sorted(path for folder in ("convolution", "data_structure", "graph", "math")
-                         for path in (root / folder).glob("*.hpp"))
-        for header in headers:
+        for header in ([] if args.sanitize else headers):
             source = Path(directory) / "header.cpp"
             name = header.relative_to(root).as_posix()
             source.write_text(f'#include "{name}"\n#include "{name}"\n'
@@ -26,7 +34,7 @@ with tempfile.TemporaryDirectory(prefix="kyopro-verify-") as directory:
                               'int main() {}\n')
             print(f"{compiler}: standalone {name}", flush=True)
             subprocess.run([compiler, *flags, "-Werror", "-fsyntax-only", str(source)], check=True, cwd=root)
-        for source in sorted((root / "test/unit").glob("*.cpp")):
+        for source in sources:
             executable = Path(directory) / source.stem
             test_flags = flags.copy()
             if args.sanitize:

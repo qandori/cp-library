@@ -4,6 +4,11 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      full:
+        description: 全件検証する
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -24,18 +29,41 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: pip
+          cache-dependency-path: test/requirements.txt
       - name: Install dependencies
         run: python -m pip install -r test/requirements.txt
+      - name: Restore successful verification results
+        uses: actions/cache@v4
+        with:
+          path: .verify-helper/verified-state.json
+          key: ${{ runner.os }}-${{ runner.arch }}-verified-v1-${{ github.ref }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-verified-v1-${{ github.ref }}-
+            ${{ runner.os }}-${{ runner.arch }}-verified-v1-refs/heads/main-
+      - name: Cache Library Checker test cases and checkers
+        uses: actions/cache@v4
+        with:
+          path: |
+            .verify-helper/cache/*/test
+            ~/.cache/online-judge-tools/library-checker-problems
+          key: ${{ runner.os }}-${{ runner.arch }}-checker-v1-${{ hashFiles('test/requirements.txt', 'test/**/*.test.cpp') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-checker-v1-
+      - name: Test incremental verification
+        run: python -m unittest discover -s .verify-helper -p '*_test.py'
+      - name: Select affected libraries and tests
+        env:
+          VERIFY_FULL: ${{ inputs.full == true }}
+        run: python .verify-helper/ci.py plan
       - name: Run unit tests with GCC and Clang
-        run: python test/verify.py --unit-only --cxx g++ clang++
+        run: python test/verify.py --unit-only --cxx g++ clang++ --selection .verify-helper/selection.json
       - name: Run ASan and UBSan tests
-        run: python test/verify.py --unit-only --cxx clang++ --sanitize
-      - name: Run Library Checker tests
-        run: oj-verify run --timeout 3000 --tle 10 -j 2
-      - name: Generate library documentation
-        run: oj-verify docs
+        run: python test/verify.py --unit-only --cxx clang++ --sanitize --selection .verify-helper/selection.json
+      - name: Run affected Library Checker tests and generate documentation
+        run: python .verify-helper/ci.py docs
       - name: Check bundled documentation
-        run: python .verify-helper/check-docs.py
+        run: python .verify-helper/check-docs.py --selection .verify-helper/selection.json
       - name: Build library website
         uses: actions/jekyll-build-pages@v1
         with:
@@ -46,6 +74,8 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: .verify-helper/site
+      - name: Record successful verification
+        run: python .verify-helper/ci.py save
 
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

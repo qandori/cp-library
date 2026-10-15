@@ -1,6 +1,7 @@
 #define COMB_MAX 20
 #include "data_structure/disjoint_sparse_table.hpp"
 #include "data_structure/dynamic_connectivity.hpp"
+#include "data_structure/dynamic_segtree.hpp"
 #include "data_structure/li_chao_tree.hpp"
 #include "data_structure/link_cut_tree.hpp"
 #include "data_structure/wavelet_matrix.hpp"
@@ -27,6 +28,9 @@ int main() {
 	const std::vector<std::int64_t> values{1, 2, 3};
 	DisjointSparseTable<std::int64_t, add, zero> table(values);
 	assert(table.prod(0, 3) == 6);
+	DynamicSegtree<std::int64_t, add, zero> sparse(1LL << 60);
+	sparse.set(42, 7);
+	assert(sparse.prod(0, 100) == 7);
 	DynamicConnectivity<std::int64_t, add, zero> graph(values);
 	graph.link(0, 1);
 	assert(graph.prod(1) == 3);

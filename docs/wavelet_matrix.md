@@ -1,4 +1,7 @@
-# Wavelet Matrix
+---
+title: "Wavelet Matrix"
+documentation_of: //data_structure/wavelet_matrix.hpp
+---
 
 ```cpp
 #include "lib/data_structure/wavelet_matrix.hpp"

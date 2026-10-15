@@ -1,4 +1,7 @@
-# LCA
+---
+title: "LCA"
+documentation_of: //graph/lca.hpp
+---
 
 ```cpp
 #include "lib/graph/lca.hpp"

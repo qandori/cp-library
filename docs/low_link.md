@@ -1,4 +1,7 @@
-# Low-Link
+---
+title: "Low-Link"
+documentation_of: //graph/low_link.hpp
+---
 
 ```cpp
 #include "lib/graph/low_link.hpp"

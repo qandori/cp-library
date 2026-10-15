@@ -25,7 +25,7 @@ class WaveletMatrix {
 		explicit BitVector(int n) : n(n), blocks((n >> 6) + 1) {}
 		void build(const std::vector<std::uint32_t> &a, int shift) {
 			std::array<int, 4> counts{};
-			for (int w = 0; w < (static_cast<int>(blocks.size())); ++w) {
+			for (int w = 0; w < static_cast<int>(blocks.size()); ++w) {
 				std::uint64_t low = 0, high = 0;
 				int start = w * 64, length = std::min(64, n - start);
 				for (int j = 0; j < length; ++j) {
@@ -81,7 +81,7 @@ class WaveletMatrix {
 	static constexpr bool supports_sum = requires(const T &x, Sum s) { Sum(x); s + s; s - s; s * 1; };
 	std::array<std::uint32_t, 8> small_codes(int l, int r) const {
 		std::array<std::uint32_t, 8> a{};
-		for (int i = 0; i < (r - l); ++i) a[i] = original[l + i];
+		for (int i = 0; i < r - l; ++i) a[i] = original[l + i];
 		std::sort(a.begin(), a.begin() + (r - l));
 		return a;
 	}
@@ -184,7 +184,7 @@ class WaveletMatrix {
 		requires supports_sum
 	{
 		prefix.resize(std::size_t(r - l) + 1);
-		for (int i = 0; i < (r - l); ++i) prefix[i + 1] = prefix[i] + S(values[current[l + i]]);
+		for (int i = 0; i < r - l; ++i) prefix[i + 1] = prefix[i] + S(values[current[l + i]]);
 	}
 	template <class S>
 	void partition_sum(std::vector<std::vector<S>> &prefix, std::vector<std::uint32_t> &current, std::vector<std::uint32_t> &next, int d) const
@@ -229,7 +229,7 @@ class WaveletMatrix {
 	{
 		if constexpr (can_narrow) {
 			Sum positive = 0, negative = 0;
-			for (int i = 0; i < (static_cast<int>(values.size())); ++i) {
+			for (int i = 0; i < static_cast<int>(values.size()); ++i) {
 				Sum v = Sum(values[i]) * (offsets[i + 1] - offsets[i]);
 				if (v > 0) positive += v;
 				else negative += v;
@@ -266,19 +266,18 @@ class WaveletMatrix {
 		}
 		original = compress(a);
 		if constexpr (std::is_integral_v<T> && sizeof(T) <= 8)
-			dense = !values.empty() && std::uint64_t(values.back()) - std::uint64_t(values.front()) == values.size() - 1;
+			dense = std::uint64_t(values.back()) - std::uint64_t(values.front()) == values.size() - 1;
 		offsets.assign(values.size() + 1, 0);
 		positions.resize(n);
 		for (std::uint32_t x : original) ++offsets[x + 1];
-		for (int i = 0; i < (static_cast<int>(values.size())); ++i) offsets[i + 1] += offsets[i];
+		for (int i = 0; i < static_cast<int>(values.size()); ++i) offsets[i + 1] += offsets[i];
 		auto cursor = offsets;
 		for (int i = 0; i < n; ++i) positions[cursor[original[i]]++] = i;
 		auto current = original;
-		levels = (std::bit_width(unsigned(std::max(0, static_cast<int>(values.size()) - 1))) + 1) / 2;
+		levels = (std::bit_width(unsigned(static_cast<int>(values.size()) - 1)) + 1) / 2;
 		bits.clear();
 		bits.reserve(levels);
 		middle.resize(levels);
-		if (!levels) return;
 		if constexpr (supports_sum)
 			if (with_sum) init_sum();
 		std::vector<std::uint32_t> next(n);
@@ -447,7 +446,7 @@ class WaveletMatrix {
 		if (r - l <= 8) {
 			auto a = small_codes(l, r);
 			Sum answer = 0;
-			for (int i = r - l - k; i < (r - l); ++i) answer += Sum(values[a[i]]);
+			for (int i = r - l - k; i < r - l; ++i) answer += Sum(values[a[i]]);
 			return answer;
 		}
 		return range_sum(l, r) - sum_smallest(l, r, r - l - k);

@@ -15,7 +15,7 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,4 +31,33 @@ jobs:
       - name: Run ASan and UBSan tests
         run: python test/verify.py --unit-only --cxx clang++ --sanitize
       - name: Run Library Checker tests
-        run: oj-verify run --timeout 1200 --tle 10 -j 2
+        run: oj-verify run --timeout 3000 --tle 10 -j 2
+      - name: Generate library documentation
+        run: oj-verify docs
+      - name: Check bundled documentation
+        run: python .verify-helper/check-docs.py
+      - name: Build library website
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: .verify-helper/markdown
+          destination: .verify-helper/site
+      - name: Upload library website
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .verify-helper/site
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy library website
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -55,7 +55,7 @@ class DynamicConnectivity {
 	}
 	void rehash(int capacity) {
 		table.assign(capacity, 0);
-		for (int i = 1; i < (static_cast<int>(edges.size())); ++i)
+		for (int i = 1; i < static_cast<int>(edges.size()); ++i)
 			if (edges[i].count) table[slot(edges[i].key)] = i;
 	}
 	void erase_slot(int i) {
@@ -239,7 +239,7 @@ class DynamicConnectivity {
 					if (!same_nodes(vertices[level][s], vertices[level][d])) {
 						detach(id);
 						edges[id].top = 0;
-						for (int i = 0; i < (level + 1); ++i) link_tree(id, i, i == level);
+						for (int i = 0; i < level + 1; ++i) link_tree(id, i, i == level);
 						return true;
 					}
 					if (!promoted) {
@@ -250,7 +250,7 @@ class DynamicConnectivity {
 							if (!same_nodes(vertices[level][c], vertices[level][d])) {
 								detach(candidate);
 								edges[candidate].top = 0;
-								for (int i = 0; i < (level + 1); ++i) link_tree(candidate, i, i == level);
+								for (int i = 0; i < level + 1; ++i) link_tree(candidate, i, i == level);
 								return true;
 							}
 						}

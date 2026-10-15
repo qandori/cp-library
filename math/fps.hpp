@@ -895,13 +895,13 @@ struct NTT {
 			x = _mm256_min_epu32(x, _mm256_sub_epi32(x, pp));
 			store8(window + i, _mm256_min_epu32(x, _mm256_sub_epi32(x, p)));
 		}
-		for (int i = 0; i < (std::min(dl, 9)); ++i) {
+		for (int i = 0; i < std::min(dl, 9); ++i) {
 			U x = ql[i];
 			if (x >= twice) x -= twice;
 			if (x >= mod) x -= mod;
 			coefficients[0][i] = x;
 		}
-		for (int i = 0; i < (std::min(dr, 9)); ++i) {
+		for (int i = 0; i < std::min(dr, 9); ++i) {
 			U x = qr[i];
 			if (x >= twice) x -= twice;
 			if (x >= mod) x -= mod;
@@ -1935,7 +1935,7 @@ struct NTT {
 		}
 		U factor = T::word(mul(p_one, in(4 * size))).inv().v;
 		fft<false>(q, 2 * size);
-		for (int i = 0; i < (2 * size); ++i) {
+		for (int i = 0; i < 2 * size; ++i) {
 			U x = q[i];
 			q[i] = add(x, one);
 			q[2 * size + i] = sub(x, one);
@@ -1955,11 +1955,11 @@ struct NTT {
 			double_y(q + 2 * size, rows, columns, false);
 			q_one = mul(q_one, in(2 * columns));
 			U correction = add(q_one, q_one);
-			for (int i = 0; i < (2 * columns); ++i) q[2 * size + i] = sub(q[2 * size + i], correction);
+			for (int i = 0; i < 2 * columns; ++i) q[2 * size + i] = sub(q[2 * size + i], correction);
 			composition_forward_y(q + 2 * size, size, columns);
 			transpose_roots();
 			project(p, rows, columns);
-			for (int i = 0; i < (2 * size); ++i) p[2 * size + i] = sub(0, p[i]);
+			for (int i = 0; i < 2 * size; ++i) p[2 * size + i] = sub(0, p[i]);
 			double_y(p + 2 * size, rows, columns, true);
 			composition_forward_y(p + 2 * size, size, columns);
 			transpose_roots();
@@ -1976,7 +1976,7 @@ struct NTT {
 		const int size = rows * columns;
 		if (columns == 1) {
 			fft<false>(p, rows);
-			for (int i = (rows)-1; i >= 0; --i) p[2 * i] = p[2 * i + 1] = p[i];
+			for (int i = rows - 1; i >= 0; --i) p[2 * i] = p[2 * i + 1] = p[i];
 			return;
 		}
 		CompositionWords storage;
@@ -1990,7 +1990,7 @@ struct NTT {
 			std::fill_n(v + columns, columns, U(0));
 			for (int i = 0; i < columns; ++i) v[i] = sub(0, q[i]);
 			fft<false>(v, 2 * columns);
-			for (int i = 0; i < (2 * columns); ++i) {
+			for (int i = 0; i < 2 * columns; ++i) {
 				U x = v[i];
 				v[i] = add(x, one);
 				v[i + 2 * columns] = sub(x, one);
@@ -2004,7 +2004,7 @@ struct NTT {
 			double_y(upper, rows, columns, false);
 			q_one = mul(q_one, in(2 * columns));
 			U correction = add(q_one, q_one);
-			for (int i = 0; i < (2 * columns); ++i) upper[i] = sub(upper[i], correction);
+			for (int i = 0; i < 2 * columns; ++i) upper[i] = sub(upper[i], correction);
 			composition_forward_y(upper, size, columns);
 		}
 		U saved = q_one;
@@ -2059,11 +2059,11 @@ struct FormalPowerSeries : std::vector<T> {
 			const F &small = a.size() < b.size() ? a : b;
 			const F &large = a.size() < b.size() ? b : a;
 			if constexpr (std::is_same_v<T, fps_detail::Mint>) {
-				for (int j = 0; j < (static_cast<int>(small.size())); ++j)
+				for (int j = 0; j < static_cast<int>(small.size()); ++j)
 					fps_detail::NTT::add_scaled(words(r) + j, words(large), large.size(), small[j].val());
 			} else
-				for (int j = 0; j < (static_cast<int>(small.size())); ++j)
-					for (int i = 0; i < (static_cast<int>(large.size())); ++i) r[i + j] += large[i] * small[j];
+				for (int j = 0; j < static_cast<int>(small.size()); ++j)
+					for (int i = 0; i < static_cast<int>(large.size()); ++i) r[i + j] += large[i] * small[j];
 			return r;
 		}
 		int n = 1, size = a.size() + b.size() - 1;
@@ -2261,7 +2261,7 @@ struct FormalPowerSeries : std::vector<T> {
 #endif
 		}
 		g.resize(std::min(deg, 32));
-		for (int i = 1; i < (static_cast<int>(g.size())); ++i)
+		for (int i = 1; i < static_cast<int>(g.size()); ++i)
 			g[i] =
 				-g[0] * dot(this->data() + 1, g.data() + i - 1, std::min<int>(i, this->size() - 1));
 #if defined(__x86_64__) || defined(__i386__)
@@ -2353,7 +2353,7 @@ struct FormalPowerSeries : std::vector<T> {
 		const T half = T(2).inv(), scale = half / constant;
 		F g(std::min(target, 32));
 		g[0] = constant;
-		for (int i = 1; i < (static_cast<int>(g.size())); ++i) {
+		for (int i = 1; i < static_cast<int>(g.size()); ++i) {
 			T sum = 0;
 			for (int j = 1; j < i; ++j) sum += g[j] * g[i - j];
 			g[i] = (f[i] - sum) * scale;
@@ -2453,7 +2453,7 @@ struct FormalPowerSeries : std::vector<T> {
 			F::scale_words(error, half);
 			ntt_inverse(error);
 			g.resize(std::min(n, target));
-			for (int i = m; i < (static_cast<int>(g.size())); ++i) g[i] = error[i] * in;
+			for (int i = m; i < static_cast<int>(g.size()); ++i) g[i] = error[i] * in;
 		}
 		g.resize(target);
 		g.insert(g.begin(), shift, T(0));
@@ -2607,11 +2607,11 @@ struct FormalPowerSeries : std::vector<T> {
 		assert(size <= (1 << 22));
 		CompositionNTT transform(size);
 		std::vector<unsigned int> p(2 * size), q(size);
-		for (int i = 0; i < (static_cast<int>(f.size())); ++i) {
+		for (int i = 0; i < static_cast<int>(f.size()); ++i) {
 			if constexpr (std::is_same_v<T, fps_detail::Mint>) p[i] = f[i].v;
 			else p[i] = transform.in(f[i].val());
 		}
-		for (int i = 0; i < (static_cast<int>(g.size())); ++i) {
+		for (int i = 0; i < static_cast<int>(g.size()); ++i) {
 			if constexpr (std::is_same_v<T, fps_detail::Mint>) q[i] = g[i].v;
 			else q[i] = transform.in(g[i].val());
 		}
@@ -2715,7 +2715,7 @@ struct FormalPowerSeries : std::vector<T> {
 		F root(length);
 		for (int i = 0; i < n; ++i) root[length - n + i] = T(n - i) * tree[1][i];
 		auto flip = [&] {
-			for (int i = 1; i < (2 * size); ++i) {
+			for (int i = 1; i < 2 * size; ++i) {
 				std::reverse(tree[i].begin(), tree[i].end());
 				base &a = frequency[i];
 				if (a.empty()) continue;
@@ -2754,16 +2754,16 @@ struct FormalPowerSeries : std::vector<T> {
 				}
 			}
 #endif
-			for (int j = i * block; j < (i * block + d); ++j) {
+			for (int j = i * block; j < i * block + d; ++j) {
 				T coefficient = 1;
 				f[d - 1] += weights[j];
-				for (int k = (d - 1) - 1; k >= 0; --k) {
+				for (int k = d - 2; k >= 0; --k) {
 					coefficient = q[k + 1] + xs[j] * coefficient;
 					f[k] += weights[j] * coefficient;
 				}
 			}
 		}
-		for (int i = (size)-1; i >= 1; --i) {
+		for (int i = size - 1; i >= 1; --i) {
 			if (value[2 * i + 1].empty()) {
 				value[i] = std::move(value[2 * i]);
 				continue;
@@ -2802,7 +2802,7 @@ struct FormalPowerSeries : std::vector<T> {
 			*this /= T(1) + c;
 			return;
 		}
-		for (int i = d; i < (static_cast<int>(this->size())); ++i) (*this)[i] -= (*this)[i - d] * c;
+		for (int i = d; i < static_cast<int>(this->size()); ++i) (*this)[i] -= (*this)[i - d] * c;
 	}
 
 	F diff() const {
@@ -2940,7 +2940,7 @@ struct FormalPowerSeries : std::vector<T> {
 			const int m = static_cast<int>(g.size()), n = 2 * m;
 			if (deg - m <= 32) {
 				base derivative(std::min<int>(deg, this->size()));
-				for (int i = 1; i < (static_cast<int>(derivative.size())); ++i) derivative[i] = T(i) * (*this)[i];
+				for (int i = 1; i < static_cast<int>(derivative.size()); ++i) derivative[i] = T(i) * (*this)[i];
 				derivative.resize(std::max<int>(1, derivative.size()));
 				g.resize(deg);
 				for (int i = m; i < deg; ++i) {
@@ -2965,7 +2965,7 @@ struct FormalPowerSeries : std::vector<T> {
 			pointwise(b, b, a, m);
 			ntt_inverse(b);
 			error[m - 1] = b[m - 1] * im;
-			for (int i = 0; i < (m - 1); ++i) error[m + i] = b[i] * im - T(i + 1) * g[i + 1];
+			for (int i = 0; i < m - 1; ++i) error[m + i] = b[i] * im - T(i + 1) * g[i + 1];
 			ntt(error);
 			pointwise(error, error, cache, n);
 			ntt_inverse(error);
@@ -2977,7 +2977,7 @@ struct FormalPowerSeries : std::vector<T> {
 			pointwise(error, error, a, n);
 			ntt_inverse(error);
 			g.resize(std::min(n, deg));
-			for (int i = m; i < (static_cast<int>(g.size())); ++i) g[i] = error[i] * in;
+			for (int i = m; i < static_cast<int>(g.size()); ++i) g[i] = error[i] * in;
 		}
 		return g;
 	}
@@ -3033,7 +3033,7 @@ struct FormalPowerSeries : std::vector<T> {
 			}
 			const Word last = T::word(words(a)[n - 1]).inv().v;
 			Word invfact = last;
-			for (int i = (n)-1; i >= 0; --i) {
+			for (int i = n - 1; i >= 0; --i) {
 				words(b)[i] = invfact;
 				invfact = (unsigned long long)invfact * i % T::mod();
 			}
@@ -3080,7 +3080,7 @@ struct FormalPowerSeries : std::vector<T> {
 		if (m <= 2 || (std::size_t)m * qn <= 4096) {
 			F q(qn);
 			const T inv = divisor[m - 1].inv();
-			for (int i = (qn)-1; i >= 0; --i) {
+			for (int i = qn - 1; i >= 0; --i) {
 				q[i] = a[i + m - 1] * inv;
 				for (int j = 0; j < m; ++j) a[i + j] -= q[i] * divisor[j];
 			}
@@ -3097,7 +3097,7 @@ struct FormalPowerSeries : std::vector<T> {
 		std::reverse(rb.begin(), rb.end());
 		F product = multiply(rb.pre(m - 1), q.pre(m - 1));
 		a.resize(m - 1);
-		for (int i = 0; i < (std::min<int>(a.size(), product.size())); ++i) a[i] -= product[i];
+		for (int i = 0; i < std::min<int>(a.size(), product.size()); ++i) a[i] -= product[i];
 		a.trim();
 		q.trim();
 		return {std::move(q), std::move(a)};
@@ -3106,17 +3106,17 @@ struct FormalPowerSeries : std::vector<T> {
   private:
 	static W import_work(const base &a) {
 		W r(a.size());
-		for (int i = 0; i < (static_cast<int>(a.size())); ++i) r[i] = fps_detail::Mint::raw(a[i].val());
+		for (int i = 0; i < static_cast<int>(a.size()); ++i) r[i] = fps_detail::Mint::raw(a[i].val());
 		return r;
 	}
 	static F export_work(const W &a) {
 		F r(a.size());
-		for (int i = 0; i < (static_cast<int>(a.size())); ++i) r[i] = T::raw(a[i].val());
+		for (int i = 0; i < static_cast<int>(a.size()); ++i) r[i] = T::raw(a[i].val());
 		return r;
 	}
 	static fps_detail::NTT &transform(int n) {
 		static fps_detail::NTT t(1, false);
-		if (static_cast<int>((t.roots).size()) < n) t = fps_detail::NTT(n, false);
+		if (static_cast<int>(t.roots.size()) < n) t = fps_detail::NTT(n, false);
 		return t;
 	}
 	using Word = fps_detail::NTT::U;
@@ -3175,7 +3175,7 @@ struct FormalPowerSeries : std::vector<T> {
 		for (int i = 0; i < n; ++i) prefix[i] = p, p *= src[i];
 		assert(p != T(0));
 		p = p.inv();
-		for (int i = (n)-1; i >= 0; --i) {
+		for (int i = n - 1; i >= 0; --i) {
 			dst[i] = prefix[i] * p;
 			p *= src[i];
 		}
@@ -3203,7 +3203,7 @@ struct FormalPowerSeries : std::vector<T> {
 				if (!consume) scratch.reset(new (std::align_val_t(64)) unsigned int[2 * total]);
 				for (int level = 1; level <= size; level <<= 1) {
 					const int length = total / level, half = length / 2;
-					for (int node = level; node < (2 * level); ++node) {
+					for (int node = level; node < 2 * level; ++node) {
 						const int offset = (node - level) * length;
 						if (offset >= static_cast<int>(points.size())) break;
 						Word *cur = words(root) + offset;
@@ -3256,9 +3256,9 @@ struct FormalPowerSeries : std::vector<T> {
 				for (int i = 0; i < length; ++i)
 					for (int j = 0; j + i < length && j < static_cast<int>(tree[node].size()); ++j)
 						polynomial[length - 1 - i - j] += cur[i] * tree[node][j];
-				for (int i = l * block; i < (std::min<int>(r * block, points.size())); ++i) {
+				for (int i = l * block; i < std::min<int>(r * block, points.size()); ++i) {
 					T value = 0;
-					for (int j = (length)-1; j >= 0; --j) value = value * points[i] + polynomial[j];
+					for (int j = length - 1; j >= 0; --j) value = value * points[i] + polynomial[j];
 					result[i] = value;
 				}
 				return;
@@ -3332,7 +3332,7 @@ struct FormalPowerSeries : std::vector<T> {
 		unsigned int result = 0;
 		for (int i = 0; i < n; i += 16) {
 			unsigned long long sum = 0;
-			for (int j = i; j < (std::min(n, i + 16)); ++j)
+			for (int j = i; j < std::min(n, i + 16); ++j)
 				sum += (unsigned long long)a[j].val() * b[-j].val();
 			result += sum % T::mod();
 			if (result >= T::mod()) result -= T::mod();
@@ -3396,20 +3396,20 @@ struct FormalPowerSeries : std::vector<T> {
 			F p;
 			p.reserve(block + 1);
 			p.push_back(T(1));
-			for (int j = i * block; j < (std::min<int>((i + 1) * block, xs.size())); ++j) {
+			for (int j = i * block; j < std::min<int>((i + 1) * block, xs.size()); ++j) {
 				const int d = static_cast<int>(p.size()) - 1;
 				if (reciprocal) {
 					p.push_back(0);
-					for (int k = (d + 2) - 1; k >= 1; --k) p[k] -= xs[j] * p[k - 1];
+					for (int k = d + 1; k >= 1; --k) p[k] -= xs[j] * p[k - 1];
 				} else {
 					p.push_back(p.back());
-					for (int k = (d + 1) - 1; k >= 1; --k) p[k] = p[k - 1] - xs[j] * p[k];
+					for (int k = d; k >= 1; --k) p[k] = p[k - 1] - xs[j] * p[k];
 					p[0] *= -xs[j];
 				}
 			}
 			tree[size + i] = std::move(p);
 		}
-		for (int i = (size)-1; i >= 1; --i) {
+		for (int i = size - 1; i >= 1; --i) {
 			if (tree[2 * i + 1].size() == 1 && tree[2 * i + 1][0] == T(1)) {
 				tree[i] = tree[2 * i];
 				continue;
@@ -3445,7 +3445,7 @@ struct FormalPowerSeries : std::vector<T> {
 				const T inv = T::raw(T::mod() - (T::mod() - 1) / length);
 				if constexpr (std::is_same_v<T, fps_detail::Mint>) fps_detail::NTT::scale_copy(words(tree[i]), words(c), std::min(n, length), inv.val());
 				else
-					for (int j = 0; j < (std::min(n, length)); ++j) tree[i][j] = c[j] * inv;
+					for (int j = 0; j < std::min(n, length); ++j) tree[i][j] = c[j] * inv;
 				if (n == length + 1) {
 					const T lead = tree[2 * i].back() * tree[2 * i + 1].back();
 					tree[i][0] -= lead;

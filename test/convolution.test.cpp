@@ -1,5 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod"
-#include "../math/fps.hpp"
+#include "../convolution/convolution.hpp"
 #include <iostream>
 #include <tuple>
 
@@ -12,6 +12,6 @@ int main() {
 	fps a(n), b(m);
 	for (auto &v : a) cin >> v;
 	for (auto &v : b) cin >> v;
-	for (const auto &value : a *b) cout << value << ' ';
+	for (const auto &value : convolution(a, b)) cout << value << ' ';
 	cout << '\n';
 }

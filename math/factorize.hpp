@@ -87,7 +87,7 @@ struct Factorizer {
 				for (int k = 0; k < length && g == 1; k += 128) {
 					saved = y;
 					U q = m.one;
-					for (int repeat_index = 0; repeat_index < (std::min(128, length - k)); ++repeat_index) {
+					for (int repeat_index = 0; repeat_index < std::min(128, length - k); ++repeat_index) {
 						y = step(y);
 						q = m.mul(q, diff(x, y));
 					}
@@ -144,7 +144,7 @@ inline std::vector<std::uint64_t> factorize(std::uint64_t n) {
 	for (auto p : factorize_detail::small_primes)
 		while (n % p == 0) f.result.push_back(p), n /= p;
 	if (n > 1) f.split(n);
-	std::sort((f.result).begin(), (f.result).end());
+	std::sort(f.result.begin(), f.result.end());
 	return std::move(f.result);
 }
 

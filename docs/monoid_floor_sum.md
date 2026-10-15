@@ -1,4 +1,7 @@
-# monoid floor sum
+---
+title: "monoid floor sum"
+documentation_of: //math/monoid_floor_sum.hpp
+---
 
 ```cpp
 #include "lib/math/monoid_floor_sum.hpp"

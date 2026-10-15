@@ -22,8 +22,7 @@ struct Mint {
 	unsigned v = 0;
 	static constexpr unsigned mod() { return 998244353; }
 	static unsigned reduce(unsigned long long x) {
-		unsigned r = (x + (unsigned long long)(unsigned(x) * 998244351u) * mod()) >> 32;
-		return r;
+		return (x + (unsigned long long)(unsigned(x) * 998244351u) * mod()) >> 32;
 	}
 	Mint() = default;
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>

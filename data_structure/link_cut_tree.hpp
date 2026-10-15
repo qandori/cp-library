@@ -2,6 +2,7 @@
 #define LINK_CUT_TREE_HPP
 
 #include <cassert>
+#include <concepts>
 #include <cstddef>
 #include <cstdint>
 #include <limits>
@@ -58,10 +59,7 @@ class LinkCutTree {
 	void flip(int x) {
 		if (!x) return;
 		std::swap(t[x].ch[0], t[x].ch[1]);
-		if constexpr (!commutative) {
-			using std::swap;
-			swap(t[x].prod, t[x].back);
-		}
+		if constexpr (!commutative) std::ranges::swap(t[x].prod, t[x].back);
 		t[x].rev ^= 1;
 	}
 	void push(int x) {

@@ -1,4 +1,7 @@
-# Online Dynamic Connectivity
+---
+title: "Online Dynamic Connectivity"
+documentation_of: //data_structure/dynamic_connectivity.hpp
+---
 
 ```cpp
 #include "lib/data_structure/dynamic_connectivity.hpp"

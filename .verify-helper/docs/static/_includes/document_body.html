@@ -1,0 +1,29 @@
+{% if page.data.dependsOn.size != 0 %}
+<h2>依存ライブラリ</h2>
+<ul>
+  {% for item in page.data._extendedDependsOn %}
+  <li><a href="{{ item.path | append: '.html' | relative_url }}">{{ item.title | escape }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% if page.data.verifiedWith.size != 0 %}
+<details class="verification-list">
+  <summary>検証コード</summary>
+  <ul>
+    {% for item in page.data._extendedVerifiedWith %}
+    <li><a href="{{ item.path | append: '.html' | relative_url }}">{{ item.icon }} {{ item.title | escape }}</a></li>
+    {% endfor %}
+  </ul>
+</details>
+{% endif %}
+<h2>コード</h2>
+<div id="library-code">
+  <div class="code-toolbar" hidden>
+    <button id="code-bundle" type="button" aria-pressed="false" aria-controls="code-original code-bundled">Bundle</button>
+    <button id="code-copy" type="button">Copy</button>
+    <span id="code-status" role="status" aria-live="polite"></span>
+  </div>
+  <div id="code-original">{% include highlight.html extension=page.data._pathExtension content=page.data.code %}</div>
+  <div id="code-bundled" hidden>{% include highlight.html extension=page.data._pathExtension content=page.data.bundledCode %}</div>
+</div>
+<script defer src="{{ '/assets/js/library-code.js' | relative_url }}"></script>

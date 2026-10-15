@@ -55,8 +55,13 @@ Affine power(Affine a, U k) {
 }
 
 struct Node {
+	inline static int swaps = 0;
 	U value;
 	explicit Node(U value) : value(value) {}
+	friend void swap(Node &a, Node &b) {
+		++swaps;
+		std::swap(a.value, b.value);
+	}
 };
 
 int main() {
@@ -101,6 +106,7 @@ int main() {
 	constexpr auto add = [](Node a, Node b) { return Node(a.value + b.value); };
 	constexpr auto zero = [] { return Node(0); };
 	assert((monoid_floor_sum<Node, add, zero>(10, 7, 3, 4, Node(1), Node(1)).value == 14));
+	assert(Node::swaps > 0);
 	static int operations;
 	constexpr auto count = [](U a, U b) { ++operations; return a + b; };
 	constexpr auto e = [] { return U(0); };

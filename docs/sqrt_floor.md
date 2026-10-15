@@ -1,4 +1,7 @@
-# Mod of Linear の等差数列分割
+---
+title: "Mod of Linear の等差数列分割"
+documentation_of: //math/sqrt_floor.hpp
+---
 
 ```cpp
 #include "lib/math/sqrt_floor.hpp"

@@ -38,8 +38,13 @@ vector<int> path(const vector<vector<int>> &adj, int u, int v) {
 }
 
 struct Value {
+	inline static int swaps = 0;
 	int value;
 	explicit Value(int value) : value(value) {}
+	friend void swap(Value &a, Value &b) {
+		++swaps;
+		std::swap(a.value, b.value);
+	}
 };
 
 int main() {
@@ -146,6 +151,7 @@ int main() {
 	LinkCutTree<Value, combine, identity> custom(vector<Value>{Value(4), Value(7)});
 	custom.link(0, 1);
 	assert(custom.prod(0, 1).value == 11);
+	assert(Value::swaps > 0);
 	LinkCutTree<Value, combine, identity> initialized(3);
 	assert(initialized.get(2).value == 0);
 	constexpr auto disjoin = [](bool a, bool b) { return a || b; };

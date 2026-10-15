@@ -1,0 +1,8 @@
+<h1>{{ page.data._verificationStatusIcon }} {{ page.title | escape }}</h1>
+<p class="source-path"><code>{{ page.data.path | escape }}</code> · <a href="https://github.com/{{ site.repository }}/blob/main/{{ page.data.path }}">GitHub で見る</a></p>
+{% if page.data._isVerificationFailed %}
+<p><a href="https://github.com/{{ site.repository }}/actions/workflows/verify.yml">検証ログ</a></p>
+{% endif %}
+{% if page.data.attributes.PROBLEM %}
+<p><a href="{{ page.data.attributes.PROBLEM | escape }}">検証問題</a></p>
+{% endif %}

@@ -1,4 +1,7 @@
-# modint998244353
+---
+title: "modint998244353"
+documentation_of: //math/mint.hpp
+---
 
 ```cpp
 #include "lib/math/mint.hpp"

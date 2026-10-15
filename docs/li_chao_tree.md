@@ -1,4 +1,7 @@
-# Li Chao Tree
+---
+title: "Li Chao Tree"
+documentation_of: //data_structure/li_chao_tree.hpp
+---
 
 ```cpp
 #include "lib/data_structure/li_chao_tree.hpp"

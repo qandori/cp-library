@@ -68,7 +68,7 @@ class LCA {
 			int v = order[top++];
 			in[v] = timer;
 			order[timer++] = v;
-			for (int i = start[v]; i < (start[v + 1]); ++i) {
+			for (int i = start[v]; i < start[v + 1]; ++i) {
 				int to = adj[i];
 				if (to == parent[v]) continue;
 				assert(parent[to] == -1);
@@ -78,7 +78,7 @@ class LCA {
 			}
 		}
 		assert(timer == n);
-		for (int i = (n)-1; i >= 1; --i) out[parent[order[i]]] += out[order[i]];
+		for (int i = n - 1; i >= 1; --i) out[parent[order[i]]] += out[order[i]];
 		for (int v = 0; v < n; ++v) out[v] += in[v];
 		table.emplace_back(n);
 		table[0][0] = 0;
@@ -86,7 +86,7 @@ class LCA {
 		parent[root] = -1;
 		for (int k = 1; (1 << k) <= n; ++k) {
 			table.emplace_back(n - (1 << k) + 1);
-			for (int i = 0; i < (static_cast<int>(table[k].size())); ++i) table[k][i] = std::min(table[k - 1][i], table[k - 1][i + (1 << (k - 1))]);
+			for (int i = 0; i < static_cast<int>(table[k].size()); ++i) table[k][i] = std::min(table[k - 1][i], table[k - 1][i + (1 << (k - 1))]);
 		}
 	}
 	int lca(int u, int v) const {

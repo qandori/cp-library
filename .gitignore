@@ -3,3 +3,6 @@
 __pycache__/
 .verify-helper/cache/
 .verify-helper/timestamps.*.json
+.verify-helper/markdown/
+.verify-helper/site/
+.sass-cache/

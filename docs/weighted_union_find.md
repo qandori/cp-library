@@ -1,4 +1,7 @@
-# 重み付き Union-Find
+---
+title: "重み付き Union-Find"
+documentation_of: //data_structure/weighted_union_find.hpp
+---
 
 ```cpp
 #include "lib/data_structure/weighted_union_find.hpp"

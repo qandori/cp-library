@@ -6,10 +6,26 @@
 
 全部爆速で動作するようにしています。
 
+[ライブラリ検索・Bundle](https://qandori.github.io/cp-library/)
+
 ## ライブラリ
 
 | ファイル | 内容 | 使い方 |
 | --- | --- | --- |
+| `convolution/convolution.hpp` | 通常の畳み込み | [使い方](docs/convolution.md) |
+| `convolution/convolution_mod.hpp` | 任意 mod・整数の畳み込み | [使い方](docs/convolution_mod.md) |
+| `convolution/convolution_fft.hpp` | 実数・複素数の畳み込み | [使い方](docs/convolution_fft.md) |
+| `convolution/convolution_ring.hpp` | 一般の環の畳み込み | [使い方](docs/convolution_ring.md) |
+| `convolution/bitwise_convolution.hpp` | AND・OR・XOR 畳み込み | [使い方](docs/bitwise_convolution.md) |
+| `convolution/gcd_lcm_convolution.hpp` | GCD-plus・LCM-plus 畳み込み | [使い方](docs/gcd_lcm_convolution.md) |
+| `convolution/boolean_convolution.hpp` | AND-OR などの論理畳み込み | [使い方](docs/boolean_convolution.md) |
+| `convolution/subset_convolution.hpp` | Subset 畳み込み | [使い方](docs/subset_convolution.md) |
+| `convolution/min_plus_convolution.hpp` | 凸・凹 min-plus / max-plus 畳み込み | [使い方](docs/min_plus_convolution.md) |
+| `convolution/max_min_convolution.hpp` | max-min・min-max 畳み込み | [使い方](docs/max_min_convolution.md) |
+| `convolution/cyclic_convolution.hpp` | 巡回・負巡回畳み込み | [使い方](docs/cyclic_convolution.md) |
+| `convolution/ordered_convolution.hpp` | i < j 制約付き畳み込み | [使い方](docs/ordered_convolution.md) |
+| `convolution/multiplicative_convolution.hpp` | 素数 mod 上の乗法畳み込み | [使い方](docs/multiplicative_convolution.md) |
+| `convolution/multivariate_convolution.hpp` | 多変数の切り捨て畳み込み | [使い方](docs/multivariate_convolution.md) |
 | `data_structure/disjoint_sparse_table.hpp` | Disjoint Sparse Table | [使い方](docs/disjoint_sparse_table.md) |
 | `data_structure/dynamic_connectivity.hpp` | Online Dynamic Connectivity | [使い方](docs/dynamic_connectivity.md) |
 | `data_structure/li_chao_tree.hpp` | Li Chao Tree | [使い方](docs/li_chao_tree.md) |

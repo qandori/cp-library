@@ -1,0 +1,12 @@
+---
+layout: default
+---
+
+{% include theme_fix.html %}
+<link rel="stylesheet" href="{{ '/assets/css/library.css' | relative_url }}">
+<nav class="library-nav" aria-label="ナビゲーション">
+  <a href="{{ '/' | relative_url }}">ライブラリ検索</a>
+  <a href="https://github.com/{{ site.repository }}">GitHub</a>
+  <a href="https://github.com/{{ site.repository }}/blob/main/LICENSE">MIT License</a>
+</nav>
+{{ content }}

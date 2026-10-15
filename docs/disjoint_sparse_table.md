@@ -1,4 +1,7 @@
-# Disjoint Sparse Table
+---
+title: "Disjoint Sparse Table"
+documentation_of: //data_structure/disjoint_sparse_table.hpp
+---
 
 ```cpp
 #include "lib/data_structure/disjoint_sparse_table.hpp"

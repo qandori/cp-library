@@ -1,4 +1,7 @@
-# 階乗・逆階乗と二項係数
+---
+title: "階乗・逆階乗と二項係数"
+documentation_of: //math/comb.hpp
+---
 
 ```cpp
 #define COMB_MAX 500000

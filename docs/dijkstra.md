@@ -1,4 +1,7 @@
-# Dijkstra
+---
+title: "Dijkstra"
+documentation_of: //graph/dijkstra.hpp
+---
 
 ```cpp
 #include "lib/graph/dijkstra.hpp"

@@ -38,7 +38,7 @@ struct LowLink {
 		for (int v = 0; v < n; ++v) start[v + 1] += start[v];
 		std::unique_ptr<Arc[]> adj(new Arc[2 * edges.size()]);
 		low.assign(start.begin(), start.end() - 1);
-		for (int i = 0; i < (static_cast<int>(edges.size())); ++i) {
+		for (int i = 0; i < static_cast<int>(edges.size()); ++i) {
 			auto [u, v] = edges[i];
 			adj[low[u]++] = {v, i};
 			adj[low[v]++] = {u, i};

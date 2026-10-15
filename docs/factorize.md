@@ -1,4 +1,7 @@
-# 素因数分解・素数判定
+---
+title: "素因数分解・素数判定"
+documentation_of: //math/factorize.hpp
+---
 
 ```cpp
 #include "lib/math/factorize.hpp"

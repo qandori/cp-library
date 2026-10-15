@@ -1,0 +1,23 @@
+[hidden] { display: none !important; }
+.library-nav { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 28px; }
+.library-search { margin: 24px 0; }
+.library-search label { display: block; margin-bottom: 8px; font-weight: 600; }
+.library-search input { box-sizing: border-box; width: 100%; padding: 12px 14px; border: 1px solid #b8c3cc; border-radius: 6px; font: inherit; }
+.library-search input:focus { outline: 2px solid #267cb9; outline-offset: 2px; }
+#search-status { margin: 8px 0; color: #666; }
+.library-category { width: auto; float: none; padding: 0; }
+.library-entries { padding: 0; list-style: none; }
+.library-entry { border-bottom: 1px solid #e5e9ed; }
+.library-entry a { display: block; padding: 12px 0; }
+.library-entry span, .library-entry small { display: block; }
+.library-entry small { margin-top: 4px; overflow-wrap: anywhere; }
+.source-path { overflow-wrap: anywhere; }
+.verification-list { margin: 24px 0; }
+.verification-list summary { cursor: pointer; }
+.verification-list ul { margin-top: 12px; }
+.code-toolbar { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 10px 0; background: white; }
+.code-toolbar button { padding: 7px 16px; border: 1px solid #b8c3cc; border-radius: 5px; background: #f7f9fb; color: #222; font: inherit; cursor: pointer; }
+.code-toolbar button:hover, .code-toolbar button[aria-pressed="true"] { background: #e5f1fa; border-color: #267cb9; }
+.code-toolbar button:focus-visible { outline: 2px solid #267cb9; outline-offset: 2px; }
+#code-status { font-size: 13px; }
+#library-code pre { max-height: 75vh; overflow: auto; tab-size: 4; }

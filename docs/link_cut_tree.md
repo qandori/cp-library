@@ -1,4 +1,7 @@
-# Link Cut Tree
+---
+title: "Link Cut Tree"
+documentation_of: //data_structure/link_cut_tree.hpp
+---
 
 ```cpp
 #include "lib/data_structure/link_cut_tree.hpp"

@@ -2,6 +2,7 @@
 #define MONOID_FLOOR_SUM_HPP
 
 #include <cassert>
+#include <concepts>
 #include <cstdint>
 #include <utility>
 
@@ -45,8 +46,7 @@ S monoid_floor_sum(std::uint64_t n, std::uint64_t m, std::uint64_t a, std::uint6
 		b = t % a;
 		if (!n) return op(std::move(prefix), std::move(suffix));
 		std::swap(a, m);
-		using std::swap;
-		swap(x, y);
+		std::ranges::swap(x, y);
 	}
 }
 

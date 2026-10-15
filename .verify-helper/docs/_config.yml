@@ -1,0 +1,11 @@
+title: cp-library
+description: 競技プログラミング用 C++ ライブラリ
+url: https://qandori.github.io
+baseurl: /cp-library
+repository: qandori/cp-library
+lang: ja
+exclude:
+  - README.md
+  - test/unit
+  - test/benchmark
+  - test/verify.py

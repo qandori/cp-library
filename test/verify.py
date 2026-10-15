@@ -14,7 +14,7 @@ args = parser.parse_args()
 with tempfile.TemporaryDirectory(prefix="kyopro-verify-") as directory:
     for compiler in args.cxx:
         flags = ["-std=c++23", "-O2", "-Wall", "-Wextra", "-DDEBUG=1", "-I", str(root)]
-        headers = sorted(path for folder in ("data_structure", "graph", "math")
+        headers = sorted(path for folder in ("convolution", "data_structure", "graph", "math")
                          for path in (root / folder).glob("*.hpp"))
         for header in headers:
             source = Path(directory) / "header.cpp"

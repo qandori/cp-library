@@ -111,6 +111,43 @@ void extreme_test() {
 	}
 }
 
+template <bool maximize>
+void arithmetic_test() {
+	using T = int64_t;
+	using R = __int128_t;
+	const T lo = numeric_limits<T>::min(), hi = numeric_limits<T>::max();
+	LiChaoTree<T, maximize> tree({1, 2});
+	vec<pair<T, T>> lines;
+	for (auto [a, b] : vec<pair<T, T>>{{hi, -hi}, {-hi, hi}, {0, hi}, {0, lo}, {hi, hi}, {lo, lo}}) {
+		tree.add_line(a, b);
+		lines.emplace_back(a, b);
+		for (T x : {1, 2}) {
+			R expected = R(lines[0].first) * x + lines[0].second;
+			for (auto [c, d] : lines) {
+				R value = R(c) * x + d;
+				if (maximize ? value > expected : value < expected) expected = value;
+			}
+			assert(tree.query(x) == expected);
+		}
+	}
+	tree.clear();
+	assert(!tree.query(1));
+	tree.add_segment(2, 3, hi, -hi);
+	assert(!tree.query(1) && tree.query(2) == R(hi));
+	tree.add_segment(2, 3, -hi, hi);
+	assert(tree.query(2) == (maximize ? R(hi) : -R(hi)));
+	for (T start : {lo, T(-5), hi - 15}) {
+		rep(n, 1, 17) {
+			vec<T> xs(n);
+			rep(i, n) xs[i] = start + i;
+			tree.build(xs);
+			rep(i, n) assert(tree.index(xs[i]) == i);
+			tree.add_segment(lo, hi, 0, 7);
+			rep(i, n) assert(tree.query_index(i) == (xs[i] < hi ? optional<R>(7) : nullopt));
+		}
+	}
+}
+
 int main() {
 	random_test<int, false>();
 	random_test<int, true>();
@@ -120,6 +157,8 @@ int main() {
 	random_test<double, true>();
 	extreme_test<false>();
 	extreme_test<true>();
+	arithmetic_test<false>();
+	arithmetic_test<true>();
 	LiChaoTree<> empty;
 	empty.add_line(1, 2);
 	empty.add_segment(-1, 1, 3, 4);

@@ -109,7 +109,7 @@ struct Factorizer {
 			return;
 		}
 		if ((n & 7) == 1) {
-			U r = std::sqrtl(n);
+			U r = std::sqrt(static_cast<long double>(n));
 			r -= W(r) * r > n;
 			if (W(r) * r == n) {
 				int begin = static_cast<int>(result.size());

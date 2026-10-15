@@ -9,7 +9,7 @@
 inline std::tuple<long, long, std::vector<std::tuple<long, long, long>>> sqrt_floor(long n, long m, long a, long b) {
 	if (n == 0) return {0, 0, {}};
 	a %= m, b %= m;
-	const long D = std::sqrtl(n);
+	const long D = std::sqrt(static_cast<long double>(n));
 	long dx = 1, best = m;
 	for (long i = 1; i <= D; i++) {
 		const long v = a * i % m;

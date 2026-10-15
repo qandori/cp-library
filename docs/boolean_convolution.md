@@ -23,4 +23,4 @@ auto c = and_or_convolution(a, b);
 
 係数は `bool` または 64 bit 以下の整数です。GCD・LCM では添字 0 を使用しません。出力長は GCD・LCM が長い方の長さ、それ以外はそれを 2 の冪に切り上げた長さ `N` です。範囲外の LCM は出力しません。`N <= 2^30` とします。
 
-係数の bit 数を `W` として、時間は AND・OR・XOR が `O(WN log N)`、GCD・LCM が `O(WN log log(N+2))`、Subset が `O(WN log² N)` です。追加空間は Subset が `O(N log N)`、その他が `O(N)` です。
+係数の bit 数を `W` として、時間は AND・OR・XOR が `O(WN log N)`、GCD・LCM が `O(WN log log(N))`、Subset が `O(WN log² N)` です。追加空間は Subset が `O(N log N)`、その他が `O(N)` です。

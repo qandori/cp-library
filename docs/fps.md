@@ -37,10 +37,10 @@ mod は 998244353、係数は定数項から順に格納します。`fps` は `s
 | --- | --- |
 | 加減算・スカラー演算・`diff`・`integral`・`onemul`・`onediv`・一点評価 | `O(n)` |
 | 乗算・級数除算・多項式除算・`inv`・`log`・`exp`・`sqrt`・`shift` | `O(n log n)` |
-| `pow(k)` | `O(n log n + log(k+1))` |
+| `pow(k)` | `O(n log n + log(k))` |
 | `compose`・`compositional_inverse` | `O(n log^2 n)` |
 | 多点評価 | `O((n+m) log^2(n+m))` |
 | `interpolate` | `O(m log^2 m)` |
-| `bostan_mori`・`linear_recurrence` | `O(d log(d+1) log(k+2))` |
+| `bostan_mori`・`linear_recurrence` | `O(d log(d) log(k))` |
 
 追加空間は、合成・多点評価・補間が `O(N log N)`、その他が `O(N)` です（`N = max(n, m, d)`）。

@@ -15,4 +15,4 @@ auto d = lcm_convolution(a, b);
 
 係数は環の要素とし、`a[0] = b[0] = 0` で使います。出力長 `N = max(a.size(), b.size())` で、LCM が `N` 以上になる項は出力しません。
 
-時間 `O(N log log(N+2))`、追加空間 `O(N)` です。
+時間 `O(N log log(N))`、追加空間 `O(N)` です。

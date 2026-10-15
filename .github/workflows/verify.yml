@@ -41,7 +41,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ runner.arch }}-verified-v1-${{ github.ref }}-
             ${{ runner.os }}-${{ runner.arch }}-verified-v1-refs/heads/main-
-      - name: Cache Library Checker test cases and checkers
+      - name: Cache judge test cases and checkers
         uses: actions/cache@v4
         with:
           path: |
@@ -60,7 +60,9 @@ jobs:
         run: python test/verify.py --unit-only --cxx g++ clang++ --selection .verify-helper/selection.json
       - name: Run ASan and UBSan tests
         run: python test/verify.py --unit-only --cxx clang++ --sanitize --selection .verify-helper/selection.json
-      - name: Run affected Library Checker tests and generate documentation
+      - name: Run affected judge tests and generate documentation
+        env:
+          YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
         run: python .verify-helper/ci.py docs
       - name: Check bundled documentation
         run: python .verify-helper/check-docs.py --selection .verify-helper/selection.json

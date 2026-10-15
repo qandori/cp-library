@@ -141,11 +141,11 @@ def verify_selected(plan, marker, run):
         summary = run([Path(name) for name in sorted(selected)])
         summary.show()
         if not summary.succeeded():
-            raise RuntimeError("Library Checker verification failed")
+            raise RuntimeError("Judge verification failed")
         unfinished = [name for name in sorted(selected) if not marker.is_verified(Path(name))]
         if unfinished:
             raise RuntimeError("Verification did not finish: " + ", ".join(unfinished))
-    print(f"Library Checker: verified {len(selected)}, reused {len(paths - selected)}", flush=True)
+    print(f"Judge tests: verified {len(selected)}, reused {len(paths - selected)}", flush=True)
 
 
 def main():

@@ -41,6 +41,7 @@
 | `data_structure/wavelet_matrix.hpp` | Wavelet Matrix | [使い方](docs/wavelet_matrix.md) |
 | `data_structure/dynamic_wavelet_matrix.hpp` | Dynamic Wavelet Matrix | [使い方](docs/dynamic_wavelet_matrix.md) |
 | `data_structure/weighted_union_find.hpp` | 重み付き Union-Find | [使い方](docs/weighted_union_find.md) |
+| `graph/general_matching.hpp` | General Matching（一般グラフ最大マッチング） | [使い方](docs/general_matching.md) |
 | `graph/dijkstra.hpp` | Dijkstra | [使い方](docs/dijkstra.md) |
 | `graph/lca.hpp` | LCA | [使い方](docs/lca.md) |
 | `graph/hld.hpp` | Heavy-Light Decomposition | [使い方](docs/hld.md) |

@@ -1,0 +1,68 @@
+name: general matching benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      verify:
+        description: Run current header, sanitizer and official tests
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Record environment
+        run: |
+          mkdir -p benchmark-results
+          { uname -a; lscpu; g++ --version; } > benchmark-results/environment.txt
+          cat benchmark-results/environment.txt
+      - name: Generate variants
+        run: |
+          python3 test/benchmark/general_matching_variants.py /tmp/matching-variants
+          python3 test/benchmark/general_matching_reference.py /tmp/matching-variants
+          cp /tmp/matching-variants/reference-source.sha256 benchmark-results/
+      - name: Benchmark GCC
+        run: |
+          g++ -std=c++23 -O2 -I . -I /tmp/matching-variants test/benchmark/general_matching.cpp -o /tmp/matching-bench
+          /tmp/matching-bench 500 5 20 > benchmark-results/even.csv
+          /tmp/matching-bench 501 5 20 > benchmark-results/odd.csv
+          g++ -std=c++23 -O2 -DNDEBUG -I . -I /tmp/matching-variants test/benchmark/general_matching.cpp -o /tmp/matching-bench
+          /tmp/matching-bench 2000 5 3 > benchmark-results/large.csv
+          python3 - <<'PY'
+          import csv
+          from collections import defaultdict
+          for filename in ['even.csv', 'odd.csv', 'large.csv']:
+              sizes = defaultdict(set)
+              for row in csv.DictReader(open('benchmark-results/' + filename)):
+                  sizes[row['kind']].add(row['size'])
+              assert all(len(values) == 1 for values in sizes.values()), sizes
+          PY
+      - name: Check current header with GCC and Clang
+        if: inputs.verify
+        run: |
+          python3 -c 'import json; from pathlib import Path; Path("/tmp/matching-selection.json").write_text(json.dumps({"headers":["graph/general_matching.hpp"],"unit":["test/unit/general_matching.cpp"]}))'
+          python3 test/verify.py --unit-only --cxx g++ clang++ --selection /tmp/matching-selection.json
+          UBSAN_OPTIONS=halt_on_error=1 python3 test/verify.py --unit-only --sanitize --cxx clang++ --selection /tmp/matching-selection.json
+      - name: Verify Library Checker
+        if: inputs.verify
+        run: |
+          python3 -m pip install -r test/requirements.txt
+          oj-verify run --timeout 1200 --tle 10 -j 2 test/general_matching.test.cpp > benchmark-results/judge.log 2>&1
+          tail -n 25 benchmark-results/judge.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: general-matching-linux-gcc-benchmark
+          path: benchmark-results

@@ -140,7 +140,8 @@ public:
 		}
 	}
 	int build() {
-		if (cardinality < n / 2) short_paths();
+		if (input.empty() || cardinality == n / 2) return cardinality;
+		short_paths();
 		if (cardinality == n / 2) return cardinality;
 		start.assign(n + 1, 0);
 		for (auto [u, v] : input) ++start[u + 1], ++start[v + 1];
@@ -149,13 +150,13 @@ public:
 		parent = start;
 		for (auto [u, v] : input) adj[parent[u]++] = v, adj[parent[v]++] = u;
 		parent.resize(n);
-		base.resize(n);
 		queue.resize(n);
-		seen.resize(n);
-		state.resize(n);
 		std::vector<int> roots;
 		int limit = component_bound(roots);
 		if (cardinality == limit) return cardinality;
+		base.resize(n);
+		seen.resize(n);
+		state.resize(n);
 		for (int u : roots) if (mate[u] == -1 && augment(u)) {
 			if (++cardinality == limit) break;
 		}

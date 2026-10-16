@@ -12,6 +12,12 @@
 
 | ファイル | 内容 | 使い方 |
 | --- | --- | --- |
+| `components/bitwise_zeta.hpp` | Bitwise Zeta / Möbius Transform | [使い方](docs/bitwise_zeta.md) |
+| `components/walsh_hadamard.hpp` | Walsh–Hadamard Transform | [使い方](docs/walsh_hadamard.md) |
+| `components/divisor_zeta.hpp` | Divisor Zeta / Möbius Transform | [使い方](docs/divisor_zeta.md) |
+| `components/fft.hpp` | FFT | [使い方](docs/fft.md) |
+| `components/ntt_mod.hpp` | NTT（法指定） | [使い方](docs/ntt_mod.md) |
+| `components/ntt.hpp` | NTT（998244353） | [使い方](docs/ntt.md) |
 | `convolution/convolution.hpp` | 通常の畳み込み | [使い方](docs/convolution.md) |
 | `convolution/convolution_mod.hpp` | 任意 mod・整数の畳み込み | [使い方](docs/convolution_mod.md) |
 | `convolution/convolution_fft.hpp` | 実数・複素数の畳み込み | [使い方](docs/convolution_fft.md) |
@@ -68,12 +74,6 @@
 | `components/default_init_allocator.hpp` | Default Init Allocator | [使い方](docs/default_init_allocator.md) |
 | `components/montgomery.hpp` | Montgomery 64 | [使い方](docs/montgomery.md) |
 | `components/splitmix64.hpp` | SplitMix64 | [使い方](docs/splitmix64.md) |
-| `components/bitwise_zeta.hpp` | Bitwise Zeta / Möbius Transform | [使い方](docs/bitwise_zeta.md) |
-| `components/walsh_hadamard.hpp` | Walsh–Hadamard Transform | [使い方](docs/walsh_hadamard.md) |
-| `components/divisor_zeta.hpp` | Divisor Zeta / Möbius Transform | [使い方](docs/divisor_zeta.md) |
-| `components/fft.hpp` | FFT | [使い方](docs/fft.md) |
-| `components/ntt_mod.hpp` | NTT（法指定） | [使い方](docs/ntt_mod.md) |
-| `components/ntt.hpp` | NTT（998244353） | [使い方](docs/ntt.md) |
 | `components/d_ary_heap.hpp` | D-ary Heap | [使い方](docs/d_ary_heap.md) |
 | `components/RadixHeap.hpp` | Radix Heap | [使い方](docs/radix_heap.md) |
 | `components/smawk.hpp` | SMAWK | [使い方](docs/smawk.md) |

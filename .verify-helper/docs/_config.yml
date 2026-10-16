@@ -4,6 +4,13 @@ url: https://qandori.github.io
 baseurl: /cp-library
 repository: qandori/cp-library
 lang: ja
+main_libraries:
+  - components/bitwise_zeta.hpp
+  - components/divisor_zeta.hpp
+  - components/walsh_hadamard.hpp
+  - components/fft.hpp
+  - components/ntt_mod.hpp
+  - components/ntt.hpp
 kramdown:
   math_engine: mathjax
 exclude:

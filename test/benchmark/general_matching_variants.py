@@ -114,7 +114,44 @@ def bitset(code, threshold):
 ''' + csr + '\t\t}\n' + code[b:]
     return code
 
-variants = dict(plain=plain, greedy=source, reverse=reverse, short=short, short2=short2, free_first=free_first, bitset=bitset(source, 1024), bitset_short=bitset(short, 1024), bitset_short2=bitset(short2, 1024), current=(root / 'graph/general_matching.hpp').read_text())
+component_method = '''	int component_bound(std::vector<int> &roots) {
+		std::fill(parent.begin(), parent.end(), -1);
+		int bound = 0;
+		for (int root = 0; root < n; ++root) if (parent[root] == -1) {
+			int end = 1, count[2] = {1, 0};
+			bool bipartite = true;
+			queue[0] = root;
+			parent[root] = 0;
+			for (int head = 0; head < end; ++head) {
+				int u = queue[head];
+				for (int e = start[u]; e < start[u + 1]; ++e) {
+					int v = adj[e];
+					if (parent[v] == -1) {
+						parent[v] = parent[u] ^ 1;
+						++count[parent[v]];
+						queue[end++] = v;
+					} else if (parent[v] == parent[u]) bipartite = false;
+				}
+			}
+			bound += bipartite ? std::min(count[0], count[1]) : end / 2;
+			int side = count[0] > count[1];
+			for (int i = 0; i < end; ++i) {
+				int u = queue[i];
+				if (mate[u] == -1 && (!bipartite || parent[u] == side)) roots.push_back(u);
+			}
+		}
+		return bound;
+	}
+'''
+def components(code):
+    code = code.replace('public:\n', component_method + 'public:\n')
+    code = code.replace('\t\tfor (int u = 0; u < n; ++u) if (mate[u] == -1 && augment(u)) {', '''		std::vector<int> roots;
+		int limit = component_bound(roots);
+		if (cardinality == limit) return cardinality;
+		for (int u : roots) if (mate[u] == -1 && augment(u)) {''')
+    code = code.replace('if (++cardinality == n / 2) break;', 'if (++cardinality == limit) break;')
+    return code
+variants = dict(plain=plain, greedy=source, reverse=reverse, short=short, short2=short2, free_first=free_first, bitset=bitset(source, 1024), bitset_short=bitset(short, 1024), bitset_short2=bitset(short2, 1024), components=components(source), components_short=components(short), components_short2=components(short2), current=(root / 'graph/general_matching.hpp').read_text())
 for name, code in variants.items():
     code = code.replace('GENERAL_MATCHING_HPP', 'GENERAL_MATCHING_' + name.upper() + '_HPP').replace('GeneralMatching', 'Matching_' + name)
     (out / (name + '.hpp')).write_text(code)

@@ -8,6 +8,9 @@
 #include "bitset_short.hpp"
 #include "bitset_short2.hpp"
 #include "current.hpp"
+#include "components.hpp"
+#include "components_short.hpp"
+#include "components_short2.hpp"
 #if __has_include("reference.hpp")
 #include "reference.hpp"
 #endif
@@ -16,6 +19,8 @@
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>
+#include <filesystem>
+#include <fstream>
 #include <numeric>
 #include <random>
 #include <string>
@@ -56,7 +61,49 @@ void run(const char *name, const std::string &kind, int n, const std::vector<std
 	}
 	std::cout << name << ',' << kind << ',' << n << ',' << edges.size() << ',' << trial << ',' << construction / repeats << ',' << solving / repeats << ',' << (construction + solving) / repeats << ',' << result << '\n';
 }
+void benchmark(const std::string &kind, int n, const std::vector<std::pair<int, int>> &edges, int trials, int repeats, std::mt19937 &rng) {
+	for (int trial = 0; trial < trials; ++trial) {
+		std::vector<int> order{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+		std::shuffle(order.begin(), order.end(), rng);
+		for (int id : order) {
+			if (id == 0) run<Matching_plain>("plain", kind, n, edges, trial, repeats);
+			if (id == 1) run<Matching_greedy>("greedy", kind, n, edges, trial, repeats);
+			if (id == 2) run<Matching_reverse>("reverse", kind, n, edges, trial, repeats);
+			if (id == 3) run<Matching_short>("short", kind, n, edges, trial, repeats);
+			if (id == 4) run<Matching_short2>("short2", kind, n, edges, trial, repeats);
+			if (id == 5) run<Matching_free_first>("free_first", kind, n, edges, trial, repeats);
+			if (id == 6) run<Matching_bitset>("bitset", kind, n, edges, trial, repeats);
+			if (id == 7) run<Matching_bitset_short>("bitset_short", kind, n, edges, trial, repeats);
+			if (id == 8) run<Matching_bitset_short2>("bitset_short2", kind, n, edges, trial, repeats);
+			if (id == 9) run<Matching_current>("current", kind, n, edges, trial, repeats);
+			if (id == 11) run<Matching_components>("components", kind, n, edges, trial, repeats);
+			if (id == 12) run<Matching_components_short>("components_short", kind, n, edges, trial, repeats);
+			if (id == 13) run<Matching_components_short2>("components_short2", kind, n, edges, trial, repeats);
+#if __has_include("reference.hpp")
+			if (id == 10) run<Matching_reference>("reference_404900", kind, n, edges, trial, repeats);
+#endif
+		}
+	}
+}
+
 int main(int argc, char **argv) {
+	if (argc > 2 && std::string(argv[1]) == "--cases") {
+		int trials = argc > 3 ? std::atoi(argv[3]) : 5, repeats = argc > 4 ? std::atoi(argv[4]) : 20;
+		std::vector<std::filesystem::path> paths;
+		for (auto &entry : std::filesystem::directory_iterator(argv[2])) if (entry.path().extension() == ".in") paths.push_back(entry.path());
+		std::sort(paths.begin(), paths.end());
+		std::cout << "variant,kind,n,m,trial,add_us,solve_us,total_us,size\n";
+		std::mt19937 rng(612341);
+		for (auto &path : paths) {
+			std::ifstream in(path);
+			int n, m;
+			in >> n >> m;
+			std::vector<std::pair<int, int>> edges(m);
+			for (auto &[u, v] : edges) in >> u >> v;
+			benchmark(path.stem().string(), n, edges, trials, repeats, rng);
+		}
+		return 0;
+	}
 	int n = argc > 1 ? std::atoi(argv[1]) : 500, trials = argc > 2 ? std::atoi(argv[2]) : 5, repeats = argc > 3 ? std::atoi(argv[3]) : 20;
 	std::cout << "variant,kind,n,m,trial,add_us,solve_us,total_us,size\n";
 	for (std::string kind : {"sparse", "dense", "complete", "odd_cliques", "star", "path", "tree", "bipartite", "bipartite_skew", "blossom_chain", "exposed_path"}) {
@@ -86,25 +133,7 @@ int main(int argc, char **argv) {
 				return (pos & 1) && pos + 1 < n - 1;
 			});
 		} else std::shuffle(edges.begin(), edges.end(), rng);
-		for (int trial = 0; trial < trials; ++trial) {
-			std::vector<int> order{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-			std::shuffle(order.begin(), order.end(), rng);
-			for (int id : order) {
-				if (id == 0) run<Matching_plain>("plain", kind, n, edges, trial, repeats);
-				if (id == 1) run<Matching_greedy>("greedy", kind, n, edges, trial, repeats);
-				if (id == 2) run<Matching_reverse>("reverse", kind, n, edges, trial, repeats);
-				if (id == 3) run<Matching_short>("short", kind, n, edges, trial, repeats);
-				if (id == 4) run<Matching_short2>("short2", kind, n, edges, trial, repeats);
-				if (id == 5) run<Matching_free_first>("free_first", kind, n, edges, trial, repeats);
-				if (id == 6) run<Matching_bitset>("bitset", kind, n, edges, trial, repeats);
-				if (id == 7) run<Matching_bitset_short>("bitset_short", kind, n, edges, trial, repeats);
-				if (id == 8) run<Matching_bitset_short2>("bitset_short2", kind, n, edges, trial, repeats);
-				if (id == 9) run<Matching_current>("current", kind, n, edges, trial, repeats);
-#if __has_include("reference.hpp")
-				if (id == 10) run<Matching_reference>("reference_404900", kind, n, edges, trial, repeats);
-#endif
-			}
-		}
+		benchmark(kind, n, edges, trials, repeats, rng);
 	}
 	std::cerr << checksum << '\n';
 }

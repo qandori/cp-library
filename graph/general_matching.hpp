@@ -72,6 +72,59 @@ class GeneralMatching {
 		}
 		return false;
 	}
+	void short_paths() {
+		std::vector<int> first(n, -1), second(n, -1);
+		auto save = [&](int u, int v) {
+			if (first[u] == -1) first[u] = v;
+			else if (first[u] != v) second[u] = v;
+		};
+		for (auto [u, v] : input) {
+			if (mate[u] == -1) save(v, u);
+			if (mate[v] == -1) save(u, v);
+		}
+		for (int u = 0; u < n; ++u) if (u < mate[u]) {
+			int v = mate[u];
+			for (int a : {first[u], second[u]}) if (a != -1 && mate[a] == -1) {
+				int b = first[v];
+				if (b == -1 || b == a || mate[b] != -1) b = second[v];
+				if (b == -1 || b == a || mate[b] != -1) continue;
+				mate[u] = a;
+				mate[a] = u;
+				mate[v] = b;
+				mate[b] = v;
+				++cardinality;
+				break;
+			}
+		}
+	}
+	int component_bound(std::vector<int> &roots) {
+		std::fill(parent.begin(), parent.end(), -1);
+		int bound = 0;
+		for (int root = 0; root < n; ++root) if (parent[root] == -1) {
+			int end = 1, count[2] = {1, 0};
+			bool bipartite = true;
+			queue[0] = root;
+			parent[root] = 0;
+			for (int head = 0; head < end; ++head) {
+				int u = queue[head];
+				for (int e = start[u]; e < start[u + 1]; ++e) {
+					int v = adj[e];
+					if (parent[v] == -1) {
+						parent[v] = parent[u] ^ 1;
+						++count[parent[v]];
+						queue[end++] = v;
+					} else if (parent[v] == parent[u]) bipartite = false;
+				}
+			}
+			bound += bipartite ? std::min(count[0], count[1]) : end / 2;
+			int side = count[0] > count[1];
+			for (int i = 0; i < end; ++i) {
+				int u = queue[i];
+				if (mate[u] == -1 && (!bipartite || parent[u] == side)) roots.push_back(u);
+			}
+		}
+		return bound;
+	}
 public:
 	std::vector<int> mate;
 	explicit GeneralMatching(int n) : n(n), mate(n, -1) { assert(n >= 0); }
@@ -87,6 +140,7 @@ public:
 		}
 	}
 	int build() {
+		if (cardinality < n / 2) short_paths();
 		if (cardinality == n / 2) return cardinality;
 		start.assign(n + 1, 0);
 		for (auto [u, v] : input) ++start[u + 1], ++start[v + 1];
@@ -99,8 +153,11 @@ public:
 		queue.resize(n);
 		seen.resize(n);
 		state.resize(n);
-		for (int u = 0; u < n; ++u) if (mate[u] == -1 && augment(u)) {
-			if (++cardinality == n / 2) break;
+		std::vector<int> roots;
+		int limit = component_bound(roots);
+		if (cardinality == limit) return cardinality;
+		for (int u : roots) if (mate[u] == -1 && augment(u)) {
+			if (++cardinality == limit) break;
 		}
 		return cardinality;
 	}

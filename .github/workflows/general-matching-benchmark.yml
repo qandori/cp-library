@@ -61,6 +61,21 @@ jobs:
           python3 -m pip install -r test/requirements.txt
           oj-verify run --timeout 1200 --tle 10 -j 2 test/general_matching.test.cpp > benchmark-results/judge.log 2>&1
           tail -n 25 benchmark-results/judge.log
+      - name: Compare official cases with fastest AC
+        if: inputs.verify
+        run: |
+          matching_cases_dir=$(python3 -c 'from pathlib import Path; dirs = {p.parent for p in Path(".verify-helper/cache").glob("*/test/*.in")}; assert len(dirs) == 1; print(dirs.pop())')
+          /tmp/matching-bench --cases "$matching_cases_dir" 5 20 > benchmark-results/official-core.csv
+          python3 test/benchmark/general_matching_process.py "$matching_cases_dir" /tmp/matching-variants/reference-source.cpp benchmark-results/official-process.csv
+          python3 - "$matching_cases_dir" <<'PY'
+          import csv
+          import sys
+          from pathlib import Path
+          cases = Path(sys.argv[1])
+          for row in csv.DictReader(open('benchmark-results/official-core.csv')):
+              expected = int((cases / (row['kind'] + '.out')).read_text().split()[0])
+              assert int(row['size']) == expected, row
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:

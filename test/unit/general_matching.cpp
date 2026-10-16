@@ -90,4 +90,14 @@ int main() {
 		}
 		check(g, adj, n / 2);
 	}
+	for (int n : {32, 64, 128, 500, 1024, 2048, 4096}) {
+		GeneralMatching g(n);
+		std::vector<std::vector<unsigned char>> adj(n, std::vector<unsigned char>(n));
+		auto add = [&](int u, int v) { g.add_edge(u, v); adj[u][v] = adj[v][u] = 1; };
+		for (int i = 1; i + 1 < n; i += 2) add(i, i + 1);
+		for (int i = 0; i + 1 < n; i += 2) add(i, i + 1);
+		for (int i = 0; i + 2 < n; i += 3) add(i, i + 2);
+		check(g, adj, n / 2);
+	}
+
 }

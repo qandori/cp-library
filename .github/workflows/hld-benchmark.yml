@@ -1,0 +1,55 @@
+name: hld benchmark
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Record environment
+        run: |
+          mkdir -p benchmark-results
+          { uname -a; lscpu; g++ --version; } > benchmark-results/environment.txt
+          cat benchmark-results/environment.txt
+      - name: Generate variants and check correctness
+        run: |
+          python3 test/benchmark/hld_variants.py /tmp/hld-variants
+          for variant in baseline preorder fused peel peel_preorder peel_fused peel_zero packed shapes packed_shapes current; do
+            g++ -std=c++23 -O2 -Wall -Wextra -Werror -I . /tmp/hld-variants/${variant}_test.cpp -o /tmp/hld-unit
+            /tmp/hld-unit
+          done
+      - name: Benchmark GCC with assertions
+        run: |
+          g++ -std=c++23 -O2 -I . -I /tmp/hld-variants test/benchmark/hld.cpp -o /tmp/hld-bench
+          /tmp/hld-bench 200000 500000 5 > benchmark-results/assertions.csv
+      - name: Benchmark GCC without assertions
+        run: |
+          g++ -std=c++23 -O2 -DNDEBUG -I . -I /tmp/hld-variants test/benchmark/hld.cpp -o /tmp/hld-bench
+          /tmp/hld-bench 500000 500000 5 > benchmark-results/release.csv
+      - name: Check current header with GCC and Clang
+        run: |
+          python3 -c 'import json; from pathlib import Path; Path("/tmp/hld-selection.json").write_text(json.dumps({"headers":["graph/hld.hpp"],"unit":["test/unit/hld.cpp"]}))'
+          python3 test/verify.py --unit-only --cxx g++ clang++ --selection /tmp/hld-selection.json
+          UBSAN_OPTIONS=halt_on_error=1 python3 test/verify.py --unit-only --sanitize --cxx clang++ --selection /tmp/hld-selection.json
+      - name: Verify affected Library Checker problems
+        run: |
+          python3 -m pip install -r test/requirements.txt
+          oj-verify run --timeout 1200 --tle 10 -j 2 test/hld_jump.test.cpp test/hld_path_composite.test.cpp test/hld_path_sum.test.cpp test/hld_subtree_sum.test.cpp > benchmark-results/judge.log 2>&1
+          tail -n 25 benchmark-results/judge.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hld-linux-gcc-benchmark
+          path: benchmark-results

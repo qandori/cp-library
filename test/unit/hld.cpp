@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cmath>
 #include <numeric>
+#include <limits>
 #include <random>
 #include <utility>
 #include <vector>
@@ -58,6 +59,8 @@ void check(HLD &tree, int root, std::mt19937 &random) {
 			assert(tree.ancestor(v, k) == u);
 			u = parent[u];
 		}
+		assert(tree.ancestor(v, std::numeric_limits<int>::min()) == -1);
+		assert(tree.ancestor(v, std::numeric_limits<int>::max()) == -1);
 		assert(tree.ancestor(v, -1) == -1 && tree.ancestor(v, depth[v] + 1) == -1);
 	}
 	for (int id = 0; id < int(tree.edges.size()); ++id) {
@@ -73,6 +76,8 @@ void check(HLD &tree, int root, std::mt19937 &random) {
 		int lca = *std::min_element(expected.begin(), expected.end(), [&](int a, int b) { return depth[a] < depth[b]; });
 		assert(tree.lca(u, v) == lca && tree.dist(u, v) + 1 == int(expected.size()));
 		assert(tree.is_ancestor(u, v) == (lca == u));
+		assert(tree.jump(u, v, std::numeric_limits<int>::min()) == -1);
+		assert(tree.jump(u, v, std::numeric_limits<int>::max()) == -1);
 		assert(tree.jump(u, v, -1) == -1 && tree.jump(u, v, int(expected.size())) == -1);
 		for (int k = 0; k < int(expected.size()); ++k) assert(tree.jump(u, v, k) == expected[k]);
 		for (bool edge : {false, true}) {

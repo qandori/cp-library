@@ -10,6 +10,9 @@
 #include <vector>
 
 class HLD {
+	int shape_ = 0, center_ = 0;
+	struct Node { int position, head, parent, offset; };
+	std::vector<Node> nodes;
 	void check([[maybe_unused]] int v) const { assert(0 <= v && v < n && int(in.size()) == n); }
 
   public:
@@ -37,61 +40,48 @@ class HLD {
 		size.assign(n, 1);
 		heavy.assign(n, -1);
 		head.resize(n), in.resize(n), out.resize(n), order.resize(n);
+		nodes.resize(n);
 		if (!n) return;
-		std::vector<int> start(std::size_t(n) + 1);
-		for (auto [u, v] : edges) ++start[u + 1], ++start[v + 1];
-		for (int v = 0; v < n; ++v) start[v + 1] += start[v];
-		std::vector<int> adj(2 * edges.size());
-		std::copy(start.begin(), start.end() - 1, out.begin());
-		for (auto [u, v] : edges) adj[out[u]++] = v, adj[out[v]++] = u;
-		int count = 1;
-		order[0] = root;
-		parent[root] = root;
-		for (int i = 0; i < count; ++i) {
-			int v = order[i];
-			for (int j = start[v]; j < start[v + 1]; ++j) {
-				int to = adj[j];
-				if (to == parent[v]) continue;
-				assert(parent[to] == -1);
-				parent[to] = v;
-				depth[to] = depth[v] + 1;
-				order[count++] = to;
-			}
+		std::vector<int> degree(n), neighbors(n);
+		for (auto [u, v] : edges) {
+			++degree[u], ++degree[v];
+			neighbors[u] ^= v, neighbors[v] ^= u;
 		}
-		assert(count == n);
-		for (int i = n - 1; i > 0; --i) {
-			int v = order[i], p = parent[v];
+		center_ = int(std::max_element(degree.begin(), degree.end()) - degree.begin());
+		shape_ = degree[center_] <= 2 ? 1 : degree[center_] == n - 1 ? 2 : 0;
+		degree[root] += 2;
+		int count = 0;
+		for (int v = 0; v < n; ++v) if (degree[v] == 1) order[count++] = v;
+		for (int i = 0; i < count; ++i) {
+			int v = order[i], p = neighbors[v];
+			parent[v] = p;
 			size[p] += size[v];
 			if (heavy[p] == -1 || size[heavy[p]] < size[v]) heavy[p] = v;
+			neighbors[p] ^= v;
+			if (--degree[p] == 1) order[count++] = p;
 		}
-		int timer = 0, top = n - 1;
-		order[top] = root;
-		head[root] = root;
-		while (top < n) {
-			int v = order[top++];
-			in[v] = timer;
-			order[timer++] = v;
-			for (int j = start[v]; j < start[v + 1]; ++j) {
-				int to = adj[j];
-				if (to == parent[v] || to == heavy[v]) continue;
-				head[to] = to;
-				order[--top] = to;
-			}
-			if (heavy[v] != -1) {
-				head[heavy[v]] = head[v];
-				order[--top] = heavy[v];
-			}
+		assert(count == n - 1);
+		in[root] = 0, out[root] = n, head[root] = root;
+		for (int i = n - 2; i >= 0; --i) {
+			int v = order[i], p = parent[v];
+			depth[v] = depth[p] + 1;
+			if (heavy[p] == v) in[v] = in[p] + 1, head[v] = head[p];
+			else in[v] = out[p] -= size[v], head[v] = v;
+			out[v] = in[v] + size[v];
 		}
-		for (int v = 0; v < n; ++v) out[v] = in[v] + size[v];
+		for (int v = 0; v < n; ++v) out[v] = in[v] + size[v], order[in[v]] = v;
 		parent[root] = -1;
+		for (int v = 0; v < n; ++v) nodes[v] = {in[v], in[head[v]], parent[head[v]], depth[v] - in[v]};
 	}
 	int lca(int u, int v) const {
 		check(u), check(v);
-		while (head[u] != head[v]) {
-			if (depth[head[u]] > depth[head[v]]) u = parent[head[u]];
-			else v = parent[head[v]];
+		if (shape_ == 1) return head[u] != head[v] ? order[0] : in[u] < in[v] ? u : v;
+		if (shape_ == 2) return u == v ? u : u == order[0] || v == order[0] ? order[0] : center_;
+		while (nodes[u].head != nodes[v].head) {
+			if (nodes[u].position > nodes[v].position) u = nodes[u].parent;
+			else v = nodes[v].parent;
 		}
-		return depth[u] < depth[v] ? u : v;
+		return nodes[u].position < nodes[v].position ? u : v;
 	}
 	int dist(int u, int v) const {
 		int w = lca(u, v);
@@ -103,17 +93,51 @@ class HLD {
 	}
 	int ancestor(int v, int k) const {
 		check(v);
-		if (k < 0 || k > depth[v]) return -1;
-		while (k > depth[v] - depth[head[v]]) {
-			k -= depth[v] - depth[head[v]] + 1;
-			v = parent[head[v]];
+		if (shape_) {
+			if (k < 0 || k > depth[v]) return -1;
+			if (!k) return v;
+			if (k == depth[v]) return order[0];
+			return shape_ == 2 ? parent[v] : order[in[v] - k];
 		}
-		return order[in[v] - k];
+		if (k < 0) return -1;
+		int target = nodes[v].position + nodes[v].offset - k;
+		if (target < 0) return -1;
+		while (nodes[v].head + nodes[v].offset > target) v = nodes[v].parent;
+		return order[target - nodes[v].offset];
 	}
 	int jump(int u, int v, int k) const {
-		int w = lca(u, v), a = depth[u] - depth[w], b = depth[v] - depth[w];
-		if (k < 0 || k > a + b) return -1;
-		return k <= a ? ancestor(u, k) : ancestor(v, a + b - k);
+		check(u), check(v);
+		if (k < 0) return -1;
+		if (!k) return u;
+		if (shape_ == 1) {
+			if (head[u] == head[v]) {
+				int delta = in[v] - in[u];
+				if (k > (delta < 0 ? -delta : delta)) return -1;
+				return order[in[u] + (delta < 0 ? -k : k)];
+			}
+			int a = depth[u], b = depth[v];
+			if (k > a + b) return -1;
+			if (k == a) return order[0];
+			return k < a ? order[in[u] - k] : order[in[v] - (a + b - k)];
+		}
+		if (shape_ == 2) {
+			int d = (u != center_) + (v != center_);
+			if (u == v || k > d) return -1;
+			return k == d ? v : center_;
+		}
+		int from = u, to = v, target = nodes[u].position + nodes[u].offset - k;
+		while (nodes[u].head != nodes[v].head) {
+			if (nodes[u].position > nodes[v].position) {
+				if (nodes[u].head + nodes[u].offset <= target) return order[target - nodes[u].offset];
+				u = nodes[u].parent;
+			} else v = nodes[v].parent;
+		}
+		int w = nodes[u].position < nodes[v].position ? u : v;
+		int d = nodes[w].position + nodes[w].offset;
+		int length = nodes[from].position + nodes[from].offset + nodes[to].position + nodes[to].offset - 2 * d;
+		if (k > length) return -1;
+		if (target >= d) return order[target - nodes[u].offset];
+		return ancestor(to, length - k);
 	}
 	std::pair<int, int> subtree(int v, bool edge = false) const {
 		check(v);
@@ -128,20 +152,34 @@ class HLD {
 	template <class F>
 	void for_each_path(int u, int v, F &&f, bool edge = false) const {
 		check(u), check(v);
+		if (shape_ == 1) {
+			int x = in[u], y = in[v];
+			if (head[u] == head[v]) {
+				int l = std::min(x, y) + edge, r = std::max(x, y) + 1;
+				if (l < r) f(l, r, x > y);
+			} else if (head[u] == order[0]) {
+				if (edge < x + 1) f(int(edge), x + 1, true);
+				f(in[head[v]], y + 1, false);
+			} else {
+				f(in[head[u]], x + 1, true);
+				if (edge < y + 1) f(int(edge), y + 1, false);
+			}
+			return;
+		}
 		std::array<std::array<int, 2>, 32> right;
 		int count = 0;
-		while (head[u] != head[v]) {
-			if (depth[head[u]] > depth[head[v]]) {
-				f(in[head[u]], in[u] + 1, true);
-				u = parent[head[u]];
+		while (nodes[u].head != nodes[v].head) {
+			if (nodes[u].position > nodes[v].position) {
+				f(nodes[u].head, nodes[u].position + 1, true);
+				u = nodes[u].parent;
 			} else {
 				assert(count < int(right.size()));
-				right[count++] = {in[head[v]], in[v] + 1};
-				v = parent[head[v]];
+				right[count++] = {nodes[v].head, nodes[v].position + 1};
+				v = nodes[v].parent;
 			}
 		}
-		bool reversed = depth[u] > depth[v];
-		int l = std::min(in[u], in[v]) + edge, r = std::max(in[u], in[v]) + 1;
+		bool reversed = nodes[u].position > nodes[v].position;
+		int l = std::min(nodes[u].position, nodes[v].position) + edge, r = std::max(nodes[u].position, nodes[v].position) + 1;
 		if (l < r) f(l, r, reversed);
 		while (count) {
 			auto [a, b] = right[--count];

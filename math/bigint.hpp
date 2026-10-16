@@ -2,12 +2,16 @@
 #define BIGINT_HPP
 
 #include "../components/ntt.hpp"
+#include "../components/small_vector.hpp"
+#include "../components/limb_arithmetic.hpp"
 #include <algorithm>
+#include <array>
 #include <bit>
 #include <cassert>
 #include <charconv>
 #include <compare>
 #include <cstdint>
+#include <cstring>
 #include <istream>
 #include <limits>
 #include <ostream>
@@ -25,12 +29,51 @@
 class BigInt {
 	using U = std::uint64_t;
 	using W = __uint128_t;
-	using D = std::vector<U>;
+	using D = SmallVector<U>;
 	static constexpr U base = 1000000000000000000ULL;
 	D a;
 	bool negative = false;
 	template <class I>
 	static constexpr bool integral = std::is_integral_v<I> || std::is_same_v<I, __int128_t> || std::is_same_v<I, __uint128_t>;
+	static unsigned read8(const char *p) {
+		U x;
+		std::memcpy(&x, p, 8);
+		if constexpr (std::endian::native == std::endian::big) x = std::byteswap(x);
+		assert(!(((x + 0x4646464646464646ULL) | (x - 0x3030303030303030ULL)) & 0x8080808080808080ULL));
+		x &= 0x0f0f0f0f0f0f0f0fULL;
+		x = (x * 10 + (x >> 8)) & 0x00ff00ff00ff00ffULL;
+		x = (x * 100 + (x >> 16)) & 0x0000ffff0000ffffULL;
+		return unsigned(x * 10000 + (x >> 32));
+	}
+	static constexpr auto pairs = [] {
+		std::array<char, 200> result{};
+		for (unsigned i = 0; i < 100; ++i) result[2 * i] = '0' + i / 10, result[2 * i + 1] = '0' + i % 10;
+		return result;
+	}();
+	static void write4(char *p, unsigned value) {
+		unsigned q = value / 100;
+		std::memcpy(p, pairs.data() + 2 * q, 2);
+		std::memcpy(p + 2, pairs.data() + 2 * (value - q * 100), 2);
+	}
+	static void write8(char *p, unsigned value) {
+		unsigned q = value / 10000;
+		write4(p, q);
+		write4(p + 4, value - q * 10000);
+	}
+	template <bool subtract>
+	bool combine_small(const BigInt &b) {
+		if (a.size() > 1 || b.a.size() > 1) return false;
+		std::int64_t x = a.empty() ? 0 : a[0], y = b.a.empty() ? 0 : b.a[0];
+		if (negative) x = -x;
+		if (b.negative != subtract) y = -y;
+		std::int64_t sum = x + y;
+		negative = sum < 0;
+		U value = negative ? -sum : sum;
+		a.resize_for_overwrite(value >= base ? 2 : value != 0);
+		if (value >= base) a[0] = value - base, a[1] = 1;
+		else if (value) a[0] = value;
+		return true;
+	}
 	static void trim(D &v) {
 		while (!v.empty() && !v.back()) v.pop_back();
 	}
@@ -44,22 +87,21 @@ class BigInt {
 		return 0;
 	}
 	static void add(D &a, const D &b) {
-		std::size_t n = a.size(), m = b.size();
-		a.resize(std::max(n, m));
-		U carry = 0;
-		for (std::size_t i = 0; i < m || carry; ++i) {
+		std::size_t m = b.size();
+		a.resize(std::max(a.size(), m));
+		U carry = limb_arithmetic::add<base>(a.data(), b.data(), m);
+		for (std::size_t i = m; carry; ++i) {
 			if (i == a.size()) a.push_back(0);
-			U value = a[i] + (i < m ? b[i] : 0) + carry;
+			U value = a[i] + carry;
 			carry = value >= base;
 			a[i] = value - carry * base;
 		}
 	}
 	static void subtract(D &a, const D &b) {
-		U borrow = 0;
-		for (std::size_t i = 0; i < b.size() || borrow; ++i) {
-			U value = (i < b.size() ? b[i] : 0) + borrow;
-			borrow = a[i] < value;
-			a[i] = a[i] + borrow * base - value;
+		U borrow = limb_arithmetic::subtract<base>(a.data(), b.data(), b.size());
+		for (std::size_t i = b.size(); borrow; ++i) {
+			borrow = !a[i];
+			a[i] = a[i] + borrow * base - 1;
 		}
 		trim(a);
 	}
@@ -433,32 +475,45 @@ public:
 		std::size_t begin = value[0] == '-' || value[0] == '+';
 		negative = value[0] == '-';
 		assert(begin < value.size());
-		a.reserve((value.size() - begin + 17) / 18);
-		for (std::size_t end = value.size(); end > begin;) {
-			std::size_t start = end - begin > 18 ? end - 18 : begin;
+		a.resize_for_overwrite((value.size() - begin + 17) / 18);
+		std::size_t word = 0, end = value.size();
+		for (; end - begin >= 18; end -= 18) {
+			const char *p = value.data() + end - 18;
+			assert(p[16] >= '0' && p[16] <= '9' && p[17] >= '0' && p[17] <= '9');
+			a[word++] = (U(read8(p)) * 100000000 + read8(p + 8)) * 100 + (p[16] - '0') * 10 + p[17] - '0';
+		}
+		if (end != begin) {
 			U digit = 0;
-			for (std::size_t i = start; i < end; ++i) {
+			std::size_t i = begin;
+			for (; i + 8 <= end; i += 8) digit = digit * 100000000 + read8(value.data() + i);
+			for (; i < end; ++i) {
 				assert(value[i] >= '0' && value[i] <= '9');
 				digit = digit * 10 + value[i] - '0';
 			}
-			a.push_back(digit);
-			end = start;
+			a[word] = digit;
 		}
 		normalize();
 	}
-	std::string str() const {
-		if (a.empty()) return "0";
-		std::string result(a.size() * 18 + negative, '0');
-		char *out = result.data();
+	std::size_t decimal_capacity() const { return a.empty() ? 1 : a.size() * 18 + negative; }
+	char *to_chars(char *out) const {
+		if (a.empty()) { *out++ = '0'; return out; }
 		if (negative) *out++ = '-';
-		auto first = std::to_chars(out, out + 18, a.back());
-		out = first.ptr;
+		out = std::to_chars(out, out + 18, a.back()).ptr;
 		for (std::size_t i = a.size() - 1; i--;) {
-			U value = a[i];
-			for (int j = 17; j >= 0; --j) out[j] = '0' + value % 10, value /= 10;
+			U value = a[i], q = value / 100000000;
+			write8(out + 10, unsigned(value - q * 100000000));
+			unsigned high = unsigned(q / 100000000);
+			write8(out + 2, unsigned(q - U(high) * 100000000));
+			std::memcpy(out, pairs.data() + 2 * high, 2);
 			out += 18;
 		}
-		result.resize(out - result.data());
+		return out;
+	}
+	std::string str() const {
+		std::string result;
+		result.resize_and_overwrite(decimal_capacity(), [this](char *out, std::size_t) {
+			return std::size_t(to_chars(out) - out);
+		});
 		return result;
 	}
 	int sign() const { return a.empty() ? 0 : negative ? -1 : 1; }
@@ -481,6 +536,7 @@ public:
 	}
 	BigInt operator+() const { return *this; }
 	BigInt &operator+=(const BigInt &b) {
+		if (combine_small<false>(b)) return *this;
 		if (negative == b.negative) add(a, b.a);
 		else if (compare(a, b.a) >= 0) subtract(a, b.a);
 		else {
@@ -493,6 +549,7 @@ public:
 		return *this;
 	}
 	BigInt &operator-=(const BigInt &b) {
+		if (combine_small<true>(b)) return *this;
 		if (negative != b.negative) add(a, b.a);
 		else if (compare(a, b.a) >= 0) subtract(a, b.a);
 		else {

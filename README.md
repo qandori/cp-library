@@ -60,6 +60,9 @@
 
 | ファイル | 内容 | 使い方 |
 | --- | --- | --- |
+| `components/small_vector.hpp` | Small Vector | [使い方](docs/small_vector.md) |
+| `components/limb_arithmetic.hpp` | Limb Arithmetic | [使い方](docs/limb_arithmetic.md) |
+| `components/fast_io.hpp` | Fast I/O | [使い方](docs/fast_io.md) |
 | `components/dynamic_bit_vector.hpp` | Dynamic Bit Vector | [使い方](docs/dynamic_bit_vector.md) |
 | `components/quad_bit_vector.hpp` | Quad Bit Vector | [使い方](docs/quad_bit_vector.md) |
 | `components/default_init_allocator.hpp` | Default Init Allocator | [使い方](docs/default_init_allocator.md) |

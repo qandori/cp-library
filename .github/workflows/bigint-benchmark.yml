@@ -1,0 +1,45 @@
+name: bigint benchmark
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install Boost
+        run: sudo apt-get update && sudo apt-get install -y libboost-dev
+      - name: Record environment
+        run: |
+          mkdir -p benchmark-results
+          { uname -a; lscpu; g++ --version; dpkg-query -W libboost-dev; } > benchmark-results/environment.txt
+          cat benchmark-results/environment.txt
+      - name: Check AVX2 carry and borrow
+        run: |
+          g++ -std=c++23 -O2 -Wall -Wextra -Werror -I . test/unit/limb_arithmetic.cpp -o /tmp/limb-test
+          /tmp/limb-test
+      - name: Compare carry kernels
+        run: |
+          g++ -std=c++23 -O2 -DNDEBUG -I . test/benchmark/limb_arithmetic.cpp -o /tmp/limb-bench
+          /tmp/limb-bench | tee benchmark-results/limb-arithmetic.csv
+      - name: Compare BigInt with Boost
+        run: |
+          g++ -std=c++23 -O2 -DNDEBUG -I . test/benchmark/bigint.cpp -o /tmp/bigint-bench
+          for n in 18 36 300 1000 10000 100000; do
+            repetitions=$((300000 / n))
+            if [ "$repetitions" -lt 4 ]; then repetitions=4; fi
+            for trial in 0 1 2 3 4; do
+              /tmp/bigint-bench "$n" "$repetitions" "$((trial % 2))"
+            done
+          done | tee benchmark-results/bigint.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bigint-linux-gcc-benchmark
+          path: benchmark-results

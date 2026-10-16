@@ -1,15 +1,19 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/division_of_big_integers"
 #include "../math/bigint.hpp"
-#include <iostream>
+#include "../components/fast_io.hpp"
 
 int main() {
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int t;
-	std::cin >> t;
+	FastInput in;
+	FastOutput out;
+	int t = 0;
+	in.read(t);
 	while (t--) {
 		BigInt a, b;
-		std::cin >> a >> b;
+		in.read(a);
+		in.read(b);
 		auto [q, r] = divmod(a, b);
-		std::cout << q << ' ' << r << '\n';
+		out.write(q);
+		out.write(' ');
+		out.println(r);
 	}
 }

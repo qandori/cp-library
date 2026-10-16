@@ -8,6 +8,7 @@ kramdown:
   math_engine: mathjax
 exclude:
   - README.md
+  - AGENTS.md
   - test/unit
   - test/benchmark
   - test/verify.py

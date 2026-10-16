@@ -60,6 +60,16 @@ int main() {
 		stream >> b;
 		assert(a == b);
 	}
+	for (I x : {I(-999999999999999999LL), I(-1), I(0), I(1), I(999999999999999999LL), I(1000000000000000000LL)})
+		for (I y : {I(-999999999999999999LL), I(-1), I(0), I(1), I(999999999999999999LL), I(1000000000000000000LL)}) {
+			BigInt a(x), b(y);
+			assert((a + b).str() == decimal(x + y));
+			assert((a - b).str() == decimal(x - y));
+			a += a;
+			assert(a.str() == decimal(2 * x));
+			a -= a;
+			assert(a == 0 && a.sign() == 0);
+		}
 	__uint128_t umax = ~__uint128_t(0);
 	assert(__uint128_t(BigInt(umax)) == umax);
 	std::mt19937_64 random(9187);

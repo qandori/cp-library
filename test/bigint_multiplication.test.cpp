@@ -1,14 +1,16 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/multiplication_of_big_integers"
 #include "../math/bigint.hpp"
-#include <iostream>
+#include "../components/fast_io.hpp"
 
 int main() {
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int t;
-	std::cin >> t;
+	FastInput in;
+	FastOutput out;
+	int t = 0;
+	in.read(t);
 	while (t--) {
 		BigInt a, b;
-		std::cin >> a >> b;
-		std::cout << a * b << '\n';
+		in.read(a);
+		in.read(b);
+		out.println(a * b);
 	}
 }

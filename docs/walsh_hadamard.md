@@ -1,10 +1,11 @@
 ---
 title: "Walsh–Hadamard Transform"
-documentation_of: //convolution/walsh_hadamard.hpp
+documentation_of: //components/walsh_hadamard.hpp
+redirect_from: /convolution/walsh_hadamard.hpp.html
 ---
 
 ```cpp
-#include "lib/convolution/walsh_hadamard.hpp"
+#include "lib/components/walsh_hadamard.hpp"
 
 walsh_hadamard(a);
 ```

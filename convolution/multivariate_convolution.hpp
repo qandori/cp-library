@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "convolution.hpp"
-#include "ntt.hpp"
+#include "../components/ntt.hpp"
 
 template <class T>
 std::vector<T> multivariate_convolution(const std::vector<T> &a, const std::vector<T> &b, const std::vector<int> &dimensions) {

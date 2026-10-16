@@ -1,7 +1,7 @@
 #ifndef ROLLING_HASH_HPP
 #define ROLLING_HASH_HPP
 
-#include "../math/splitmix64.hpp"
+#include "../components/splitmix64.hpp"
 #include <algorithm>
 #include <cassert>
 #include <chrono>

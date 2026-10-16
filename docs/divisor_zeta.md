@@ -1,10 +1,11 @@
 ---
 title: "Divisor Zeta / Möbius Transform"
-documentation_of: //convolution/divisor_zeta.hpp
+documentation_of: //components/divisor_zeta.hpp
+redirect_from: /convolution/divisor_zeta.hpp.html
 ---
 
 ```cpp
-#include "lib/convolution/divisor_zeta.hpp"
+#include "lib/components/divisor_zeta.hpp"
 
 divisor_zeta(a);
 divisor_zeta<true>(a);

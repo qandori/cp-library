@@ -1,7 +1,7 @@
 #ifndef CONVOLUTION_MOD_HPP
 #define CONVOLUTION_MOD_HPP
 
-#include "ntt_mod.hpp"
+#include "../components/ntt_mod.hpp"
 #include <algorithm>
 #include <bit>
 #include <cassert>

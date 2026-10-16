@@ -1,10 +1,11 @@
 ---
 title: "Bitwise Zeta / Möbius Transform"
-documentation_of: //convolution/bitwise_zeta.hpp
+documentation_of: //components/bitwise_zeta.hpp
+redirect_from: /convolution/bitwise_zeta.hpp.html
 ---
 
 ```cpp
-#include "lib/convolution/bitwise_zeta.hpp"
+#include "lib/components/bitwise_zeta.hpp"
 
 bitwise_zeta(a);
 bitwise_zeta<true>(a);

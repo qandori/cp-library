@@ -1,7 +1,7 @@
 #ifndef SLOPE_TRICK_HPP
 #define SLOPE_TRICK_HPP
 
-#include "d_ary_heap.hpp"
+#include "../components/d_ary_heap.hpp"
 #include <cassert>
 #include <cstddef>
 #include <cstdint>

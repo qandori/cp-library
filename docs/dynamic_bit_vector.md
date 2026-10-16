@@ -1,10 +1,11 @@
 ---
 title: "Dynamic Bit Vector"
-documentation_of: //data_structure/dynamic_bit_vector.hpp
+documentation_of: //components/dynamic_bit_vector.hpp
+redirect_from: /data_structure/dynamic_bit_vector.hpp.html
 ---
 
 ```cpp
-#include "lib/data_structure/dynamic_bit_vector.hpp"
+#include "lib/components/dynamic_bit_vector.hpp"
 
 DynamicBitVector<> bits(std::vector<bool>{0, 1, 0});
 bits.insert(1, true);

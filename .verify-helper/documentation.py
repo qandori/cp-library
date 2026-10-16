@@ -10,6 +10,7 @@ def source_paths(plan, excluded):
 
 def generate(plan):
     from onlinejudge_verify.documentation import build, configure, main
+    from onlinejudge_verify.documentation.type import PageRenderJob
     from verification import get_marker
 
     root = Path.cwd().resolve()
@@ -25,6 +26,11 @@ def generate(plan):
     ) for path in paths]
     markdown = configure.apply_exclude_list_to_paths(configure.find_markdown_paths(basedir=root), excluded_paths=excluded)
     jobs = configure.convert_to_page_render_jobs(source_code_stats=stats, markdown_paths=markdown, site_render_config=config)
+    jobs.append(PageRenderJob(
+        path=Path("components/index.md"),
+        front_matter={"layout": "toppage", "title": "補助部品", "components": True},
+        content=config.index_md.with_name("components.md").read_bytes(),
+    ))
     pages = build.render_pages(page_render_jobs=jobs, source_code_stats=stats, site_render_config=config)
     pages.update(build.load_static_files(site_render_config=config))
     for path, content in pages.items():

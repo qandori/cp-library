@@ -1,10 +1,11 @@
 ---
 title: "SMAWK"
-documentation_of: //math/smawk.hpp
+documentation_of: //components/smawk.hpp
+redirect_from: /math/smawk.hpp.html
 ---
 
 ```cpp
-#include "lib/math/smawk.hpp"
+#include "lib/components/smawk.hpp"
 
 auto best = smawk(rows, columns, [&](int row, int old_col, int new_col) {
     return value(row, new_col) < value(row, old_col);

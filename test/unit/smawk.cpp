@@ -1,4 +1,4 @@
-#include "math/smawk.hpp"
+#include "components/smawk.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cstdint>

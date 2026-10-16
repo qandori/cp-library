@@ -12,7 +12,7 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
-#include "quad_bit_vector.hpp"
+#include "../components/quad_bit_vector.hpp"
 
 template <class T = std::int64_t, class Sum = std::conditional_t<std::is_integral_v<T>, std::conditional_t<(sizeof(T) < 8), std::int64_t, __int128_t>, T>>
 class WaveletMatrix {

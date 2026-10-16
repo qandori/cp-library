@@ -1,7 +1,7 @@
 #ifndef IS_PRIME_HPP
 #define IS_PRIME_HPP
 
-#include "montgomery.hpp"
+#include "../components/montgomery.hpp"
 #include <bit>
 #include <cstdint>
 #include <initializer_list>

@@ -1,7 +1,7 @@
 #ifndef DYNAMIC_WAVELET_MATRIX_HPP
 #define DYNAMIC_WAVELET_MATRIX_HPP
 
-#include "dynamic_bit_vector.hpp"
+#include "../components/dynamic_bit_vector.hpp"
 #include <algorithm>
 #include <array>
 #include <bit>

@@ -1,7 +1,7 @@
 #ifndef DIJKSTRA_HPP
 #define DIJKSTRA_HPP
 
-#include "../data_structure/RadixHeap.hpp"
+#include "../components/RadixHeap.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cstddef>

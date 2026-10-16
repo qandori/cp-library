@@ -1,7 +1,7 @@
 #include "math/is_prime.hpp"
-#include "math/montgomery.hpp"
+#include "components/montgomery.hpp"
 #include "math/prime_sieve.hpp"
-#include "math/splitmix64.hpp"
+#include "components/splitmix64.hpp"
 #include <cassert>
 #include <cstdint>
 #include <random>

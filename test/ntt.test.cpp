@@ -1,5 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod"
-#include "../convolution/ntt.hpp"
+#include "../components/ntt.hpp"
 #include <bit>
 #include <iostream>
 #include <vector>

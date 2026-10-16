@@ -1,8 +1,8 @@
 #ifndef BITWISE_CONVOLUTION_HPP
 #define BITWISE_CONVOLUTION_HPP
 
-#include "bitwise_zeta.hpp"
-#include "walsh_hadamard.hpp"
+#include "../components/bitwise_zeta.hpp"
+#include "../components/walsh_hadamard.hpp"
 #include <algorithm>
 #include <bit>
 #include <cassert>

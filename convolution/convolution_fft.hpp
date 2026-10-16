@@ -1,7 +1,7 @@
 #ifndef CONVOLUTION_FFT_HPP
 #define CONVOLUTION_FFT_HPP
 
-#include "fft.hpp"
+#include "../components/fft.hpp"
 #include <algorithm>
 #include <bit>
 #include <complex>

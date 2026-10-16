@@ -1,10 +1,11 @@
 ---
 title: "Quad Bit Vector"
-documentation_of: //data_structure/quad_bit_vector.hpp
+documentation_of: //components/quad_bit_vector.hpp
+redirect_from: /data_structure/quad_bit_vector.hpp.html
 ---
 
 ```cpp
-#include "lib/data_structure/quad_bit_vector.hpp"
+#include "lib/components/quad_bit_vector.hpp"
 
 std::vector<std::uint32_t> a = {0, 3, 1, 3};
 QuadBitVector bits(a.size());

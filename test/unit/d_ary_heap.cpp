@@ -1,4 +1,4 @@
-#include "data_structure/d_ary_heap.hpp"
+#include "components/d_ary_heap.hpp"
 #include <algorithm>
 #include <cassert>
 #include <functional>

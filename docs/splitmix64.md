@@ -1,10 +1,11 @@
 ---
 title: "SplitMix64"
-documentation_of: //math/splitmix64.hpp
+documentation_of: //components/splitmix64.hpp
+redirect_from: /math/splitmix64.hpp.html
 ---
 
 ```cpp
-#include "lib/math/splitmix64.hpp"
+#include "lib/components/splitmix64.hpp"
 
 SplitMix64 rng(123);
 auto random = rng();

@@ -1,5 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/min_plus_convolution_convex_arbitrary"
-#include "../math/smawk.hpp"
+#include "../components/smawk.hpp"
 #include <cstdint>
 #include <iostream>
 #include <vector>

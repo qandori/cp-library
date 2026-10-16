@@ -1,7 +1,7 @@
 #ifndef DYNAMIC_CONNECTIVITY_HPP
 #define DYNAMIC_CONNECTIVITY_HPP
 
-#include "../math/splitmix64.hpp"
+#include "../components/splitmix64.hpp"
 #include <algorithm>
 #include <array>
 #include <bit>

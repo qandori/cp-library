@@ -1,7 +1,7 @@
 #ifndef SPARSE_TABLE_HPP
 #define SPARSE_TABLE_HPP
 
-#include "default_init_allocator.hpp"
+#include "../components/default_init_allocator.hpp"
 #include <algorithm>
 #include <bit>
 #include <cassert>

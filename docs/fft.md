@@ -1,10 +1,11 @@
 ---
 title: "FFT"
-documentation_of: //convolution/fft.hpp
+documentation_of: //components/fft.hpp
+redirect_from: /convolution/fft.hpp.html
 ---
 
 ```cpp
-#include "lib/convolution/fft.hpp"
+#include "lib/components/fft.hpp"
 
 fft(a);
 fft(a, true);

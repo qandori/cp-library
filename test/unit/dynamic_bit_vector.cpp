@@ -1,4 +1,4 @@
-#include "data_structure/dynamic_bit_vector.hpp"
+#include "components/dynamic_bit_vector.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cstdint>

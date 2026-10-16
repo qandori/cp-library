@@ -1,6 +1,6 @@
-#include "convolution/bitwise_zeta.hpp"
-#include "convolution/divisor_zeta.hpp"
-#include "convolution/walsh_hadamard.hpp"
+#include "components/bitwise_zeta.hpp"
+#include "components/divisor_zeta.hpp"
+#include "components/walsh_hadamard.hpp"
 #include <bit>
 #include <cassert>
 #include <cstdint>

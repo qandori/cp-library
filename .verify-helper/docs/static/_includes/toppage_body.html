@@ -1,10 +1,16 @@
 <div class="library-search">
-  <label for="library-search">ライブラリを検索</label>
-  <input id="library-search" type="search" placeholder="例: LCA / 素因数分解 / range_sum" autocomplete="off" aria-controls="library-list">
+  <label for="library-search">{% if page.components %}補助部品{% else %}ライブラリ{% endif %}を検索</label>
+  <input id="library-search" type="search" placeholder="{% if page.components %}例: Bit Vector / NTT / rank{% else %}例: LCA / 素因数分解 / range_sum{% endif %}" autocomplete="off" aria-controls="library-list">
   <p id="search-status" role="status" aria-live="polite"></p>
 </div>
 <div id="library-list">
   {% for category in page.data.libraryCategories %}
+  {% assign folder = category.name | split: '/' | first %}
+  {% if folder == 'components' %}
+    {% unless page.components %}{% continue %}{% endunless %}
+  {% elsif page.components %}
+    {% continue %}
+  {% endif %}
   <section class="library-category">
     <h2>{{ category.name | escape }}</h2>
     <ul class="library-entries">
@@ -19,6 +25,7 @@
   {% endfor %}
 </div>
 <p id="search-empty" hidden>一致するライブラリがありません。</p>
+{% unless page.components %}
 <details class="verification-list">
   <summary>検証コード</summary>
   {% for category in page.data.verificationCategories %}
@@ -29,4 +36,5 @@
   </ul>
   {% endfor %}
 </details>
+{% endunless %}
 <script defer src="{{ '/assets/js/library-search.js' | relative_url }}"></script>

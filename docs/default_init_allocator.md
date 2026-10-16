@@ -1,10 +1,11 @@
 ---
 title: "Default Init Allocator"
-documentation_of: //data_structure/default_init_allocator.hpp
+documentation_of: //components/default_init_allocator.hpp
+redirect_from: /data_structure/default_init_allocator.hpp.html
 ---
 
 ```cpp
-#include "lib/data_structure/default_init_allocator.hpp"
+#include "lib/components/default_init_allocator.hpp"
 #include <vector>
 
 std::vector<int, DefaultInitAllocator<int>> a(n);

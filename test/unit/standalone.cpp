@@ -1,6 +1,6 @@
 #define COMB_MAX 20
 #include "data_structure/disjoint_sparse_table.hpp"
-#include "data_structure/dynamic_bit_vector.hpp"
+#include "components/dynamic_bit_vector.hpp"
 #include "data_structure/dynamic_connectivity.hpp"
 #include "data_structure/dynamic_segtree.hpp"
 #include "data_structure/dynamic_wavelet_matrix.hpp"

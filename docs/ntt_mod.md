@@ -1,10 +1,11 @@
 ---
 title: "NTT（法指定）"
-documentation_of: //convolution/ntt_mod.hpp
+documentation_of: //components/ntt_mod.hpp
+redirect_from: /convolution/ntt_mod.hpp.html
 ---
 
 ```cpp
-#include "lib/convolution/ntt_mod.hpp"
+#include "lib/components/ntt_mod.hpp"
 
 std::vector<std::uint32_t> a = {1, 2, 3, 4};
 ntt_mod<998244353, 3>(a);

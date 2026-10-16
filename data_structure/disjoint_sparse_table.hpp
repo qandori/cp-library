@@ -1,7 +1,7 @@
 #ifndef DISJOINT_SPARSE_TABLE_HPP
 #define DISJOINT_SPARSE_TABLE_HPP
 
-#include "default_init_allocator.hpp"
+#include "../components/default_init_allocator.hpp"
 #include <algorithm>
 #include <bit>
 #include <cassert>

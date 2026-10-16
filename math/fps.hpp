@@ -1,7 +1,7 @@
 #ifndef FPS_998244353_HPP
 #define FPS_998244353_HPP
 
-#include "../convolution/ntt.hpp"
+#include "../components/ntt.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cstddef>

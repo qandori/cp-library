@@ -1,7 +1,7 @@
 #ifndef GCD_LCM_CONVOLUTION_HPP
 #define GCD_LCM_CONVOLUTION_HPP
 
-#include "divisor_zeta.hpp"
+#include "../components/divisor_zeta.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cstddef>

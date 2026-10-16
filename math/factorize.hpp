@@ -2,7 +2,7 @@
 #define FACTORIZE_HPP
 
 #include "is_prime.hpp"
-#include "splitmix64.hpp"
+#include "../components/splitmix64.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cmath>

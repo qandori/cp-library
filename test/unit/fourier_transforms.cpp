@@ -1,6 +1,6 @@
-#include "convolution/fft.hpp"
-#include "convolution/ntt.hpp"
-#include "convolution/ntt_mod.hpp"
+#include "components/fft.hpp"
+#include "components/ntt.hpp"
+#include "components/ntt_mod.hpp"
 #include <cassert>
 #include <cmath>
 #include <complex>

@@ -1,7 +1,7 @@
 #ifndef MIN_PLUS_CONVOLUTION_HPP
 #define MIN_PLUS_CONVOLUTION_HPP
 
-#include "../math/smawk.hpp"
+#include "../components/smawk.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cstddef>

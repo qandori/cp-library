@@ -135,6 +135,22 @@ class IncrementalVerification(unittest.TestCase):
         self.assertEqual(plan["verification"], [])
         self.assertNotIn("test/comb.test.cpp", plan["state"]["targets"]["verification"])
 
+    def test_component_header_and_transitive_dependencies(self):
+        self.write("components/bits.hpp", "#pragma once\n")
+        self.write("data_structure/matrix.hpp", '#include "../components/bits.hpp"\n')
+        self.write("test/unit/matrix.cpp", '#include "data_structure/matrix.hpp"\n')
+        self.write("test/matrix.test.cpp", '#include "../data_structure/matrix.hpp"\n')
+        previous = self.plan()["state"]
+        self.write("components/bits.hpp", "#pragma once\nusing bit = bool;\n")
+        plan = self.plan(previous)
+        self.assertEqual(plan["headers"], ["components/bits.hpp", "data_structure/matrix.hpp"])
+        self.assertEqual(plan["bundles"], plan["headers"])
+        self.assertEqual(plan["unit"], ["test/unit/matrix.cpp"])
+        self.assertEqual(plan["verification"], ["test/matrix.test.cpp"])
+        self.assertIn(Path("components/bits.hpp"), source_paths(plan, []))
+        for group in GROUPS:
+            self.assertEqual(self.plan(plan["state"])[group], [])
+
     def test_include_resolution_and_shadowing(self):
         self.write("math/mint.hpp", '#include "../math/detail/../small.hpp"\n')
         self.write("math/small.hpp", "#pragma once\n")
@@ -375,11 +391,11 @@ class IncrementalVerification(unittest.TestCase):
 
         def changed(path):
             data = original(path)
-            return data + b"\n" if path == ROOT / "data_structure/dynamic_bit_vector.hpp" else data
+            return data + b"\n" if path == ROOT / "components/dynamic_bit_vector.hpp" else data
 
         with patch.object(Path, "read_bytes", changed):
             plan = build_plan(ROOT, previous, environment="test")
-        self.assertEqual(plan["headers"], ["data_structure/dynamic_bit_vector.hpp", "data_structure/dynamic_wavelet_matrix.hpp"])
+        self.assertEqual(plan["headers"], ["components/dynamic_bit_vector.hpp", "data_structure/dynamic_wavelet_matrix.hpp"])
         self.assertEqual(plan["unit"], ["test/unit/dynamic_bit_vector.cpp", "test/unit/dynamic_wavelet_matrix.cpp", "test/unit/standalone.cpp"])
         self.assertEqual(plan["sanitize"], plan["unit"])
         self.assertEqual(plan["verification"], ["test/dynamic_wavelet_matrix_freq.test.cpp", "test/dynamic_wavelet_matrix_kth.test.cpp"])

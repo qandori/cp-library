@@ -1,4 +1,4 @@
-#include "data_structure/quad_bit_vector.hpp"
+#include "components/quad_bit_vector.hpp"
 #include <array>
 #include <cassert>
 #include <cstdint>

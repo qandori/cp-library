@@ -1,10 +1,11 @@
 ---
 title: "NTT（998244353）"
-documentation_of: //convolution/ntt.hpp
+documentation_of: //components/ntt.hpp
+redirect_from: /convolution/ntt.hpp.html
 ---
 
 ```cpp
-#include "lib/convolution/ntt.hpp"
+#include "lib/components/ntt.hpp"
 
 std::vector<fps_mint> a = {1, 2, 3, 4};
 ntt(a);

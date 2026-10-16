@@ -1,10 +1,11 @@
 ---
 title: "Radix Heap"
-documentation_of: //data_structure/RadixHeap.hpp
+documentation_of: //components/RadixHeap.hpp
+redirect_from: /data_structure/RadixHeap.hpp.html
 ---
 
 ```cpp
-#include "lib/data_structure/RadixHeap.hpp"
+#include "lib/components/RadixHeap.hpp"
 
 RadixHeap<std::uint64_t, int> heap;
 heap.push({10, 3});

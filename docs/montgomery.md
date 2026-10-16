@@ -1,10 +1,11 @@
 ---
 title: "Montgomery 64"
-documentation_of: //math/montgomery.hpp
+documentation_of: //components/montgomery.hpp
+redirect_from: /math/montgomery.hpp.html
 ---
 
 ```cpp
-#include "lib/math/montgomery.hpp"
+#include "lib/components/montgomery.hpp"
 
 Montgomery64 m(1000000007);
 auto a = m.in(12), b = m.in(34);

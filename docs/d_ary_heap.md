@@ -1,10 +1,11 @@
 ---
 title: "D-ary Heap"
-documentation_of: //data_structure/d_ary_heap.hpp
+documentation_of: //components/d_ary_heap.hpp
+redirect_from: /data_structure/d_ary_heap.hpp.html
 ---
 
 ```cpp
-#include "lib/data_structure/d_ary_heap.hpp"
+#include "lib/components/d_ary_heap.hpp"
 
 DaryHeap<int> heap;
 heap.push(3);

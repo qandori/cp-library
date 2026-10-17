@@ -1,0 +1,9 @@
+{
+  "fps/multipoint_eval.hpp": "ac33415ec7aaead7adba8e1114f1ffc303a666c10549158be1ff1612fc839a94",
+  "components/fps_direct_eval.hpp": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380",
+  "test/benchmark/multipoint_eval.cpp": "565af0e1f069031c513f5eca40facb150c8644c6d56e53e7fb32f4893a066751",
+  "test/benchmark/multipoint_eval.py": "e58ccdb4de88df4115eb1c3bc2e99da01811604ed92ab488a2bf56468c4eeb67",
+  "fps/compose.hpp": "a6f402502a3e3304c91f109063e2a1338ccbd8831dc009237520ed70c05a1a7c",
+  "test/benchmark/compose_valuation.cpp": "c1a3a13e5a4c36c5ce54ae69ca5547c9bea7125702e2c94263c01ca30bebb6fe",
+  "test/benchmark/compose_valuation.py": "b9c36bc9b527e1a2e7164d90b4b155bd525f2adcdce23bb3940f7d1402982fb8"
+}

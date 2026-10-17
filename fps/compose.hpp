@@ -32,6 +32,10 @@ FormalPowerSeries<T> compose(const FormalPowerSeries<T> &outer, const FormalPowe
 			result[i * first] = f[i] * power, power *= g[first];
 		return result;
 	}
+	if (first > 1) {
+		int terms = (deg - 1) / first + 1;
+		if (f.size() > std::size_t(terms)) { f.resize(terms); O::trim(f); }
+	}
 	if (deg <= 32 || f.size() <= 8) {
 		F result;
 		for (int i = (static_cast<int>(f.size())) - 1; i >= 0; --i) {

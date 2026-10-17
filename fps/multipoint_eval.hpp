@@ -3,6 +3,7 @@
 
 #include "fps.hpp"
 #include "../components/fps_product_tree.hpp"
+#include "../components/fps_direct_eval.hpp"
 
 #if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
 #pragma GCC push_options
@@ -18,6 +19,16 @@ std::vector<T> multipoint_eval(const FormalPowerSeries<T> &f, const std::vector<
 	if constexpr (!std::is_same_v<T, fps_detail::Mint>) return O::export_work(W(multipoint_eval<fps_detail::Mint>(O::import_work(f), O::import_work(xs))));
 	if (xs.empty()) return {};
 	if (f.size() <= 32 || xs.size() <= 32) {
+#if defined(__x86_64__) || defined(__i386__)
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
+			if (((xs.size() >= 8 && f.size() >= 8 && (xs.size() >= 32 || f.size() >= 32)) ||
+				 (xs.size() >= 4096 && f.size() >= 4)) && fps_detail::NTT::vectorized()) {
+				base r(xs.size());
+				fps_detail::evaluate_direct(O::words(r), O::words(f), f.size(), O::words(xs), xs.size());
+				return r;
+			}
+		}
+#endif
 		base r;
 		r.reserve(xs.size());
 		for (T x : xs) r.push_back(f.eval(x));

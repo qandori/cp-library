@@ -1,0 +1,48 @@
+name: held optimization benchmark once
+on:
+  push:
+    branches:
+      - benchmark/held-pr13-pr14-once-20261017
+    paths:
+      - '.github/workflows/held-optimization-benchmark-once.yml'
+      - 'test/benchmark/held_ci_once.py'
+      - 'test/benchmark/held_ci_hashes.json'
+      - 'test/benchmark/multipoint_eval.*'
+      - 'test/benchmark/compose_valuation.*'
+      - 'fps/multipoint_eval.hpp'
+      - 'fps/compose.hpp'
+      - 'components/fps_direct_eval.hpp'
+permissions:
+  contents: read
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run frozen complete protocols serially
+        run: python3 test/benchmark/held_ci_once.py
+      - name: Print complete raw evidence
+        if: always()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          for p in sorted(Path('benchmark-results').rglob('*')):
+              if p.is_file() and p.suffix in {'.json', '.jsonl', '.csv'}:
+                  print('BEGIN_EVIDENCE', str(p))
+                  s = p.read_text()
+                  print(json.dumps(json.loads(s), separators=(',', ':')) if p.suffix == '.json' else s)
+                  print('END_EVIDENCE', str(p))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: held-pr13-pr14-one-run-evidence
+          path: benchmark-results

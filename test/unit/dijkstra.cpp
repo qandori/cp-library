@@ -45,4 +45,31 @@ int main() {
 	I maximum = numeric_limits<I>::max();
 	const G huge = {{{1, maximum - 1}, {2, maximum}}, {{2, maximum}}, {}};
 	assert((dijkstra(huge, 0, maximum) == vector<I>{0, maximum - 1, -1}));
+	using Wide = __int128_t;
+	using WideGraph = vector<vector<pair<int, Wide>>>;
+	for (int trial = 0; trial < 150; ++trial) {
+		int n = 1 + random() % 15;
+		Wide inf = Wide(1) << 125;
+		WideGraph graph(n);
+		vector<vector<Wide>> expected(n, vector<Wide>(n, inf));
+		for (int i = 0; i < n; ++i) expected[i][i] = 0;
+		for (int e = random() % (n * n + 1); e--;) {
+			int from = random() % n, to = random() % n;
+			Wide weight = (Wide(random() >> 4) << 64) | random();
+			if (trial % 3 == 0) weight = random() % 2;
+			graph[from].emplace_back(to, weight);
+			expected[from][to] = min(expected[from][to], weight);
+		}
+		for (int k = 0; k < n; ++k)
+			for (int i = 0; i < n; ++i)
+				for (int j = 0; j < n; ++j)
+					expected[i][j] = min(expected[i][j], expected[i][k] + expected[k][j]);
+		for (int source = 0; source < n; ++source) {
+			for (auto &value : expected[source]) if (value == inf) value = -1;
+			assert(dijkstra(graph, source, inf) == expected[source]);
+		}
+	}
+	Wide inf = Wide(1) << 125;
+	WideGraph wide = {{{1, inf - 1}, {2, inf}}, {{2, inf}}, {}, {}};
+	assert((dijkstra(wide, 0, inf) == vector<Wide>{0, inf - 1, -1, -1}));
 }

@@ -1,17 +1,24 @@
 #include "../../components/fast_io.hpp"
-#include "../../math/bigint.hpp"
 #include <cassert>
 #include <limits>
-#include <vector>
 #if defined(__unix__) || defined(__APPLE__)
 #include <thread>
 #endif
+
+struct TextValue {
+	std::string text;
+	TextValue() = default;
+	explicit TextValue(std::string_view value) : text(value) {}
+	std::size_t decimal_capacity() const { return text.size(); }
+	char *to_chars(char *out) const { return std::copy(text.begin(), text.end(), out); }
+	const std::string &str() const { return text; }
+};
 
 void input(FastInput &in, const std::string &long_value) {
 	int t;
 	long long low;
 	unsigned long long high;
-	BigInt a;
+	TextValue a;
 	std::string s;
 	assert(in.read(t) && t == -123);
 	assert(in.read(low) && low == std::numeric_limits<long long>::min());
@@ -51,7 +58,7 @@ int main() {
 		out.println(std::numeric_limits<long long>::min());
 		out.write(std::numeric_limits<unsigned long long>::max());
 		out.write(' ');
-		out.println(BigInt(number));
+		out.println(TextValue(number));
 		out.write("end");
 		assert(out.flush());
 #if defined(__unix__) || defined(__APPLE__)
@@ -91,12 +98,5 @@ int main() {
 		std::string s(n, ' ');
 		FastInput in(s);
 		assert(in.token().empty());
-	}
-	for (int n = 1; n <= 40; ++n) {
-		BigInt x("-" + std::string(n, '9'));
-		std::vector<char> buffer(x.decimal_capacity() + 1, '#');
-		char *end = x.to_chars(buffer.data());
-		assert(std::string(buffer.data(), end) == x.str());
-		assert(buffer[x.decimal_capacity()] == '#');
 	}
 }

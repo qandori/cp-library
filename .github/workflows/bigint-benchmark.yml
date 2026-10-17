@@ -1,4 +1,4 @@
-name: bigint benchmark
+name: bigint history benchmark
 
 on:
   workflow_dispatch:
@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           persist-credentials: false
       - name: Install Boost
         run: sudo apt-get update && sudo apt-get install -y libboost-dev
@@ -29,9 +30,11 @@ jobs:
         run: |
           g++ -std=c++23 -O2 -DNDEBUG -I . test/benchmark/limb_arithmetic.cpp -o /tmp/limb-bench
           /tmp/limb-bench | tee benchmark-results/limb-arithmetic.csv
-      - name: Compare BigInt with Boost
+      - name: Restore historical BigInt
+        run: python3 test/benchmark/bigint_history.py --output .verify-helper/cache/bigint-history
+      - name: Compare historical BigInt with Boost
         run: |
-          g++ -std=c++23 -O2 -DNDEBUG -I . test/benchmark/bigint.cpp -o /tmp/bigint-bench
+          g++ -std=c++23 -O2 -DNDEBUG -I .verify-helper/cache/bigint-history -I . test/benchmark/bigint.cpp -o /tmp/bigint-bench
           for n in 18 36 300 1000 10000 100000; do
             repetitions=$((300000 / n))
             if [ "$repetitions" -lt 4 ]; then repetitions=4; fi

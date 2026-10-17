@@ -1,0 +1,5 @@
+{
+  "headers": ["components/montgomery32.hpp", "math/mod_sqrt.hpp"],
+  "unit": ["test/unit/montgomery32.cpp", "test/unit/mod_sqrt.cpp", "test/unit/standalone.cpp"],
+  "sanitize": ["test/unit/montgomery32.cpp", "test/unit/mod_sqrt.cpp", "test/unit/standalone.cpp"]
+}

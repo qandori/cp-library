@@ -1,8 +1,26 @@
 # Multipoint evaluation: direct Horner batching
 
-**HOLD: keep PR #13 as a draft; do not merge.** Correctness and API review passed, and every SIMD-dispatched measurement improved, but the fixed full validation also found unchanged scalar-path regressions. Those adverse controls are retained below. The targeted gains do not establish universal non-regression, and this report does not recommend automatic acceptance.
+**Qualified performance acceptance; latest-head correctness CI remains required before merge.** The original frozen SIMD patch has substantial target-workload gains in both local and independent remote validation. Acceptance explicitly includes hardware/compiler-dependent scalar fallback tradeoffs, not universal non-regression. All original local adverse results and the failed gate-factorization diagnostic remain below.
 
-A single subsequent exact-domain gate-factorization diagnostic did not establish a reliable repair. Its findings are separate from, and do not replace, the original frozen results. No further source tuning or performance reruns were performed. The alternative gate remains local only; this PR retains the original frozen production hashes below.
+## Independent remote validation and decision
+
+[GitHub Actions run 39029747234](https://github.com/qandori/cp-library/actions/runs/39029747234) ran the unchanged full protocol once on an Ubuntu 24.04 AMD EPYC 7763 VM with GCC 13.3.0. Both 78-shape configurations retained all eight balanced-order pairs per shape (1,248 pairs total), with every variant meeting the 0.15 process CPU second floor. Original candidate, harness and relevant dependencies matched the frozen sources; no alternative gate was substituted.
+
+All 36 SIMD-active shapes improved: median paired wall speedups were 1.622–10.398x for portable O2 and 1.752–10.400x for native O2. Important fallback comparisons, using paired CPU speedups (baseline / candidate), are:
+
+| Mode / shape | Original Intel / GCC 14.2 | Remote AMD / GCC 13.3 |
+|---|---:|---:|
+| Portable 7×8 | 0.946225 | 1.004180 |
+| Portable 7×31 | 0.958497 | 1.001437 |
+| Portable 8×31 | 0.968598 | 1.001464 |
+| Portable 31×7 | 0.962531 | 1.000376 |
+| Native 4×33 | 0.872726 | 1.004264 |
+| Native 16×16 | 0.871821 | 1.001156 |
+| Native 7×16 | 0.967818 | 0.982303 |
+
+Remote controls were more stable, but native 7×16 still slowed by about 1.8%, and some other controls and individual pairs remained slower. This single run changes both hardware and compiler, so it neither isolates the cause of the earlier losses nor proves them to be noise. It is not an AtCoder measurement or a noiseless dedicated-host guarantee. Target gains are accepted with these explicit tradeoffs; this is not a retroactive claim that every workload improves.
+
+The separate gate-factorization screen did not establish a reliable repair and is preserved as negative evidence at the end of this report. The original production code is unchanged.
 
 ## Scope and reference
 
@@ -65,7 +83,7 @@ Measured on 2026-10-17, Intel Xeon Platinum 8573C, GCC 14.2.0, Linux x86-64 cont
 
 ### Portable O2
 
-All 36 SIMD-activated cells improved, with median paired wall speedups1.416–10.337x. The 42 unchanged-path controls include a small7×8 regression: median wall latency0.228us to0.245us, paired wall speedup0.938x and CPU speedup0.946x. Other control losses above 3% in paired CPU time are7×31 (0.9585x; wall medians0.713us to0.725us) and31×7 (0.9625x; wall medians1.139us to1.161us). All are retained rather than described as noise-free equivalence. No cell had greater than 5% disagreement between paired wall and CPU-per-call speedups. The exact public-path branch and timing overhead remain included.
+All 36 SIMD-activated cells improved, with median paired wall speedups1.416–10.337x. The 42 unchanged-path controls include a small7×8 regression: median wall latency0.228us to0.245us, paired wall speedup0.938x and CPU speedup0.946x. Other control losses above 3% in paired CPU time are7×31 (0.9585x; wall medians0.713us to0.725us), 31×7 (0.9625x; wall medians1.139us to1.161us), and8×31 (0.968598x). There are four portable CPU controls below0.97x including7×8. All are retained rather than described as noise-free equivalence. No cell had greater than 5% disagreement between paired wall and CPU-per-call speedups. The exact public-path branch and timing overhead remain included.
 
 | n | m | baseline us | candidate us | median paired wall speedup | ratio of wall medians | median paired CPU speedup | path |
 |---:|---:|---:|---:|---:|---:|---:|:---|
@@ -260,4 +278,4 @@ One predeclared screen used 19 active/control shapes, six rounds, all six permut
 - At 16×16, baseline/original was 1.014x and baseline/factored 1.027x, while original/factored was 0.976x. The original source's earlier slowdown did not recur in this reconstructed binary, so its apparent disappearance cannot be credited to factorization. Medians of different paired ratios are not transitive.
 - The six activated shapes retained baseline/factored speedups of 1.268–9.538x, but mixed unchanged-path outcomes did not justify replacing the original candidate or claiming that its regressions were fixed.
 
-The alternative was not published and was not substituted into the full tables. This negative diagnostic reinforces the HOLD decision; it is not a rerun selected to erase the original adverse results.
+The alternative was not published and was not substituted into the full tables. This negative diagnostic explains the initial HOLD and remains part of the qualified decision; it is not a rerun selected to erase the original adverse results.

@@ -117,7 +117,7 @@ taskset -c 0 python3 test/benchmark/gcc_audit.py --cxx g++ \
 | graph/hungarian.hpp | 維持。列削減と Monge の判定。既存の Linux 測定資料あり。 |
 | graph/lca.hpp | 維持。反復 DFS、前順序の RMQ。 |
 | graph/low_link.hpp | 維持。CSR と反復 DFS。 |
-| math/bigint.hpp | 維持。小さい桁数の経路、Karatsuba / NTT、AVX2 の加減算が既存。 |
+| math/bigint.hpp | この監査後に削除。[Boost との比較](bigint.md)。 |
 | math/comb.hpp | 維持。前計算後は定数回の積。 |
 | math/factorize.hpp | 維持。Montgomery、積をまとめた gcd、平方数判定。 |
 | math/fps.hpp | 維持。専用 NTT の AVX2 とスカラー / NEON 経路が既存。 |

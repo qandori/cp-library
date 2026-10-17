@@ -1,0 +1,13 @@
+g++: standalone graph/dijkstra.hpp
+g++: standalone components/fast_io.hpp
+g++: dijkstra.cpp
+g++: fast_io.cpp
+clang++: standalone graph/dijkstra.hpp
+clang++: standalone components/fast_io.hpp
+clang++: dijkstra.cpp
+clang++: fast_io.cpp
+Verification passed
+g++: standalone.cpp
+clang++: standalone.cpp
+Verification passed
+GCC 13: dijkstra unit and No.3669 driver/sample passed

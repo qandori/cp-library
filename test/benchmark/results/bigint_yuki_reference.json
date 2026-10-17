@@ -1,0 +1,615 @@
+{
+  "retrieved_at": "2026-10-17T11:12:55.382327+00:00",
+  "yukicoder": [
+    {
+      "id": 1182839,
+      "url": "https://yukicoder.me/submissions/1182839",
+      "type": "uint512_t",
+      "judge_ms": 197,
+      "source_sha256": "26538a93394bb8d5c675fc4699f2930cca9746ceaf4c819a99692b4a5e79f0bd"
+    },
+    {
+      "id": 1185228,
+      "url": "https://yukicoder.me/submissions/1185228",
+      "type": "cpp_int",
+      "judge_ms": 248,
+      "source_sha256": "04d0cc3859676b0247386541f5b843df28b92806053bb2c3177cbbc20662cb34"
+    }
+  ],
+  "library_checker": {
+    "addition_of_big_integers": {
+      "listing": {
+        "count": 483,
+        "submissions": [
+          {
+            "id": 390082,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 9478144,
+            "problem_name": "addition_of_big_integers",
+            "problem_title": "Addition of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-02T13:52:43.289471Z",
+            "time": 0.007
+          },
+          {
+            "id": 406181,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 9879552,
+            "problem_name": "addition_of_big_integers",
+            "problem_title": "Addition of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-09-26T04:48:06.479273Z",
+            "time": 0.013,
+            "user_name": "Rohan_Kapri"
+          },
+          {
+            "id": 390079,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 10121216,
+            "problem_name": "addition_of_big_integers",
+            "problem_title": "Addition of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-02T13:38:06.308586Z",
+            "time": 0.013
+          },
+          {
+            "id": 390057,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 9109504,
+            "problem_name": "addition_of_big_integers",
+            "problem_title": "Addition of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-02T12:26:51.177487Z",
+            "time": 0.015
+          },
+          {
+            "id": 389358,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 9502720,
+            "problem_name": "addition_of_big_integers",
+            "problem_title": "Addition of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-30T12:39:27.515337Z",
+            "time": 0.015
+          },
+          {
+            "id": 387304,
+            "is_latest": true,
+            "lang": "cpp20",
+            "memory": 9465856,
+            "problem_name": "addition_of_big_integers",
+            "problem_title": "Addition of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-22T14:42:21.473848Z",
+            "time": 0.016
+          },
+          {
+            "id": 386783,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 9183232,
+            "problem_name": "addition_of_big_integers",
+            "problem_title": "Addition of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-21T00:56:53.314678Z",
+            "time": 0.017
+          },
+          {
+            "id": 386782,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 9469952,
+            "problem_name": "addition_of_big_integers",
+            "problem_title": "Addition of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-21T00:56:23.776955Z",
+            "time": 0.017
+          },
+          {
+            "id": 386506,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 10121216,
+            "problem_name": "addition_of_big_integers",
+            "problem_title": "Addition of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-20T02:42:28.630186Z",
+            "time": 0.017
+          },
+          {
+            "id": 386796,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 10268672,
+            "problem_name": "addition_of_big_integers",
+            "problem_title": "Addition of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-21T01:10:04.371084Z",
+            "time": 0.018
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 390082,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 9478144,
+          "problem_name": "addition_of_big_integers",
+          "problem_title": "Addition of Big Integers",
+          "status": "AC",
+          "submission_time": "2026-08-02T13:52:43.289471Z",
+          "time": 0.007,
+          "url": "https://judge.yosupo.jp/submission/390082",
+          "source_sha256": "a1ebd9c02657cd9bcec7f0dadefe6edec2db6ed9b0f62dbe3879e135b54a09f3"
+        },
+        {
+          "id": 406181,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 9879552,
+          "problem_name": "addition_of_big_integers",
+          "problem_title": "Addition of Big Integers",
+          "status": "AC",
+          "submission_time": "2026-09-26T04:48:06.479273Z",
+          "time": 0.013,
+          "user_name": "Rohan_Kapri",
+          "url": "https://judge.yosupo.jp/submission/406181",
+          "source_sha256": "46cc7096d46bd0c35b9e851f7c3a911af15cde019eca6ff8f11ba5369c51eaed"
+        }
+      ]
+    },
+    "multiplication_of_big_integers": {
+      "listing": {
+        "count": 586,
+        "submissions": [
+          {
+            "id": 389886,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 34095104,
+            "problem_name": "multiplication_of_big_integers",
+            "problem_title": "Multiplication of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-01T15:18:41.618766Z",
+            "time": 0.025
+          },
+          {
+            "id": 406182,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 34115584,
+            "problem_name": "multiplication_of_big_integers",
+            "problem_title": "Multiplication of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-09-26T04:49:23.540032Z",
+            "time": 0.026,
+            "user_name": "Rohan_Kapri"
+          },
+          {
+            "id": 389883,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 34127872,
+            "problem_name": "multiplication_of_big_integers",
+            "problem_title": "Multiplication of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-01T15:00:57.718534Z",
+            "time": 0.035
+          },
+          {
+            "id": 387374,
+            "is_latest": true,
+            "lang": "cpp20",
+            "memory": 36302848,
+            "problem_name": "multiplication_of_big_integers",
+            "problem_title": "Multiplication of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-22T15:56:08.168954Z",
+            "time": 0.036
+          },
+          {
+            "id": 385663,
+            "is_latest": true,
+            "lang": "cpp20",
+            "memory": 33865728,
+            "problem_name": "multiplication_of_big_integers",
+            "problem_title": "Multiplication of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-15T14:24:55.660079Z",
+            "time": 0.036
+          },
+          {
+            "id": 389359,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 37322752,
+            "problem_name": "multiplication_of_big_integers",
+            "problem_title": "Multiplication of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-30T12:39:31.667945Z",
+            "time": 0.037
+          },
+          {
+            "id": 387271,
+            "is_latest": true,
+            "lang": "cpp20",
+            "memory": 37048320,
+            "problem_name": "multiplication_of_big_integers",
+            "problem_title": "Multiplication of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-22T12:40:43.819853Z",
+            "time": 0.037
+          },
+          {
+            "id": 385759,
+            "is_latest": true,
+            "lang": "cpp20",
+            "memory": 33861632,
+            "problem_name": "multiplication_of_big_integers",
+            "problem_title": "Multiplication of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-16T06:03:36.10008Z",
+            "time": 0.037
+          },
+          {
+            "id": 309889,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 33837056,
+            "problem_name": "multiplication_of_big_integers",
+            "problem_title": "Multiplication of Big Integers",
+            "status": "AC",
+            "submission_time": "2025-08-25T01:10:59.843503Z",
+            "time": 0.037
+          },
+          {
+            "id": 389381,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 37302272,
+            "problem_name": "multiplication_of_big_integers",
+            "problem_title": "Multiplication of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-07-30T14:33:09.401612Z",
+            "time": 0.038
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 389886,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 34095104,
+          "problem_name": "multiplication_of_big_integers",
+          "problem_title": "Multiplication of Big Integers",
+          "status": "AC",
+          "submission_time": "2026-08-01T15:18:41.618766Z",
+          "time": 0.025,
+          "url": "https://judge.yosupo.jp/submission/389886",
+          "source_sha256": "79e6dce4b3c6afab1a1e7bd231bdaee37071d8a78e798071649ec1a0e1954756"
+        },
+        {
+          "id": 406182,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 34115584,
+          "problem_name": "multiplication_of_big_integers",
+          "problem_title": "Multiplication of Big Integers",
+          "status": "AC",
+          "submission_time": "2026-09-26T04:49:23.540032Z",
+          "time": 0.026,
+          "user_name": "Rohan_Kapri",
+          "url": "https://judge.yosupo.jp/submission/406182",
+          "source_sha256": "14714ad3f308080b03f7dd1075141d26ed6740ec49d0feb3c275f30d43145bc2"
+        }
+      ]
+    },
+    "division_of_big_integers": {
+      "listing": {
+        "count": 350,
+        "submissions": [
+          {
+            "id": 391180,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 47730688,
+            "problem_name": "division_of_big_integers",
+            "problem_title": "Division of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-07T03:16:23.893817Z",
+            "time": 0.029
+          },
+          {
+            "id": 391066,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 49053696,
+            "problem_name": "division_of_big_integers",
+            "problem_title": "Division of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-06T16:10:09.169732Z",
+            "time": 0.03
+          },
+          {
+            "id": 390707,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 49594368,
+            "problem_name": "division_of_big_integers",
+            "problem_title": "Division of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-04T16:18:11.518348Z",
+            "time": 0.033
+          },
+          {
+            "id": 391243,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 48275456,
+            "problem_name": "division_of_big_integers",
+            "problem_title": "Division of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-07T13:16:02.247647Z",
+            "time": 0.035
+          },
+          {
+            "id": 390892,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 47108096,
+            "problem_name": "division_of_big_integers",
+            "problem_title": "Division of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-05T16:46:37.591438Z",
+            "time": 0.035
+          },
+          {
+            "id": 390687,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 28631040,
+            "problem_name": "division_of_big_integers",
+            "problem_title": "Division of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-04T14:27:45.977918Z",
+            "time": 0.036
+          },
+          {
+            "id": 391163,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 41947136,
+            "problem_name": "division_of_big_integers",
+            "problem_title": "Division of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-07T02:39:26.886541Z",
+            "time": 0.037
+          },
+          {
+            "id": 391165,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 41717760,
+            "problem_name": "division_of_big_integers",
+            "problem_title": "Division of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-07T02:44:35.414888Z",
+            "time": 0.038
+          },
+          {
+            "id": 391063,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 47992832,
+            "problem_name": "division_of_big_integers",
+            "problem_title": "Division of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-06T16:03:52.792959Z",
+            "time": 0.038
+          },
+          {
+            "id": 390643,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 29421568,
+            "problem_name": "division_of_big_integers",
+            "problem_title": "Division of Big Integers",
+            "status": "AC",
+            "submission_time": "2026-08-04T12:46:53.531462Z",
+            "time": 0.045
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 391180,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 47730688,
+          "problem_name": "division_of_big_integers",
+          "problem_title": "Division of Big Integers",
+          "status": "AC",
+          "submission_time": "2026-08-07T03:16:23.893817Z",
+          "time": 0.029,
+          "url": "https://judge.yosupo.jp/submission/391180",
+          "source_sha256": "f6949d84f15d8ecd147bd3e588795e4451f421ea9d41329eb257b11d922d9cb8"
+        },
+        {
+          "id": 391066,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 49053696,
+          "problem_name": "division_of_big_integers",
+          "problem_title": "Division of Big Integers",
+          "status": "AC",
+          "submission_time": "2026-08-06T16:10:09.169732Z",
+          "time": 0.03,
+          "url": "https://judge.yosupo.jp/submission/391066",
+          "source_sha256": "d6f18284cc4245453e99afc1f960690f957e80d7e10f4d0c113971cba506e177"
+        }
+      ]
+    },
+    "shortest_path": {
+      "listing": {
+        "count": 3141,
+        "submissions": [
+          {
+            "id": 407097,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 30457856,
+            "problem_name": "shortest_path",
+            "problem_title": "Shortest Path",
+            "status": "AC",
+            "submission_time": "2026-09-30T01:41:41.808768Z",
+            "time": 0.038
+          },
+          {
+            "id": 404592,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 20021248,
+            "problem_name": "shortest_path",
+            "problem_title": "Shortest Path",
+            "status": "AC",
+            "submission_time": "2026-09-21T09:44:36.551045Z",
+            "time": 0.04,
+            "user_name": "Rohan_Kapri"
+          },
+          {
+            "id": 403027,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 19984384,
+            "problem_name": "shortest_path",
+            "problem_title": "Shortest Path",
+            "status": "AC",
+            "submission_time": "2026-09-16T21:59:05.829603Z",
+            "time": 0.04,
+            "user_name": "nandhagk"
+          },
+          {
+            "id": 410532,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 30162944,
+            "problem_name": "shortest_path",
+            "problem_title": "Shortest Path",
+            "status": "AC",
+            "submission_time": "2026-10-15T03:04:59.460423Z",
+            "time": 0.044,
+            "user_name": "twins_fuyu"
+          },
+          {
+            "id": 386103,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 34902016,
+            "problem_name": "shortest_path",
+            "problem_title": "Shortest Path",
+            "status": "AC",
+            "submission_time": "2026-07-18T02:54:39.769536Z",
+            "time": 0.05,
+            "user_name": "twins_fuyu"
+          },
+          {
+            "id": 410434,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 32276480,
+            "problem_name": "shortest_path",
+            "problem_title": "Shortest Path",
+            "status": "AC",
+            "submission_time": "2026-10-14T16:28:28.44013Z",
+            "time": 0.052,
+            "user_name": "twins_fuyu"
+          },
+          {
+            "id": 410523,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 32256000,
+            "problem_name": "shortest_path",
+            "problem_title": "Shortest Path",
+            "status": "AC",
+            "submission_time": "2026-10-15T02:42:37.178777Z",
+            "time": 0.053,
+            "user_name": "twins_fuyu"
+          },
+          {
+            "id": 410522,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 36184064,
+            "problem_name": "shortest_path",
+            "problem_title": "Shortest Path",
+            "status": "AC",
+            "submission_time": "2026-10-15T02:36:57.498732Z",
+            "time": 0.057,
+            "user_name": "twins_fuyu"
+          },
+          {
+            "id": 386101,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 30466048,
+            "problem_name": "shortest_path",
+            "problem_title": "Shortest Path",
+            "status": "AC",
+            "submission_time": "2026-07-18T02:16:40.647423Z",
+            "time": 0.057,
+            "user_name": "twins_fuyu"
+          },
+          {
+            "id": 410428,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 37294080,
+            "problem_name": "shortest_path",
+            "problem_title": "Shortest Path",
+            "status": "AC",
+            "submission_time": "2026-10-14T16:01:06.503402Z",
+            "time": 0.06,
+            "user_name": "twins_fuyu"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 407097,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 30457856,
+          "problem_name": "shortest_path",
+          "problem_title": "Shortest Path",
+          "status": "AC",
+          "submission_time": "2026-09-30T01:41:41.808768Z",
+          "time": 0.038,
+          "url": "https://judge.yosupo.jp/submission/407097",
+          "source_sha256": "c9ef396d351cdab68d78374e4620e92203b6a96abf1303125f3ca2b77d95a159"
+        },
+        {
+          "id": 404592,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 20021248,
+          "problem_name": "shortest_path",
+          "problem_title": "Shortest Path",
+          "status": "AC",
+          "submission_time": "2026-09-21T09:44:36.551045Z",
+          "time": 0.04,
+          "user_name": "Rohan_Kapri",
+          "url": "https://judge.yosupo.jp/submission/404592",
+          "source_sha256": "ed2e29063256e08660176ff510672db36db03af15909dd2433566d026f62a294"
+        }
+      ]
+    }
+  }
+}

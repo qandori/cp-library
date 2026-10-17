@@ -1,0 +1,5 @@
+clang++: dijkstra.cpp
+clang++: fast_io.cpp
+Verification passed
+clang++: standalone.cpp
+Verification passed

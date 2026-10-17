@@ -1,0 +1,16 @@
+g++: standalone components/montgomery32.hpp
+g++: standalone math/mod_sqrt.hpp
+g++: montgomery32.cpp
+g++: mod_sqrt.cpp
+g++: standalone.cpp
+clang++: standalone components/montgomery32.hpp
+clang++: standalone math/mod_sqrt.hpp
+clang++: montgomery32.cpp
+clang++: mod_sqrt.cpp
+clang++: standalone.cpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: standalone components/montgomery32.hpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: standalone math/mod_sqrt.hpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: montgomery32.cpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: mod_sqrt.cpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: standalone.cpp
+Verification passed

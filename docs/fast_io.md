@@ -22,9 +22,11 @@ out.println(n);
 | `out.println(x)` | 値に続けて改行を出力 |
 | `out.flush()` | バッファを書き出し、成功時に true。破棄時にも呼ばれる |
 
-`FastInput(FILE* = stdin)`・`FastOutput(FILE* = stdout)` は標準の整数型・文字列・`BigInt` に対応します。`read(x)` は EOF で `false` を返します。`write(x)` は値だけ、`println(x)` は末尾に改行も出力します。`write(' ')` などで区切りを入れてください。出力は破棄時または `flush()` で書き出します。
+`FastInput(FILE* = stdin)`・`FastOutput(FILE* = stdout)` は標準の整数型・文字列に対応します。`read(x)` は EOF で `false` を返します。`write(x)` は値だけ、`println(x)` は末尾に改行も出力します。`write(' ')` などで区切りを入れてください。出力は破棄時または `flush()` で書き出します。
 
 出力は `__int128_t`・`__uint128_t` にも対応します。
+
+独自の型は `string_view` から構築できれば入力できます。出力には `decimal_capacity()` と `to_chars(char*)` を用意します。Boost の多倍長整数は演算結果を整数型の変数に受け、`out.write(x.str())` で出力できます。
 
 `token()` は空白区切りの `string_view` を返し、次の読み込みまで有効です。`FastInput(string_view)` は文字列から読みます。入力元の寿命を保ち、同じ `FILE*` でほかの入力方法と混用しないでください。通常のファイルは mmap、パイプなどは fread を使います。
 

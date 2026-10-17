@@ -1,0 +1,5 @@
+{
+  "headers": ["graph/dijkstra.hpp", "components/fast_io.hpp"],
+  "unit": ["test/unit/dijkstra.cpp", "test/unit/fast_io.cpp", "test/unit/standalone.cpp"],
+  "sanitize": ["test/unit/dijkstra.cpp", "test/unit/fast_io.cpp", "test/unit/standalone.cpp"]
+}

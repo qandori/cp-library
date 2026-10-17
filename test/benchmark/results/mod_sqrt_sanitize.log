@@ -1,0 +1,4 @@
+clang++: montgomery32.cpp
+clang++: mod_sqrt.cpp
+clang++: standalone.cpp
+Verification passed

@@ -24,6 +24,7 @@ def main():
     parser.add_argument('--anti-ssp', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--native', action='store_true')
+    parser.add_argument('--boost-include', type=Path)
     args = parser.parse_args()
     os.chdir(ROOT)
     os.sched_setaffinity(0, {2})
@@ -32,6 +33,7 @@ def main():
     args.output.mkdir(parents=True, exist_ok=True)
     flags = ['-std=c++2b', '-O2', '-DNDEBUG']
     if args.native: flags += ['-march=native', '-ftrivial-auto-var-init=zero']
+    if args.boost_include: flags += ['-I', str(args.boost_include.resolve())]
     sources = {
         'maximum': ROOT / 'test/benchmark/flow.cpp',
         'minimum': ROOT / 'test/min_cost_b_flow.test.cpp',
@@ -83,7 +85,7 @@ def main():
               'sources': {name: sha(path) for name,path in sources.items()},
               'headers': {name: sha(ROOT/name) for name in ['graph/max_flow.hpp','graph/min_cost_flow.hpp','components/flow_graph.hpp',
                   'components/push_relabel.hpp','components/min_cost_circulation.hpp','components/RadixHeap.hpp',
-                  'components/d_ary_heap.hpp','components/fast_io.hpp','graph/dijkstra.hpp','math/bigint.hpp']}, 'workloads': {}}
+                  'components/d_ary_heap.hpp','components/fast_io.hpp','graph/dijkstra.hpp']}, 'workloads': {}}
     for name, data in cases.items():
         if name.startswith('max_'):
             programs = {'push_relabel': [bins['maximum']], 'dinic': [bins['maximum'], 'dinic'], 'reference_1174960': [bins['max_reference_1174960']]}

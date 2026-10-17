@@ -22,6 +22,7 @@
 #include "math/comb.hpp"
 #include "math/binomial_prefix_sum.hpp"
 #include "math/mod_pow.hpp"
+#include "math/mod_sqrt.hpp"
 #include "math/factorize.hpp"
 #include "fps/fps.hpp"
 #include "fps/bostan_mori.hpp"
@@ -66,6 +67,7 @@ struct StaticTreeSum {
 };
 
 int main() {
+	assert(mod_sqrt(10, 13) == 6 && !mod_sqrt(2, 13));
 	SternBrocotTree<> rational_tree(5, 3);
 	assert((rational_tree.depth() == 3 && rational_tree.ancestor(2)->value() == std::pair<std::uint64_t, std::uint64_t>(3, 2)));
 	OnlineConvolution<> online(3);

@@ -1,0 +1,124 @@
+--- a/math/bigint.hpp
++++ b/math/bigint.hpp
+@@ -16,0 +17 @@
++#include <numeric>
+@@ -33 +34 @@
+-	using D = SmallVector<U>;
++	using D = SmallVector<U, 8>;
+@@ -390,0 +392,41 @@
++	static std::pair<D, D> divide_short(D a, const D &b) {
++		std::size_t n = a.size(), m = b.size();
++		a.resize(n + 1);
++		D q(n - m + 1);
++		long double inverse = 1 / (static_cast<long double>(b.back()) * base + b[m - 2]);
++		for (std::size_t j = q.size(); j--;) {
++			long double high = (static_cast<long double>(a[j + m]) * base + a[j + m - 1]) * base + a[j + m - 2];
++			U digit = static_cast<U>(std::min(static_cast<long double>(base - 1), high * inverse));
++			W borrow = 0;
++			for (std::size_t i = 0; i < m; ++i) {
++				W product = W(digit) * b[i] + borrow;
++				W next = base_quotient(product);
++				U low = product - next * base;
++				borrow = next + (a[j + i] < low);
++				a[j + i] = a[j + i] + (a[j + i] < low ? base : 0) - low;
++			}
++			bool over = a[j + m] < borrow;
++			a[j + m] = a[j + m] + (over ? base : 0) - borrow;
++			while (over) {
++				--digit;
++				U carry = limb_arithmetic::add<base>(a.data() + j, b.data(), m);
++				a[j + m] += carry;
++				over = a[j + m] < base;
++				if (!over) a[j + m] -= base;
++			}
++			auto at_least = [&] {
++				if (a[j + m]) return true;
++				for (std::size_t i = m; i--;) if (a[j + i] != b[i]) return a[j + i] > b[i];
++				return true;
++			};
++			while (at_least()) {
++				++digit;
++				U borrow = limb_arithmetic::subtract<base>(a.data() + j, b.data(), m);
++				a[j + m] -= borrow;
++			}
++			q[j] = digit;
++		}
++		a.resize(m);
++		trim(a); trim(q);
++		return {std::move(q), std::move(a)};
++	}
+@@ -432,0 +475 @@
++		if (a.size() <= 16) return divide_short(a, b);
+@@ -617,0 +661,72 @@
++	friend BigInt gcd(BigInt x, BigInt y) {
++		x.negative = y.negative = false;
++		if (compare(x.a, y.a) < 0) std::swap(x, y);
++		while (!y.a.empty()) {
++			if (x.a.size() <= 2) {
++				W u = x.a[0], v = y.a[0];
++				if (x.a.size() == 2) u += W(x.a[1]) * base;
++				if (y.a.size() == 2) v += W(y.a[1]) * base;
++				auto zeros = [](W value) { return U(value) ? std::countr_zero(U(value)) : 64 + std::countr_zero(U(value >> 64)); };
++				int shift = std::min(zeros(u), zeros(v));
++				u >>= zeros(u);
++				do {
++					v >>= zeros(v);
++					if (u > v) std::swap(u, v);
++					v -= u;
++				} while (v);
++				return BigInt(u << shift);
++			}
++			if (y.a.size() == 1) {
++				U remainder = divide_small(x.a, y.a[0]);
++				return BigInt(std::gcd(remainder, y.a[0]));
++			}
++			using I = std::int64_t;
++			I p = 1, q = 0, r = 0, s = 1;
++			if (x.a.size() <= y.a.size() + 1) {
++				std::size_t n = x.a.size();
++				W high = W(x.a.back()) * base + x.a[n - 2];
++				W low = n == y.a.size() ? W(y.a.back()) * base : 0;
++				low += y.a[n - 2];
++				int bits = high >> 64 ? 64 + std::bit_width(U(high >> 64)) : std::bit_width(U(high));
++				int shift = std::max(0, bits - 62);
++				I u = high >> shift, v = low >> shift;
++				while (v + r > 0 && v + s > 0 && u + p >= 0 && u + q >= 0) {
++					constexpr I limit = I(1) << 30;
++					I digit = (u + p) / (v + r);
++					if (!digit || digit > limit) break;
++					I remainder = u + q - digit * (v + s);
++					if (remainder < 0 || remainder >= v + s) break;
++					I nr = p - digit * r, ns = q - digit * s;
++					if (nr < -limit || nr > limit || ns < -limit || ns > limit) break;
++					I next = u - digit * v;
++					if (next < 0) break;
++					p = r; q = s; r = I(nr); s = I(ns);
++					u = v; v = I(next);
++				}
++			}
++			if (!q) {
++				BigInt remainder = x % y;
++				x = std::move(y); y = std::move(remainder);
++			} else {
++				auto combine = [&](I p, I q) {
++					D result;
++					result.resize_for_overwrite(x.a.size());
++					__int128_t carry = 0;
++					for (std::size_t i = 0; i < x.a.size(); ++i) {
++						__int128_t value = carry + __int128_t(p) * x.a[i] + (i < y.a.size() ? __int128_t(q) * y.a[i] : 0);
++						W magnitude = value < 0 ? W(-value) : W(value);
++						W high = base_quotient(magnitude);
++						U low = magnitude - high * base;
++						result[i] = value < 0 && low ? base - low : low;
++						carry = value < 0 ? -__int128_t(high) - (low != 0) : __int128_t(high);
++					}
++					assert(!carry);
++					trim(result);
++					return result;
++				};
++				D a = combine(p, q), b = combine(r, s);
++				x.a = std::move(a); y.a = std::move(b);
++			}
++		}
++		return x;
++	}

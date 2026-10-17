@@ -92,6 +92,20 @@ public:
 	}
 	template <class T>
 	bool read(T &value) {
+		if constexpr (std::is_integral_v<T> && !std::is_same_v<T, bool>) {
+			while (true) {
+				while (current != end && static_cast<unsigned char>(*current) <= ' ') ++current;
+				if (current != end) break;
+				if (!refill()) return false;
+			}
+			T parsed{};
+			auto result = std::from_chars(current, end, parsed);
+			if (result.ec == std::errc{} && (result.ptr != end ? static_cast<unsigned char>(*result.ptr) <= ' ' : !file)) {
+				current = result.ptr;
+				value = parsed;
+				return true;
+			}
+		}
 		auto s = token();
 		if (s.empty()) return false;
 		if constexpr (std::is_same_v<T, bool>) {

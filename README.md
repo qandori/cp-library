@@ -19,6 +19,7 @@
 | `components/ntt_mod.hpp` | NTT（法指定） | [使い方](docs/ntt_mod.md) |
 | `components/ntt.hpp` | NTT（998244353） | [使い方](docs/ntt.md) |
 | `convolution/convolution.hpp` | 通常の畳み込み | [使い方](docs/convolution.md) |
+| `convolution/online_convolution.hpp` | オンライン畳み込み | [使い方](docs/online_convolution.md) |
 | `convolution/convolution_mod.hpp` | 任意 mod・整数の畳み込み | [使い方](docs/convolution_mod.md) |
 | `convolution/convolution_fft.hpp` | 実数・複素数の畳み込み | [使い方](docs/convolution_fft.md) |
 | `convolution/convolution_ring.hpp` | 一般の環の畳み込み | [使い方](docs/convolution_ring.md) |

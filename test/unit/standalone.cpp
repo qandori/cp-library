@@ -32,6 +32,7 @@
 #include "fps/interpolate.hpp"
 #include "fps/taylor_shift.hpp"
 #include "fps/polynomial_gcd.hpp"
+#include "convolution/online_convolution.hpp"
 #include "math/fraction.hpp"
 #include "math/matrix.hpp"
 #include "math/xor_basis.hpp"
@@ -64,6 +65,8 @@ struct StaticTreeSum {
 };
 
 int main() {
+	OnlineConvolution<> online(3);
+	assert(online.push(1, 3) == 3 && online.push(2, 4) == 10 && online.push(0, 0) == 8);
 	MaxFlow<> maximum(2);
 	maximum.add_edge(0, 1, 3);
 	assert(maximum.flow(0, 1) == 3);

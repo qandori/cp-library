@@ -1,0 +1,123 @@
+{
+  "retrieved_at": "2026-10-17T10:18:07.341123+00:00",
+  "problems": {
+    "convolution_mod": [
+      {
+        "id": 409465,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 21602304,
+        "problem_name": "convolution_mod",
+        "problem_title": "Convolution",
+        "status": "AC",
+        "submission_time": "2026-10-10T05:53:37.818419Z",
+        "time": 0.012,
+        "user_name": "Aiyiyi",
+        "source_sha256": "6cd230b64c18b2d41870f0be209727b019e0b7fca6b036f19f9d802b9d0a883d",
+        "url": "https://judge.yosupo.jp/submission/409465"
+      },
+      {
+        "id": 409433,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 21667840,
+        "problem_name": "convolution_mod",
+        "problem_title": "Convolution",
+        "status": "AC",
+        "submission_time": "2026-10-10T04:30:17.99098Z",
+        "time": 0.013,
+        "user_name": "Aiyiyi",
+        "source_sha256": "4e80b5abf6762e7768714c55b4074112c75d19a6bc2d311d0d81b0aab9b7d9e0",
+        "url": "https://judge.yosupo.jp/submission/409433"
+      },
+      {
+        "id": 409432,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 21864448,
+        "problem_name": "convolution_mod",
+        "problem_title": "Convolution",
+        "status": "AC",
+        "submission_time": "2026-10-10T04:28:39.819753Z",
+        "time": 0.013,
+        "user_name": "Aiyiyi",
+        "source_sha256": "4e80b5abf6762e7768714c55b4074112c75d19a6bc2d311d0d81b0aab9b7d9e0",
+        "url": "https://judge.yosupo.jp/submission/409432"
+      }
+    ],
+    "exp_of_formal_power_series": [
+      {
+        "id": 409662,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 15740928,
+        "problem_name": "exp_of_formal_power_series",
+        "problem_title": "Exp of Formal Power Series",
+        "status": "AC",
+        "submission_time": "2026-10-10T16:37:46.435994Z",
+        "time": 0.016,
+        "user_name": "Aiyiyi",
+        "source_sha256": "ed6a6a427359ce548106dddc7dacb0a7de7bb9bbe5f1db1442799d5ed6998031",
+        "url": "https://judge.yosupo.jp/submission/409662"
+      },
+      {
+        "id": 409661,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 16404480,
+        "problem_name": "exp_of_formal_power_series",
+        "problem_title": "Exp of Formal Power Series",
+        "status": "AC",
+        "submission_time": "2026-10-10T16:10:10.19126Z",
+        "time": 0.016,
+        "user_name": "Aiyiyi",
+        "source_sha256": "cb4cae66c04f39a5da7cbbd8ddc27c1673111f14c049b5489687e066f2502dbb",
+        "url": "https://judge.yosupo.jp/submission/409661"
+      },
+      {
+        "id": 409402,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 17342464,
+        "problem_name": "exp_of_formal_power_series",
+        "problem_title": "Exp of Formal Power Series",
+        "status": "AC",
+        "submission_time": "2026-10-10T03:25:57.30805Z",
+        "time": 0.016,
+        "user_name": "Aiyiyi",
+        "source_sha256": "2e74ea07bdde0882b024f6c74c8ec8c7561aa2b407d02ebc7de48737f1589b47",
+        "url": "https://judge.yosupo.jp/submission/409402"
+      }
+    ]
+  },
+  "libraries": [
+    {
+      "repository": "hitonanode/cplib-cpp",
+      "commit": "d67be71282f9f59d357f94d020c217f746613eae",
+      "path": "convolution/relaxed_multiplication.hpp",
+      "url": "https://raw.githubusercontent.com/hitonanode/cplib-cpp/d67be71282f9f59d357f94d020c217f746613eae/convolution/relaxed_multiplication.hpp",
+      "source_sha256": "020d74d5888a599cfecde28ca6b9a43d0fc7915d3f3e1ee2e4f8e49e8cd6f2d4"
+    },
+    {
+      "repository": "hitonanode/cplib-cpp",
+      "commit": "d67be71282f9f59d357f94d020c217f746613eae",
+      "path": "convolution/ntt.hpp",
+      "url": "https://raw.githubusercontent.com/hitonanode/cplib-cpp/d67be71282f9f59d357f94d020c217f746613eae/convolution/ntt.hpp",
+      "source_sha256": "4ec032864a23d260b639529cb118d6f0747da6e74bd87df4cf3fa122a7d4df6d"
+    },
+    {
+      "repository": "hitonanode/cplib-cpp",
+      "commit": "d67be71282f9f59d357f94d020c217f746613eae",
+      "path": "modint.hpp",
+      "url": "https://raw.githubusercontent.com/hitonanode/cplib-cpp/d67be71282f9f59d357f94d020c217f746613eae/modint.hpp",
+      "source_sha256": "b1a46f97765c542499cc7fc2940c81308ad3949c24764eda89be540fd5c018a9"
+    },
+    {
+      "repository": "NyaanNyaan/library",
+      "commit": "b3981adc80a800b2584980b01821324ea6c77183",
+      "path": "ntt/relaxed-convolution.hpp",
+      "url": "https://raw.githubusercontent.com/NyaanNyaan/library/b3981adc80a800b2584980b01821324ea6c77183/ntt/relaxed-convolution.hpp",
+      "source_sha256": "9ca7b1a58a0aab6fae544004f6f6c392bf9401b6f283b3e868939eaf9d8f34ba"
+    }
+  ]
+}

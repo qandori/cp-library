@@ -1,0 +1,4 @@
+{
+  "headers": ["convolution/online_convolution.hpp"],
+  "unit": ["test/unit/online_convolution.cpp", "test/unit/standalone.cpp"]
+}

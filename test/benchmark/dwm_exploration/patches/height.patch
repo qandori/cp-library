@@ -1,0 +1,46 @@
+--- a/components/dynamic_bit_vector.hpp
++++ b/components/dynamic_bit_vector.hpp
+@@ -18,6 +18,7 @@
+ 	static_assert(Branch >= 4 && std::has_single_bit(unsigned(Branch)));
+ 	using Word = std::uint64_t;
+ 	static constexpr int words = BlockBits / 64;
++	static constexpr int height = 1 + (std::numeric_limits<int>::digits - 1 - std::countr_zero(unsigned(BlockBits))) / (std::countr_zero(unsigned(Branch)) - 1);
+ 	struct Leaf {
+ 		std::array<Word, words> data{};
+ 		std::array<std::uint16_t, words> prefix{};
+@@ -344,7 +345,7 @@
+ 			++n, total += value;
+ 			return 0;
+ 		}
+-		std::array<int, 32> path, slots;
++		std::array<int, height> path, slots;
+ 		int id = root, depth = 0, before = 0;
+ 		while (!(id & 1)) {
+ 			const auto &node = nodes[id >> 1];
+@@ -399,7 +400,7 @@
+ 		assert(0 <= p && p < n);
+ 		int known = !total ? 0 : total == n ? p
+ 											: -1;
+-		std::array<int, 32> path, slots;
++		std::array<int, height> path, slots;
+ 		int id = root, depth = 0, before = 0;
+ 		while (!(id & 1)) {
+ 			const auto &node = nodes[id >> 1];
+@@ -440,7 +441,7 @@
+ 	std::pair<int, bool> set_rank(int p, bool value) {
+ 		assert(0 <= p && p < n);
+ 		if ((!total && !value) || (total == n && value)) return {value ? p : 0, value};
+-		std::array<int, 32> path, slots;
++		std::array<int, height> path, slots;
+ 		int id = root, depth = 0, before = 0;
+ 		while (!(id & 1)) {
+ 			const auto &node = nodes[id >> 1];
+@@ -470,7 +471,7 @@
+ 			auto [rank, old] = set_rank(from, value);
+ 			return {rank, old, rank};
+ 		}
+-		std::array<int, 32> left_path, right_path, left_slots, right_slots;
++		std::array<int, height> left_path, right_path, left_slots, right_slots;
+ 		int a = root, b = root, p = from, q = to + (from < to), x = 0, y = 0, left_depth = 0, right_depth = 0;
+ 		while (!(a & 1)) {
+ 			const auto &node = nodes[a >> 1];

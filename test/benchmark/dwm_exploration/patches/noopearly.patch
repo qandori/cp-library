@@ -1,0 +1,21 @@
+--- a/components/dynamic_bit_vector.hpp
++++ b/components/dynamic_bit_vector.hpp
+@@ -487,14 +487,15 @@
+ 			b = node.ids[j];
+ 		}
+ 		auto &left = leaves[a >> 1], &right = leaves[b >> 1];
++		x += rank_leaf(left, p), y += rank_leaf(right, q);
++		bool old = (left.data[p >> 6] >> (p & 63)) & 1;
++		y -= (from < to) && old;
++		if (value == old && (old ? x - y == from - to : x == y)) return {x, old, y};
+ 		if (a != b && (left.length <= BlockBits / 2 || right.length == BlockBits)) {
+ 			auto [rank, old] = erase_rank(from);
+ 			int next = insert(to, value);
+ 			return {rank, old, next};
+ 		}
+-		x += rank_leaf(left, p), y += rank_leaf(right, q);
+-		bool old = (left.data[p >> 6] >> (p & 63)) & 1;
+-		y -= (from < to) && old;
+ 		erase_leaf(left, p);
+ 		insert_leaf(right, q - (a == b && from < to), value);
+ 		total += int(value) - int(old);

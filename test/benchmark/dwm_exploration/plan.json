@@ -1,0 +1,382 @@
+{
+  "base": "829efa17b452f904eef5558930d91dd3792feffa",
+  "cases": {
+    "mixed": {
+      "kind": "mixed",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "updates": {
+      "kind": "updates",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "access": {
+      "kind": "access",
+      "n": 100000,
+      "q": 40000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "queries": {
+      "kind": "queries",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "neighbors": {
+      "kind": "neighbors",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "select": {
+      "kind": "select",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "range": {
+      "kind": "range",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "narrow": {
+      "kind": "range-narrow",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "short": {
+      "kind": "short",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "insert": {
+      "kind": "insert",
+      "n": 100000,
+      "q": 10000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "erase": {
+      "kind": "erase",
+      "n": 100000,
+      "q": 10000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "build": {
+      "kind": "build",
+      "n": 100000,
+      "q": 0,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "builddup": {
+      "kind": "build",
+      "n": 100000,
+      "q": 0,
+      "seed": 713,
+      "dist": "duplicates",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "buildequal": {
+      "kind": "build",
+      "n": 100000,
+      "q": 0,
+      "seed": 713,
+      "dist": "equal",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "rebuild": {
+      "kind": "rebuild",
+      "n": 100000,
+      "q": 0,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "dupupdate": {
+      "kind": "updates",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "duplicates",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "dupmixed": {
+      "kind": "mixed",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "duplicates",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "dupselect": {
+      "kind": "select",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "duplicates",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "dupneighbor": {
+      "kind": "neighbors",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "duplicates",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "localupdate": {
+      "kind": "updates",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "local",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "smallupdate": {
+      "kind": "updates",
+      "n": 1024,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "local",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8
+    },
+    "wide_select": {
+      "kind": "select",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 64,
+      "block": 1024,
+      "branch": 8
+    },
+    "wide_neighbor": {
+      "kind": "neighbors",
+      "n": 100000,
+      "q": 20000,
+      "seed": 713,
+      "dist": "duplicates",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 64,
+      "block": 1024,
+      "branch": 8
+    }
+  },
+  "plans": {
+    "leaf": [
+      "updates",
+      "localupdate",
+      "smallupdate",
+      "mixed",
+      "access"
+    ],
+    "height": [
+      "updates",
+      "insert",
+      "erase",
+      "mixed",
+      "access"
+    ],
+    "neighbors": [
+      "neighbors",
+      "dupneighbor",
+      "mixed",
+      "access",
+      "short"
+    ],
+    "paired": [
+      "queries",
+      "range",
+      "short",
+      "mixed",
+      "access"
+    ],
+    "pdep": [
+      "select",
+      "dupselect",
+      "mixed",
+      "access"
+    ],
+    "avxbuild": [
+      "build",
+      "builddup",
+      "buildequal",
+      "mixed",
+      "access"
+    ],
+    "reservebuild": [
+      "build",
+      "rebuild",
+      "insert",
+      "mixed",
+      "access"
+    ],
+    "directbuild": [
+      "build",
+      "rebuild",
+      "insert",
+      "mixed",
+      "access"
+    ],
+    "noop": [
+      "updates",
+      "dupupdate",
+      "dupmixed",
+      "mixed",
+      "access"
+    ],
+    "noopearly": [
+      "updates",
+      "dupupdate",
+      "dupmixed",
+      "mixed",
+      "access"
+    ],
+    "selectprefix": [
+      "select",
+      "dupselect",
+      "wide_select",
+      "mixed",
+      "access"
+    ],
+    "rangeprefix": [
+      "range",
+      "narrow",
+      "mixed",
+      "access"
+    ],
+    "uniformneighbors": [
+      "neighbors",
+      "dupneighbor",
+      "wide_neighbor",
+      "mixed",
+      "access"
+    ]
+  },
+  "calibration": [
+    "mixed",
+    "updates",
+    "access",
+    "build"
+  ],
+  "trials": 6,
+  "target_cpu": 0.4,
+  "aa_target_cpu": 1.5,
+  "minimum_cpu": 0.15
+}

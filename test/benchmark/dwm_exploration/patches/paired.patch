@@ -1,0 +1,23 @@
+--- a/components/dynamic_bit_vector.hpp
++++ b/components/dynamic_bit_vector.hpp
+@@ -295,9 +295,17 @@
+ 				while (b + 1 < node.count && r >= node.sizes[b + 1]) ++b;
+ 			} else b = child(node, r);
+ 			if (a != b) {
+-				int x = node.sums[a], y = node.sums[b];
+-				return {before + x + rank_node(node.ids[a], l - node.sizes[a]),
+-						before + y + rank_node(node.ids[b], r - node.sizes[b])};
++				int x = before + node.sums[a], y = before + node.sums[b];
++				l -= node.sizes[a], r -= node.sizes[b];
++				int left = node.ids[a], right = node.ids[b];
++				while (!(left & 1)) {
++					const auto &first = nodes[left >> 1], &second = nodes[right >> 1];
++					int i = child(first, l), j = child(second, r);
++					l -= first.sizes[i], r -= second.sizes[j];
++					x += first.sums[i], y += second.sums[j];
++					left = first.ids[i], right = second.ids[j];
++				}
++				return {x + rank_leaf(leaves[left >> 1], l), y + rank_leaf(leaves[right >> 1], r)};
+ 			}
+ 			l -= node.sizes[a], r -= node.sizes[a], before += node.sums[a];
+ 			id = node.ids[a];

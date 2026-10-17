@@ -1,0 +1,52 @@
+--- a/components/dynamic_bit_vector.hpp
++++ b/components/dynamic_bit_vector.hpp
+@@ -242,28 +242,36 @@
+ 		n = size;
+ 		int target = BlockBits * 3 / 4, count = size <= BlockBits ? 1 : (size - 1) / target + 1;
+ 		leaves.reserve(count);
+-		std::vector<int> current;
+-		current.reserve(count);
++		if (count > 1) {
++			std::size_t capacity = 1;
++			for (int level = count; level > 1;) {
++				level = (level - 1) / Branch + 1;
++				capacity += level;
++			}
++			nodes.reserve(capacity);
++		}
+ 		for (int i = 0, start = 0; i < count; ++i) {
+ 			int length = size / count + (i < size % count);
+-			Leaf leaf;
++			leaves.emplace_back();
++			auto &leaf = leaves.back();
+ 			assign_leaf(leaf, packed.data(), int(packed.size()), start, length);
+ 			total += leaf.ones;
+-			current.push_back(make_leaf(leaf));
+ 			start += length;
+ 		}
+-		while (current.size() > 1) {
+-			int count = (int(current.size()) - 1) / Branch + 1;
+-			std::vector<int> next;
+-			next.reserve(count);
+-			for (int i = 0, start = 0; i < count; ++i) {
+-				int length = int(current.size()) / count + (i < int(current.size()) % count);
+-				next.push_back(make_node(current.data() + start, length));
++		int first = 1;
++		while (count > 1) {
++			int next = (count - 1) / Branch + 1, next_first = 0;
++			for (int i = 0, start = 0; i < next; ++i) {
++				int length = count / next + (i < count % next);
++				std::array<int, Branch> children;
++				for (int j = 0; j < length; ++j) children[j] = first + (start + j) * 2;
++				int id = make_node(children.data(), length);
++				if (!i) next_first = id;
+ 				start += length;
+ 			}
+-			current.swap(next);
++			count = next, first = next_first;
+ 		}
+-		root = current[0];
++		root = first;
+ 	}
+ 	void build(const std::vector<bool> &values) {
+ 		assert(values.size() <= std::size_t(std::numeric_limits<int>::max()));

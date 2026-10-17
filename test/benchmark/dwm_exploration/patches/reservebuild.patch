@@ -1,0 +1,17 @@
+--- a/components/dynamic_bit_vector.hpp
++++ b/components/dynamic_bit_vector.hpp
+@@ -242,6 +242,14 @@
+ 		n = size;
+ 		int target = BlockBits * 3 / 4, count = size <= BlockBits ? 1 : (size - 1) / target + 1;
+ 		leaves.reserve(count);
++		if (count > 1) {
++			std::size_t capacity = 1;
++			for (int level = count; level > 1;) {
++				level = (level - 1) / Branch + 1;
++				capacity += level;
++			}
++			nodes.reserve(capacity);
++		}
+ 		std::vector<int> current;
+ 		current.reserve(count);
+ 		for (int i = 0, start = 0; i < count; ++i) {

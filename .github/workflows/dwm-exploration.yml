@@ -1,0 +1,33 @@
+name: Dynamic wavelet exploration
+on:
+  push:
+    branches: [codex/dwm-explore-20261017]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: dwm-explore-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  explore:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [native, portable]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run bounded GCC 15.2 comparisons
+        timeout-minutes: 40
+        run: python test/benchmark/dwm_exploration/run.py "$GITHUB_WORKSPACE" "$RUNNER_TEMP/dwm-${{ matrix.target }}" "${{ matrix.target }}"
+      - name: Preserve all partial evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dwm-exploration-${{ matrix.target }}-${{ github.sha }}
+          path: ${{ runner.temp }}/dwm-${{ matrix.target }}/evidence
+          retention-days: 14
+          compression-level: 1

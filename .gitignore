@@ -16,3 +16,5 @@ __pycache__/
 /test/benchmark/prime_sieve_memory.csv
 /test/benchmark/prime_sieve_results.csv
 /test/benchmark/prime_sieve_results_shared_load.csv
+
+/test/benchmark/results/wavelet_matrix_neighbors/

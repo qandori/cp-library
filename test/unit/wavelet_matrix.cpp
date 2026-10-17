@@ -89,6 +89,12 @@ void check_large(const vector<T> &a) {
 		T x = a[random() % a.size()];
 		assert(lazy.range_freq(l, r, x) == lower_bound(sorted.begin(), sorted.end(), x) - sorted.begin());
 		assert(lazy.count(l, r, x) == std::count(sorted.begin(), sorted.end(), x));
+		auto bound = lower_bound(sorted.begin(), sorted.end(), x);
+		optional<T> previous, next;
+		if (bound != sorted.begin()) previous = *prev(bound);
+		if (bound != sorted.end()) next = *bound;
+		assert(lazy.prev_value(l, r, x) == previous && eager.prev_value(l, r, x) == previous);
+		assert(lazy.next_value(l, r, x) == next && eager.next_value(l, r, x) == next);
 		int pos = random() % a.size();
 		assert(lazy.access(pos) == a[pos] && eager.access(pos) == a[pos]);
 		vector<int> occurrences;
@@ -115,7 +121,64 @@ void check_radix() {
 	}
 }
 
+template <class T>
+void check_neighbors(const vector<T> &a, const vector<T> &bounds) {
+	WaveletMatrix<T> wm(a);
+	for (int l = 0; l <= static_cast<int>(a.size()); l += 17)
+		for (int r = l; r <= static_cast<int>(a.size()); r += 19) {
+			vector<T> sorted(a.begin() + l, a.begin() + r);
+			sort(sorted.begin(), sorted.end());
+			for (const T &x : bounds) {
+				auto it = lower_bound(sorted.begin(), sorted.end(), x);
+				optional<T> previous, next;
+				if (it != sorted.begin()) previous = *prev(it);
+				if (it != sorted.end()) next = *it;
+				assert(wm.prev_value(l, r, x) == previous);
+				assert(wm.next_value(l, r, x) == next);
+			}
+		}
+}
+
 int main() {
+	for (int sigma : {2, 3, 4, 5, 15, 16, 17, 63, 64, 65, 255, 256, 257, 1023, 1024, 1025, 4095, 4096, 4097}) {
+		vector<int> a(129);
+		for (int i = 0; i < 129; ++i) a[i] = i & 1 ? 0 : 2 * (sigma - 1);
+		for (int i = 0; i < sigma; ++i) a.push_back(2 * i);
+		WaveletMatrix wm(a);
+		vector<int> bounds{-1, 0, 1, 2 * sigma - 3, 2 * sigma - 2, 2 * sigma - 1};
+		for (int power = 1; power < sigma; power *= 4)
+			for (int delta = -2; delta <= 2; ++delta) bounds.push_back(2 * power + delta);
+		for (int r : {0, 8, 9, 64, 128, 129}) {
+			vector<int> sorted(a.begin(), a.begin() + r);
+			sort(sorted.begin(), sorted.end());
+			for (int x : bounds) {
+				auto it = lower_bound(sorted.begin(), sorted.end(), x);
+				optional<int> previous, next;
+				if (it != sorted.begin()) previous = *prev(it);
+				if (it != sorted.end()) next = *it;
+				assert(wm.prev_value(0, r, x) == previous);
+				assert(wm.next_value(0, r, x) == next);
+			}
+		}
+	}
+	vector<int64_t> gaps(257), probes;
+	for (int i = 0; i < 257; ++i) gaps[i] = i * 100 - 12800;
+	for (int i = 0; i <= 257; ++i) probes.push_back(i * 100 - 12850);
+	probes.push_back(numeric_limits<int64_t>::min());
+	probes.push_back(numeric_limits<int64_t>::max());
+	for (int i = 0; i < 128; ++i) swap(gaps[i], gaps[256 - i / 2]);
+	check_neighbors(gaps, probes);
+	vector<string> names(129);
+	vector<pair<int, int>> keys(129);
+	vector<bool> flags(129);
+	for (int i = 0; i < 129; ++i) {
+		names[i] = to_string((i * 37) % 129);
+		keys[i] = {(i * 37) % 129, i & 1};
+		flags[i] = i % 3 == 0;
+	}
+	check_neighbors(names, vector<string>{"", "0", "10", "101", "5", "zz"});
+	check_neighbors(keys, vector<pair<int, int>>{{-1, 0}, {0, 0}, {63, 0}, {63, 1}, {63, 2}, {129, 0}});
+	check_neighbors(flags, vector<bool>{false, true});
 	WaveletMatrix<> empty;
 	assert(empty.empty() && empty.select(1, 0) == -1);
 	assert(!empty.prev_value(0, 0, 0) && !empty.next_value(0, 0, 0));

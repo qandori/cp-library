@@ -97,6 +97,51 @@ class WaveletMatrix {
 		}
 		return answer;
 	}
+	template <bool Previous>
+	std::optional<T> neighbor(int l, int r, std::uint32_t x) const {
+		if (r - l <= 8) {
+			std::uint32_t best = Previous ? 0 : static_cast<std::uint32_t>(values.size());
+			for (int i = l; i < r; ++i) {
+				std::uint32_t c = original[i];
+				if constexpr (Previous) {
+					if (c <= x) best = std::max(best, c + 1);
+				} else if (c >= x) best = std::min(best, c);
+			}
+			if constexpr (Previous) return best ? std::optional<T>(values[best - 1]) : std::nullopt;
+			else return best < values.size() ? std::optional<T>(values[best]) : std::nullopt;
+		}
+		std::array<std::pair<int, int>, 16> path;
+		int d = 0;
+		for (; d < levels; ++d) {
+			path[d] = {l, r};
+			int digit = (x >> (2 * (levels - 1 - d))) & 3;
+			int a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);
+			if (a == b) break;
+			l = middle[d][digit] + a;
+			r = middle[d][digit] + b;
+		}
+		if (d == levels) return values[x];
+		for (; d >= 0; --d) {
+			l = path[d].first;
+			r = path[d].second;
+			int shift = 2 * (levels - 1 - d), digit = (x >> shift) & 3;
+			for (digit += Previous ? -1 : 1; 0 <= digit && digit < 4; digit += Previous ? -1 : 1) {
+				int a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);
+				if (a == b) continue;
+				x = ((x >> shift) & ~std::uint32_t(3)) | digit;
+				l = middle[d][digit] + a;
+				r = middle[d][digit] + b;
+				for (++d; d < levels; ++d) {
+					auto step = route(l, r, Previous ? r - l - 1 : 0, d);
+					x = (x << 2) | step.digit;
+					l = middle[d][step.digit] + step.a;
+					r = middle[d][step.digit] + step.b;
+				}
+				return values[x];
+			}
+		}
+		return std::nullopt;
+	}
 	std::vector<std::uint32_t> compress(const std::vector<T> &a) {
 		std::vector<std::uint32_t> current(n);
 		bool ascending = std::is_sorted(a.begin(), a.end());
@@ -212,18 +257,16 @@ class WaveletMatrix {
 	[[gnu::always_inline]] Route route(int l, int r, int k, int d) const {
 		const auto &left = bits[d].blocks[l >> 6], &right = bits[d].blocks[r >> 6];
 		std::uint64_t lm = (std::uint64_t(1) << (l & 63)) - 1, rm = (std::uint64_t(1) << (r & 63)) - 1;
-		std::uint64_t lh = left.high & lm, rh = right.high & rm;
-		int ha = left.prefix[2] + left.prefix[3] + std::popcount(lh);
-		int hb = right.prefix[2] + right.prefix[3] + std::popcount(rh);
-		int high_l = l - ha, high_r = r - hb;
-		bool high = k >= high_r - high_l;
-		k -= high ? high_r - high_l : 0;
-		int a = left.prefix[2 * high] + std::popcount(~left.low & (high ? lh : lm ^ lh));
-		int b = right.prefix[2 * high] + std::popcount(~right.low & (high ? rh : rm ^ rh));
-		bool low = k >= b - a;
-		k -= low ? b - a : 0;
-		return {2 * high + low, low ? (high ? ha : high_l) - a : a,
-				low ? (high ? hb : high_r) - b : b, k, high_l, high_r, a, b};
+		int la = left.prefix[0] + std::popcount(~(left.low | left.high) & lm);
+		int ra = right.prefix[0] + std::popcount(~(right.low | right.high) & rm);
+		int lb = left.prefix[0] + left.prefix[1] + std::popcount(~left.high & lm);
+		int rb = right.prefix[0] + right.prefix[1] + std::popcount(~right.high & rm);
+		int lc = l - left.prefix[3] - std::popcount(left.low & left.high & lm);
+		int rc = r - right.prefix[3] - std::popcount(right.low & right.high & rm);
+		int digit = (k >= ra - la) + (k >= rb - lb) + (k >= rc - lc);
+		std::array<int, 5> a{0, la, lb, lc, l}, b{0, ra, rb, rc, r};
+		int base = digit & 2;
+		return {digit, a[digit + 1] - a[digit], b[digit + 1] - b[digit], k - b[digit] + a[digit], lb, rb, a[base + 1] - a[base], b[base + 1] - b[base]};
 	}
 	void init_sum() const
 		requires supports_sum
@@ -481,11 +524,25 @@ class WaveletMatrix {
 		return range_sum(l, r) - sum_smallest(l, r, r - l - k);
 	}
 	std::optional<T> prev_value(int l, int r, const T &upper) const {
+		check(l, r);
+		if (!levels) return l < r && values[0] < upper ? std::optional<T>(values[0]) : std::nullopt;
+		if (!ordered) {
+			auto x = code(upper);
+			if (!x) return std::nullopt;
+			return neighbor<true>(l, r, x - 1);
+		}
 		int k = range_freq(l, r, upper);
 		if (!k) return std::nullopt;
 		return kth_smallest(l, r, k - 1);
 	}
 	std::optional<T> next_value(int l, int r, const T &lower) const {
+		check(l, r);
+		if (!levels) return l < r && !(values[0] < lower) ? std::optional<T>(values[0]) : std::nullopt;
+		if (!ordered) {
+			auto x = code(lower);
+			if (x == values.size()) return std::nullopt;
+			return neighbor<false>(l, r, x);
+		}
 		int k = range_freq(l, r, lower);
 		if (k == r - l) return std::nullopt;
 		return kth_smallest(l, r, k);

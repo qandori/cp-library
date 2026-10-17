@@ -34,9 +34,11 @@ def main():
     paths = ['fps/multipoint_eval.hpp', 'components/fps_direct_eval.hpp', 'components/ntt.hpp',
              'components/fps_product_tree.hpp', 'components/fps_operations.hpp', 'fps/fps.hpp',
              'math/mint.hpp', 'test/benchmark/multipoint_eval.cpp', 'test/benchmark/multipoint_eval.py']
+    cpu_info = subprocess.run(['lscpu'], text=True, capture_output=True)
     environment = {'baseline': BASELINE, 'baseline_sha256': hashlib.sha256(source).hexdigest(),
                    'compiler': subprocess.check_output(['g++', '--version'], text=True),
-                   'cpu': subprocess.check_output(['lscpu'], text=True),
+                   'cpu': cpu_info.stdout, 'lscpu_error': cpu_info.stderr,
+                   'proc_cpuinfo': Path('/proc/cpuinfo').read_text() if Path('/proc/cpuinfo').exists() else '',
                    'flags': flags, 'affinity': [args.cpu], 'pairs': args.pairs, 'seconds': args.seconds,
                    'seed': 731, 'grid': args.grid, 'sha256': {p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in paths}}
     (args.output / 'environment.json').write_text(json.dumps(environment, indent=2) + '\n')

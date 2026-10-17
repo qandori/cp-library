@@ -1,0 +1,24 @@
+name: matching components benchmark once
+on:
+  push:
+    branches:
+      - benchmark/matching-components-once-20261017
+permissions:
+  contents: read
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Run frozen correctness and complete protocol once
+        run: python3 test/benchmark/matching_components_remote/run_once.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: matching-components-one-run-evidence
+          path: ${{ runner.temp }}/matching-components-evidence
+          if-no-files-found: error

@@ -1,0 +1,5 @@
+#include "fps/multipoint_eval.hpp"
+#include <cstdio>
+#include <random>
+using T=fps_detail::Mint;using F=FormalPowerSeries<T>;
+int main(){puts("n,m,variant,tree_metadata,frequency_metadata,tree_payload_capacity,frequency_payload_capacity,quotient_size,quotient_capacity");for(auto[n,m]:std::vector<std::pair<int,int>>{{1024,33},{32768,33},{131072,129},{131072,131072}}){F f(n);std::vector<T>xs(m);std::mt19937 rng(761);for(auto&v:f)v=rng();for(auto&v:xs)v=rng();int length=8;while(length<std::max(n,m))length*=2;for(int variant=0;variant<2;++variant){int size=variant?1:length/8;std::vector<std::vector<T>>frequency;auto tree=fps_detail::ProductTree<T>::build(xs,size,8,true,&frequency);size_t a=0,b=0;for(auto&v:tree)a+=v.capacity()*sizeof(T);for(auto&v:frequency)b+=v.capacity()*sizeof(T);F root=f;root.resize(length);std::reverse(root.begin(),root.end());root=root.div_series(tree[1],length);if(variant&&size*8<length)root.erase(root.begin(),root.end()-size*8);printf("%d,%d,%s,%zu,%zu,%zu,%zu,%zu,%zu\n",n,m,variant?"candidate":"baseline",tree.capacity()*sizeof(F),frequency.capacity()*sizeof(std::vector<T>),a,b,root.size(),root.capacity());}}}

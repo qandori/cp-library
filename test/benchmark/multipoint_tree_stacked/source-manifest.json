@@ -1,0 +1,29 @@
+{
+  "status": "Frozen source definition for the recorded benchmark.",
+  "baseline_commit": "31d238c62d0b297b1ffaf8b32a9b08461c2cadd9",
+  "baseline_header_sha256": "ac33415ec7aaead7adba8e1114f1ffc303a666c10549158be1ff1612fc839a94",
+  "helper_sha256": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380",
+  "candidate_header_sha256": "4cb93dd9d9d2b0bbbece729c7de93217a19cd4915cf9ace9aa797c0eefcb049e",
+  "baseline_renamed_sha256": "6f99a23ad5154ce6c91365cac199d58d2bc18d8057207e8efe0cbf7817e8e416",
+  "tree_only_patch_sha256": "e6f20e1e42238d3b8b04ea2dfe884c8776baccbccb94cd37112e2a8472871d4e",
+  "baseline_recursive_closure": {
+    "fps/multipoint_eval.hpp": "ac33415ec7aaead7adba8e1114f1ffc303a666c10549158be1ff1612fc839a94",
+    "fps/fps.hpp": "b69f0eab0cdd168550d9d13e0f6b700b109826cc491e10ce1306ac806ab7a357",
+    "components/fps_operations.hpp": "03bec508671214aaaa61b3cf4fa4449a09659c38b1d04240db2ad6a91145c760",
+    "components/ntt.hpp": "645cd0a0b3cd322b12189915e402f2d5d0d9c35a1a4ff7285e75a23e1553a776",
+    "math/mint.hpp": "67cec2452dda0af8b4cd307449fc65b3f1d678613e0392fdd666031dae062171",
+    "components/fps_product_tree.hpp": "d72a0a371bcf404028ca1fd970355b01efc097dbc7431a59c26ad3be347d9d58",
+    "components/fps_direct_eval.hpp": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380"
+  },
+  "candidate_recursive_closure": {
+    "fps/multipoint_eval.hpp": "4cb93dd9d9d2b0bbbece729c7de93217a19cd4915cf9ace9aa797c0eefcb049e",
+    "fps/fps.hpp": "b69f0eab0cdd168550d9d13e0f6b700b109826cc491e10ce1306ac806ab7a357",
+    "components/fps_operations.hpp": "03bec508671214aaaa61b3cf4fa4449a09659c38b1d04240db2ad6a91145c760",
+    "components/ntt.hpp": "645cd0a0b3cd322b12189915e402f2d5d0d9c35a1a4ff7285e75a23e1553a776",
+    "math/mint.hpp": "67cec2452dda0af8b4cd307449fc65b3f1d678613e0392fdd666031dae062171",
+    "components/fps_product_tree.hpp": "d72a0a371bcf404028ca1fd970355b01efc097dbc7431a59c26ad3be347d9d58",
+    "components/fps_direct_eval.hpp": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380"
+  },
+  "benchmark_source_sha256": "a84c5588a54f1a5fc871258fd6be26296b5db78f2d25a01872b95e9a8e3c3fc2",
+  "shapes_sha256": "186177732627bf375ceec481d8854457aa117c2f21ad3899434b9691bcbbb3f9"
+}

@@ -77,6 +77,29 @@ void check() {
 		}
 		assert(compose(f, F{}, 5) == F({n ? f[0] : T(0), 0, 0, 0, 0}));
 	}
+	for (int n : {0, 1, 2, 4, 7, 8, 15, 16, 31, 32, 33, 65, 257, 1025}) {
+		for (int m : {0, 1, 7, 8, 9, 15, 16, 31, 32, 33, 63, 65, 257}) {
+			F f(n);
+			std::vector<T> xs(m);
+			for (T &x : f) x = static_cast<long long>(random()) - 2147483648LL;
+			for (int i = 0; i < m; ++i) xs[i] = i % 3 ? T(random()) : T(0);
+			auto values = multipoint_eval(f, xs);
+			assert(values.size() == xs.size());
+			for (int i = 0; i < m; ++i) assert(values[i] == f.eval(xs[i]));
+			assert(multipoint_eval(F(n), xs) == std::vector<T>(m));
+			assert(multipoint_eval(f, std::vector<T>(m, T(-1))) == std::vector<T>(m, f.eval(T(-1))));
+		}
+	}
+	for (int n : {4, 7, 8, 32}) {
+		for (int m : {4095, 4096, 4097}) {
+			F f(n);
+			std::vector<T> xs(m);
+			for (T &x : f) x = random();
+			for (T &x : xs) x = random();
+			auto values = multipoint_eval(f, xs);
+			for (int i = 0; i < m; ++i) assert(values[i] == f.eval(xs[i]));
+		}
+	}
 	assert(compose(F{}, F{}, 0).empty());
 	assert(compositional_inverse(F{}, 0).empty());
 	assert(compositional_inverse(F{}, 1) == F(1));

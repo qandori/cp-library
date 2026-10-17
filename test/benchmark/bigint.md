@@ -65,3 +65,7 @@ g++ -std=c++23 -O2 -DNDEBUG -I . test/benchmark/bigint.cpp -o /tmp/bigint-bench
 - 大きな除算は精度を倍増させる整数 Newton 法とブロックごとの除算を利用。末尾のゼロは積から取り除き、結果の桁移動として処理。
 
 GCC・Clang で Library Checker の加算・乗算・除算の全公式ケースを確認し、Python 整数との 10,486 ケースの照合、独立した筆算との照合、ASan・UBSan を実施しています。変換長上限を超える分割経路も、420 万桁同士の積を独立した桁ごとの計算と照合しました。
+
+## 桁数が偏った乗算の Linux/GCC 比較
+
+追加の切り替え条件・整数の上界・再現手順は [bigint_unbalanced.md](bigint_unbalanced.md) を参照してください。

@@ -127,6 +127,15 @@ int main() {
 		assert(divmod(product + 123, a) == std::pair(b, BigInt(123)));
 		assert(divmod(product + 123, b) == std::pair(a, BigInt(123)));
 	}
+	for (int n : {257, 511, 1024}) for (int m : {8, 9, 16, 32, 33}) {
+		auto x = random_decimal(random, 18 * n), y = random_decimal(random, 18 * m);
+		BigInt a(x), b(y), product(reference_product(x, y));
+		assert(a * b == product && b * a == product);
+		assert((-a) * b == -product && a * (-b) == -product);
+		x.assign(18 * n, '9'), y.assign(18 * m, '9');
+		a = BigInt(x), b = BigInt(y), product = BigInt(reference_product(x, y));
+		assert(a * b == product && b * a == product);
+	}
 	BigInt source(-123), moved(std::move(source));
 	assert(source == 0 && moved == -123);
 	source = std::move(moved);

@@ -338,7 +338,8 @@ class BigInt {
 			multiply_small(c, a.size() < b.size() ? a[0] : b[0]);
 			return c;
 		}
-		if (std::min(a.size(), b.size()) <= 8 || std::max(a.size(), b.size()) <= 32) return schoolbook(a, b);
+		if (std::min(a.size(), b.size()) <= 8 || std::max(a.size(), b.size()) <= 32
+			|| (std::min(a.size(), b.size()) <= 32 && std::max(a.size(), b.size()) > 256)) return schoolbook(a, b);
 		if (std::max(a.size(), b.size()) <= 256) return karatsuba(a, b);
 		std::size_t shorter = std::min(a.size(), b.size());
 		if (centered_fits<1000, 6>(a, b)) return transform_product<1000, 6, true>(a, b);

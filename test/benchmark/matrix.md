@@ -96,7 +96,7 @@ seed 713 の入力で各7回の中央値。正方行列は384次、rank は384×
 | characteristic_polynomial | 28 |
 | adjugate_matrix | 44 |
 
-GCC / Clang の合計502ケースが成功した。[unit](results/matrix_unit_check.log)・[sanitize](results/matrix_sanitize_check.log)・[judge](results/matrix_judge_check.log)・[validation](results/matrix_validation.json) に記録した。変更箇所と依存するテストのみを実行した。Mac の切り分けに `codex/matrix-macos-check` を使った。検証後に削除する。
+GCC / Clang の合計502ケースが成功した。[unit](results/matrix_unit_check.log)・[sanitize](results/matrix_sanitize_check.log)・[judge](results/matrix_judge_check.log)・[validation](results/matrix_validation.json) に記録した。変更箇所と依存するテストのみを実行した。Mac の切り分けに `codex/matrix-macos-check` を使った。ローカル・リモートともに削除済み。
 
 ## コンパイラ互換性
 

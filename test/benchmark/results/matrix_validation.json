@@ -50,7 +50,8 @@
     "probe_run": "https://github.com/qandori/cp-library/actions/runs/39004747315",
     "probe_compile_and_execute_count": 18,
     "workflow_run": "https://github.com/qandori/cp-library/actions/runs/39004747319",
-    "conclusion": "success"
+    "conclusion": "success",
+    "final_workflow_run": "https://github.com/qandori/cp-library/actions/runs/39005787831"
   },
   "judge": {
     "problems": {
@@ -109,5 +110,16 @@
     "log": "test/benchmark/results/matrix_gcc13_check.log",
     "exit_code": 0
   },
-  "compatibility": "test/benchmark/results/matrix_compatibility.json"
+  "compatibility": "test/benchmark/results/matrix_compatibility.json",
+  "ci": {
+    "commit": "020d9344a9ef079af9bbeb11a41663770df8da05",
+    "linux": "https://github.com/qandori/cp-library/actions/runs/39005787884",
+    "headers_unit_sanitize_judge_bundles": "success",
+    "website": "Liquid parsing failed for the example initializer; fixed spacing in docs/matrix.md",
+    "macos": "https://github.com/qandori/cp-library/actions/runs/39005787831",
+    "macos_conclusion": "success"
+  },
+  "temporary_branches_deleted": [
+    "codex/matrix-macos-check"
+  ]
 }

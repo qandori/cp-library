@@ -7,7 +7,7 @@ documentation_of: //math/matrix.hpp
 #include "lib/math/matrix.hpp"
 #include "lib/math/mint.hpp"
 
-Matrix<mint> a{{1, 2}, {3, 4}};
+Matrix<mint> a = { {1, 2}, {3, 4} };
 auto det = a.det();
 auto inverse = a.inverse();
 auto power = a.pow(10);
@@ -21,7 +21,7 @@ auto polynomial = a.characteristic_polynomial();
 | --- | --- |
 | `Matrix<T>()` / `Matrix<T>(n)` | 0 行 0 列／0 初期化した正方行列 |
 | `Matrix<T>(n,m,value = T(0))` | `n` 行 `m` 列を同じ値で初期化 |
-| `Matrix<T>{{...},{...}}` / `Matrix<T>(vector<vector<T>>)` | 係数列から構築。各行の長さは同じにする |
+| `Matrix<T>{ {...},{...} }` / `Matrix<T>(vector<vector<T>>)` | 係数列から構築。各行の長さは同じにする |
 | `rows()` / `cols()` / `empty()` | 行数／列数／行数または列数が 0 か |
 | `a[i][j]` / `a(i,j)` | 要素の参照。const 版も利用可 |
 | `a[i]` / `data()` | 行の `span`／行優先の先頭ポインタ |

@@ -1,0 +1,90 @@
+{
+  "retrieved_at": "2026-10-17T05:31:59.255779+00:00",
+  "problems": {
+    "intersection_of_f2_vector_spaces": {
+      "listing": {
+        "count": 125,
+        "submissions": [
+          {
+            "id": 407091,
+            "is_latest": true,
+            "lang": "cpp17",
+            "memory": 31301632,
+            "problem_name": "intersection_of_f2_vector_spaces",
+            "problem_title": "Intersection of $\\mathbb{F}_{2}$ vector spaces",
+            "status": "AC",
+            "submission_time": "2026-09-30T01:08:19.42542Z",
+            "time": 0.152
+          },
+          {
+            "id": 406229,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 19423232,
+            "problem_name": "intersection_of_f2_vector_spaces",
+            "problem_title": "Intersection of $\\mathbb{F}_{2}$ vector spaces",
+            "status": "AC",
+            "submission_time": "2026-09-26T06:37:08.106299Z",
+            "time": 0.23,
+            "user_name": "Rohan_Kapri"
+          },
+          {
+            "id": 206339,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 19283968,
+            "problem_name": "intersection_of_f2_vector_spaces",
+            "problem_title": "Intersection of $\\mathbb{F}_{2}$ vector spaces",
+            "status": "AC",
+            "submission_time": "2024-05-04T10:42:09.135962Z",
+            "time": 0.24,
+            "user_name": "maspy"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 407091,
+          "is_latest": true,
+          "lang": "cpp17",
+          "memory": 31301632,
+          "problem_name": "intersection_of_f2_vector_spaces",
+          "problem_title": "Intersection of $\\mathbb{F}_{2}$ vector spaces",
+          "status": "AC",
+          "submission_time": "2026-09-30T01:08:19.42542Z",
+          "time": 0.152,
+          "source_sha256": "8e6daffe69e78e4c8302d1b6a2c8288e0677f50c78c8eb7eb43c1b3384011f40",
+          "url": "https://judge.yosupo.jp/submission/407091"
+        },
+        {
+          "id": 406229,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 19423232,
+          "problem_name": "intersection_of_f2_vector_spaces",
+          "problem_title": "Intersection of $\\mathbb{F}_{2}$ vector spaces",
+          "status": "AC",
+          "submission_time": "2026-09-26T06:37:08.106299Z",
+          "time": 0.23,
+          "user_name": "Rohan_Kapri",
+          "source_sha256": "1faf5f1ff55199329e432a45b9d30a800bbe45de9c8aaf015ede005bcda93953",
+          "url": "https://judge.yosupo.jp/submission/406229"
+        },
+        {
+          "id": 206339,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 19283968,
+          "problem_name": "intersection_of_f2_vector_spaces",
+          "problem_title": "Intersection of $\\mathbb{F}_{2}$ vector spaces",
+          "status": "AC",
+          "submission_time": "2024-05-04T10:42:09.135962Z",
+          "time": 0.24,
+          "user_name": "maspy",
+          "source_sha256": "c4bf4e3125ecd1c28e4562e63293f0e9c7eafa242222cb1d07abfecc5f961873",
+          "url": "https://judge.yosupo.jp/submission/206339"
+        }
+      ]
+    }
+  }
+}

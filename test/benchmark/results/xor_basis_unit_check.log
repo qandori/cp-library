@@ -1,0 +1,11 @@
+python3 test/verify.py --unit-only --cxx g++ clang++ --selection test/benchmark/results/xor_basis_selection.json
+g++: standalone components/xor_basis_core.hpp
+g++: standalone math/xor_basis.hpp
+g++: xor_basis.cpp
+g++: standalone.cpp
+clang++: standalone components/xor_basis_core.hpp
+clang++: standalone math/xor_basis.hpp
+clang++: xor_basis.cpp
+clang++: standalone.cpp
+Verification passed
+Verification passed

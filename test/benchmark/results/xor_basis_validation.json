@@ -1,0 +1,93 @@
+{
+  "date": "2026-10-17",
+  "sha256": {
+    "math/xor_basis.hpp": "ca3716ebce772b2ba5b404120bc26347d83126a2805fd85e5010b52ce6759058",
+    "components/xor_basis_core.hpp": "2d738ffa2c08a80393f42c0a95a552492694369de391cb012381cb38799cd0cf"
+  },
+  "selection": "test/benchmark/results/xor_basis_selection.json",
+  "unit": {
+    "compilers": [
+      "GCC 15.2.0",
+      "Clang 21.1.8"
+    ],
+    "log": "test/benchmark/results/xor_basis_unit_check.log",
+    "exit_code": 0
+  },
+  "sanitize": {
+    "compiler": "Clang 21.1.8",
+    "sanitizers": [
+      "address",
+      "undefined"
+    ],
+    "log": "test/benchmark/results/xor_basis_sanitize_check.log",
+    "exit_code": 0
+  },
+  "gcc13": {
+    "compiler": "GCC 13.4.0",
+    "log": "test/benchmark/results/xor_basis_gcc13_check.log",
+    "exit_code": 0
+  },
+  "arm64": {
+    "compiler": "aarch64-conda-linux-gnu-g++ 15.2.0",
+    "execution": "Static binary under qemu-aarch64",
+    "log": "test/benchmark/results/xor_basis_arm_check.log",
+    "exit_code": 0
+  },
+  "apple_clang": {
+    "executed_locally": false,
+    "workflow": ".github/workflows/macos-portability.yml"
+  },
+  "judge": {
+    "problem": "intersection_of_f2_vector_spaces",
+    "compilers": [
+      "GCC 15.2.0",
+      "Clang 21.1.8"
+    ],
+    "cases_per_compiler": 17,
+    "total_cases": 34,
+    "log": "test/benchmark/results/xor_basis_judge_check.log",
+    "exit_code": 0
+  },
+  "bundle": {
+    "log": "test/benchmark/results/xor_basis_bundle_check.log",
+    "exit_code": 0
+  },
+  "benchmark": {
+    "trials": 7,
+    "profiles": [
+      "generic",
+      "native"
+    ],
+    "micro_ranks": [
+      8,
+      32,
+      63,
+      64
+    ],
+    "build_count": 10000,
+    "insertions_per_build": 96,
+    "query_count": 200000,
+    "query_operations": [
+      "min_xor",
+      "max_xor"
+    ],
+    "reference_cases_per_run": 100000,
+    "reference": "https://judge.yosupo.jp/submission/407091",
+    "reference_output_validation": "Every returned subspace compared against the known intersection of independently transformed coordinate subspaces"
+  },
+  "temporary_branches_created": [],
+  "integration": {
+    "base_commit": "815bc8bf42f507360ccd6f11a91840055542be3a",
+    "compilers": [
+      "GCC 15.2.0",
+      "Clang 21.1.8",
+      "GCC 13.4.0"
+    ],
+    "sanitizers": [
+      "address",
+      "undefined"
+    ],
+    "log": "test/benchmark/results/xor_basis_integration_check.log",
+    "exit_code": 0
+  }
+}

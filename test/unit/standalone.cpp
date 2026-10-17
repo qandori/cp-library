@@ -18,6 +18,7 @@
 #include "math/fps.hpp"
 #include "math/fraction.hpp"
 #include "math/matrix.hpp"
+#include "math/xor_basis.hpp"
 #include "math/min_of_mod_of_linear.hpp"
 #include "math/prefix_min_of_mod_of_linear.hpp"
 #include "math/monoid_floor_sum.hpp"
@@ -94,6 +95,14 @@ int main() {
 	Matrix<mint> matrix{{1, 2}, {3, 4}};
 	assert(matrix.det() == mint(-2));
 	assert(matrix * *matrix.inverse() == Matrix<mint>::identity(2));
+	XorBasis<> xor_basis{3, 5};
+	assert(xor_basis.max_xor() == 6 && xor_basis.kth(2) == 5);
+	RollbackXorBasis<> rollback_basis;
+	rollback_basis.insert(3); rollback_basis.undo(); assert(rollback_basis.basis().empty());
+	PrefixXorBasis<> prefix_basis;
+	prefix_basis.push_back(3); prefix_basis.push_back(5); assert(prefix_basis.basis(1).contains(5));
+	XorBasisWithWitness<> witnessed_basis;
+	witnessed_basis.insert(3); witnessed_basis.insert(5); assert(witnessed_basis.represent(6)->size() == 2);
 	assert(min_of_mod_of_linear(4, 13, 10, 11) == 2);
 	auto prefix_min = prefix_min_of_mod_of_linear(4, 13, 10, 11);
 	assert(prefix_min.size() == 1 && prefix_min[0].count == 4);

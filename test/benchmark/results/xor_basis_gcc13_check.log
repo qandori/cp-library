@@ -1,0 +1,3 @@
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++ -std=c++2b -O2 -Wall -Wextra -Werror -I . test/unit/xor_basis.cpp -o /var/tmp/cp-xor-basis-gcc13
+/var/tmp/cp-xor-basis-gcc13
+Verification passed

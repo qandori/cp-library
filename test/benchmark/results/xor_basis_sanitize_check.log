@@ -1,0 +1,5 @@
+python3 test/verify.py --unit-only --cxx clang++ --sanitize --selection test/benchmark/results/xor_basis_selection.json
+clang++: xor_basis.cpp
+clang++: standalone.cpp
+Verification passed
+Verification passed

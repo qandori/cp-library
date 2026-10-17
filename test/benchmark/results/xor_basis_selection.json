@@ -1,0 +1,7 @@
+{
+  "headers": ["components/xor_basis_core.hpp", "math/xor_basis.hpp"],
+  "unit": ["test/unit/xor_basis.cpp", "test/unit/standalone.cpp"],
+  "sanitize": ["test/unit/xor_basis.cpp", "test/unit/standalone.cpp"],
+  "verification": ["test/xor_basis_intersection.test.cpp"],
+  "bundles": ["components/xor_basis_core.hpp", "math/xor_basis.hpp"]
+}

@@ -1,0 +1,10 @@
+python3 test/verify.py --unit-only --cxx g++ clang++ --selection .verify-helper/cache/xor-basis-integration-selection.json
+g++: standalone.cpp
+clang++: standalone.cpp
+Verification passed
+python3 test/verify.py --unit-only --cxx clang++ --sanitize --selection .verify-helper/cache/xor-basis-integration-selection.json
+clang++: standalone.cpp
+Verification passed
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++ -std=c++2b -O2 -Wall -Wextra -Werror -I . test/unit/standalone.cpp -o /var/tmp/cp-xor-basis-integrated-gcc13
+/var/tmp/cp-xor-basis-integrated-gcc13
+GCC 13 integration passed

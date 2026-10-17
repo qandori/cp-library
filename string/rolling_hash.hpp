@@ -39,7 +39,20 @@ class RollingHash {
 		if (std::size_t(n) < old) return;
 		powers.resize(std::size_t(n) + 1);
 		Hash b = base();
-		for (std::size_t i = old; i < powers.size(); ++i) powers[i] = mul(powers[i - 1], b);
+		if (powers.size() - old < 16) {
+			for (std::size_t i = old; i < powers.size(); ++i) powers[i] = mul(powers[i - 1], b);
+			return;
+		}
+		Hash b2 = mul(b, b), b4 = mul(b2, b2);
+		std::size_t i = old;
+		for (; i < old + 3; ++i) powers[i] = mul(powers[i - 1], b);
+		for (; i + 3 < powers.size(); i += 4) {
+			powers[i] = mul(powers[i - 4], b4);
+			powers[i + 1] = mul(powers[i - 3], b4);
+			powers[i + 2] = mul(powers[i - 2], b4);
+			powers[i + 3] = mul(powers[i - 1], b4);
+		}
+		for (; i < powers.size(); ++i) powers[i] = mul(powers[i - 4], b4);
 	}
 	template <class T>
 	static Hash encode(T value) {

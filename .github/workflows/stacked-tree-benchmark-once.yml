@@ -1,0 +1,23 @@
+name: stacked product tree benchmark once
+on:
+  push:
+    branches:
+      - benchmark/stacked-tree-once-20261017
+permissions:
+  contents: read
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Run frozen correctness and complete protocols
+        run: python3 test/benchmark/stacked_ci_once.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stacked-tree-one-run-evidence
+          path: ${{ runner.temp }}/stacked-tree-evidence

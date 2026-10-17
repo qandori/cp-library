@@ -38,13 +38,14 @@ std::vector<T> multipoint_eval(const FormalPowerSeries<T> &f, const std::vector<
 	int length = block;
 	while (length < (int)std::max(f.size(), xs.size())) length <<= 1;
 	assert(length <= (1 << 23));
-	int size = length / block;
+	int size = 1;
 	std::vector<base> frequency;
 	auto tree = fps_detail::ProductTree<T>::build(xs, size, block, true, &frequency);
 	F root = f;
 	root.resize(length);
 	std::reverse(root.begin(), root.end());
 	root = root.div_series(tree[1], length);
+	if (size * block < length) root.erase(root.begin(), root.end() - size * block);
 	return fps_detail::ProductTree<T>::evaluate(xs, tree, frequency, size, block, std::move(root), true);
 }
 

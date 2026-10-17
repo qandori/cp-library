@@ -197,6 +197,8 @@ class Matrix {
 		auto work = a;
 		return matrix_detail::field(work, [&]<class Ops>(auto &b) {
 			using V = typename Ops::V;
+			std::vector<V> factors;
+			if constexpr (matrix_detail::small_modint<T>) if (h >= 16) factors.resize(h);
 			for (int k = 1; k < h; ++k) {
 				int pivot = -1;
 				for (int i = k; i < h; ++i) if (!Ops::zero(b[std::size_t(i) * w + k - 1], eps)
@@ -207,6 +209,22 @@ class Matrix {
 					for (int i = 0; i < h; ++i) std::swap(b[std::size_t(i) * w + k], b[std::size_t(i) * w + pivot]);
 				}
 				V inverse = Ops::inv(b[std::size_t(k) * w + k - 1]);
+				if constexpr (matrix_detail::small_modint<T>) if (h >= 16) {
+					bool any = false;
+					for (int i = k + 1; i < h; ++i) {
+						V factor = factors[i] = Ops::mul(b[std::size_t(i) * w + k - 1], inverse);
+						if (!factor) continue;
+						any = true;
+						Ops::axpy(b.data() + std::size_t(i) * w + k, b.data() + std::size_t(k) * w + k, w - k, Ops::neg(factor));
+						b[std::size_t(i) * w + k - 1] = 0;
+					}
+					if (!any) continue;
+					for (int j = 0; j < h; ++j) {
+						auto *row = b.data() + std::size_t(j) * w;
+						row[k] = Ops::add(row[k], Ops::dot(row + k + 1, factors.data() + k + 1, h - k - 1));
+					}
+					continue;
+				}
 				for (int i = k + 1; i < h; ++i) {
 					V factor = Ops::mul(b[std::size_t(i) * w + k - 1], inverse);
 					if (Ops::zero(factor, eps)) continue;

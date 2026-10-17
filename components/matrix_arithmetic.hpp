@@ -66,6 +66,15 @@ struct ModularField {
 	static V add(V a, V b) { V c = a + b; return c < mod ? c : c - mod; }
 	static V mul(V a, V b) { return std::uint64_t(a) * b % mod; }
 	static V neg(V a) { return a ? mod - a : 0; }
+	static V dot(const V *a, const V *b, int n) {
+		constexpr int step = mod <= (V(1) << 30) ? 16 : 4;
+		std::uint64_t sum = 0;
+		for (int i = 0; i < n; i += step) {
+			for (int j = i; j < std::min(n, i + step); ++j) sum += std::uint64_t(a[j]) * b[j];
+			sum %= mod;
+		}
+		return sum;
+	}
 	static V inv(V a) { return (T(1) / T::raw(a)).val(); }
 	static bool zero(V a, long double) { return !a; }
 	static bool better(V, V) { return false; }

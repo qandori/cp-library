@@ -35,6 +35,35 @@ struct PolynomialHalfGCD {
 		O::intt(result), O::trim(result);
 		return result;
 	}
+	static Matrix multiply_column(const Matrix& a, const Matrix& b) {
+		if (a.identity) return b;
+		if (b.identity) return a;
+		Matrix result;
+		result.shift = a.shift + b.shift, result.identity = false;
+		if (result.shift <= 64) {
+			for (int i = 0; i < 2; ++i) {
+				result.a[2 * i] = a.a[2 * i] * b.a[0] + a.a[2 * i + 1] * b.a[2];
+				O::trim(result.a[2 * i]);
+			}
+			return result;
+		}
+		int n = 1;
+		while (n <= result.shift) n <<= 1;
+		std::array<F, 4> x, y;
+		for (int i = 0; i < 4; ++i) {
+			x[i] = fold(a.a[i], n), O::ntt(x[i]);
+			if (!(i & 1)) y[i] = fold(b.a[i], n), O::ntt(y[i]);
+		}
+		for (int i = 0; i < 2; ++i)
+			result.a[2 * i] = product_sum(x[2 * i], y[0], x[2 * i + 1], y[2], n);
+		return result;
+	}
+	static void step_column(Matrix& matrix, const F& q) {
+		F next = matrix.a[0] - q * matrix.a[2];
+		O::trim(next);
+		matrix.a[0] = std::move(matrix.a[2]), matrix.a[2] = std::move(next);
+		matrix.shift += std::max(0, int(q.size()) - 1), matrix.identity = false;
+	}
 	static Matrix multiply(const Matrix& a, const Matrix& b) {
 		if (a.identity) return b;
 		if (b.identity) return a;

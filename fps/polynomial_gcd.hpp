@@ -69,10 +69,30 @@ std::optional<FormalPowerSeries<T>> polynomial_inv_mod(FormalPowerSeries<T> a, F
 	fps_detail::Operations<T>::trim(modulus);
 	assert(!modulus.empty());
 	if (modulus.size() == 1) return FormalPowerSeries<T>{};
-	if (a.size() >= modulus.size()) a = a.divmod(modulus).second;
-	auto result = polynomial_extended_gcd(std::move(a), modulus);
-	if (result.gcd.size() != 1) return std::nullopt;
-	return result.x.divmod(modulus).second;
+	using H = fps_detail::PolynomialHalfGCD;
+	using O = fps_detail::Operations<T>;
+	if constexpr (!std::is_same_v<T, fps_detail::Mint>) {
+		auto result = polynomial_inv_mod(O::import_work(a), O::import_work(modulus));
+		if (!result) return std::nullopt;
+		return O::export_work(*result);
+	} else {
+		if (a.size() >= modulus.size()) a = a.divmod(modulus).second;
+		O::trim(a);
+		FormalPowerSeries<T> b = modulus;
+		typename H::Matrix matrix;
+		while (!b.empty()) {
+			if (a.size() > b.size() && a.size() > 128) {
+				auto part = H::half(a, b);
+				H::apply(part, a, b), matrix = H::multiply_column(part, matrix);
+				if (b.empty()) break;
+			}
+			auto [q, r] = a.divmod(b);
+			H::step_column(matrix, q), a = std::move(b), b = std::move(r);
+		}
+		if (a.size() != 1) return std::nullopt;
+		matrix.a[0] /= a.back();
+		return matrix.a[0].divmod(modulus).second;
+	}
 }
 
 #if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))

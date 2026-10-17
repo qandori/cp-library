@@ -72,8 +72,36 @@ void check(const fps& a, const fps& b, bool compare_naive = true) {
 	}
 }
 
+void check_base(const fps& input_a, const fps& input_b) {
+	using F = H::F;
+	F a = fps_detail::Operations<mint>::import_work(input_a);
+	F b = fps_detail::Operations<mint>::import_work(input_b);
+	auto actual = H::half(a, b);
+	H::Matrix expected;
+	const int half = int(a.size()) / 2;
+	while (int(b.size()) > half) {
+		auto [q, r] = a.divmod(b);
+		H::step(expected, q);
+		a = std::move(b), b = std::move(r);
+	}
+	assert(actual.a == expected.a);
+	assert(actual.shift == expected.shift);
+	assert(actual.identity == expected.identity);
+}
+
 int main() {
 	std::mt19937 random(294384);
+	for (int n = 2; n <= 128; ++n) {
+		for (int trial = 0; trial < 12; ++trial) {
+			int m = trial == 0 ? n - 1 : 1 + random() % (n - 1);
+			fps a(n), b(m);
+			for (auto* f : {&a, &b}) {
+				for (auto& x : *f) x = trial % 3 ? random() : random() % 2;
+				f->back() = 1 + random() % 998244352;
+			}
+			check_base(a, b);
+		}
+	}
 	for (int trial = 0; trial < 12; ++trial) {
 		using P = FormalPowerSeries<PlainMint>;
 		P a(140), b(129);
@@ -108,6 +136,20 @@ int main() {
 			if (a.size() == b.size()) a = a.divmod(b).second, a.swap(b);
 			if (a.size() > b.size()) {
 				auto matrix = H::half(a, b);
+				for (const auto& left : {H::Matrix{}, matrix}) {
+					for (const auto& right : {H::Matrix{}, matrix}) {
+						auto full = H::multiply(left, right);
+						auto column = H::multiply_column(left, right);
+						assert(column.a[0] == full.a[0] && column.a[2] == full.a[2]);
+						assert(column.shift == full.shift && column.identity == full.identity);
+					}
+				}
+				for (H::F quotient : {H::F{}, H::F{3}, H::F{1, 2, 3}}) {
+					auto full = matrix, column = matrix;
+					H::step(full, quotient), H::step_column(column, quotient);
+					assert(column.a[0] == full.a[0] && column.a[2] == full.a[2]);
+					assert(column.shift == full.shift && column.identity == full.identity);
+				}
 				fps x = a, y = b;
 				H::apply(matrix, x, y);
 				fps u = matrix.a[0] * a + matrix.a[1] * b;

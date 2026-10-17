@@ -237,7 +237,7 @@ def selected_variants(group):
 
 
 def compile_flags(args):
-    common = ["-O2", "-std=gnu++23", "-ftrivial-auto-var-init=zero", "-DONLINE_JUDGE", "-DATCODER", "-UNDEBUG"]
+    common = ["-O2", "-std=gnu++2b", "-ftrivial-auto-var-init=zero", "-DONLINE_JUDGE", "-DATCODER", "-UNDEBUG"]
     if args.sanitizer:
         return ["-O1", "-g", "-std=gnu++23", "-ftrivial-auto-var-init=zero", "-DONLINE_JUDGE", "-DATCODER",
                 "-UNDEBUG", "-march=native", "-fno-omit-frame-pointer",
@@ -563,7 +563,7 @@ def trace_contract(path, case, profile):
         sign = (1 << 63) if profile == "bench-i64" else 0
         require(all((((x & ((1 << 64) - 1)) ^ sign) >> 20) == 0 for x in initial),
                 "Bits=64 narrow20 did not keep encoded initial keys inside twenty bits")
-    return dict(opcode_counts=dict(types), select_results=dict(results), final_size=len(a))
+    return dict(opcode_counts={str(op): count for op, count in types.items()}, select_results=dict(results), final_size=len(a))
 
 
 def build(args, temp, log, command, cxx, variant, label, source, extra=(), link_escape=False):

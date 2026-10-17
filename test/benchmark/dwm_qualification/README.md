@@ -104,3 +104,9 @@ plan.json pins the baseline, ordered component patches, resulting header hashes,
 Three normal jobs cover native GCC15.2, explicit x86-64 scalar GCC15.2 and native ARM64 Apple Clang. Each uses 105 build invocations, 64 source-suite runs, 880 exact-three-replay processes and 880 independent Python oracle checks. Two native Linux Clang ASan/UBSan jobs each build/run32 suites, together covering baseline and all seven measured candidates. Actual compiler dependency files prove the selected candidate headers were compiled. These gate counts are separate from timing totals.
 
 Correctness logs are bounded at24MiB per job; timing logs at8MiB. Both use ordinary workflow logs only, with bounded summaries and no artifact/cache uploads. Every job uses a39-minute internal deadline,40-minute step and45-minute job ceiling. These are abort bounds, not promised completion times. Standard public Linux/macOS runners only; the two-shard parallelism cap is not a global cap on prerequisite or normal CI jobs.
+
+## Mac compiler spelling repair
+
+The first published attempt (4744baee7d7643ffc7761fe6311a5a29ada931f5, run 39055678093) stopped in the Mac compiler-macro preflight because Apple Clang 15 rejects -std=gnu++23. The Mac-only flags now use its accepted C++23 spelling -std=gnu++2b. No candidate source, Linux flag, workload, timing row or schedule is changed. The original failed attempt is retained and is not a candidate-correctness result.
+
+The first attempt's successful Linux gate logs also used integer opcode-count keys before JSON serialization, producing numeric ordering that differed from generic parsed-JSON lexical sorting. Exact logged-payload and source-aware chain checks validate all original records; none are missing. Future gate records normalize those keys to strings before hashing so they satisfy the documented generic JSON-canonical verification contract. This changes logging only, not workload generation or correctness checks.

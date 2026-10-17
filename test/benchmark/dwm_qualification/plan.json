@@ -611,12 +611,12 @@
       "patches": "patches"
     },
     "source_sha256": {
-      "README.md": "4ccb001a1dec7769fa45e8596777a7d0a502fc933eb8e2458dea46261cf642d4",
+      "README.md": "8e835139d8f7b496d7717a2ff39936864a31e86b81f851a68e494b916fb79b0d",
       "baseline-refresh.json": "ea2e7b1c00608c744dc62504c0749dc8fa5ac6ebd5add2fc001e13c2e3576a0e",
       "bench.cpp": "c7968ad5eda60224bed030db06054637bca7e243521b33a50b88af0254b1f39e",
       "caller.cpp": "79c73ecf4b1a67843fd65c664ee1eacc3c4696144dbc495d6ff0d4d6f7e15cea",
       "escape.cpp": "b8c864f6ea5f2d78bc8dfeb3e23d5b39f0452176adebd10c111c5f8717022959",
-      "gate.py": "4e8ff5709c1fa26f99b87221607eb8ef04ad3601f44e2e58749d17b2207edbb3",
+      "gate.py": "66e778b0a76d0e1b00caabdf8ea551b931fffb887a8deb5b086e911cb54158fd",
       "macos-portability.yml": "34659595e03d92632bdc9f9284e9427769bd2ab18eb2c8fc502f3b0f2f1beacd",
       "patches/avxbuild.patch": "8f74d61dd642494a33d2b71bd33f16ac5ba967e28c3cbac15483047e2ad22809",
       "patches/leaf.patch": "a2c1bd642e5723c5adb5ed46d28ed57f2ebd05fd75c86fec977e485d604b08f6",
@@ -1684,14 +1684,16 @@
   },
   "correctness_gate_policy": {
     "source": "gate_draft.py",
-    "source_sha256": "4e8ff5709c1fa26f99b87221607eb8ef04ad3601f44e2e58749d17b2207edbb3",
+    "source_sha256": "66e778b0a76d0e1b00caabdf8ea551b931fffb887a8deb5b086e911cb54158fd",
     "normal_log_limit_bytes": 25165824,
     "timing_log_limit_bytes_separately": 8388608,
     "internal_deadline_seconds": 2340,
     "execution_step_timeout_minutes": 40,
     "shutdown_reserve_seconds": 60,
     "job_timeout_minutes": 45,
-    "timing_dependency": "All first-wave Linux native/scalar, actual Mac, sanitizer-a and sanitizer-b source gates must pass; no broad workflow concurrency cap is imposed by the timing-shard limit"
+    "timing_dependency": "All first-wave Linux native/scalar, actual Mac, sanitizer-a and sanitizer-b source gates must pass; no broad workflow concurrency cap is imposed by the timing-shard limit",
+    "mac_cpp23_spelling": "-std=gnu++2b, the C++23 draft spelling accepted by Apple Clang 15; Linux timing and sanitizer flags are unchanged",
+    "opcode_count_keys": "String keys before canonical hashing, so generic parsed-JSON reserialization preserves the record digest"
   },
   "first_wave_sanitizers": {
     "variant_count": 8,

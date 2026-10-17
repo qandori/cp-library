@@ -29,30 +29,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: pip
-          cache-dependency-path: test/requirements.txt
       - name: Install dependencies
         run: python -m pip install -r test/requirements.txt
       - name: Install Boost
         run: sudo apt-get update && sudo apt-get install -y libboost-dev
-      - name: Restore successful verification results
-        id: verification-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: .verify-helper/verified-state.json
-          key: ${{ runner.os }}-${{ runner.arch }}-verified-v2-${{ github.ref }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: |
-            ${{ runner.os }}-${{ runner.arch }}-verified-v2-${{ github.ref }}-
-            ${{ runner.os }}-${{ runner.arch }}-verified-v2-refs/heads/main-
-      - name: Cache judge test cases and checkers
-        uses: actions/cache@v4
-        with:
-          path: |
-            .verify-helper/cache/*/test
-            ~/.cache/online-judge-tools/library-checker-problems
-          key: ${{ runner.os }}-${{ runner.arch }}-checker-v1-${{ hashFiles('test/requirements.txt', 'test/**/*.test.cpp') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ runner.arch }}-checker-v1-
       - name: Test incremental verification
         run: python -m unittest discover -s .verify-helper -p '*_test.py'
       - name: Select affected libraries and tests
@@ -82,12 +62,6 @@ jobs:
         run: |
           python .verify-helper/check-docs.py --selection .verify-helper/selection.json
           python .verify-helper/ci.py record --groups bundles
-      - name: Save completed verification results
-        if: ${{ always() && steps.selection.outcome == 'success' }}
-        uses: actions/cache/save@v4
-        with:
-          path: .verify-helper/verified-state.json
-          key: ${{ steps.verification-cache.outputs.cache-primary-key }}
       - name: Build library website
         uses: actions/jekyll-build-pages@v1
         with:

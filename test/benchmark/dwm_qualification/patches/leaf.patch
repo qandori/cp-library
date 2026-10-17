@@ -1,0 +1,66 @@
+--- a/components/dynamic_bit_vector.hpp
++++ b/components/dynamic_bit_vector.hpp
+@@ -139,6 +139,49 @@
+ 		}
+ 		--leaf.length;
+ 	}
++	static void move_leaf(Leaf &leaf, int from, int to, bool value, bool old) {
++		int l = std::min(from, to) >> 6, r = std::max(from, to) >> 6;
++		int low_bit = std::min(from, to) & 63, high_bit = std::max(from, to) & 63;
++		Word low = mask(low_bit), high = ~mask(high_bit + 1);
++		if (from < to) {
++			if (l == r) {
++				Word x = leaf.data[l];
++				leaf.data[l] = (x & (low | high)) | ((x >> 1) & ~low & mask(high_bit)) | (Word(value) << high_bit);
++			} else {
++				Word x = leaf.data[l];
++				leaf.data[l] = (x & low) | (((x >> 1) | (leaf.data[l + 1] << 63)) & ~low);
++				for (int i = l + 1; i < r; ++i) {
++					Word x = leaf.data[i];
++					leaf.prefix[i] += int(x & 1) - int(old);
++					leaf.data[i] = (x >> 1) | (leaf.data[i + 1] << 63);
++				}
++				x = leaf.data[r];
++				leaf.prefix[r] += int(x & 1) - int(old);
++				leaf.data[r] = (x & high) | ((x >> 1) & mask(high_bit)) | (Word(value) << high_bit);
++			}
++		} else {
++			if (l == r) {
++				Word x = leaf.data[l];
++				leaf.data[l] = (x & (low | high)) | ((x << 1) & ~mask(low_bit + 1) & ~high) | (Word(value) << low_bit);
++			} else {
++				Word x = leaf.data[r];
++				int carry = leaf.data[r - 1] >> 63;
++				leaf.prefix[r] += int(value) - carry;
++				leaf.data[r] = (x & high) | (((x << 1) | Word(carry)) & ~high);
++				for (int i = r - 1; i > l; --i) {
++					int carry = leaf.data[i - 1] >> 63;
++					leaf.prefix[i] += int(value) - carry;
++					leaf.data[i] = (leaf.data[i] << 1) | Word(carry);
++				}
++				x = leaf.data[l];
++				leaf.data[l] = (x & low) | ((x << 1) & ~mask(low_bit + 1)) | (Word(value) << low_bit);
++			}
++		}
++		int delta = int(value) - int(old);
++		leaf.ones += delta;
++		if (delta)
++			for (int i = r + 1; i <= (leaf.length - 1) / 64; ++i) leaf.prefix[i] += delta;
++	}
+ 	static void assign_leaf(Leaf &leaf, const Word *data, int count, int start, int length) {
+ 		leaf = Leaf{};
+ 		leaf.length = length;
+@@ -495,8 +538,11 @@
+ 		x += rank_leaf(left, p), y += rank_leaf(right, q);
+ 		bool old = (left.data[p >> 6] >> (p & 63)) & 1;
+ 		y -= (from < to) && old;
+-		erase_leaf(left, p);
+-		insert_leaf(right, q - (a == b && from < to), value);
++		if (a == b) move_leaf(left, p, q - (from < to), value, old);
++		else {
++			erase_leaf(left, p);
++			insert_leaf(right, q, value);
++		}
+ 		total += int(value) - int(old);
+ 		int common = 0;
+ 		while (common < left_depth && common < right_depth && left_path[common] == right_path[common]) {

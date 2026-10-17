@@ -1,0 +1,73 @@
+name: Dynamic wavelet qualification
+on:
+  push:
+    branches: [codex/dwm-qualify-20261017]
+permissions:
+  contents: read
+concurrency:
+  group: dwm-qualify-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  linux-correctness:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        mode: [native, scalar]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check candidates with GCC 15.2
+        timeout-minutes: 40
+        run: python3 test/benchmark/dwm_qualification/gate.py "$GITHUB_WORKSPACE" "$RUNNER_TEMP/dwm-gate-${{ matrix.mode }}" first-wave "${{ matrix.mode }}"
+  mac-correctness:
+    runs-on: macos-14
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check candidates with native Apple Clang
+        timeout-minutes: 40
+        run: python3 test/benchmark/dwm_qualification/gate.py "$GITHUB_WORKSPACE" "$RUNNER_TEMP/dwm-gate-mac" first-wave mac
+  sanitizers:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        group: [sanitizer-a, sanitizer-b]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check every candidate with ASan and UBSan
+        timeout-minutes: 40
+        env:
+          UBSAN_OPTIONS: halt_on_error=1
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+        run: python3 test/benchmark/dwm_qualification/gate.py "$GITHUB_WORKSPACE" "$RUNNER_TEMP/dwm-gate-${{ matrix.group }}" "${{ matrix.group }}" sanitizer
+  qualify:
+    needs: [linux-correctness, mac-correctness, sanitizers]
+    runs-on: ubuntu-26.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        shard: [first-wave-01, first-wave-02, first-wave-03, first-wave-04, first-wave-05, first-wave-06, first-wave-07, first-wave-08, first-wave-09, first-wave-10, first-wave-11, first-wave-12, first-wave-13, first-wave-14]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Run matched-duration comparisons on one host
+        timeout-minutes: 40
+        run: python3 test/benchmark/dwm_qualification/run.py "$GITHUB_WORKSPACE" "$RUNNER_TEMP/dwm-${{ matrix.shard }}" test/benchmark/dwm_qualification/plan.json "${{ matrix.shard }}"

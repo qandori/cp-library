@@ -1,0 +1,135 @@
+{
+  "previous_baseline": "829efa17b452f904eef5558930d91dd3792feffa",
+  "new_baseline": "b584f748d67d38faf22229cb2c971ccd98ba7d6e",
+  "compared_files": {
+    "components/dynamic_bit_vector.hpp": {
+      "old_sha256": "6ccac3add8d0c35649ec0a2b50e03e1142502473c8e2b1fd453ffe77c32689e7",
+      "new_sha256": "6ccac3add8d0c35649ec0a2b50e03e1142502473c8e2b1fd453ffe77c32689e7",
+      "byte_identical": true
+    },
+    "data_structure/dynamic_wavelet_matrix.hpp": {
+      "old_sha256": "a2af5a1addcd64377a290b1f5dd6ec7587f100d0132c8f6551649af4468ae33a",
+      "new_sha256": "a2af5a1addcd64377a290b1f5dd6ec7587f100d0132c8f6551649af4468ae33a",
+      "byte_identical": true
+    },
+    "test/unit/dynamic_bit_vector.cpp": {
+      "old_sha256": "5851b05b0da3b8ec1699f8dd032ea23887b0db6e054faf669e104c136959c278",
+      "new_sha256": "5851b05b0da3b8ec1699f8dd032ea23887b0db6e054faf669e104c136959c278",
+      "byte_identical": true
+    },
+    "test/unit/dynamic_wavelet_matrix.cpp": {
+      "old_sha256": "4d922b5838b40a0b3dd40cf279d1d220669e7f941936bac96fd855610a1bca53",
+      "new_sha256": "4d922b5838b40a0b3dd40cf279d1d220669e7f941936bac96fd855610a1bca53",
+      "byte_identical": true
+    },
+    "test/unit/dynamic_wavelet_count.cpp": {
+      "old_sha256": "c6479228f26d6d88eb71202fc1b675d6a591c2589ab6a14348dd0a2a5911b0f7",
+      "new_sha256": "c6479228f26d6d88eb71202fc1b675d6a591c2589ab6a14348dd0a2a5911b0f7",
+      "byte_identical": true
+    },
+    ".github/workflows/verify.yml": {
+      "old_sha256": "6d1cd8089efe37ca4aff2441fc463631949b19e9d7fcecce0ef5fdc6c8e04a37",
+      "new_sha256": "6d1cd8089efe37ca4aff2441fc463631949b19e9d7fcecce0ef5fdc6c8e04a37",
+      "byte_identical": true
+    },
+    ".github/workflows/macos-portability.yml": {
+      "old_sha256": "0457b00a8e2f825d1e1ae17e6380eb754a6fe73d78bc34fa5e6144e1dfa95829",
+      "new_sha256": "0457b00a8e2f825d1e1ae17e6380eb754a6fe73d78bc34fa5e6144e1dfa95829",
+      "byte_identical": true
+    },
+    "AGENTS.md": {
+      "old_sha256": "c0d88dd710f9cb64dcf722a7c658e3898b767ab5992f0e39039b308c0cb94da3",
+      "new_sha256": "c0d88dd710f9cb64dcf722a7c658e3898b767ab5992f0e39039b308c0cb94da3",
+      "byte_identical": true
+    }
+  },
+  "transitive_nonstandard_includes": {
+    "data_structure/dynamic_wavelet_matrix.hpp": [
+      "components/dynamic_bit_vector.hpp"
+    ],
+    "components/dynamic_bit_vector.hpp": []
+  },
+  "all_changed_paths": [
+    "M\tREADME.md",
+    "A\tcomponents/predecessor_set.hpp",
+    "A\tcomponents/static_range_min.hpp",
+    "M\tdata_structure/partially_retroactive_priority_queue.hpp",
+    "A\tdata_structure/permutation_tree.hpp",
+    "A\tdata_structure/sortable_segtree.hpp",
+    "M\tdocs/partially_retroactive_priority_queue.md",
+    "A\tdocs/permutation_tree.md",
+    "A\tdocs/predecessor_set.md",
+    "M\tdocs/run_enumerate.md",
+    "A\tdocs/sortable_segtree.md",
+    "A\tdocs/static_range_min.md",
+    "M\tstring/run_enumerate.hpp",
+    "M\ttest/benchmark/partially_retroactive_priority_queue.md",
+    "M\ttest/benchmark/partially_retroactive_priority_queue_variants.py",
+    "A\ttest/benchmark/permutation_tree.cpp",
+    "A\ttest/benchmark/permutation_tree.md",
+    "A\ttest/benchmark/permutation_tree.py",
+    "A\ttest/benchmark/permutation_tree_reference.py",
+    "A\ttest/benchmark/range_sort.md",
+    "A\ttest/benchmark/range_sort.py",
+    "A\ttest/benchmark/range_sort_reference.py",
+    "A\ttest/benchmark/results/permutation_tree/environment.json",
+    "A\ttest/benchmark/results/permutation_tree/results.json",
+    "A\ttest/benchmark/results/permutation_tree_check.log",
+    "A\ttest/benchmark/results/permutation_tree_clang.json",
+    "A\ttest/benchmark/results/permutation_tree_docs.log",
+    "A\ttest/benchmark/results/permutation_tree_extra_check.log",
+    "A\ttest/benchmark/results/permutation_tree_reference.json",
+    "A\ttest/benchmark/results/permutation_tree_sanitize.log",
+    "A\ttest/benchmark/results/permutation_tree_zero/environment.json",
+    "A\ttest/benchmark/results/permutation_tree_zero/results.json",
+    "A\ttest/benchmark/results/range_sort/check.log",
+    "A\ttest/benchmark/results/range_sort/docs.log",
+    "A\ttest/benchmark/results/range_sort/environment.json",
+    "A\ttest/benchmark/results/range_sort/judge.log",
+    "A\ttest/benchmark/results/range_sort/release.log",
+    "A\ttest/benchmark/results/range_sort/results.json",
+    "A\ttest/benchmark/results/range_sort/sanitize.log",
+    "A\ttest/benchmark/results/range_sort_exploration/environment.json",
+    "A\ttest/benchmark/results/range_sort_exploration/results.json",
+    "A\ttest/benchmark/results/range_sort_reference.json",
+    "A\ttest/benchmark/results/retroactive_priority_queue_changes/check.log",
+    "A\ttest/benchmark/results/retroactive_priority_queue_changes/docs.log",
+    "A\ttest/benchmark/results/retroactive_priority_queue_changes/environment.json",
+    "A\ttest/benchmark/results/retroactive_priority_queue_changes/extra_check.log",
+    "A\ttest/benchmark/results/retroactive_priority_queue_changes/extra_sanitize.log",
+    "A\ttest/benchmark/results/retroactive_priority_queue_changes/judge.log",
+    "A\ttest/benchmark/results/retroactive_priority_queue_changes/release.log",
+    "A\ttest/benchmark/results/retroactive_priority_queue_changes/results.json",
+    "A\ttest/benchmark/results/retroactive_priority_queue_changes/sanitize.log",
+    "A\ttest/benchmark/results/run_enumerate_linear_check.log",
+    "A\ttest/benchmark/results/run_enumerate_linear_clang.json",
+    "A\ttest/benchmark/results/run_enumerate_linear_exploration/environment.json",
+    "A\ttest/benchmark/results/run_enumerate_linear_exploration/results.json",
+    "A\ttest/benchmark/results/run_enumerate_linear_final/environment.json",
+    "A\ttest/benchmark/results/run_enumerate_linear_final/results.json",
+    "A\ttest/benchmark/results/run_enumerate_linear_guarded/environment.json",
+    "A\ttest/benchmark/results/run_enumerate_linear_guarded/results.json",
+    "A\ttest/benchmark/results/run_enumerate_linear_reference.json",
+    "A\ttest/benchmark/results/run_enumerate_linear_sanitize.log",
+    "A\ttest/benchmark/results/run_enumerate_linear_unindexed/environment.json",
+    "A\ttest/benchmark/results/run_enumerate_linear_unindexed/results.json",
+    "A\ttest/benchmark/retroactive_priority_queue_changes.cpp",
+    "A\ttest/benchmark/retroactive_priority_queue_changes.md",
+    "A\ttest/benchmark/retroactive_priority_queue_changes.py",
+    "A\ttest/benchmark/retroactive_priority_queue_scheduling.cpp",
+    "M\ttest/benchmark/run_enumerate.md",
+    "A\ttest/benchmark/run_enumerate_linear.cpp",
+    "A\ttest/benchmark/run_enumerate_linear.md",
+    "A\ttest/benchmark/run_enumerate_linear.py",
+    "A\ttest/fixtures/retroactive_scheduling.hpp",
+    "A\ttest/permutation_tree.test.cpp",
+    "A\ttest/sortable_segtree.test.cpp",
+    "A\ttest/unit/partially_retroactive_priority_queue_changes.cpp",
+    "A\ttest/unit/permutation_tree.cpp",
+    "A\ttest/unit/predecessor_set.cpp",
+    "A\ttest/unit/retroactive_priority_queue_scheduling.cpp",
+    "A\ttest/unit/sortable_segtree.cpp",
+    "A\ttest/unit/static_range_min.cpp"
+  ],
+  "status": "new_unlaunched_baseline_updated_after_independent_relevant_source_identity_check; prior_screen_unchanged"
+}

@@ -23,14 +23,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - uses: actions/cache/restore@v4
-        id: cache
-        with:
-          path: .verify-helper/verified-state.json
-          key: macos-${{ runner.arch }}-portable-v1-${{ github.ref }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: |
-            macos-${{ runner.arch }}-portable-v1-${{ github.ref }}-
-            macos-${{ runner.arch }}-portable-v1-refs/heads/main-
       - name: Select affected headers and unit tests
         run: python .verify-helper/ci.py plan
       - name: Check Apple Clang
@@ -39,7 +31,3 @@ jobs:
           clang++ --version
           python test/verify.py --unit-only --cxx clang++ --selection .verify-helper/selection.json
           python .verify-helper/ci.py record --groups headers unit
-      - uses: actions/cache/save@v4
-        with:
-          path: .verify-helper/verified-state.json
-          key: ${{ steps.cache.outputs.cache-primary-key }}

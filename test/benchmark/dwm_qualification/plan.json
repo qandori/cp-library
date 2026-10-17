@@ -1,0 +1,1767 @@
+{
+  "schema_version": 1,
+  "frozen": true,
+  "status": "fixed_source_snapshot_for_individual_confirmation_and_regression_resolution",
+  "parent_matrix_sha256": "5d40b10fd900b1c7d8a06e32b6396f7368610ad9a49ada36f2690d8256946116",
+  "baseline": "b584f748d67d38faf22229cb2c971ccd98ba7d6e",
+  "screening_baseline": "829efa17b452f904eef5558930d91dd3792feffa",
+  "baseline_change_provenance": "Both product headers, their nonstandard include closure, three original unit sources, AGENTS.md and verify/Mac workflows are byte-identical between prior screen829efa17 and new baselineb584f748; see baseline-refresh.json. Previous screening evidence retains its original provenance.",
+  "variants": {
+    "baseline": {
+      "base": "b584f748d67d38faf22229cb2c971ccd98ba7d6e",
+      "components": [],
+      "headers": {
+        "components/dynamic_bit_vector.hpp": "6ccac3add8d0c35649ec0a2b50e03e1142502473c8e2b1fd453ffe77c32689e7",
+        "data_structure/dynamic_wavelet_matrix.hpp": "a2af5a1addcd64377a290b1f5dd6ec7587f100d0132c8f6551649af4468ae33a"
+      }
+    },
+    "neighbors": {
+      "base": "b584f748d67d38faf22229cb2c971ccd98ba7d6e",
+      "components": [
+        "neighbors"
+      ],
+      "component_patch_sha256": {
+        "neighbors": "d5b3ada467f28d564703ff0bbe76f23ab2c04b8d55f686722f63f14e3450fe2f"
+      },
+      "headers": {
+        "components/dynamic_bit_vector.hpp": "6ccac3add8d0c35649ec0a2b50e03e1142502473c8e2b1fd453ffe77c32689e7",
+        "data_structure/dynamic_wavelet_matrix.hpp": "8af76cb1c3400735cdf265e5c8cdfd7db63daef25f93cfc588c64b199e5e812b"
+      }
+    },
+    "uniformneighbors": {
+      "base": "b584f748d67d38faf22229cb2c971ccd98ba7d6e",
+      "components": [
+        "uniformneighbors"
+      ],
+      "component_patch_sha256": {
+        "uniformneighbors": "452c5d8091db8939ea498ee99ac6bcbdd16844a573afa8e8f308ab08f2d993e6"
+      },
+      "headers": {
+        "components/dynamic_bit_vector.hpp": "6ccac3add8d0c35649ec0a2b50e03e1142502473c8e2b1fd453ffe77c32689e7",
+        "data_structure/dynamic_wavelet_matrix.hpp": "3407d1ed6ddfcb01bd75c27f7f41490dfdb5b2fa35a6481c67a05391aa7f23de"
+      }
+    },
+    "selectprefix": {
+      "base": "b584f748d67d38faf22229cb2c971ccd98ba7d6e",
+      "components": [
+        "selectprefix"
+      ],
+      "component_patch_sha256": {
+        "selectprefix": "7e682e5984b2d51ac0387f2842def77dc726963f5dbb75345e3b0e2ddd09a14b"
+      },
+      "headers": {
+        "components/dynamic_bit_vector.hpp": "6ccac3add8d0c35649ec0a2b50e03e1142502473c8e2b1fd453ffe77c32689e7",
+        "data_structure/dynamic_wavelet_matrix.hpp": "e0fa30f38f1980cafe7aa21c53eb78d8a03320f088efe2dd526cbfa06dc50844"
+      }
+    },
+    "rangeprefix": {
+      "base": "b584f748d67d38faf22229cb2c971ccd98ba7d6e",
+      "components": [
+        "rangeprefix"
+      ],
+      "component_patch_sha256": {
+        "rangeprefix": "ced8234c702953ed35a5486f8a27aa328b58e3c2015b2b85bc9658d59ef68249"
+      },
+      "headers": {
+        "components/dynamic_bit_vector.hpp": "6ccac3add8d0c35649ec0a2b50e03e1142502473c8e2b1fd453ffe77c32689e7",
+        "data_structure/dynamic_wavelet_matrix.hpp": "0178b7bfbcc01f0bf0d68d6bf0113578d415d263a629501353563c498e041247"
+      }
+    },
+    "pdep": {
+      "base": "b584f748d67d38faf22229cb2c971ccd98ba7d6e",
+      "components": [
+        "pdep"
+      ],
+      "component_patch_sha256": {
+        "pdep": "6c2008f09ade8750b0a163011c03a3ad382cec9c74a62e99a47943261ff9fe1f"
+      },
+      "headers": {
+        "components/dynamic_bit_vector.hpp": "1d6a47b55ba375810b30fa297bfae23755099b13e3b4707f2ff575b63e5278ae",
+        "data_structure/dynamic_wavelet_matrix.hpp": "a2af5a1addcd64377a290b1f5dd6ec7587f100d0132c8f6551649af4468ae33a"
+      }
+    },
+    "avxbuild": {
+      "base": "b584f748d67d38faf22229cb2c971ccd98ba7d6e",
+      "components": [
+        "avxbuild"
+      ],
+      "component_patch_sha256": {
+        "avxbuild": "8f74d61dd642494a33d2b71bd33f16ac5ba967e28c3cbac15483047e2ad22809"
+      },
+      "headers": {
+        "components/dynamic_bit_vector.hpp": "6ccac3add8d0c35649ec0a2b50e03e1142502473c8e2b1fd453ffe77c32689e7",
+        "data_structure/dynamic_wavelet_matrix.hpp": "e0f7ee0ebd7e11d27fe73e8e55c434ac43dc056c739bc6b2ece573bab6e0d06b"
+      }
+    },
+    "leaf": {
+      "base": "b584f748d67d38faf22229cb2c971ccd98ba7d6e",
+      "components": [
+        "leaf"
+      ],
+      "component_patch_sha256": {
+        "leaf": "a2c1bd642e5723c5adb5ed46d28ed57f2ebd05fd75c86fec977e485d604b08f6"
+      },
+      "headers": {
+        "components/dynamic_bit_vector.hpp": "5576b9e7b0a01cf3f1d660b1196bae6f89adc89b34cbdbaa61a250d9e94b4891",
+        "data_structure/dynamic_wavelet_matrix.hpp": "a2af5a1addcd64377a290b1f5dd6ec7587f100d0132c8f6551649af4468ae33a"
+      }
+    }
+  },
+  "cases": {
+    "access": {
+      "kind": "access",
+      "n": 100000,
+      "q": 40000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "access_only": {
+      "kind": "access",
+      "n": 100000,
+      "q": 40000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "independent_access_only",
+      "caller_shape": 1,
+      "generator": "access_only_v1"
+    },
+    "boundaryupdate": {
+      "kind": "updates",
+      "n": 8192,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "boundary",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "build": {
+      "kind": "build",
+      "n": 100000,
+      "q": 0,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "builddup": {
+      "kind": "build",
+      "n": 100000,
+      "q": 0,
+      "seed": 20261017,
+      "dist": "duplicates",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "buildequal": {
+      "kind": "build",
+      "n": 100000,
+      "q": 0,
+      "seed": 20261017,
+      "dist": "equal",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "dupneighbor": {
+      "kind": "neighbors",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "duplicates",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "dupselect": {
+      "kind": "select-valid-dup",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "duplicates",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0,
+      "generator": "select_valid_dup_v1",
+      "semantic": "exact valid duplicate occurrence, including high occurrence indices"
+    },
+    "equalneighbor": {
+      "kind": "neighbors",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "equal",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "localupdate": {
+      "kind": "updates",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "local",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "mixed": {
+      "kind": "mixed",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "mixed_ordinary": {
+      "kind": "simplemixed",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "independent_mixed_ordinary",
+      "caller_shape": 2,
+      "generator": "simplemixed_v1",
+      "operations_iid_uniform": [
+        "access",
+        "set",
+        "kth_smallest",
+        "range_freq_three_argument"
+      ],
+      "selection": "rng()%4",
+      "same_trace_as_broad_mixed": false
+    },
+    "narrow": {
+      "kind": "range-narrow",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "neighbors": {
+      "kind": "neighbors",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "range": {
+      "kind": "range",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "select": {
+      "kind": "select",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "short": {
+      "kind": "short",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "smallupdate": {
+      "kind": "updates",
+      "n": 1024,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "local",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    },
+    "updates": {
+      "kind": "updates",
+      "n": 100000,
+      "q": 20000,
+      "seed": 20261017,
+      "dist": "full",
+      "loc": "random",
+      "cache": "warm",
+      "bits": 20,
+      "block": 1024,
+      "branch": 8,
+      "value_type": "uint32_t",
+      "caller": "broad_dispatch",
+      "caller_shape": 0
+    }
+  },
+  "compiler": {
+    "required_version": "GCC 15.2.0",
+    "common_flags": [
+      "-O2",
+      "-std=gnu++23",
+      "-fmodules",
+      "-ftrivial-auto-var-init=zero",
+      "-DONLINE_JUDGE",
+      "-DATCODER"
+    ],
+    "native_flags": [
+      "-march=native"
+    ],
+    "scalar_flags": [
+      "-march=x86-64",
+      "-mtune=generic",
+      "-mno-avx",
+      "-mno-avx2",
+      "-mno-avx512f",
+      "-mno-bmi",
+      "-mno-bmi2",
+      "-fno-tree-loop-vectorize",
+      "-fno-tree-slp-vectorize"
+    ],
+    "assertions": true,
+    "lto": false,
+    "required_scalar_absent_macros": [
+      "__AVX__",
+      "__AVX2__",
+      "__AVX512F__",
+      "__BMI__",
+      "__BMI2__"
+    ],
+    "log_macro_probe": [
+      "__SSE2__",
+      "__POPCNT__",
+      "__AVX__",
+      "__AVX2__",
+      "__AVX512F__",
+      "__BMI__",
+      "__BMI2__"
+    ]
+  },
+  "sample_policy": {
+    "pilot_count_per_variant_case_flag": 1,
+    "pilot_replays": 1,
+    "target_cpu_seconds": 1.5,
+    "replays": "For each exact case/flag within a job, R=min(4096,max(1,ceil(1.5/minimum_pilot_cpu_over_all_its_distinct_variants)))). Use that same R for every AA/BB and cross-variant leg of that case/flag. Exactly one one-replay pilot per distinct variant/case/flag; no adaptive retuning.",
+    "short_sample_floor_seconds": 1.0,
+    "warmup": "For warm-cache nonempty fresh objects,1024 access calls before timing; build-from-empty has no prebuilt object and therefore no access warmup; no full-workload prewarm",
+    "cycles": 4,
+    "cycle_tokens_even": [
+      "AA",
+      "ABBA",
+      "BB",
+      "BAAB"
+    ],
+    "cycle_tokens_odd": [
+      "BB",
+      "BAAB",
+      "AA",
+      "ABBA"
+    ],
+    "interleaving": "cycle outermost, fixed cyclic/reversed case order within each flag; calibration and controls span the job rather than finishing one case entirely first",
+    "measured_processes_per_pair_case_flag": 48,
+    "cross_blocks_per_pair_case_flag": 8,
+    "cross_block_log_contrast": "D=(log(B1)+log(B2)-log(A1)-log(A2))/2; exp(D) is the B/A latency ratio for one complete ABBA or BAAB block",
+    "statistical_unit": "Eight complete four-sample cross-block contrasts per pair/case/flag; not 16 independent paired observations",
+    "AA_BB_log_contrast": "log(second/first) within each same-binary pair; retain signed drift and absolute envelope separately",
+    "AA_pairs_per_pair_case_flag": 4,
+    "BB_pairs_per_pair_case_flag": 4,
+    "repeat_until_favorable": false,
+    "fresh_object_each_replay": true,
+    "preflight_exact_outputs_and_final_state_each_replay": true,
+    "timed_output_hash_each_replay": true,
+    "timed_full_final_state_replays": "first only",
+    "timed_build_object_escape_each_replay": true,
+    "all_individual_timed_build_states_verified": false,
+    "preflight_replays": 3,
+    "case_seed": 20261017,
+    "correctness_second_seed": 1709,
+    "case_order_policy": "rotate_left_by_cycle_then_reverse_odd",
+    "replay_cap": 4096,
+    "AA_BB_max_multiplicative_deviation": 0.005,
+    "adverse_control_margin": 0.01,
+    "thresholds_purpose": "Descriptive resolution/adverse flags only; not acceptance or merge criteria",
+    "full_size_preflight_independent_oracle": true,
+    "full_size_preflight_check": "Each of three fresh replays must have exact complete outputs and final state; one full-input independent C++ oracle per exact input/kind/type key establishes verified expected bytes; all later candidates and flags require exact input and full output/final byte equality to that verified record",
+    "small_oracle_preflight": {
+      "n_max": 512,
+      "q_max": 512,
+      "seed": 1709,
+      "replays": 3,
+      "independent_vector_oracle": true,
+      "select_churn_restore_q_multiple": 10
+    },
+    "preflight_benchmark_processes_per_variant_case_flag": 2
+  },
+  "correctness_case_requirements": {
+    "select_churn": {
+      "kind": "select-churn",
+      "cycle_operations": 10,
+      "sets_per_cycle": 4,
+      "selects_per_cycle": 6,
+      "restoration_requires": "q % 10 == 0",
+      "cycle": [
+        "select absent",
+        "set p",
+        "select singleton",
+        "set p+1",
+        "select later duplicate",
+        "restore p+1",
+        "select singleton",
+        "select k1 miss",
+        "restore p",
+        "select absent"
+      ]
+    }
+  },
+  "runner_policy": {
+    "runs_on": "ubuntu-26.04 standard public GitHub-hosted runner",
+    "same_hardware_native_and_scalar_per_job": true,
+    "contents_permission": "read",
+    "persist_checkout_credentials": false,
+    "artifact_uploads": false,
+    "persistent_cache_writes": false,
+    "paid_runners": false,
+    "custom_images": false,
+    "billing_changes": false,
+    "external_outputs": [
+      "normal workflow log",
+      "GITHUB_STEP_SUMMARY"
+    ],
+    "source_or_result_publication": "Not authorized by this proposal",
+    "max_parallel_timing_shards": 2,
+    "parallel_limit_scope": "At most two timing shards concurrently; Linux/Mac/sanitizer gates and normal CI may run concurrently"
+  },
+  "log_policy": {
+    "record_schema": [
+      "job/case/variant/flag/seed/n/q/type/bits/block/branch/caller/cache",
+      "source commit/composition/header/harness/oracle/escape SHA256",
+      "compiler/linker identity and binary SHA256",
+      "input stream/output array/final vector SHA256 and byte lengths",
+      "replay count and replay index checks",
+      "full exact oracle/equality status",
+      "CPU/wall/setup/validation seconds",
+      "cycle/block/AA-or-BB labels/order",
+      "CPU/ISA/affinity/runner image provenance",
+      "all failures and timeouts"
+    ],
+    "success_full_array_dumps": false,
+    "failure_context_max_bytes": 65536,
+    "failure_reproduction": [
+      "exact deterministic input parameters and generator hash",
+      "first failing operation index and expected/actual result",
+      "bounded surrounding operations and final-state mismatch window",
+      "source/binary/input/output digests",
+      "exit/sanitizer diagnostics"
+    ],
+    "log_truncation": "Marks job incomplete; never claim a passing unlogged comparison",
+    "oracle_boundary": "Full-size independent C++ vector oracle once per exact input/kind/type key, then exact verified full input/output/final byte reuse across candidates/flags; separate small Python vector oracle for every variant/case/flag"
+  },
+  "full_oracle_policy": {
+    "source": "vector_oracle.cpp",
+    "compiler_flags": [
+      "-O2",
+      "-std=gnu++23",
+      "-march=x86-64"
+    ],
+    "compiler_version": "GCC 15.2.0",
+    "compile_once_per_shard": true,
+    "command_timeout_seconds": 120,
+    "key_fields": [
+      "canonical_input_sha256",
+      "canonical_input_byte_length",
+      "kind",
+      "value_type",
+      "bits"
+    ],
+    "run_on": "baseline-produced full-size dump",
+    "reuse_only_after_independent_success": true,
+    "reuse_requires": "exact full input and output/final bytes, not hashes alone",
+    "scope": "Ephemeral verification records in this disposable job only; no persistent/GitHub/cache service writes",
+    "failure_policy": "Retain failure by exact key; no retry or baseline-only fallback; timeout marks validation incomplete",
+    "pre_freeze_gate": "Cross-check the C++ oracle against the independent Python oracle on small cases; freeze source and compile command after reviewer approval",
+    "provenance": [
+      "oracle source SHA256",
+      "compiler identity and exact command",
+      "oracle binary SHA256",
+      "key and input/output lengths and SHA256",
+      "initial oracle result or successful exact-byte reuse relation"
+    ]
+  },
+  "package": {
+    "runner": "run.py",
+    "gate": "gate.py",
+    "paths": {
+      "bench": "bench.cpp",
+      "caller": "caller.cpp",
+      "oracle": "verify_oracle.py",
+      "full_oracle": "vector_oracle.cpp",
+      "escape": "escape.cpp",
+      "patches": "patches"
+    },
+    "source_sha256": {
+      "README.md": "4ccb001a1dec7769fa45e8596777a7d0a502fc933eb8e2458dea46261cf642d4",
+      "baseline-refresh.json": "ea2e7b1c00608c744dc62504c0749dc8fa5ac6ebd5add2fc001e13c2e3576a0e",
+      "bench.cpp": "c7968ad5eda60224bed030db06054637bca7e243521b33a50b88af0254b1f39e",
+      "caller.cpp": "79c73ecf4b1a67843fd65c664ee1eacc3c4696144dbc495d6ff0d4d6f7e15cea",
+      "escape.cpp": "b8c864f6ea5f2d78bc8dfeb3e23d5b39f0452176adebd10c111c5f8717022959",
+      "gate.py": "4e8ff5709c1fa26f99b87221607eb8ef04ad3601f44e2e58749d17b2207edbb3",
+      "macos-portability.yml": "34659595e03d92632bdc9f9284e9427769bd2ab18eb2c8fc502f3b0f2f1beacd",
+      "patches/avxbuild.patch": "8f74d61dd642494a33d2b71bd33f16ac5ba967e28c3cbac15483047e2ad22809",
+      "patches/leaf.patch": "a2c1bd642e5723c5adb5ed46d28ed57f2ebd05fd75c86fec977e485d604b08f6",
+      "patches/neighbors.patch": "d5b3ada467f28d564703ff0bbe76f23ab2c04b8d55f686722f63f14e3450fe2f",
+      "patches/pdep.patch": "6c2008f09ade8750b0a163011c03a3ad382cec9c74a62e99a47943261ff9fe1f",
+      "patches/rangeprefix.patch": "ced8234c702953ed35a5486f8a27aa328b58e3c2015b2b85bc9658d59ef68249",
+      "patches/selectprefix.patch": "7e682e5984b2d51ac0387f2842def77dc726963f5dbb75345e3b0e2ddd09a14b",
+      "patches/uniformneighbors.patch": "452c5d8091db8939ea498ee99ac6bcbdd16844a573afa8e8f308ab08f2d993e6",
+      "run.py": "5536407ab7afafa0c046894c184874f6f473759f0d92f0b0e504e66c23d759b5",
+      "tests/dynamic_architecture.cpp": "6c294af5835be7fb2c09066058c7b691ea33c47fa7b4af1ae01badc6178aa70d",
+      "tests/dynamic_leaf.cpp": "896e32d8b73d3f40c92d45c04f6d7fb10e6e98a9129a6c1875a24e35f87208e2",
+      "tests/dynamic_wavelet_neighbors.cpp": "5b042bdff7248005699cf9f80aaa8a8aa238b8634718e16387519d9861cc476d",
+      "tests/review_edge_cases.cpp": "e29cdd9e705c5f4384ecf9c0d4379eaf2fdac4929556e35ff3baf88530d36d6d",
+      "tests/simd_edges.cpp": "3681490426f063ace6aa9ce4207307df5d684adb60c6ef891d6c28002b13fe3e",
+      "vector_oracle.cpp": "7b8b82a4d0eb4a33ed57d1b2b557052e8fb21cc20cb2f7849864c5f587e6077f",
+      "verify.yml": "a0e510eb254dd2aa004c4fd548ee1d6d5c9fe82d675f2fcac9729cf7584cc76d",
+      "verify_oracle.py": "939fec4ca98e976762079fc46285733b527eab353afc806e5b46074cac437c26",
+      "workflow.yml": "2b160953e62e75f3c4f4d96dd475d67acd942693a071d5560a06a513f0e6975f"
+    },
+    "source_snapshot_status": "Materialized immutable source snapshot. Source hashes are verified before execution and rechecked after timing."
+  },
+  "purpose": "Individual confirmation and regression-resolution screen for all seven high-leverage individuals, including every intended target and broad/independently shaped adverse controls; not final qualification or acceptance.",
+  "not_an_acceptance_gate_alone": "Does not establish combination interactions, full64 performance, select factorial/absence/churn performance, external-reference rank, Mac compatibility, or latest-head CI.",
+  "preconditions": [
+    "Own-library individual correctness gate; current native/scalar and local oracle/source review must pass",
+    "Freeze reviewed source/caller/oracle/generator/protocol hashes after local oracle passes",
+    "Include exact select-lastbit-miss/select-high-k/select-valid-dup/select-churn and narrow20 correctness cases even though broader timing is deferred",
+    "Freeze scalar ISA macro/disassembly checks and bounded reproducibility logs",
+    "Every required correctness job must pass on this exact source snapshot before any timing shard runs."
+  ],
+  "comparison_rows": [
+    {
+      "id": "P2A_individuals:baseline:neighbors:neighbors",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "neighbors",
+      "case": "neighbors",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:neighbors:access",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "neighbors",
+      "case": "access",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:neighbors:short",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "neighbors",
+      "case": "short",
+      "role": "short_query_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:neighbors:access_only",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "neighbors",
+      "case": "access_only",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:neighbors:dupneighbor",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "neighbors",
+      "case": "dupneighbor",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:neighbors:mixed",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "neighbors",
+      "case": "mixed",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:neighbors:updates",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "neighbors",
+      "case": "updates",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:neighbors:mixed_ordinary",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "neighbors",
+      "case": "mixed_ordinary",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:uniformneighbors:neighbors",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "uniformneighbors",
+      "case": "neighbors",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:uniformneighbors:access",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "uniformneighbors",
+      "case": "access",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:uniformneighbors:short",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "uniformneighbors",
+      "case": "short",
+      "role": "short_query_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:uniformneighbors:access_only",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "uniformneighbors",
+      "case": "access_only",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:uniformneighbors:dupneighbor",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "uniformneighbors",
+      "case": "dupneighbor",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:uniformneighbors:mixed",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "uniformneighbors",
+      "case": "mixed",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:uniformneighbors:updates",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "uniformneighbors",
+      "case": "updates",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:uniformneighbors:mixed_ordinary",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "uniformneighbors",
+      "case": "mixed_ordinary",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:selectprefix:select",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "selectprefix",
+      "case": "select",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:selectprefix:access",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "selectprefix",
+      "case": "access",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:selectprefix:short",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "selectprefix",
+      "case": "short",
+      "role": "short_query_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:selectprefix:access_only",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "selectprefix",
+      "case": "access_only",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:selectprefix:dupselect",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "selectprefix",
+      "case": "dupselect",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:selectprefix:mixed",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "selectprefix",
+      "case": "mixed",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:selectprefix:updates",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "selectprefix",
+      "case": "updates",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:selectprefix:mixed_ordinary",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "selectprefix",
+      "case": "mixed_ordinary",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:rangeprefix:range",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "rangeprefix",
+      "case": "range",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:rangeprefix:access",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "rangeprefix",
+      "case": "access",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:rangeprefix:short",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "rangeprefix",
+      "case": "short",
+      "role": "short_query_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:rangeprefix:access_only",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "rangeprefix",
+      "case": "access_only",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:rangeprefix:narrow",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "rangeprefix",
+      "case": "narrow",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:rangeprefix:mixed",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "rangeprefix",
+      "case": "mixed",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:rangeprefix:updates",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "rangeprefix",
+      "case": "updates",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:rangeprefix:mixed_ordinary",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "rangeprefix",
+      "case": "mixed_ordinary",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:pdep:select",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "pdep",
+      "case": "select",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:pdep:access",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "pdep",
+      "case": "access",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:pdep:updates",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "pdep",
+      "case": "updates",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:pdep:access_only",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "pdep",
+      "case": "access_only",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:pdep:dupselect",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "pdep",
+      "case": "dupselect",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:pdep:mixed",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "pdep",
+      "case": "mixed",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:pdep:mixed_ordinary",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "pdep",
+      "case": "mixed_ordinary",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:uniformneighbors:equalneighbor",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "uniformneighbors",
+      "case": "equalneighbor",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:avxbuild:build",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "avxbuild",
+      "case": "build",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:avxbuild:buildequal",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "avxbuild",
+      "case": "buildequal",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:avxbuild:access",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "avxbuild",
+      "case": "access",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:avxbuild:access_only",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "avxbuild",
+      "case": "access_only",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:avxbuild:builddup",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "avxbuild",
+      "case": "builddup",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:avxbuild:mixed",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "avxbuild",
+      "case": "mixed",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:avxbuild:updates",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "avxbuild",
+      "case": "updates",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:avxbuild:mixed_ordinary",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "avxbuild",
+      "case": "mixed_ordinary",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:leaf:smallupdate",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "leaf",
+      "case": "smallupdate",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:leaf:boundaryupdate",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "leaf",
+      "case": "boundaryupdate",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:leaf:access",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "leaf",
+      "case": "access",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:leaf:access_only",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "leaf",
+      "case": "access_only",
+      "role": "independent_caller_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:leaf:localupdate",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "leaf",
+      "case": "localupdate",
+      "role": "intended_target"
+    },
+    {
+      "id": "P2A_individuals:baseline:leaf:mixed",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "leaf",
+      "case": "mixed",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:leaf:updates",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "leaf",
+      "case": "updates",
+      "role": "adverse_control"
+    },
+    {
+      "id": "P2A_individuals:baseline:leaf:mixed_ordinary",
+      "stage": "P2A_individuals",
+      "a": "baseline",
+      "b": "leaf",
+      "case": "mixed_ordinary",
+      "role": "independent_caller_control"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "first-wave-01",
+      "comparison_ids": [
+        "P2A_individuals:baseline:neighbors:neighbors",
+        "P2A_individuals:baseline:neighbors:access",
+        "P2A_individuals:baseline:neighbors:short",
+        "P2A_individuals:baseline:neighbors:access_only"
+      ],
+      "flags_order": [
+        "native",
+        "scalar"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-02",
+      "comparison_ids": [
+        "P2A_individuals:baseline:neighbors:dupneighbor",
+        "P2A_individuals:baseline:neighbors:mixed",
+        "P2A_individuals:baseline:neighbors:updates",
+        "P2A_individuals:baseline:neighbors:mixed_ordinary"
+      ],
+      "flags_order": [
+        "scalar",
+        "native"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-03",
+      "comparison_ids": [
+        "P2A_individuals:baseline:uniformneighbors:neighbors",
+        "P2A_individuals:baseline:uniformneighbors:access",
+        "P2A_individuals:baseline:uniformneighbors:short",
+        "P2A_individuals:baseline:uniformneighbors:access_only"
+      ],
+      "flags_order": [
+        "scalar",
+        "native"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-04",
+      "comparison_ids": [
+        "P2A_individuals:baseline:uniformneighbors:dupneighbor",
+        "P2A_individuals:baseline:uniformneighbors:mixed",
+        "P2A_individuals:baseline:uniformneighbors:updates",
+        "P2A_individuals:baseline:uniformneighbors:mixed_ordinary"
+      ],
+      "flags_order": [
+        "native",
+        "scalar"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-05",
+      "comparison_ids": [
+        "P2A_individuals:baseline:selectprefix:select",
+        "P2A_individuals:baseline:selectprefix:access",
+        "P2A_individuals:baseline:selectprefix:short",
+        "P2A_individuals:baseline:selectprefix:access_only"
+      ],
+      "flags_order": [
+        "native",
+        "scalar"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-06",
+      "comparison_ids": [
+        "P2A_individuals:baseline:selectprefix:dupselect",
+        "P2A_individuals:baseline:selectprefix:mixed",
+        "P2A_individuals:baseline:selectprefix:updates",
+        "P2A_individuals:baseline:selectprefix:mixed_ordinary"
+      ],
+      "flags_order": [
+        "scalar",
+        "native"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-07",
+      "comparison_ids": [
+        "P2A_individuals:baseline:rangeprefix:range",
+        "P2A_individuals:baseline:rangeprefix:access",
+        "P2A_individuals:baseline:rangeprefix:short",
+        "P2A_individuals:baseline:rangeprefix:access_only"
+      ],
+      "flags_order": [
+        "scalar",
+        "native"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-08",
+      "comparison_ids": [
+        "P2A_individuals:baseline:rangeprefix:narrow",
+        "P2A_individuals:baseline:rangeprefix:mixed",
+        "P2A_individuals:baseline:rangeprefix:updates",
+        "P2A_individuals:baseline:rangeprefix:mixed_ordinary"
+      ],
+      "flags_order": [
+        "native",
+        "scalar"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-09",
+      "comparison_ids": [
+        "P2A_individuals:baseline:pdep:select",
+        "P2A_individuals:baseline:pdep:access",
+        "P2A_individuals:baseline:pdep:updates",
+        "P2A_individuals:baseline:pdep:access_only"
+      ],
+      "flags_order": [
+        "native",
+        "scalar"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-10",
+      "comparison_ids": [
+        "P2A_individuals:baseline:pdep:dupselect",
+        "P2A_individuals:baseline:pdep:mixed",
+        "P2A_individuals:baseline:pdep:mixed_ordinary",
+        "P2A_individuals:baseline:uniformneighbors:equalneighbor"
+      ],
+      "flags_order": [
+        "scalar",
+        "native"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 10,
+      "benchmark_compile_commands": 10,
+      "benchmark_object_compile_commands": 10,
+      "benchmark_link_commands": 10,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 23,
+      "compile_bearing_commands": 13,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-11",
+      "comparison_ids": [
+        "P2A_individuals:baseline:avxbuild:build",
+        "P2A_individuals:baseline:avxbuild:buildequal",
+        "P2A_individuals:baseline:avxbuild:access",
+        "P2A_individuals:baseline:avxbuild:access_only"
+      ],
+      "flags_order": [
+        "scalar",
+        "native"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-12",
+      "comparison_ids": [
+        "P2A_individuals:baseline:avxbuild:builddup",
+        "P2A_individuals:baseline:avxbuild:mixed",
+        "P2A_individuals:baseline:avxbuild:updates",
+        "P2A_individuals:baseline:avxbuild:mixed_ordinary"
+      ],
+      "flags_order": [
+        "native",
+        "scalar"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-13",
+      "comparison_ids": [
+        "P2A_individuals:baseline:leaf:smallupdate",
+        "P2A_individuals:baseline:leaf:boundaryupdate",
+        "P2A_individuals:baseline:leaf:access",
+        "P2A_individuals:baseline:leaf:access_only"
+      ],
+      "flags_order": [
+        "native",
+        "scalar"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    },
+    {
+      "id": "first-wave-14",
+      "comparison_ids": [
+        "P2A_individuals:baseline:leaf:localupdate",
+        "P2A_individuals:baseline:leaf:mixed",
+        "P2A_individuals:baseline:leaf:updates",
+        "P2A_individuals:baseline:leaf:mixed_ordinary"
+      ],
+      "flags_order": [
+        "scalar",
+        "native"
+      ],
+      "pair_case_count": 4,
+      "unique_variant_cases": 8,
+      "benchmark_binaries": 8,
+      "benchmark_compile_commands": 8,
+      "benchmark_object_compile_commands": 8,
+      "benchmark_link_commands": 8,
+      "escape_object_compile_commands": 2,
+      "full_oracle_compile_commands": 1,
+      "all_gxx_invocations": 19,
+      "compile_bearing_commands": 11,
+      "full_oracle_verifier_calls_upper_bound": 4,
+      "full_size_preflight_processes": 16,
+      "small_oracle_preflight_processes": 16,
+      "preflight_processes": 32,
+      "oracle_verifier_processes": 16,
+      "pilot_processes": 16,
+      "measurement_processes": 384,
+      "total_benchmark_processes": 432,
+      "nominal_measured_cpu_seconds": 576,
+      "job_timeout_minutes": 45,
+      "execution_step_timeout_minutes": 40,
+      "internal_deadline_seconds": 2340,
+      "shutdown_reserve_seconds": 60,
+      "command_timeout_seconds": 120,
+      "normal_log_limit_bytes": 8388608,
+      "summary_limit_bytes": 32768,
+      "internal_execution_minutes": 39
+    }
+  ],
+  "totals": {
+    "timing_jobs": 14,
+    "pair_case_comparisons": 56,
+    "measurement_processes": 5376,
+    "benchmark_processes": 6048,
+    "full_size_preflight_processes": 224,
+    "small_oracle_preflight_processes": 224,
+    "pilot_processes": 224,
+    "oracle_verifier_processes": 224,
+    "benchmark_compile_commands": 114,
+    "full_oracle_compile_commands": 14,
+    "benchmark_binaries": 114,
+    "benchmark_object_compile_commands": 114,
+    "benchmark_link_commands": 114,
+    "escape_object_compile_commands": 28,
+    "all_gxx_invocations": 270,
+    "compile_bearing_commands": 156,
+    "full_oracle_verifier_calls_upper_bound": 56,
+    "all_oracle_verifier_calls_upper_bound": 280,
+    "nominal_measured_cpu_seconds": 8064,
+    "aggregate_job_wall_ceiling_minutes": 630,
+    "correctness_gate_counts": "Separate reviewed gate manifest; not included in these timing-process counts"
+  },
+  "correctness_gate_policy": {
+    "source": "gate_draft.py",
+    "source_sha256": "4e8ff5709c1fa26f99b87221607eb8ef04ad3601f44e2e58749d17b2207edbb3",
+    "normal_log_limit_bytes": 25165824,
+    "timing_log_limit_bytes_separately": 8388608,
+    "internal_deadline_seconds": 2340,
+    "execution_step_timeout_minutes": 40,
+    "shutdown_reserve_seconds": 60,
+    "job_timeout_minutes": 45,
+    "timing_dependency": "All first-wave Linux native/scalar, actual Mac, sanitizer-a and sanitizer-b source gates must pass; no broad workflow concurrency cap is imposed by the timing-shard limit"
+  },
+  "first_wave_sanitizers": {
+    "variant_count": 8,
+    "jobs": 2,
+    "variants_per_job": 4,
+    "source_suite_compile_run_pairs_per_job": 32,
+    "coverage": "baseline and all seven individuals; no combination-only shortcut"
+  },
+  "dependency_proof": {
+    "benchmark": "Each source is compiled separately with -MMD/-MF, then linked with the per-flag escape object; actual dependencies must prove both product headers resolve inside the selected variant and match frozen bytes",
+    "escape": "Compile once per flag/shard with a separate depfile; prove no product dependencies",
+    "full_oracle": "Compile/link once per shard with independent dependency proof; prove no product dependencies",
+    "counts": "Benchmark binaries, object compile calls, links and compile-bearing calls are counted separately; compiler identity/ISA probes remain metadata calls"
+  },
+  "new_workload_scope": {
+    "timed": [
+      "select-valid-dup"
+    ],
+    "correctness_or_later_timing": [
+      "select-lastbit-miss",
+      "select-high-k",
+      "select-churn",
+      "Bits64 narrow20 and wider-domain variants"
+    ]
+  },
+  "deferred_packages": [
+    "P2B combinations",
+    "P2C direct ablations",
+    "P2D own full64 performance",
+    "P2F/P2G B/P/S/PS factorial",
+    "P2E external-reference comparison"
+  ],
+  "freeze_rule": "All 56 rows and 14 shards are frozen together before new timing. A package approval covers those shards; no repeated publications/full CI for each four-case shard. Do not omit adverse rows, retune policy from results, or automatically rerun. Failures/timeouts are incomplete.",
+  "correctness_jobs": {
+    "linux_native": {
+      "runner": "ubuntu-26.04",
+      "mode": "native"
+    },
+    "linux_scalar": {
+      "runner": "ubuntu-26.04",
+      "mode": "scalar"
+    },
+    "mac_arm64": {
+      "runner": "macos-14",
+      "mode": "mac"
+    },
+    "sanitizer_a": {
+      "runner": "ubuntu-26.04",
+      "mode": "sanitizer",
+      "group": "sanitizer-a"
+    },
+    "sanitizer_b": {
+      "runner": "ubuntu-26.04",
+      "mode": "sanitizer",
+      "group": "sanitizer-b"
+    }
+  },
+  "correctness_budget": {
+    "normal_job_build_invocations": 105,
+    "normal_job_suite_runs": 64,
+    "normal_job_exact_three_replay_processes": 880,
+    "normal_job_python_oracle_processes": 880,
+    "sanitizer_job_build_invocations": 32,
+    "sanitizer_job_suite_runs": 32,
+    "normal_jobs": 3,
+    "sanitizer_jobs": 2,
+    "log_cap_bytes": 25165824,
+    "internal_deadline_minutes": 39,
+    "step_timeout_minutes": 40,
+    "job_timeout_minutes": 45,
+    "wall_completion_guaranteed": false
+  }
+}

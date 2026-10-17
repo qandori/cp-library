@@ -1,0 +1,26 @@
+--- a/data_structure/dynamic_wavelet_matrix.hpp
++++ b/data_structure/dynamic_wavelet_matrix.hpp
+@@ -256,10 +256,21 @@
+ 	int select(T value, int k) const {
+ 		if (k < 0 || !contains(value)) return -1;
+ 		U key = encode(value);
+-		auto [l, r] = interval(0, n, key);
++		int l = 0, r = n, d = 0;
++		for (; d < Bits && l < r; ++d) {
++			if constexpr (requires { bits[d].access_rank(l); }) {
++				if (r - l == 1) {
++					if (k || !matches_suffix(l, key, d)) return -1;
++					break;
++				}
++			}
++			auto [a, b] = bits[d].rank1(l, r);
++			if ((key >> (Bits - 1 - d)) & 1) l = middle[d] + a, r = middle[d] + b;
++			else l -= a, r -= b;
++		}
+ 		if (k >= r - l) return -1;
+ 		int p = l + k;
+-		for (int d = Bits - 1; d >= 0; --d) {
++		for (--d; d >= 0; --d) {
+ 			bool bit = (key >> (Bits - 1 - d)) & 1;
+ 			p = bits[d].select(bit, p - (bit ? middle[d] : 0));
+ 		}

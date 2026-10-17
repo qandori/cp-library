@@ -1,0 +1,72 @@
+--- a/data_structure/dynamic_wavelet_matrix.hpp
++++ b/data_structure/dynamic_wavelet_matrix.hpp
+@@ -54,6 +54,50 @@
+ 		}
+ 		return true;
+ 	}
++	template <bool Previous>
++	std::optional<T> neighbor(int l, int r, U key) const {
++		int back = -1, back_l = 0, back_r = 0;
++		for (int d = 0; d < Bits; ++d) {
++			int a, b;
++			if (r - l == 1) {
++				auto [rank, value] = bits[d].access_rank(l);
++				a = rank, b = rank + value;
++			} else {
++				auto [first, last] = bits[d].rank1(l, r);
++				a = first, b = last;
++			}
++			bool bit = (key >> (Bits - 1 - d)) & 1;
++			int zero_l = l - a, zero_r = r - b;
++			if constexpr (Previous) {
++				if (bit && zero_l < zero_r) back = d, back_l = zero_l, back_r = zero_r;
++			} else {
++				if (!bit && a < b) back = d, back_l = middle[d] + a, back_r = middle[d] + b;
++			}
++			if (bit) l = middle[d] + a, r = middle[d] + b;
++			else l = zero_l, r = zero_r;
++			if (l == r) break;
++		}
++		if (l < r) return decode(key);
++		if (back < 0) return std::nullopt;
++		U result = U((key >> (Bits - 1 - back)) ^ 1);
++		l = back_l, r = back_r;
++		for (int d = back + 1; d < Bits; ++d) {
++			if (r - l == 1) {
++				for (; d < Bits; ++d) {
++					auto [rank, bit] = bits[d].access_rank(l);
++					result = U((result << 1) | bit);
++					l = bit ? middle[d] + rank : l - rank;
++				}
++				break;
++			}
++			auto [a, b] = bits[d].rank1(l, r);
++			bool bit = Previous ? a < b : r - l == b - a;
++			result = U((result << 1) | bit);
++			if (bit) l = middle[d] + a, r = middle[d] + b;
++			else l -= a, r -= b;
++		}
++		return decode(result);
++	}
+ 
+ 	static std::tuple<int, bool, int> move_rank(BitVector &row, int from, int to, bool value) {
+ 		if constexpr (requires { row.move_rank(from, to, value); }) return row.move_rank(from, to, value);
+@@ -246,12 +290,14 @@
+ 		return kth_smallest(l, r, r - l - 1 - k);
+ 	}
+ 	std::optional<T> prev_value(int l, int r, T upper) const {
+-		int k = range_freq(l, r, upper);
+-		return k ? std::optional<T>(kth_smallest(l, r, k - 1)) : std::nullopt;
++		check(l, r);
++		if (l == r || upper <= minimum) return std::nullopt;
++		return neighbor<true>(l, r, maximum < upper ? mask : U(encode(upper) - 1));
+ 	}
+ 	std::optional<T> next_value(int l, int r, T lower) const {
+-		int k = range_freq(l, r, lower);
+-		return k < r - l ? std::optional<T>(kth_smallest(l, r, k)) : std::nullopt;
++		check(l, r);
++		if (l == r || maximum < lower) return std::nullopt;
++		return neighbor<false>(l, r, lower <= minimum ? U(0) : encode(lower));
+ 	}
+ 	int select(T value, int k) const {
+ 		if (k < 0 || !contains(value)) return -1;

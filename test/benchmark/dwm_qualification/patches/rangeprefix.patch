@@ -1,0 +1,39 @@
+--- a/data_structure/dynamic_wavelet_matrix.hpp
++++ b/data_structure/dynamic_wavelet_matrix.hpp
+@@ -216,7 +216,35 @@
+ 	}
+ 	int range_freq(int l, int r, T lower, T upper) const {
+ 		check(l, r);
+-		return lower < upper ? range_freq(l, r, upper) - range_freq(l, r, lower) : 0;
++		if (l == r || !(lower < upper)) return 0;
++		if (lower <= minimum) return range_freq(l, r, upper);
++		if (maximum < upper) return r - l - range_freq(l, r, lower);
++		U low = encode(lower), high = encode(upper);
++		int common = Bits - std::bit_width(U(low ^ high)), d = 0;
++		for (; d < common && l < r; ++d) {
++			auto [a, b] = bits[d].rank1(l, r);
++			if ((low >> (Bits - 1 - d)) & 1) l = middle[d] + a, r = middle[d] + b;
++			else l -= a, r -= b;
++		}
++		if (l == r) return 0;
++		auto [a, b] = bits[d].rank1(l, r);
++		int left = l - a, right = r - b, result = right - left;
++		for (int level = d + 1; level < Bits && left < right; ++level) {
++			auto [x, y] = bits[level].rank1(left, right);
++			if ((low >> (Bits - 1 - level)) & 1) {
++				result -= right - left - y + x;
++				left = middle[level] + x, right = middle[level] + y;
++			} else left -= x, right -= y;
++		}
++		left = middle[d] + a, right = middle[d] + b;
++		for (int level = d + 1; level < Bits && left < right; ++level) {
++			auto [x, y] = bits[level].rank1(left, right);
++			if ((high >> (Bits - 1 - level)) & 1) {
++				result += right - left - y + x;
++				left = middle[level] + x, right = middle[level] + y;
++			} else left -= x, right -= y;
++		}
++		return result;
+ 	}
+ 	T kth_smallest(int l, int r, int k) const {
+ 		check(l, r);

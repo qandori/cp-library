@@ -1,0 +1,3 @@
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++ -std=c++2b -O2 -Wall -Wextra -Werror -I . test/unit/matrix.cpp -o /var/tmp/cp-matrix-gcc13-fixed
+/var/tmp/cp-matrix-gcc13-fixed
+Verification passed

@@ -156,30 +156,7 @@ class Matrix {
 	T det(long double eps = default_epsilon) const {
 		assert(h == w);
 		if constexpr (matrix_detail::integer<T>) {
-			static_assert(std::numeric_limits<T>::is_signed);
-			using W = __int128_t;
-			std::vector<W> work(a.begin(), a.end());
-			W previous = 1, sign = 1;
-			if (!h) return T(1);
-			for (int k = 0; k + 1 < h; ++k) {
-				int pivot = k;
-				while (pivot < h && work[std::size_t(pivot) * w + k] == 0) ++pivot;
-				if (pivot == h) return T(0);
-				if (pivot != k) { for (int j = 0; j < w; ++j) std::swap(work[std::size_t(k) * w + j], work[std::size_t(pivot) * w + j]); sign = -sign; }
-				W p = work[std::size_t(k) * w + k];
-				for (int i = k + 1; i < h; ++i) {
-					for (int j = k + 1; j < w; ++j) {
-						W value = work[std::size_t(i) * w + j] * p - work[std::size_t(i) * w + k] * work[std::size_t(k) * w + j];
-						assert(value % previous == 0);
-						work[std::size_t(i) * w + j] = value / previous;
-					}
-					work[std::size_t(i) * w + k] = 0;
-				}
-				previous = p;
-			}
-			W result = sign * work.back();
-			assert(result >= std::numeric_limits<T>::lowest() && result <= std::numeric_limits<T>::max());
-			return T(result);
+			return matrix_detail::integer_determinant(a, h);
 		} else {
 			Matrix work = *this;
 			auto [value, pivots] = work.reduce(w, false, eps);

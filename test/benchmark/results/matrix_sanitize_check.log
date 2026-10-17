@@ -1,3 +1,5 @@
+python3 test/verify.py --unit-only --cxx clang++ --sanitize --selection test/benchmark/results/matrix_selection.json
 clang++: matrix.cpp
 clang++: standalone.cpp
+Verification passed
 Verification passed

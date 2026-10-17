@@ -83,7 +83,7 @@ seed 713 の入力で各7回の中央値。正方行列は384次、rank は384×
 - 小行列の行列式・全余因子を置換の全探索と比較。mod 2 の3次行列512通りも検査。
 - 逆行列の両側の積、解の代入、rank と核の次元、特性多項式の Cayley–Hamilton 恒等式と評価値を検査。
 - GCC / Clang の単体テスト、ASan / UBSan、AVX2 無効、ARM64 GCC の静的バイナリを QEMU 上で実行して成功。
-- 新規ヘッダーの単独コンパイルと公開用の展開コードも成功。Mac 実機はローカルで実行しておらず、Apple Clang は macOS portability CI で確認する。
+- 新規ヘッダーの単独コンパイルと公開用の展開コードも成功。Apple Clang 15 / macOS ARM64 の通常 CI と18個の機能別テストも成功。GCC 13.4 の全単体テストも成功。
 
 | Library Checker | 各コンパイラのケース数 |
 | --- | ---: |
@@ -96,7 +96,15 @@ seed 713 の入力で各7回の中央値。正方行列は384次、rank は384×
 | characteristic_polynomial | 28 |
 | adjugate_matrix | 44 |
 
-GCC / Clang の合計502ケースが成功した。[unit](results/matrix_unit_check.log)・[sanitize](results/matrix_sanitize_check.log)・[judge](results/matrix_judge_check.log)・[validation](results/matrix_validation.json) に記録した。変更箇所と依存するテストのみを実行した。測定用ブランチは作成していない。
+GCC / Clang の合計502ケースが成功した。[unit](results/matrix_unit_check.log)・[sanitize](results/matrix_sanitize_check.log)・[judge](results/matrix_judge_check.log)・[validation](results/matrix_validation.json) に記録した。変更箇所と依存するテストのみを実行した。Mac の切り分けに `codex/matrix-macos-check` を使った。検証後に削除する。
+
+## コンパイラ互換性
+
+Apple Clang 15 が modint の compound requires による型判定でクラッシュしたため、`void_t` と型特性に変更した。[機能別18件](https://github.com/qandori/cp-library/actions/runs/39004747315) と [通常の macOS CI](https://github.com/qandori/cp-library/actions/runs/39004747319) でコンパイル・実行を確認した。
+
+GCC 13.4 では、整数の Bareiss 消去を単体テストの `main` にインライン展開すると、MMX 命令を生成して `emms` を挟まず、その後の x87 計算が NaN になった。整数の行列式を `integer_determinant` に分離し、インライン展開を抑えて回避した。修正後は全単体テストが通り、実行ファイルにも MMX レジスタを使う命令がないことを確認した。許容誤差や modint の計算方法は変更していない。
+
+上の性能測定は互換性修正前のもの。修正前後の GCC 15.2 のベンチマーク実行ファイルについて、generic・native ともに `.text` セクションがバイト単位で一致した。測定時のソース SHA256 は保持し、最終ソースの SHA256・コード一致・再現条件を [matrix_compatibility.json](results/matrix_compatibility.json) に記録した。
 
 ## 再現
 

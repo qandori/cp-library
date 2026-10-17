@@ -1,1 +1,3 @@
-ARM64 matrix unit passed
+aarch64-conda-linux-gnu-g++ -std=c++2b -O2 -Wall -Wextra -Werror -static -I . test/unit/matrix.cpp -o /var/tmp/cp-matrix-arm
+Verification passed
+ARM execution passed

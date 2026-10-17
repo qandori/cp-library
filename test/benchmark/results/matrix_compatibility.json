@@ -1,0 +1,57 @@
+{
+  "benchmark_code": {
+    "compiler": "GCC 15.2.0",
+    "source_commit": "25b0975173c652c60c682debb0b0041aa25f2555",
+    "flags": [
+      "-std=c++2b",
+      "-O2",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra",
+      "-Werror"
+    ],
+    "native_extra_flags": [
+      "-march=native",
+      "-ftrivial-auto-var-init=zero"
+    ],
+    "section": ".text",
+    "profiles": {
+      "generic": {
+        "equal": true,
+        "text_sha256": "8798625534fad39c87a6c2fba64ddacebb024667df2cb9d7f75637fb3aa17701"
+      },
+      "native": {
+        "equal": true,
+        "text_sha256": "ecf06adc9f459d4d2e87cfc0d163950269ed42c3b1286c7cf63260abbecfe52b"
+      }
+    }
+  },
+  "gcc13": {
+    "compiler": "GCC 13.4.0",
+    "flags": [
+      "-std=c++2b",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror"
+    ],
+    "before": "Integer Bareiss elimination inlined into the full unit main generated movq to %mm0 and movq2dq without emms. The subsequent Fraction epsilon comparison saw NaN. ASan/UBSan and -fno-ipa-sra did not reproduce it.",
+    "fix": "Extract integer_determinant into a noinline internal helper. Keep the epsilon type and modular algorithms unchanged.",
+    "after": "Full unit passed; no MMX register instructions in the fixed executable.",
+    "log": "test/benchmark/results/matrix_gcc13_check.log"
+  },
+  "apple_clang": {
+    "compiler": "Apple clang 15.0.0 (clang-1500.3.9.4)",
+    "target": "arm64-apple-darwin23.6.0",
+    "before": "The compound requires expression for modint detection crashed the compiler.",
+    "fix": "Use void_t with type traits for modint detection.",
+    "probe_run": "https://github.com/qandori/cp-library/actions/runs/39004747315",
+    "probe_compile_and_execute_count": 18,
+    "workflow_run": "https://github.com/qandori/cp-library/actions/runs/39004747319",
+    "conclusion": "success"
+  },
+  "final_sha256": {
+    "math/matrix.hpp": "88902c361a729bd42d6841abe5e962bc50afc4f6916691ed6400c8c82d9fe521",
+    "components/matrix_arithmetic.hpp": "6ce34ecd0eb28f5cc786689d3070334b3fe94331251454de680a0015a99a58fc"
+  }
+}

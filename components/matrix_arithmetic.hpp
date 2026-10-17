@@ -2,10 +2,11 @@
 #define MATRIX_ARITHMETIC_HPP
 
 #include <algorithm>
+#include <cassert>
 #include <cmath>
-#include <concepts>
 #include <cstddef>
 #include <cstdint>
+#include <limits>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -17,15 +18,18 @@ namespace matrix_detail {
 template <class T>
 inline constexpr bool integer = std::is_integral_v<T> || std::is_same_v<T, __int128_t> || std::is_same_v<T, __uint128_t>;
 
+template <class T, class = void>
+struct SmallModint : std::false_type {};
+
 template <class T>
-inline constexpr bool small_modint = [] {
-	if constexpr (requires(T x) {
-		typename std::integral_constant<std::uint32_t, T::mod()>;
-		{ x.val() } -> std::convertible_to<std::uint32_t>;
-		{ T::raw(std::uint32_t{}) } -> std::same_as<T>;
-	}) return T::mod() > 1 && T::mod() < (std::uint32_t(1) << 31);
-	else return false;
-}();
+struct SmallModint<T, std::void_t<decltype(std::integral_constant<std::uint32_t, T::mod()>{}),
+	decltype(std::declval<T>().val()), decltype(T::raw(std::uint32_t{}))>>
+	: std::bool_constant<(T::mod() > 1 && T::mod() < (std::uint32_t(1) << 31))
+		&& std::is_convertible_v<decltype(std::declval<T>().val()), std::uint32_t>
+		&& std::is_same_v<decltype(T::raw(std::uint32_t{})), T>> {};
+
+template <class T>
+inline constexpr bool small_modint = SmallModint<T>::value;
 
 inline bool avx2() {
 #if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__)) && !defined(MATRIX_DISABLE_AVX2)
@@ -172,6 +176,34 @@ Elimination<Ops> eliminate(std::vector<typename Ops::V> &a, int h, int stride, i
 		}
 	}
 	return result;
+}
+
+template <class T>
+[[gnu::noinline]] T integer_determinant(const std::vector<T> &a, int n) {
+	static_assert(std::numeric_limits<T>::is_signed);
+	using W = __int128_t;
+	std::vector<W> work(a.begin(), a.end());
+	W previous = 1, sign = 1;
+	if (!n) return T(1);
+	for (int k = 0; k + 1 < n; ++k) {
+		int pivot = k;
+		while (pivot < n && work[std::size_t(pivot) * n + k] == 0) ++pivot;
+		if (pivot == n) return T(0);
+		if (pivot != k) { for (int j = 0; j < n; ++j) std::swap(work[std::size_t(k) * n + j], work[std::size_t(pivot) * n + j]); sign = -sign; }
+		W p = work[std::size_t(k) * n + k];
+		for (int i = k + 1; i < n; ++i) {
+			for (int j = k + 1; j < n; ++j) {
+				W value = work[std::size_t(i) * n + j] * p - work[std::size_t(i) * n + k] * work[std::size_t(k) * n + j];
+				assert(value % previous == 0);
+				work[std::size_t(i) * n + j] = value / previous;
+			}
+			work[std::size_t(i) * n + k] = 0;
+		}
+		previous = p;
+	}
+	W result = sign * work.back();
+	assert(result >= std::numeric_limits<T>::lowest() && result <= std::numeric_limits<T>::max());
+	return T(result);
 }
 
 template <std::uint32_t mod>

@@ -1,1 +1,3 @@
-Scalar matrix unit passed
+g++ -std=c++2b -O2 -Wall -Wextra -Werror -DMATRIX_DISABLE_AVX2 -I . test/unit/matrix.cpp -o /var/tmp/cp-matrix-scalar
+/var/tmp/cp-matrix-scalar
+Verification passed

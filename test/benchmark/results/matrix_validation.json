@@ -1,8 +1,8 @@
 {
   "date": "2026-10-17",
   "sha256": {
-    "math/matrix.hpp": "aadcb4d387cf7dac90436aaa1330713ed27ab69020e89cfd221a74886ec56967",
-    "components/matrix_arithmetic.hpp": "4e2b24e986c226758ba4942fd5bd89fc82bd9c2a3c1f074b6f1869f3750cc6c3"
+    "math/matrix.hpp": "88902c361a729bd42d6841abe5e962bc50afc4f6916691ed6400c8c82d9fe521",
+    "components/matrix_arithmetic.hpp": "6ce34ecd0eb28f5cc786689d3070334b3fe94331251454de680a0015a99a58fc"
   },
   "unit": {
     "compilers": [
@@ -42,7 +42,15 @@
   },
   "apple_clang": {
     "executed_locally": false,
-    "workflow": ".github/workflows/macos-portability.yml"
+    "workflow": ".github/workflows/macos-portability.yml",
+    "compiler": "Apple clang 15.0.0 (clang-1500.3.9.4)",
+    "target": "arm64-apple-darwin23.6.0",
+    "before": "The compound requires expression for modint detection crashed the compiler.",
+    "fix": "Use void_t with type traits for modint detection.",
+    "probe_run": "https://github.com/qandori/cp-library/actions/runs/39004747315",
+    "probe_compile_and_execute_count": 18,
+    "workflow_run": "https://github.com/qandori/cp-library/actions/runs/39004747319",
+    "conclusion": "success"
   },
   "judge": {
     "problems": {
@@ -82,10 +90,24 @@
   "integration": {
     "base_commit": "2134de7",
     "unit": "test/unit/standalone.cpp",
-    "compilers": ["GCC 15.2.0", "Clang 21.1.8"],
-    "sanitizers": ["address", "undefined"],
+    "compilers": [
+      "GCC 15.2.0",
+      "Clang 21.1.8"
+    ],
+    "sanitizers": [
+      "address",
+      "undefined"
+    ],
     "log": "test/benchmark/results/matrix_integration_check.log",
     "exit_code": 0
   },
-  "temporary_branches_created": []
+  "temporary_branches_created": [
+    "codex/matrix-macos-check"
+  ],
+  "gcc13": {
+    "compiler": "GCC 13.4.0",
+    "log": "test/benchmark/results/matrix_gcc13_check.log",
+    "exit_code": 0
+  },
+  "compatibility": "test/benchmark/results/matrix_compatibility.json"
 }

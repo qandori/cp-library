@@ -1,3 +1,4 @@
+python3 test/verify.py --unit-only --cxx g++ clang++ --selection test/benchmark/results/matrix_selection.json
 g++: standalone components/matrix_arithmetic.hpp
 g++: standalone math/matrix.hpp
 g++: matrix.cpp
@@ -6,4 +7,5 @@ clang++: standalone components/matrix_arithmetic.hpp
 clang++: standalone math/matrix.hpp
 clang++: matrix.cpp
 clang++: standalone.cpp
+Verification passed
 Verification passed

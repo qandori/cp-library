@@ -35,11 +35,11 @@ std::pair<Cap, Total> scaling_flow(Graph<Cap>& graph, const std::vector<Cost>& c
 	int n = graph.n;
 	std::vector<Wide> potential(n), distance(n);
 	std::vector<std::int64_t> excess(n);
-	std::vector<int> parent(n), settled;
+	std::vector<int> parent(n), settled, zero;
 	std::vector<unsigned char> visited(n);
 	DaryHeap<State, std::greater<State>, 4> heap;
 	heap.reserve(work.arcs.size());
-	settled.reserve(n);
+	settled.reserve(n), zero.reserve(n);
 	const Wide inf = std::numeric_limits<Wide>::max();
 	for (int bit = int(std::bit_width(maximum)); bit--;) {
 		for (std::size_t i = 0; i < capacity.size(); ++i) work.arcs[i].cap = work.arcs[i].cap * 2 + ((Unsigned(capacity[i]) >> bit) & 1);
@@ -57,13 +57,19 @@ std::pair<Cap, Total> scaling_flow(Graph<Cap>& graph, const std::vector<Cost>& c
 		for (int source = 0; source < n; ++source) while (excess[source] > 0) {
 			std::fill(distance.begin(), distance.end(), inf);
 			std::fill(visited.begin(), visited.end(), 0);
-			heap.clear(), settled.clear();
+			heap.clear(), settled.clear(), zero.clear();
 			distance[source] = 0;
-			heap.push({0, source});
+			zero.push_back(source);
 			int target = -1;
-			while (!heap.empty()) {
-				auto [d, v] = heap.pop_value();
-				if (visited[v] || distance[v] != d) continue;
+			while (!zero.empty() || !heap.empty()) {
+				int v;
+				if (!zero.empty()) v = zero.back(), zero.pop_back();
+				else {
+					auto [d, u] = heap.pop_value();
+					if (distance[u] != d) continue;
+					v = u;
+				}
+				if (visited[v]) continue;
 				visited[v] = 1, settled.push_back(v);
 				if (excess[v] < 0) { target = v; break; }
 				for (int j = work.start[v]; j < work.start[v + 1]; ++j) {
@@ -72,8 +78,11 @@ std::pair<Cap, Total> scaling_flow(Graph<Cap>& graph, const std::vector<Cost>& c
 					if (!e.cap || visited[e.to]) continue;
 					Wide reduced = cost[i] + potential[v] - potential[e.to];
 					assert(reduced >= 0);
-					Wide next = d + reduced;
-					if (next < distance[e.to]) distance[e.to] = next, parent[e.to] = i, heap.push({next, e.to});
+					Wide next = distance[v] + reduced;
+					if (next >= distance[e.to]) continue;
+					distance[e.to] = next, parent[e.to] = i;
+					if (!reduced) zero.push_back(e.to);
+					else heap.push({next, e.to});
 				}
 			}
 			assert(target >= 0);

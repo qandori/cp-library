@@ -1,0 +1,473 @@
+[32mINFO[0m:onlinejudge_verify.config:config file loaded: .verify-helper/config.toml: {'languages': {'cpp': {'environments': [{'CXX': 'g++', 'CXXFLAGS': ['-std=c++23', '-O2', '-Wall', '-Wextra', '-DDEBUG=1']}, {'CXX': 'clang++', 'CXXFLAGS': ['-std=c++23', '-O2', '-Wall', '-Wextra', '-DDEBUG=1']}]}}}[0m
+[32mINFO[0m:onlinejudge_verify.verify:verify: test/polynomial_inv_mod.test.cpp[0m
+[32mINFO[0m:onlinejudge_verify.verify:problem: https://judge.yosupo.jp/problem/inv_of_polynomials[0m
+[32mINFO[0m:onlinejudge_verify.verify:$ sleep 2[0m
+[32mINFO[0m:onlinejudge_verify.verify:$ oj download --system -d .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test --silent https://judge.yosupo.jp/problem/inv_of_polynomials[0m
+[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)
+[INFO] load cookie from: /home/qand/.local/share/online-judge-tools/cookie.jar
+git version 2.34.1
+[INFO] $ git -C /home/qand/.cache/online-judge-tools/library-checker-problems pull
+Already up to date.
+[INFO] $ /usr/bin/python3 /home/qand/.cache/online-judge-tools/library-checker-problems/generate.py /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/info.toml
+[37m18:35:15 [INFO] Start inv_of_polynomials[0m
+[37m18:35:15 [INFO] generate params.h[0m
+[37m18:35:15 [INFO] compile checker[0m
+[37m18:35:19 [INFO] compile solution[0m
+[37m18:35:20 [INFO] compile generators[0m
+[37m18:35:20 [INFO] compile example.in[0m
+[37m18:35:20 [INFO] compile random.cpp[0m
+[37m18:35:21 [INFO] compile abnormal_random.cpp[0m
+[37m18:35:21 [INFO] compile max_random.cpp[0m
+[37m18:35:22 [INFO] clear input /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/in[0m
+[37m18:35:22 [INFO] gen example.in 3cases[0m
+[37m18:35:22 [INFO] gen random.cpp 5cases[0m
+[37m18:35:22 [INFO] gen abnormal_random.cpp 5cases[0m
+[37m18:35:22 [INFO] gen max_random.cpp 5cases[0m
+[37m18:35:23 [INFO] clear output /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/out[0m
+[37m18:35:23 [INFO] ANS      2 msecs : example_00 : b''[0m
+[37m18:35:23 [INFO] ANS      2 msecs : example_01 : b''[0m
+[37m18:35:23 [INFO] ANS      2 msecs : example_02 : b''[0m
+[37m18:35:24 [INFO] ANS     46 msecs : random_00 : b''[0m
+[37m18:35:24 [INFO] ANS     23 msecs : random_01 : b''[0m
+[37m18:35:24 [INFO] ANS     39 msecs : random_02 : b''[0m
+[37m18:35:24 [INFO] ANS    110 msecs : random_03 : b''[0m
+[37m18:35:24 [INFO] ANS     77 msecs : random_04 : b''[0m
+[37m18:35:24 [INFO] ANS      4 msecs : abnormal_random_00 : b''[0m
+[37m18:35:24 [INFO] ANS      4 msecs : abnormal_random_01 : b''[0m
+[37m18:35:24 [INFO] ANS      4 msecs : abnormal_random_02 : b''[0m
+[37m18:35:24 [INFO] ANS      4 msecs : abnormal_random_03 : b''[0m
+[37m18:35:24 [INFO] ANS      5 msecs : abnormal_random_04 : b''[0m
+[37m18:35:24 [INFO] ANS    230 msecs : max_random_00 : b''[0m
+[37m18:35:24 [INFO] ANS    227 msecs : max_random_01 : b''[0m
+[37m18:35:25 [INFO] ANS    225 msecs : max_random_02 : b''[0m
+[37m18:35:25 [INFO] ANS    227 msecs : max_random_03 : b''[0m
+[37m18:35:25 [INFO] ANS    228 msecs : max_random_04 : b''[0m
+[INFO] save cookie to: /home/qand/.local/share/online-judge-tools/cookie.jar
+
+[INFO] sample 0
+[INFO] input: abnormal_random_00
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_00.in
+[INFO] output: abnormal_random_00
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_00.out
+
+[INFO] sample 1
+[INFO] input: abnormal_random_01
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_01.in
+[INFO] output: abnormal_random_01
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_01.out
+
+[INFO] sample 2
+[INFO] input: abnormal_random_02
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_02.in
+[INFO] output: abnormal_random_02
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_02.out
+
+[INFO] sample 3
+[INFO] input: abnormal_random_03
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_03.in
+[INFO] output: abnormal_random_03
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_03.out
+
+[INFO] sample 4
+[INFO] input: abnormal_random_04
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_04.in
+[INFO] output: abnormal_random_04
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_04.out
+
+[INFO] sample 5
+[INFO] input: example_00
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_00.in
+[INFO] output: example_00
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_00.out
+
+[INFO] sample 6
+[INFO] input: example_01
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_01.in
+[INFO] output: example_01
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_01.out
+
+[INFO] sample 7
+[INFO] input: example_02
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_02.in
+[INFO] output: example_02
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_02.out
+
+[INFO] sample 8
+[INFO] input: max_random_00
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_00.in
+[INFO] output: max_random_00
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_00.out
+
+[INFO] sample 9
+[INFO] input: max_random_01
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_01.in
+[INFO] output: max_random_01
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_01.out
+
+[INFO] sample 10
+[INFO] input: max_random_02
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_02.in
+[INFO] output: max_random_02
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_02.out
+
+[INFO] sample 11
+[INFO] input: max_random_03
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_03.in
+[INFO] output: max_random_03
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_03.out
+
+[INFO] sample 12
+[INFO] input: max_random_04
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_04.in
+[INFO] output: max_random_04
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_04.out
+
+[INFO] sample 13
+[INFO] input: random_00
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_00.in
+[INFO] output: random_00
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_00.out
+
+[INFO] sample 14
+[INFO] input: random_01
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_01.in
+[INFO] output: random_01
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_01.out
+
+[INFO] sample 15
+[INFO] input: random_02
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_02.in
+[INFO] output: random_02
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_02.out
+
+[INFO] sample 16
+[INFO] input: random_03
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_03.in
+[INFO] output: random_03
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_03.out
+
+[INFO] sample 17
+[INFO] input: random_04
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_04.in
+[INFO] output: random_04
+[SUCCESS] saved to: .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_04.out
+[32mINFO[0m:onlinejudge_verify.languages.cplusplus:$ g++ -std=c++23 -O2 -Wall -Wextra -DDEBUG=1 -I /mnt/c/Users/yukiz/Desktop/cp-library -o .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/a.out test/polynomial_inv_mod.test.cpp[0m
+git version 2.34.1
+[32mINFO[0m:onlinejudge.service.library_checker:$ git -C /home/qand/.cache/online-judge-tools/library-checker-problems pull[0m
+Already up to date.
+[32mINFO[0m:onlinejudge.service.library_checker:$ /usr/bin/python3 /home/qand/.cache/online-judge-tools/library-checker-problems/generate.py /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/info.toml --compile-checker[0m
+[33m18:35:30 [WARNING] --compile-checker is deprecated. Checker is compiled in default[0m
+[37m18:35:30 [INFO] Start inv_of_polynomials[0m
+[37m18:35:30 [INFO] generate params.h[0m
+[37m18:35:30 [INFO] Test cases are already generated[0m
+[37m18:35:30 [INFO] The checker is already compiled[0m
+[32mINFO[0m:onlinejudge_verify.verify:$ oj test -c .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/a.out -d .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test --print-input --tle 10.0 --judge-command /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker -j 2[0m
+[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)
+[INFO] 18 cases found
+
+[INFO] abnormal_random_01
+[INFO] time: 0.003919 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_01.in /tmp/tmpo1i8ofsi/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_01.out
+ok 963 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] abnormal_random_00
+[INFO] time: 0.005070 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_00.in /tmp/tmpse1_sy7i/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_00.out
+ok 959 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] abnormal_random_02
+[INFO] time: 0.005601 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_02.in /tmp/tmph6t65lt9/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_02.out
+ok 970 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] abnormal_random_03
+[INFO] time: 0.006929 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_03.in /tmp/tmpml5r51t0/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_03.out
+ok 975 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] abnormal_random_04
+[INFO] time: 0.006054 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_04.in /tmp/tmpxxyatv_n/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_04.out
+ok 953 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] example_00
+[INFO] time: 0.005830 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_00.in /tmp/tmpm_1v7mhb/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_00.out
+ok 3 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] example_01
+[INFO] time: 0.005570 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_01.in /tmp/tmp1byjorq_/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_01.out
+ok "0"
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] example_02
+[INFO] time: 0.005389 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_02.in /tmp/tmp6to1nrig/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_02.out
+ok "-1"
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] max_random_00
+[INFO] time: 0.101015 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_00.in /tmp/tmpag0tdf8p/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_00.out
+ok 50000 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] max_random_01
+[INFO] time: 0.097984 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_01.in /tmp/tmpo8dd3cnf/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_01.out
+ok 50000 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] max_random_02
+[INFO] time: 0.097599 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_02.in /tmp/tmpgpn4jdfu/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_02.out
+ok 50000 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] max_random_03
+[INFO] time: 0.096093 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_03.in /tmp/tmpt296hj5m/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_03.out
+ok 50000 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] random_00
+[INFO] time: 0.022580 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_00.in /tmp/tmpdu439eny/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_00.out
+ok 11565 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] random_01
+[INFO] time: 0.017328 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_01.in /tmp/tmp7b199zvl/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_01.out
+ok 19691 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] max_random_04
+[INFO] time: 0.098367 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_04.in /tmp/tmpzhkktr4x/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_04.out
+ok 50000 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] random_02
+[INFO] time: 0.019333 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_02.in /tmp/tmp3mdzj45t/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_02.out
+ok 8245 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] random_03
+[INFO] time: 0.049417 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_03.in /tmp/tmp47r8d30e/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_03.out
+ok 25839 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] random_04
+[INFO] time: 0.038220 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_04.in /tmp/tmp5yr6vxhk/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_04.out
+ok 33581 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] slowest: 0.101015 sec  (for max_random_00)
+[INFO] max memory: 10.984000 MB  (for max_random_02)
+[SUCCESS] test success: 18 cases
+[32mINFO[0m:onlinejudge_verify.languages.cplusplus:$ clang++ -std=c++23 -O2 -Wall -Wextra -DDEBUG=1 -I /mnt/c/Users/yukiz/Desktop/cp-library -o .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/a.out test/polynomial_inv_mod.test.cpp[0m
+[32mINFO[0m:onlinejudge.service.library_checker:$ /usr/bin/python3 /home/qand/.cache/online-judge-tools/library-checker-problems/generate.py /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/info.toml --compile-checker[0m
+[33m18:35:34 [WARNING] --compile-checker is deprecated. Checker is compiled in default[0m
+[37m18:35:34 [INFO] Start inv_of_polynomials[0m
+[37m18:35:34 [INFO] generate params.h[0m
+[37m18:35:34 [INFO] Test cases are already generated[0m
+[37m18:35:34 [INFO] The checker is already compiled[0m
+[32mINFO[0m:onlinejudge_verify.verify:$ oj test -c .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/a.out -d .verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test --print-input --tle 10.0 --judge-command /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker -j 2[0m
+[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)
+[INFO] 18 cases found
+
+[INFO] abnormal_random_00
+[INFO] time: 0.004755 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_00.in /tmp/tmpoukxew_j/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_00.out
+ok 959 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] abnormal_random_01
+[INFO] time: 0.007899 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_01.in /tmp/tmpjco8q7xg/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_01.out
+ok 963 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] abnormal_random_02
+[INFO] time: 0.005020 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_02.in /tmp/tmpyzp8jeoz/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_02.out
+ok 970 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] abnormal_random_03
+[INFO] time: 0.005122 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_03.in /tmp/tmpp7kovbev/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_03.out
+ok 975 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] abnormal_random_04
+[INFO] time: 0.004617 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_04.in /tmp/tmp90kk72ko/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/abnormal_random_04.out
+ok 953 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] example_00
+[INFO] time: 0.004899 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_00.in /tmp/tmp6j1tsmjt/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_00.out
+ok 3 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] example_01
+[INFO] time: 0.004573 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_01.in /tmp/tmpc4i336vu/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_01.out
+ok "0"
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] example_02
+[INFO] time: 0.005548 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_02.in /tmp/tmp4p9nd2gc/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/example_02.out
+ok "-1"
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] max_random_00
+[INFO] time: 0.078011 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_00.in /tmp/tmplihllw3h/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_00.out
+ok 50000 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] max_random_01
+[INFO] time: 0.075417 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_01.in /tmp/tmpubk7ssg2/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_01.out
+ok 50000 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] max_random_02
+[INFO] time: 0.078340 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_02.in /tmp/tmpl38y0zsm/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_02.out
+ok 50000 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] max_random_03
+[INFO] time: 0.075915 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_03.in /tmp/tmpw8gqgdna/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_03.out
+ok 50000 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] random_00
+[INFO] time: 0.017948 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_00.in /tmp/tmps6jqd85s/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_00.out
+ok 11565 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] random_01
+[INFO] time: 0.014371 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_01.in /tmp/tmp4893vx3h/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_01.out
+ok 19691 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] max_random_04
+[INFO] time: 0.079177 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_04.in /tmp/tmpkgp10v9v/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/max_random_04.out
+ok 50000 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] random_02
+[INFO] time: 0.015720 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_02.in /tmp/tmpi_xaumqr/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_02.out
+ok 8245 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] random_03
+[INFO] time: 0.039636 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_03.in /tmp/tmplc7fsl6g/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_03.out
+ok 25839 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] random_04
+[INFO] time: 0.031386 sec
+[INFO] $ /home/qand/.cache/online-judge-tools/library-checker-problems/polynomial/inv_of_polynomials/checker /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_04.in /tmp/tmp8q_f14cv/actual.out /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/b8f35c8e7f96df4489aab6cbf06a286d/test/random_04.out
+ok 33581 tokens
+judge's output:
+(empty)
+[SUCCESS] AC
+
+[INFO] slowest: 0.079177 sec  (for max_random_04)
+[INFO] max memory: 10.852000 MB  (for max_random_02)
+[SUCCESS] test success: 18 cases
+[32mINFO[0m:onlinejudge_verify.verify:all tests succeeded[0m

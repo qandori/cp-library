@@ -31,6 +31,7 @@
 #include "fps/multipoint_eval.hpp"
 #include "fps/interpolate.hpp"
 #include "fps/taylor_shift.hpp"
+#include "fps/polynomial_gcd.hpp"
 #include "math/fraction.hpp"
 #include "math/matrix.hpp"
 #include "math/xor_basis.hpp"
@@ -160,6 +161,7 @@ int main() {
 	assert(prefix_min[0].y - prefix_min[0].dy * 3 == 2);
 	assert(factorize(12) == std::vector<std::uint64_t>({2, 2, 3}));
 	fps f{1, 2, 3};
+	assert(polynomial_gcd(fps{mint(-1), 0, 1}, fps{mint(-1), 1}) == fps({mint(-1), 1}));
 	assert(bostan_mori(fps{1}, fps{1, -1}, 100) == mint(1));
 	assert(linear_recurrence(std::vector<mint>{0, 1}, std::vector<mint>{1, 1}, 10) == mint(55));
 	assert(compose(f, fps{0, 1}) == f);

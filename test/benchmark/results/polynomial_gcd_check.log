@@ -1,0 +1,9 @@
+g++: standalone components/polynomial_half_gcd.hpp
+g++: standalone fps/polynomial_gcd.hpp
+g++: polynomial_gcd.cpp
+g++: standalone.cpp
+clang++: standalone components/polynomial_half_gcd.hpp
+clang++: standalone fps/polynomial_gcd.hpp
+clang++: polynomial_gcd.cpp
+clang++: standalone.cpp
+Verification passed

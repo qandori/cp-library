@@ -1,0 +1,6 @@
+{
+  "headers": ["components/polynomial_half_gcd.hpp", "fps/polynomial_gcd.hpp"],
+  "unit": ["test/unit/polynomial_gcd.cpp", "test/unit/standalone.cpp"],
+  "sanitize": ["test/unit/polynomial_gcd.cpp", "test/unit/standalone.cpp"],
+  "verification": ["test/polynomial_inv_mod.test.cpp"]
+}

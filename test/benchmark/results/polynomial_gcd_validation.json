@@ -1,0 +1,85 @@
+{
+  "checked_at": "2026-10-17T09:41:58.720213+00:00",
+  "compilers": {
+    "g++": "g++ (conda-forge gcc 15.2.0-20) 15.2.0",
+    "clang++": "clang version 21.1.8 (https://github.com/conda-forge/clangdev-feedstock 0586bae95bd818412431982353f925478061d031)"
+  },
+  "sources": {
+    "components/polynomial_half_gcd.hpp": "5b106b27d3a7b11dca2db3ed2c1ceb155ac0e2fc9ca163d1b51bc5f18fe0689c",
+    "fps/polynomial_gcd.hpp": "d797f0e5306fec19032ab8c43297118719857690d73a3a3c47c7116b739a4d05",
+    "test/unit/polynomial_gcd.cpp": "9917c0d3cba36be6e80f13f346569f70d0a75be7b59d2ee9bc6cdb1fdd0f45c2",
+    "test/unit/standalone.cpp": "aba83303f7fce47feea9ee908e430b22ccf15865358e47e1645f044b8858b3ae",
+    "test/polynomial_inv_mod.test.cpp": "70360b7756b57c9f13671c77b6f2b0a8f8b8583d4c7ac965bef8b19217b71c34"
+  },
+  "unit": {
+    "compilers": [
+      "g++",
+      "clang++",
+      "GCC 13"
+    ],
+    "status": "passed"
+  },
+  "sanitize": {
+    "compiler": "clang++",
+    "sanitizers": [
+      "address",
+      "undefined"
+    ],
+    "status": "passed"
+  },
+  "judge": {
+    "problem": "inv_of_polynomials",
+    "compilers": [
+      "g++",
+      "clang++"
+    ],
+    "cases_per_compiler": 18,
+    "status": "passed"
+  },
+  "docs": {
+    "libraries": 101,
+    "affected_bundles": 2,
+    "status": "passed"
+  },
+  "logs": {
+    "check": {
+      "path": "test/benchmark/results/polynomial_gcd_check.log",
+      "sha256": "7f8870b84ac8a875c071cc075210f598a258eac4ec8255f8a5ef1a270809eee3"
+    },
+    "sanitize_check": {
+      "path": "test/benchmark/results/polynomial_gcd_sanitize_check.log",
+      "sha256": "a708aebc65ea0df9b2f10338209871d56c934ca338841fcbd9d799e3e5b85fac"
+    },
+    "judge_check": {
+      "path": "test/benchmark/results/polynomial_gcd_judge_check.log",
+      "sha256": "c7e1713dd4dca02889eb0898dc5117edaa68aa4c8d905a597fc6df5ce7a5c276"
+    },
+    "docs_check": {
+      "path": "test/benchmark/results/polynomial_gcd_docs_check.log",
+      "sha256": "30360d5595f6a5c73834528a4bb162721373435024a294435f7886e12c2071c1"
+    },
+    "gcc13_check": {
+      "path": "test/benchmark/results/polynomial_gcd_gcc13_check.log",
+      "sha256": "16dcb817215d3cc255cbb9e313c23cf9ed7f37237a9a5915203df1882e404366"
+    },
+    "benchmark_check": {
+      "path": "test/benchmark/results/polynomial_gcd_benchmark_check.log",
+      "sha256": "742f41f6980235b817213b0502162985f743cdfb61558a76fb74f6a1df7612a1"
+    }
+  },
+  "benchmarks": {
+    "generic": {
+      "path": "test/benchmark/results/polynomial_gcd_generic/results.json",
+      "sha256": "6182d474cc10279825d0b0519c43e006ecedf1747bef3e1f34e672067dd405fc"
+    },
+    "native": {
+      "path": "test/benchmark/results/polynomial_gcd_native/results.json",
+      "sha256": "56fc76393d5d2af70b2028a02b8142f33c4770173d793ae3c542c64d050fc547"
+    }
+  },
+  "timed_benchmark_runs": 266,
+  "excluded_reference": {
+    "id": 406000,
+    "reason": "SIGSEGV on random_50000 under local GCC 15.2, also with unlimited stack"
+  }
+}

@@ -1,0 +1,3 @@
+clang++: polynomial_gcd.cpp
+clang++: standalone.cpp
+Verification passed

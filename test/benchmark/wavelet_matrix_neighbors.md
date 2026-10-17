@@ -8,7 +8,7 @@
 
 空・定数列は直接判定する。長さ8以下の区間の predecessor / successor は圧縮コードを直接走査し、整列を省く。昇順・降順列には既存の専用処理を残す。整数に限らず比較可能な型を扱い、x86 固有命令の追加はない。
 
-quaternary の順位選択も、上位 bit の判定後に下位 bit を数える直列の経路から、digit 0 / digit 0–1 / digit 0–2 の累積数を並列に計算する経路へ変更する。popcount は増えるが依存の連鎖を短くする。sum 用の経路情報は同じ累積数から再構成し、prefix sum の格納方法は変えない。
+quaternary の順位選択も、上位 bit の判定後に下位 bit を数える直列の経路から、digit 0 / digit 0–1 / digit 0–2 の累積数を並列に計算する経路へ変更する。popcount は増えるが依存の連鎖を短くする。sum の選択では少数の値からなる列で逆効果だったため、コンパイル時の分岐で従来の経路を維持する。prefix sum の格納方法も変えない。
 
 ## 比較条件
 
@@ -17,7 +17,7 @@ quaternary の順位選択も、上位 bit の判定後に下位 bit を数え�
 - `-std=c++23 -O2` と `-std=c++23 -O2 -march=native`。
 - 同じ実行ファイルに比較元と変更後を別クラス名で読み込み、各クエリ走査を交互に実行する。乱数生成、データ構築、sum 用の準備はクエリの計測外。
 - 固定 seed 814253、20000 queries。主測定は `--uniform-bounds` で元の列から独立に選んだ境界値を使う。オプションなしでは二つの境界を整列した下側を使い、初期測定の lower-biased な分布を再現できる。各ペアで開始順を変え、CPU 時間と wall time、checksum を記録する。CPU 0 に固定した比較も行う。
-- n=1024 / 200000 / 1000000、値域10^9の乱数・256値の重複列・64bit乱数。長さ8以下、昇順、降順、定数列と未変更操作も確認する。
+- n=1024 / 200000 / 1000000、値域10^9の乱数・256値の重複列・64bit乱数。σ=2 / 4 / 16 の kth と sum、長さ8以下、昇順、降順、定数列と未変更操作も確認する。
 - この CPU は AtCoder の実行機ではない。AtCoder 上の実測値、あるいは Mac 上の速度向上を示すものではない。
 
 ## 再現
@@ -29,6 +29,8 @@ python test/benchmark/wavelet_matrix_neighbors.py --uniform-bounds --seconds 0.1
 ```
 
 Linux では先頭に `taskset -c 0` を付けると CPU を固定できる。`--candidate-first` でヘッダーの取り込み順を逆にしたコード生成も比較できる。比較元の取得には Git 履歴を使い、作業ディレクトリやリモートを変更しない。raw output は `.gitignore` の対象で、commit しない。
+
+mode: 0=値域10^9の乱数、1=256値、2=符号付き64bit全域、3=昇順、4=降順、5=定数、6=2値、7=4値、8=16値。
 
 operation: 0=build、1=kth_smallest、2=range_freq(upper)、3=range_freq(lower,upper)、4=prev_value、5=next_value、6=count、7=sum_smallest、8=sum_largest、9=range_sum、10=select、11=access、12=eager build、13=build+prepare_sum。
 

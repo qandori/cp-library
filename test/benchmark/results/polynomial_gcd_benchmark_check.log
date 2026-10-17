@@ -1,0 +1,20 @@
+gcd_random_256 {'half_gcd': 3.509, 'euclid': 3.495}
+gcd_random_4096 {'half_gcd': 6.716, 'euclid': 18.899}
+gcd_random_50000 {'half_gcd': 61.865}
+inverse_random_50000 {'library': 96.56, 'reference_409589': 16.675}
+gcd_sparse_50000 {'half_gcd': 5.809, 'euclid': 5.22}
+inverse_sparse_50000 {'library': 5.4, 'reference_409589': 4.697}
+gcd_equal_50000 {'half_gcd': 5.735, 'euclid': 6.002}
+inverse_equal_50000 {'library': 5.242, 'reference_409589': 4.584}
+gcd_constant_50000 {'half_gcd': 4.904, 'euclid': 4.934}
+inverse_constant_50000 {'library': 4.083, 'reference_409589': 3.899}
+gcd_random_256 {'half_gcd': 3.504, 'euclid': 3.303}
+gcd_random_4096 {'half_gcd': 6.494, 'euclid': 17.399}
+gcd_random_50000 {'half_gcd': 61.569}
+inverse_random_50000 {'library': 94.015, 'reference_409589': 16.775}
+gcd_sparse_50000 {'half_gcd': 5.401, 'euclid': 5.154}
+inverse_sparse_50000 {'library': 5.246, 'reference_409589': 4.471}
+gcd_equal_50000 {'half_gcd': 5.744, 'euclid': 5.738}
+inverse_equal_50000 {'library': 5.08, 'reference_409589': 4.616}
+gcd_constant_50000 {'half_gcd': 4.665, 'euclid': 4.534}
+inverse_constant_50000 {'library': 3.814, 'reference_409589': 3.841}

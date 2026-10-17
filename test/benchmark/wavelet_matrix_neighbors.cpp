@@ -94,12 +94,12 @@ int main(int argc, char **argv) {
 	int n = atoi(argv[1]), mode = atoi(argv[2]), op = atoi(argv[3]), length = atoi(argv[4]);
 	double duration = atof(argv[5]);
 	int pairs = atoi(argv[6]);
-	if (n <= 0 || mode < 0 || mode > 5 || op < 0 || op > 13 || length < 0 || duration <= 0 || pairs <= 0) return 2;
+	if (n <= 0 || mode < 0 || mode > 8 || op < 0 || op > 13 || length < 0 || duration <= 0 || pairs <= 0) return 2;
 	cout << setprecision(9);
 	mt19937_64 rng(814253);
 	vector<int64_t> a(n);
 	for (int i = 0; i < n; ++i)
-		a[i] = mode == 1 ? rng() % 256 : mode == 2 ? int64_t(rng()) : mode == 5 ? 7 : rng() % 1000000000;
+		a[i] = mode == 1 ? rng() % 256 : mode == 2 ? int64_t(rng()) : mode == 5 ? 7 : mode >= 6 ? rng() % (1u << (mode == 6 ? 1 : mode == 7 ? 2 : 4)) : rng() % 1000000000;
 	if (mode == 3 || mode == 4) sort(a.begin(), a.end());
 	if (mode == 4) reverse(a.begin(), a.end());
 	vector<Query> queries(20000);

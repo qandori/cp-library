@@ -21,6 +21,7 @@ root = pathlib.Path(__file__).resolve().parents[2]
 cases = [(n, m, o, 0) for n in (1024, 200000, 1000000)
          for m in (0, 1, 2) for o in (1, 4, 5)]
 cases += [(200000, m, o, 0) for m in (0, 1, 2) for o in (7, 8)]
+cases += [(200000, m, o, 0) for m in (6, 7, 8) for o in (1, 7, 8)]
 cases += [(200000, 0, o, 0) for o in (0, 2, 3, 6, 9, 10, 11, 12, 13)]
 cases += [(200000, m, o, length)
           for m, length in ((0, 8), (1, 8), (2, 8), (3, 0), (4, 0), (5, 0))

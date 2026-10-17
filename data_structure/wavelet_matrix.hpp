@@ -254,19 +254,35 @@ class WaveletMatrix {
 	struct Route {
 		int digit, a, b, k, high_l, high_r, zero_l, zero_r;
 	};
+	template <bool ForSum = false>
 	[[gnu::always_inline]] Route route(int l, int r, int k, int d) const {
 		const auto &left = bits[d].blocks[l >> 6], &right = bits[d].blocks[r >> 6];
 		std::uint64_t lm = (std::uint64_t(1) << (l & 63)) - 1, rm = (std::uint64_t(1) << (r & 63)) - 1;
-		int la = left.prefix[0] + std::popcount(~(left.low | left.high) & lm);
-		int ra = right.prefix[0] + std::popcount(~(right.low | right.high) & rm);
-		int lb = left.prefix[0] + left.prefix[1] + std::popcount(~left.high & lm);
-		int rb = right.prefix[0] + right.prefix[1] + std::popcount(~right.high & rm);
-		int lc = l - left.prefix[3] - std::popcount(left.low & left.high & lm);
-		int rc = r - right.prefix[3] - std::popcount(right.low & right.high & rm);
-		int digit = (k >= ra - la) + (k >= rb - lb) + (k >= rc - lc);
-		std::array<int, 5> a{0, la, lb, lc, l}, b{0, ra, rb, rc, r};
-		int base = digit & 2;
-		return {digit, a[digit + 1] - a[digit], b[digit + 1] - b[digit], k - b[digit] + a[digit], lb, rb, a[base + 1] - a[base], b[base + 1] - b[base]};
+		if constexpr (ForSum) {
+			std::uint64_t lh = left.high & lm, rh = right.high & rm;
+			int ha = left.prefix[2] + left.prefix[3] + std::popcount(lh);
+			int hb = right.prefix[2] + right.prefix[3] + std::popcount(rh);
+			int high_l = l - ha, high_r = r - hb;
+			bool high = k >= high_r - high_l;
+			k -= high ? high_r - high_l : 0;
+			int a = left.prefix[2 * high] + std::popcount(~left.low & (high ? lh : lm ^ lh));
+			int b = right.prefix[2 * high] + std::popcount(~right.low & (high ? rh : rm ^ rh));
+			bool low = k >= b - a;
+			k -= low ? b - a : 0;
+			return {2 * high + low, low ? (high ? ha : high_l) - a : a,
+					low ? (high ? hb : high_r) - b : b, k, high_l, high_r, a, b};
+		} else {
+			int la = left.prefix[0] + std::popcount(~(left.low | left.high) & lm);
+			int ra = right.prefix[0] + std::popcount(~(right.low | right.high) & rm);
+			int lb = left.prefix[0] + left.prefix[1] + std::popcount(~left.high & lm);
+			int rb = right.prefix[0] + right.prefix[1] + std::popcount(~right.high & rm);
+			int lc = l - left.prefix[3] - std::popcount(left.low & left.high & lm);
+			int rc = r - right.prefix[3] - std::popcount(right.low & right.high & rm);
+			int digit = (k >= ra - la) + (k >= rb - lb) + (k >= rc - lc);
+			std::array<int, 5> a{0, la, lb, lc, l}, b{0, ra, rb, rc, r};
+			int base = digit & 2;
+			return {digit, a[digit + 1] - a[digit], b[digit + 1] - b[digit], k - b[digit] + a[digit], lb, rb, a[base + 1] - a[base], b[base + 1] - b[base]};
+		}
 	}
 	void init_sum() const
 		requires supports_sum
@@ -356,7 +372,7 @@ class WaveletMatrix {
 		S answer = 0;
 		std::uint32_t x = 0;
 		for (int d = 0; d < levels; ++d) {
-			auto step = route(l, r, k, d);
+			auto step = route<true>(l, r, k, d);
 			int base = 3 * d + 1;
 			if (step.digit & 2) answer += prefix[base][step.high_r] - prefix[base][step.high_l];
 			if (step.digit & 1) {

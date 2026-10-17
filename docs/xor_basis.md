@@ -47,7 +47,7 @@ auto indices = witness.represent(6);
 | `lower_bound(value,x = 0)` / `upper_bound(value,x = 0)` | $$S_x$$ で `value` 以上／より大きい最小値。なければ `nullopt` |
 | `predecessor(value,x = 0)` | $$S_x$$ で `value` 未満の最大値。なければ `nullopt` |
 | `merge(b)` | `b` との和空間に更新し、増えた次元数を返す |
-| `a \| b` / `a \|= b` | 和空間／その代入 |
+| <code>a &#124; b</code> / <code>a &#124;= b</code> | 和空間／その代入 |
 | `intersection(b)` / `a & b` / `a &= b` | 共通部分の空間／その代入 |
 | `is_subspace_of(b)` | `b` の部分空間か |
 | `a == b` / `a != b` | 張る空間が同じか。挿入順は問わない |

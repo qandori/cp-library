@@ -10,7 +10,8 @@ permissions:
   actions: read
 
 concurrency:
-  group: macos-portability-${{ github.ref }}
+  group: >-
+    macos-portability-${{ github.ref }}${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, 'Verify-Mode: control-delta') && format('-{0}', github.sha) || '' }}
   cancel-in-progress: true
 
 jobs:
@@ -49,6 +50,17 @@ jobs:
           VERIFY_EXPECTED_HEAD: ${{ steps.route.outputs.head }}
           VERIFY_EXPECTED_REF: ${{ steps.route.outputs.ref }}
         run: python .verify-helper/ci.py plan --affected-base "$VERIFY_AFFECTED_BASE" --expected-head "$VERIFY_EXPECTED_HEAD" --expected-ref "$VERIFY_EXPECTED_REF"
+      - name: Select exact-head full scope without cache
+        if: steps.route.outputs.mode == 'control-full'
+        env:
+          VERIFY_EXPECTED_HEAD: ${{ steps.route.outputs.head }}
+        run: python .verify-helper/ci.py plan --control-full --expected-head "$VERIFY_EXPECTED_HEAD"
+      - name: Select exact-head control evidence scope without cache
+        if: steps.route.outputs.mode == 'control-anchor' || steps.route.outputs.mode == 'control-delta'
+        env:
+          VERIFY_EXPECTED_HEAD: ${{ steps.route.outputs.head }}
+          GH_TOKEN: ${{ github.token }}
+        run: python .verify-helper/ci.py plan --control-evidence --expected-head "$VERIFY_EXPECTED_HEAD"
       - name: Check Apple Clang
         run: |
           uname -a

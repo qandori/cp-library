@@ -15,7 +15,8 @@ permissions:
   actions: read
 
 concurrency:
-  group: verify-${{ github.workflow }}-${{ github.ref }}
+  group: >-
+    verify-${{ github.workflow }}-${{ github.ref }}${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(github.event.head_commit.message, 'Verify-Mode: control-delta') && format('-{0}', github.sha) || '' }}
   cancel-in-progress: true
 
 jobs:
@@ -23,7 +24,18 @@ jobs:
     outputs:
       mode: ${{ steps.route.outputs.mode }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: >-
+      ${{ (
+        (github.event_name == 'push' && (github.ref == 'refs/heads/codex/ci-tree-reuse-20261018' ||
+          github.ref == 'refs/heads/codex/ci-tree-anchor-20261018')) ||
+        (github.event_name == 'pull_request' && github.head_ref == 'codex/ci-tree-reuse-20261018' &&
+          github.event.pull_request.head.repo.full_name == 'qandori/cp-library') ||
+        (github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          github.event.before == '7fb5f2897349aa0a11c18e3ab56f3e4815319017' &&
+          contains(github.event.head_commit.message, 'Verify-Mode: control-full')) ||
+        (github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          contains(github.event.head_commit.message, 'Verify-Mode: control-delta'))
+      ) && 120 || 60 }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,14 +53,14 @@ jobs:
           cache: pip
           cache-dependency-path: test/requirements.txt
       - uses: actions/setup-python@v5
-        if: steps.route.outputs.mode == 'no-cache'
+        if: steps.route.outputs.mode == 'no-cache' || steps.route.outputs.mode == 'control-full' || steps.route.outputs.mode == 'control-anchor' || steps.route.outputs.mode == 'control-delta'
         with:
           python-version: '3.12'
       - name: Install dependencies
         if: steps.route.outputs.mode == 'normal'
         run: python -m pip install -r test/requirements.txt
       - name: Install dependencies without cache
-        if: steps.route.outputs.mode == 'no-cache'
+        if: steps.route.outputs.mode == 'no-cache' || steps.route.outputs.mode == 'control-full' || steps.route.outputs.mode == 'control-anchor' || steps.route.outputs.mode == 'control-delta'
         run: python -m pip install --no-cache-dir -r test/requirements.txt
       - name: Install Boost
         run: sudo apt-get update && sudo apt-get install -y libboost-dev
@@ -87,8 +99,23 @@ jobs:
           VERIFY_EXPECTED_HEAD: ${{ steps.route.outputs.head }}
           VERIFY_EXPECTED_REF: ${{ steps.route.outputs.ref }}
         run: python .verify-helper/ci.py plan --affected-base "$VERIFY_AFFECTED_BASE" --expected-head "$VERIFY_EXPECTED_HEAD" --expected-ref "$VERIFY_EXPECTED_REF"
+      - name: Select exact-head full scope without cache
+        if: steps.route.outputs.mode == 'control-full'
+        env:
+          VERIFY_EXPECTED_HEAD: ${{ steps.route.outputs.head }}
+        run: python .verify-helper/ci.py plan --control-full --expected-head "$VERIFY_EXPECTED_HEAD"
+      - name: Select exact-head control evidence scope without cache
+        if: steps.route.outputs.mode == 'control-anchor' || steps.route.outputs.mode == 'control-delta'
+        env:
+          VERIFY_EXPECTED_HEAD: ${{ steps.route.outputs.head }}
+          GH_TOKEN: ${{ github.token }}
+        run: python .verify-helper/ci.py plan --control-evidence --expected-head "$VERIFY_EXPECTED_HEAD"
       - name: Run unit tests with GCC and Clang
         run: |
+          uname -a
+          g++ --version
+          g++ -dumpmachine
+          clang++ --version
           python test/verify.py --unit-only --cxx g++ clang++ --selection .verify-helper/selection.json
           python .verify-helper/ci.py record --groups headers unit
       - name: Run ASan and UBSan tests

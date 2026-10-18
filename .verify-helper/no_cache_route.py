@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
 import urllib.request
 
 from affected import (BINDING_PATH, SourceTree, canonical, checked_source, digest, git,
@@ -37,6 +38,13 @@ CONTROL_PATHS = (
     ".github/workflows/fps-scalar-return-final.yml",
     "test/benchmark/fps_scalar_return/api.hpp", "test/benchmark/fps_scalar_return/api.cpp",
     "test/benchmark/fps_scalar_return/bench.cpp", "test/benchmark/fps_scalar_return/run.py",
+)
+CONTROL_PATHS_V2 = CONTROL_PATHS + (
+    ".verify-helper/tree_baseline.py", ".verify-helper/tree_baseline_test.py",
+    ".verify-helper/control_full.py", ".verify-helper/control_full_test.py",
+    ".verify-helper/control_delta.py", ".verify-helper/control_delta_test.py",
+    ".verify-helper/check_context.py", ".verify-helper/check_context_test.py",
+    ".verify-helper/control-receipts.json",
 )
 BASELINE_INPUTS = (
     ".github/workflows/verify.yml", ".github/workflows/macos-portability.yml",
@@ -87,8 +95,45 @@ def event_source(root, event, context):
     return head, head, ref
 
 
+def control_requested(root, head, source, source_ref, event, context):
+    markers = ("Verify-Mode: control-full", "Verify-Mode: control-anchor", "Verify-Mode: control-delta")
+    def marked(commit):
+        message = git(root, "show", "-s", "--format=%B", commit).decode().rstrip()
+        present = {marker for marker in markers if marker in message}
+        final = message.splitlines()[-1] if message else None
+        require(not present or present == {final}, "Reserved control marker must be the final nonempty line")
+        return final in markers
+    source_marked = marked(source)
+    pair = parents(root, head) if source_ref == MAIN_REF else []
+    requested = (source_ref in ("refs/heads/codex/ci-tree-reuse-20261018", "refs/heads/codex/ci-tree-anchor-20261018") or source_marked
+                 or (len(pair) == 2 and marked(pair[1])))
+    if pair and not requested:
+        previous, current = SourceTree(root, pair[0]), SourceTree(root, head)
+        control_paths = (".verify-helper/control_full.py", ".verify-helper/control_delta.py", ".verify-helper/check_context.py")
+        control_path = control_paths[0]
+        if context.get("GITHUB_EVENT_NAME") == "push" and current.entries.get(control_path) is not None:
+            before = object_id(event.get("before"), "main control transition baseline")
+            try:
+                previous = SourceTree(root, before)
+            except subprocess.CalledProcessError:
+                raise ValueError("Cannot resolve the main control transition baseline") from None
+        require(all(previous.entries.get(path) == current.entries.get(path) for path in control_paths),
+                "Main control transition requires the explicit direct control route")
+    return requested
+
+
 def select_event(root, event, context):
     head, source, source_ref = event_source(root, event, context)
+    if control_requested(root, head, source, source_ref, event, context):
+        message = git(root, "show", "-s", "--format=%B", source).decode().rstrip()
+        if (source_ref == "refs/heads/codex/ci-tree-anchor-20261018"
+                or (message and message.splitlines()[-1] in ("Verify-Mode: control-anchor", "Verify-Mode: control-delta"))):
+            from control_delta import select_event as select_control_event
+        else:
+            from control_full import select_event as select_control_event
+        control = select_control_event(root, event, context)
+        require(control is not None, "Missing explicit control route")
+        return control
     message = git(root, "show", "-s", "--format=%B", source).decode().rstrip()
     marked = bool(message) and message.splitlines()[-1] == TRAILER
     if not marked:
@@ -154,15 +199,32 @@ def read_evidence(tree):
     require(raw is not None, "Missing reviewed exact-baseline CI evidence")
     value = json.loads(raw)
     require(raw == canonical(value) + b"\n", "Baseline evidence must be canonical JSON")
-    require(isinstance(value, dict) and set(value) == {
-        "version", "base", "baseline_source_sha256", "reviewed_control_sha256", "policy", "runs"
-    } and type(value["version"]) is int and value["version"] == 1, "Invalid baseline evidence schema")
-    require(value["policy"] == "exact-baseline-ci-and-reviewed-source-keys-v1", "Unreviewed baseline proof policy")
-    require(isinstance(value["runs"], dict) and set(value["runs"]) == set(BASELINE_JOBS), "Missing baseline workflows")
-    for run in value["runs"].values():
+    fields = {"version", "base", "baseline_source_sha256", "reviewed_control_sha256", "policy", "runs"}
+    require(isinstance(value, dict) and type(value.get("version")) is int and value["version"] in (1, 2)
+            and set(value) == fields | ({"qualification"} if value["version"] == 2 else set()),
+            "Invalid baseline evidence schema")
+    if value["version"] == 1:
+        require(value["policy"] == "exact-baseline-ci-and-reviewed-source-keys-v1", "Unreviewed baseline proof policy")
+    else:
+        from tree_baseline import POLICY
+        require(value["policy"] == POLICY, "Unreviewed baseline proof policy")
+        proof = value["qualification"]
+        require(isinstance(proof, dict) and proof.get("kind") in ("source-push", "control-full", "control-delta"), "Invalid qualification kind")
+        require(set(proof) == {"kind", "reviewed_source_control_sha256"}
+                | ({"runs"} if proof["kind"] == "source-push" else set()), "Invalid qualification schema")
+        require(isinstance(proof["reviewed_source_control_sha256"], str)
+                and re.fullmatch("[0-9a-f]{64}", proof["reviewed_source_control_sha256"]), "Invalid qualification source hash")
+        if proof["kind"] == "source-push":
+            validate_run_ids(proof["runs"])
+    validate_run_ids(value["runs"])
+    return value
+
+
+def validate_run_ids(runs):
+    require(isinstance(runs, dict) and set(runs) == set(BASELINE_JOBS), "Missing baseline workflows")
+    for run in runs.values():
         require(isinstance(run, dict) and set(run) == {"id", "attempt"}
                 and all(type(run[key]) is int and run[key] > 0 for key in run), "Invalid exact baseline run identity")
-    return value
 
 
 def api_get(path, token):
@@ -178,14 +240,31 @@ def api_get(path, token):
         return json.load(response)
 
 
-def verify_baseline(root, route, token, request=api_get):
+def verify_baseline(root, route, token, request=api_get, read_log=None):
     require(bool(token), "Missing read-only Actions token")
     old, current = SourceTree(root, route["base"]), SourceTree(root, route["head"])
     evidence = read_evidence(current)
     require(evidence["base"] == route["base"], "Baseline evidence binds another source commit")
     require(evidence["baseline_source_sha256"] == source_hash(old, BASELINE_INPUTS), "Baseline selector/check sources differ")
-    require(evidence["reviewed_control_sha256"] == source_hash(current, CONTROL_PATHS),
+    controls = CONTROL_PATHS if evidence["version"] == 1 else CONTROL_PATHS_V2
+    require(evidence["reviewed_control_sha256"] == source_hash(current, controls),
             "CI control, compiler/setup, or workflow source changed; review scope again")
+    if evidence["version"] == 2:
+        import tree_baseline
+        read_log = read_log or tree_baseline.job_log
+        if evidence["qualification"]["kind"] == "control-delta":
+            from control_delta import bootstrap
+            return bootstrap(root, route, evidence, token, request, read_log)
+        if evidence["qualification"]["kind"] == "control-full":
+            return tree_baseline.bootstrap(root, route, evidence, token, request, read_log, BASELINE_JOBS)
+        try:
+            tree_baseline.check_main(root, route["base"], token, request)
+            return tree_baseline.qualify(root, route, evidence["qualification"], token, request, read_log, BASELINE_JOBS)
+        except tree_baseline.MainFailure:
+            raise
+        except (ValueError, OSError, KeyError, TypeError, subprocess.CalledProcessError):
+            # Source evidence never substitutes for missing or failed exact-main evidence.
+            pass
     receipts = []
     for workflow, proof in evidence["runs"].items():
         path = "/repos/" + REPOSITORY + "/actions/runs/" + str(proof["id"]) + "/attempts/" + str(proof["attempt"])
@@ -219,13 +298,32 @@ def main():
     route = select_event(root, event, os.environ)
     if route["mode"] == "no-cache":
         proof = verify_baseline(root, route, os.environ.get("GH_TOKEN"))
-        print(json.dumps({"event": "exact_baseline_evidence", **proof}, sort_keys=True), flush=True)
+        label = "source_push_baseline_evidence" if proof.get("basis") == "source-push-identical-tree" else "exact_baseline_evidence"
+        print(json.dumps({"event": label, **proof}, sort_keys=True), flush=True)
         with open(os.environ["GITHUB_ENV"], "a") as stream:
             stream.write("VERIFY_NO_CACHE=true\nPIP_NO_CACHE_DIR=1\n")
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as stream:
-            stream.write("Explicit no-cache run at " + route["head"] + ".\n\n"
-                         "Exact-baseline CI succeeded under reviewed source-key semantics; fresh full-baseline coverage is not claimed. "
+            basis = ("Historical source-push checks qualify an identical-tree main baseline; this is not execution on main. "
+                     if proof.get("basis") == "source-push-identical-tree" else
+                     "Exact-main control-only full workflows succeeded; intrinsic execution is NOT claimed. "
+                     if proof.get("basis") == "control-full-bootstrap" else
+                     "Exact-baseline CI succeeded under reviewed source-key semantics; fresh full-baseline coverage is not claimed. ")
+            stream.write("Explicit no-cache run at " + route["head"] + ".\n\n" + basis +
                          "Current-head unaffected checks are NOT RUN. Pages publication is omitted.\n")
+    elif route["mode"] in ("control-anchor", "control-delta"):
+        with open(os.environ["GITHUB_ENV"], "a") as stream:
+            stream.write("VERIFY_NO_CACHE=true\nVERIFY_CONTROL_EVIDENCE=true\nPIP_NO_CACHE_DIR=1\n")
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as stream:
+            stream.write("Control-only evidence validation at " + route["head"] + ". "
+                         "Immutable anchor executes all ordinary checks; delta inherits only direct successful matching checks. "
+                         "Inherited checks are NOT EXECUTED NOW. No cache/artifact/Pages writes; intrinsic NOT RUN.\n")
+    elif route["mode"] == "control-full":
+        with open(os.environ["GITHUB_ENV"], "a") as stream:
+            stream.write("VERIFY_NO_CACHE=true\nVERIFY_CONTROL_FULL=true\nPIP_NO_CACHE_DIR=1\n")
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as stream:
+            stream.write("Control-only full ordinary verification at " + route["head"] + ". "
+                         "No successful-result cache reads/writes, artifacts, or Pages publication. "
+                         "Intrinsic checks are NOT RUN in this control-only mode.\n")
     with open(os.environ["GITHUB_OUTPUT"], "a") as stream:
         for name, value in route.items():
             stream.write(name + "=" + value + "\n")

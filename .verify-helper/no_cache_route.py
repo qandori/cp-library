@@ -240,10 +240,10 @@ def verify_baseline(root, route, token, request=api_get, read_log=None):
         import tree_baseline
         read_log = read_log or tree_baseline.job_log
         if evidence["qualification"]["kind"] == "control-full":
-            return tree_baseline.bootstrap(root, route, evidence, token, request, read_log, controls, BASELINE_JOBS)
+            return tree_baseline.bootstrap(root, route, evidence, token, request, read_log, BASELINE_JOBS)
         try:
             tree_baseline.check_main(root, route["base"], token, request)
-            return tree_baseline.qualify(root, route, evidence["qualification"], token, request, read_log, controls, BASELINE_JOBS)
+            return tree_baseline.qualify(root, route, evidence["qualification"], token, request, read_log, BASELINE_JOBS)
         except tree_baseline.MainFailure:
             raise
         except (ValueError, OSError, KeyError, TypeError, subprocess.CalledProcessError):

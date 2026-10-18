@@ -21,10 +21,12 @@ class TreeBaselineTests(unittest.TestCase):
     def setUp(self):
         affected_test.AffectedVerification.setUp(self)
         self.ref = route.SOURCE_REF
-        self.controls = route.CONTROL_PATHS + (".verify-helper/tree_baseline.py", ".verify-helper/tree_baseline_test.py")
+        self.controls = route.CONTROL_PATHS_V2
         for path in self.controls:
             self.write(path, "# Source-only fixture.\n")
-        self.write(".verify-helper/no_cache_route.py", "SOURCE_REF = " + repr(self.ref) + "\n")
+        self.write(".verify-helper/no_cache_route.py", "SOURCE_REF = " + repr(self.ref) + "\n"
+                   + "CONTROL_PATHS = " + repr(route.CONTROL_PATHS) + "\n"
+                   + "CONTROL_PATHS_V2 = CONTROL_PATHS + " + repr(self.controls[len(route.CONTROL_PATHS):]) + "\n")
         self.write("test/unit/dynamic_wavelet_core.cpp", '#include "data_structure/dynamic_wavelet_matrix.hpp"\n')
         self.base = self.commit("fixture baseline", bind=False)
         self.write("components/dynamic_bit_vector.hpp", "#pragma once\nusing changed = int;\n")
@@ -129,7 +131,7 @@ class TreeBaselineTests(unittest.TestCase):
 
     def qualify(self):
         return reuse.qualify(self.root, {"base": self.main}, self.proof, "fixture-token", self.request,
-                             lambda number, token: self.logs[number], self.controls, route.BASELINE_JOBS)
+                             lambda number, token: self.logs[number], route.BASELINE_JOBS)
 
     def test_direct_identical_tree_source_receipts_qualify_without_claiming_main_execution(self):
         proof = self.qualify()
@@ -140,7 +142,7 @@ class TreeBaselineTests(unittest.TestCase):
         self.assertEqual(proof["full_baseline_target_coverage"], "not_independently_established")
 
     def test_plan_hashes_differ_but_target_fingerprints_match(self):
-        first, second = reuse.source_plans(self.root, self.main, self.proof, self.controls)
+        first, second = reuse.source_plans(self.root, self.main, self.proof)
         self.assertNotEqual(first["plan_sha256"], second["plan_sha256"])
         self.assertEqual(reuse.coverage(first), reuse.coverage(second))
         self.assertEqual(reuse.coverage(first)["headers"]["targets"], first["headers"])
@@ -148,11 +150,47 @@ class TreeBaselineTests(unittest.TestCase):
         changed["state"]["targets"]["headers"][first["headers"][0]] = "a" * 64
         self.assertNotEqual(reuse.coverage(first), reuse.coverage(changed))
 
+    def test_source_uses_historical_inventory_after_current_benchmark_rename(self):
+        old = "test/benchmark/fps_scalar_return/bench.cpp"
+        new = "test/benchmark/fps_right_shift/bench.cpp"
+        (self.root / new).parent.mkdir(parents=True)
+        self.git("mv", old, new)
+        self.commit("later benchmark rename", bind=False)
+        renamed = tuple(new if path == old else path for path in self.controls)
+        with patch.object(route, "CONTROL_PATHS_V2", renamed):
+            self.assertEqual(self.qualify()["basis"], "source-push-identical-tree")
+        self.assertEqual(reuse.historical_controls(SourceTree(self.root, self.source)), self.controls)
+
+    def test_historical_inventory_rejects_omitted_duplicate_invalid_and_missing_controls(self):
+        for paths in (self.controls[1:], self.controls + (self.controls[0],), self.controls + ("../escape",),
+                      self.controls + ("missing-control.py",), self.controls + ("/absolute",)):
+            with self.subTest(paths=paths):
+                self.write(".verify-helper/no_cache_route.py", "CONTROL_PATHS = " + repr(paths)
+                           + "\nCONTROL_PATHS_V2 = CONTROL_PATHS + ()\n")
+                head = self.commit("invalid historical inventory", bind=False)
+                with self.assertRaises(ValueError):
+                    reuse.historical_controls(SourceTree(self.root, head))
+
+    def test_historical_inventory_is_ast_only_and_rejects_symlinks(self):
+        source = "CONTROL_PATHS = " + repr(self.controls) + "\nCONTROL_PATHS_V2 = CONTROL_PATHS + "
+        for extra in ("__import__('os').abort()", "[]"):
+            self.write(".verify-helper/no_cache_route.py", source + extra + "\n")
+            head = self.commit("unsupported historical declaration", bind=False)
+            with self.assertRaises(ValueError):
+                reuse.historical_controls(SourceTree(self.root, head))
+        self.write(".verify-helper/no_cache_route.py", source + "()\n")
+        path = self.root / self.controls[0]
+        path.unlink()
+        path.symlink_to("target")
+        head = self.commit("nonregular historical control", bind=False)
+        with self.assertRaisesRegex(ValueError, "regular files"):
+            reuse.historical_controls(SourceTree(self.root, head))
+
     def test_squash_and_unreviewed_control_are_rejected_before_api(self):
         with self.assertRaisesRegex(ValueError, "two-parent"):
-            reuse.source_plans(self.root, self.source, self.proof, self.controls)
+            reuse.source_plans(self.root, self.source, self.proof)
         with self.assertRaisesRegex(ValueError, "controls differ"):
-            reuse.source_plans(self.root, self.main, {**self.proof, "reviewed_source_control_sha256": "f" * 64}, self.controls)
+            reuse.source_plans(self.root, self.main, {**self.proof, "reviewed_source_control_sha256": "f" * 64})
 
     def test_wrong_source_run_and_stale_attempt_fail(self):
         path = "/repos/" + route.REPOSITORY + "/actions/runs/1"

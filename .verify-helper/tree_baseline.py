@@ -16,6 +16,15 @@ LOG_LIMIT = 16 * 1024 * 1024
 MAX_ATTEMPTS = 10
 FAILURES = {"failure", "cancelled", "timed_out", "action_required", "startup_failure", "stale"}
 INTRINSIC_STEP = "Check exact-head native and explicit scalar intrinsic paths"
+MANDATORY_CONTROLS = (
+    ".github/workflows/verify.yml", ".github/workflows/macos-portability.yml",
+    ".verify-helper/affected.py", ".verify-helper/affected_test.py",
+    ".verify-helper/ci.py", ".verify-helper/ci_test.py",
+    ".verify-helper/no_cache_route.py", ".verify-helper/no_cache_route_test.py",
+    ".verify-helper/intrinsic_gate.py", ".verify-helper/intrinsic_gate_test.py",
+    ".verify-helper/tree_baseline.py", ".verify-helper/tree_baseline_test.py",
+    ".verify-helper/control_full.py", ".verify-helper/control_full_test.py",
+)
 
 
 class MainFailure(ValueError):
@@ -142,7 +151,29 @@ def literal(source, name):
     return ast.literal_eval(matches[0])
 
 
-def source_plans(root, base, proof, controls):
+def historical_controls(tree):
+    source = tree.content(".verify-helper/no_cache_route.py")
+    controls = literal(source, "CONTROL_PATHS")
+    additions = [node.value for node in ast.parse(source).body if isinstance(node, ast.Assign)
+                 and any(isinstance(target, ast.Name) and target.id == "CONTROL_PATHS_V2" for target in node.targets)]
+    require(len(additions) == 1, "Ambiguous historical v2 control inventory")
+    value = additions[0]
+    require(isinstance(value, ast.BinOp) and isinstance(value.op, ast.Add)
+            and isinstance(value.left, ast.Name) and value.left.id == "CONTROL_PATHS",
+            "Unsupported historical v2 control inventory")
+    extra = ast.literal_eval(value.right)
+    require(isinstance(controls, tuple) and isinstance(extra, tuple), "Invalid historical control inventory")
+    paths = controls + extra
+    require(all(isinstance(path, str) and re.fullmatch(r"[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*", path)
+                and all(part not in (".", "..") for part in path.split("/")) for path in paths)
+            and len(set(paths)) == len(paths) and set(MANDATORY_CONTROLS) <= set(paths),
+            "Invalid or incomplete historical control inventory")
+    require(all(tree.entries.get(path, ())[:2] in (("100644", "blob"), ("100755", "blob")) for path in paths),
+            "Historical controls must be present regular files")
+    return paths
+
+
+def source_plans(root, base, proof):
     import no_cache_route as route
     pair = route.parents(root, base)
     require(len(pair) == 2, "Baseline is not a direct two-parent merge")
@@ -160,7 +191,7 @@ def source_plans(root, base, proof, controls):
         require(message and message.splitlines()[-1] == route.TRAILER, "Historical explicit route is absent")
     validate_binding(old, tree, ref)
     validate_binding(old, merged, ref)
-    require(proof["reviewed_source_control_sha256"] == route.source_hash(tree, controls),
+    require(proof["reviewed_source_control_sha256"] == route.source_hash(tree, historical_controls(tree)),
             "Historical source controls differ")
     source_plan = source_affected_plan(root, previous, source, expected_ref=ref)
     merge_plan = source_affected_plan(root, previous, base, expected_ref=ref)
@@ -300,8 +331,8 @@ def intrinsic_log(lines, plan, tree):
     return {"gcc": "15.2.0", "modes": list(modes), "compiler_sha256": compiler["compiler"]["sha256"]}
 
 
-def qualify(root, route, proof, token, request, read_log, controls, baseline_jobs):
-    plan, merged = source_plans(root, route["base"], proof, controls)
+def qualify(root, route, proof, token, request, read_log, baseline_jobs):
+    plan, merged = source_plans(root, route["base"], proof)
     check_main(root, route["base"], token, request)
     receipts = []
     for workflow, identity in proof["runs"].items():
@@ -351,7 +382,7 @@ def qualify(root, route, proof, token, request, read_log, controls, baseline_job
             "unaffected_current_head_checks": "not_run"}
 
 
-def bootstrap(root, route, evidence, token, request, read_log, controls, baseline_jobs):
+def bootstrap(root, route, evidence, token, request, read_log, baseline_jobs):
     import control_full as control
     import no_cache_route as routing
     base = route["base"]
@@ -362,7 +393,7 @@ def bootstrap(root, route, evidence, token, request, read_log, controls, baselin
     require(literal(tree.content(".verify-helper/control_full.py"), "BASE") == control.BASE
             and literal(tree.content(".verify-helper/control_full.py"), "REF") == control.REF,
             "Unsupported control-full bootstrap source")
-    require(evidence["qualification"]["reviewed_source_control_sha256"] == routing.source_hash(tree, controls),
+    require(evidence["qualification"]["reviewed_source_control_sha256"] == routing.source_hash(tree, historical_controls(tree)),
             "Bootstrap control source differs")
     check_main(root, base, token, request)
     expected = {**tree.targets(), "full": True, "reason": "Full verification requested", "mode": control.MODE,

@@ -25,6 +25,10 @@ class ControlFullTests(unittest.TestCase):
         affected_test.AffectedVerification.setUp(self)
         outer = Path(__file__).resolve().parent.parent
         self.workflows = (".github/workflows/verify.yml", ".github/workflows/macos-portability.yml")
+        for path in route.CONTROL_PATHS_V2:
+            self.write(path, "# Historical control fixture.\n")
+        self.write(".verify-helper/no_cache_route.py", "CONTROL_PATHS = " + repr(route.CONTROL_PATHS) + "\n"
+                   + "CONTROL_PATHS_V2 = CONTROL_PATHS + " + repr(route.CONTROL_PATHS_V2[len(route.CONTROL_PATHS):]) + "\n")
         for path in self.workflows:
             self.write(path, git(outer, "show", control.BASE + ":" + path).decode())
         self.base = self.commit("control fixture baseline", bind=False)
@@ -209,7 +213,7 @@ class ControlFullTests(unittest.TestCase):
     def bootstrap_data(self):
         merged = self.merge()
         plan = control.build_plan(self.root, merged)
-        controls = (*self.workflows, ".verify-helper/control_full.py")
+        controls = reuse.historical_controls(SourceTree(self.root, merged))
         evidence = {"runs": {}, "qualification": {"kind": "control-full", "reviewed_source_control_sha256":
                     route.source_hash(SourceTree(self.root, merged), controls)}}
         responses, logs, runs = {}, {}, []
@@ -244,24 +248,50 @@ class ControlFullTests(unittest.TestCase):
                                           for row in rows) + "\n"
         query = "/repos/" + route.REPOSITORY + "/actions/runs?head_sha=" + merged + "&branch=main&per_page=100"
         responses[query] = {"total_count": len(runs), "workflow_runs": runs}
-        return merged, evidence, responses, logs, controls
+        return merged, evidence, responses, logs
 
     def test_actual_main_full_bootstrap_explicitly_does_not_claim_intrinsic(self):
-        merged, evidence, responses, logs, controls = self.bootstrap_data()
+        merged, evidence, responses, logs = self.bootstrap_data()
         result = reuse.bootstrap(self.root, {"base": merged}, evidence, "fixture-token",
                                  lambda path, token: copy.deepcopy(responses[path]), lambda number, token: logs[number],
-                                 controls, route.BASELINE_JOBS)
+                                 route.BASELINE_JOBS)
         self.assertEqual(result["basis"], "control-full-bootstrap")
         self.assertEqual(result["ordinary_full_workflows"], "executed")
         self.assertEqual(result["intrinsic_checks"], "not_run_control_only")
 
     def test_bootstrap_requires_every_completed_group(self):
-        merged, evidence, responses, logs, controls = self.bootstrap_data()
+        merged, evidence, responses, logs = self.bootstrap_data()
         logs[10] = "\n".join(line for line in logs[10].splitlines() if "control_full_checks_completed" not in line)
         with self.assertRaisesRegex(ValueError, "completed groups"):
             reuse.bootstrap(self.root, {"base": merged}, evidence, "fixture-token",
                             lambda path, token: copy.deepcopy(responses[path]), lambda number, token: logs[number],
-                            controls, route.BASELINE_JOBS)
+                            route.BASELINE_JOBS)
+
+    def test_bootstrap_uses_historical_inventory_after_current_benchmark_rename(self):
+        merged, evidence, responses, logs = self.bootstrap_data()
+        old = "test/benchmark/fps_scalar_return/bench.cpp"
+        new = "test/benchmark/fps_right_shift/bench.cpp"
+        (self.root / new).parent.mkdir(parents=True)
+        self.git("mv", old, new)
+        self.commit("later benchmark rename", bind=False)
+        renamed = tuple(new if path == old else path for path in route.CONTROL_PATHS_V2)
+        with patch.object(route, "CONTROL_PATHS_V2", renamed):
+            result = reuse.bootstrap(self.root, {"base": merged}, evidence, "fixture-token",
+                                     lambda path, token: copy.deepcopy(responses[path]), lambda number, token: logs[number],
+                                     route.BASELINE_JOBS)
+        self.assertEqual(result["basis"], "control-full-bootstrap")
+
+    def test_bootstrap_rejects_missing_mandatory_historical_control_before_api(self):
+        paths = tuple(path for path in route.CONTROL_PATHS_V2 if path != ".verify-helper/tree_baseline.py")
+        self.write(".verify-helper/no_cache_route.py", "CONTROL_PATHS = " + repr(paths)
+                   + "\nCONTROL_PATHS_V2 = CONTROL_PATHS + ()\n")
+        self.head = self.commit("incomplete control inventory\n\n" + control.TRAILER, bind=False)
+        merged = self.merge()
+        evidence = {"qualification": {"reviewed_source_control_sha256": "a" * 64}}
+        with self.assertRaisesRegex(ValueError, "historical control inventory"):
+            reuse.bootstrap(self.root, {"base": merged}, evidence, "fixture-token",
+                            lambda *args: self.fail("API called"), lambda *args: self.fail("Log requested"),
+                            route.BASELINE_JOBS)
 
 
 if __name__ == "__main__":

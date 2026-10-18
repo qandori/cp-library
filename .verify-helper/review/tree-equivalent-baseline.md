@@ -15,6 +15,8 @@ Version 2 uses policy `direct-tree-source-push-or-exact-baseline-v2`. The existi
 
 The canonical JSON file and exact field sets are validated. A source-push alternative is opt-in, not discovered from arbitrary green runs. Its exact-main fallback IDs remain explicit even while those main runs are pending. An unsupported, incomplete, unavailable, or mismatching source alternative falls back to those exact-main receipts. A known actual-main failure is a hard blocker, including failures in older attempts, unfinished jobs, or visible parts of incomplete API lists; it must never be caught as ordinary fallback.
 
+The historical source hash uses that immutable source's own declared control inventory, parsed as AST data without executing historical code. All fourteen core/v2 controls are mandatory; paths must be unique, valid and present regular files. Later benchmark-control renames therefore do not change the historical proof. The current candidate control hash is checked independently against its current inventory.
+
 ### Source-push requirements
 
 1. The baseline must be an ordered direct two-parent merge `[previous baseline, source]`, with a tree identical to its source parent. Both commits carry the original no-cache marker. The source is descended from the previous baseline and retains the exact reviewed historical branch, binding, and source digest.

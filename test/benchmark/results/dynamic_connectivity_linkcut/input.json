@@ -1,0 +1,13 @@
+{
+  "n": 300000,
+  "q": 300000,
+  "query_counts": [
+    148599,
+    148401,
+    0,
+    3000
+  ],
+  "vertices_in_edges": 74300,
+  "generator_sha256": "04091f81158237af9d0a188b4cc961cf3ee34eb755d0748cf73346761fb020ba",
+  "official_revision": "1814c4e5205517e368bb57a8d1127eb961cfeaae"
+}

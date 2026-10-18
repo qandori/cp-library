@@ -1,5 +1,7 @@
 # Online Dynamic Connectivity の比較
 
+`link_and_cut_00` の追加改善は [専用の比較](dynamic_connectivity_linkcut.md) にまとめています。
+
 2026-10-17、WSL2 Linux x86_64 / Core i7-13700F / GCC 15.2.0。AtCoder 実機での測定ではありません。
 
 ## 対象環境と参考実装

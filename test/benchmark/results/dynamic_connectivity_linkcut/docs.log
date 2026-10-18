@@ -1,0 +1,8 @@
+Generated documentation for 249 library and judge sources
+Checked documentation for 127 libraries; compiled 1 affected bundles
+Traceback (most recent call last):
+  File "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/audit_api_tables.py", line 17, in <module>
+    assert any(re.fullmatch(r'\|(?:\s*:?-+:?\s*\|){2,}', line) for line in lines), f'Missing table: {doc}'
+AssertionError: Missing table: docs/fps_log.md
+Checked API tables, code spans, math delimiters, and log notation for 1 headers (12 table lines)
+All generated library pages contain the current documentation

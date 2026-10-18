@@ -1,0 +1,40 @@
+{
+  "measured_at": "2026-10-18T14:15:20.443024+00:00",
+  "baseline": "2be6469cbc4f7864e7920c98ac1a38450f0770eb",
+  "flags": [
+    "-std=gnu++23",
+    "-O2",
+    "-ftrivial-auto-var-init=zero",
+    "-DATCODER",
+    "-DONLINE_JUDGE"
+  ],
+  "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           39 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  24\nOn-line CPU(s) list:                     0-23\nVendor ID:                               GenuineIntel\nModel name:                              13th Gen Intel(R) Core(TM) i7-13700F\nCPU family:                              6\nModel:                                   183\nThread(s) per core:                      2\nCore(s) per socket:                      12\nSocket(s):                               1\nStepping:                                1\nBogoMIPS:                                4223.99\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni vnmi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt flush_l1d arch_capabilities\nVirtualization:                          VT-x\nHypervisor vendor:                       Microsoft\nVirtualization type:                     full\nL1d cache:                               576 KiB (12 instances)\nL1i cache:                               384 KiB (12 instances)\nL2 cache:                                24 MiB (12 instances)\nL3 cache:                                30 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-23\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Mitigation; Enhanced IBRS\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI BHI_DIS_S\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+  "kernel": "Linux qand-PC 6.18.40.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Fri Jul 31 22:12:15 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n",
+  "affinity": [
+    2
+  ],
+  "trials": 9,
+  "warmup": 1,
+  "order_seed": 20261018,
+  "hash_seeds": [
+    713,
+    814,
+    915,
+    1016,
+    1117,
+    1218,
+    1319,
+    1420,
+    1521
+  ],
+  "sha256": {
+    "data_structure/dynamic_connectivity.hpp": "d0e09d7c2c9448ccd5fbe676cdb326a971e5c0eaab108a9c7e41b5920f73739d",
+    "test/dynamic_connectivity.test.cpp": "97e5aaf0e8c166b7d685f3b185acfe65dd966b3526bcf9f5251a44f740c55d7f",
+    "test/benchmark/dynamic_connectivity_linkcut.cpp": "c9aae202e621ce7949884b448bd3a3c8ebabc5d0115771de088634a05184238d",
+    "components/fast_io.hpp": "08ffaf08bb8f27003d770509f9f95f64c2e9f7139477e85a5b57033a893b86c6",
+    "components/splitmix64.hpp": "f74be6033b41f893dfa0550b99dca38b3da7eb565baeb2813c94cb7b5db3e566",
+    "test/benchmark/dynamic_connectivity_linkcut.py": "5365b3c2dedae56b44690ce9ed6abe803f38ec0a1dc143cb69a895eb7b2e4ab5"
+  },
+  "method": "exclusive lock; fresh processes; regular-file I/O on Linux /tmp; kernel excludes parsing and checksum, includes construction/reserve/online API calls and answer collection; whole includes startup/I/O/exit; checker outside timing"
+}

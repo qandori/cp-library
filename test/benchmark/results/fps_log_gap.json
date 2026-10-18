@@ -1,0 +1,2819 @@
+{
+  "metadata": {
+    "date": "2026-10-18",
+    "timezone": "Asia/Tokyo",
+    "hardware": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  5\nOn-line CPU(s) list:                     0-4\nVendor ID:                               AuthenticAMD\nModel name:                              AMD EPYC 9V74 80-Core Processor\nCPU family:                              25\nModel:                                   17\nThread(s) per core:                      1\nCore(s) per socket:                      5\nSocket(s):                               1\nStepping:                                1\nBogoMIPS:                                5192.28\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               96 KiB (3 instances)\nL1i cache:                               96 KiB (3 instances)\nL2 cache:                                3 MiB (3 instances)\nL3 cache:                                32 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-4\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Vulnerable\nVulnerability Spec store bypass:         Vulnerable\nVulnerability Spectre v1:                Vulnerable: __user pointer sanitization and usercopy barriers only; no swapgs barriers\nVulnerability Spectre v2:                Vulnerable; STIBP: disabled; PBRSB-eIBRS: Not affected; BHI: Not affected\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Vulnerable\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+    "official_commit": "1814c4e5205517e368bb57a8d1127eb961cfeaae",
+    "warmups": 1,
+    "checker": "Every warmup and sample passed the official checker; checker runs were outside timing.",
+    "profile_note": "Instrumented copies; phase medians are diagnostic, not subtracted from uninstrumented process timings.",
+    "generation_scripts_sha256": {
+      "experiment.py": "537fd39dfdfc5eb804b161f5b3eb6a8992b0fe7b95f9ef5f6c09cd11fd5043d0",
+      "api.py": "2c5309e6060aa1e0de51c040ba08d2f9c4c1b16357453e51d99163b801b7f424",
+      "boundary.py": "88463b8781c40114cac01421895d7713bc5993aed027e58b95cbb3548da60b09",
+      "profile.py": "c5d75c4e0b784b148f02da1459c9392151ddef70bb332e52e22df31e07e92d40",
+      "api_profile.py": "bf9d0bb3a62d531701ca17fd20b745c76699f49d056ebb5efccef3a50d6930c0",
+      "fast_profile.py": "03615d192a1ef0dd5411a85a1319a75029b8412df59fad60058a7c9ae40dd5e4"
+    },
+    "thp_enabled": "always [madvise] never",
+    "thp_defrag": "always defer defer+madvise [madvise] never",
+    "validation": {
+      "checker_successful_runs": 616,
+      "generated_source_hash_matches": 23,
+      "production_headers_changed": false,
+      "harness_sha256": "6996a105b08847f5cfd84ddc9db9e99c3ddaa4e391944db7205f951dbc15c5df"
+    }
+  },
+  "measurements": {
+    "whole": {
+      "baseline": "3dd3db7c749ba3c00d432fc82b085146f86c4b0e",
+      "flags": [
+        "-std=c++23",
+        "-O2",
+        "-DEVAL",
+        "-DONLINE_JUDGE",
+        "-ftrivial-auto-var-init=zero",
+        "-march=haswell"
+      ],
+      "cpu": 2,
+      "trials": 21,
+      "input_sha256": "71cb0227a5a1e40ece225e19cd9d2633dfd4f07f25d39f01719bc2376e1d4ac8",
+      "reference_sha256": "86ef3c3b4a4707ef5e7515e5229b2564f2a5f46bd830bb6cbe64b506a95675b6",
+      "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+      "sources": {
+        "fps/compositional_inverse.hpp": "a8edc10649d670b3dd1b2f02f89f923099e07ea19420242ee3251d20b10e443c",
+        "fps/linear_recurrence.hpp": "dc99057fe2a38c66d8d7feb9a5508d7e7b6501815d3d0efbe967b5cb3445e553",
+        "fps/compose.hpp": "08b85c447a05aa421637ef80e5697a4501fbcf4859d1fedd91222bda651b1041",
+        "fps/taylor_shift.hpp": "04928bd6ff0e313d6880ee4c7d78ad0dab189ea18c0cd64aa6cb4997fcfaedaf",
+        "fps/fps.hpp": "e671ecb2640cd98c9914ede1b00425bb15abc8574813d179e9e80b97562a127a",
+        "fps/interpolate.hpp": "2ee8bf3dc503e6f88d7fb0857c6cff99e8f2e4fea73e6af05a66301ada962e0d",
+        "fps/power_projection.hpp": "1ca47acbf95ed443c71c2e04e1e711986c8776f56533aed4915ac8a56090a73d",
+        "fps/bostan_mori.hpp": "8d3e89e20add5124dff1100f3a8282fa67a7937133b68a051232368ae2fe63fe",
+        "fps/polynomial_gcd.hpp": "f4592e06895a244282167969da984ed3bb4f99823f62fa6f2be4276cd5a9df4c",
+        "fps/multipoint_eval.hpp": "4cb93dd9d9d2b0bbbece729c7de93217a19cd4915cf9ace9aa797c0eefcb049e",
+        "components/polynomial_half_gcd.hpp": "70830eb0ea8dcdb50128030dd0fb37c7ada1909b16786eed154f938bd595b1de",
+        "components/fps_log.hpp": "28e49dc386a8c0fefab327b80fec8f7cd18f3ca0b0e514dfa68d23fdb721531d",
+        "components/fps_direct_eval.hpp": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380",
+        "components/undirected_csr.hpp": "2e53a2ce4fbaf18b7f30808cade253977b6cfe422eb3a199b1c79384a0093ec7",
+        "components/smawk.hpp": "695a3ebbf247d8bea41994ec058582dcce69a219b7c06473a49fbd0d34a70f89",
+        "components/mod_linear_prefix_min.hpp": "07fbfee2ead2eb9a673cf4d40e44bc137b819455249826193a92f755ee1f6ff2",
+        "components/flow_graph.hpp": "1d3c369de91b6f221cec348c503a9033ee7b59ccc908484a77275b7b1022fdf8",
+        "components/bitwise_zeta.hpp": "1599d735dd409a85606724f049f50ed10560818bbb91b2a8e9630dfd40eec761",
+        "components/default_init_allocator.hpp": "7eb7ea8260decc57a9809a12fbf74b112b791723aa78a2c843270bdd714cd4f5",
+        "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+        "components/fps_operations.hpp": "f318a3825777e5f093ba4e93c0fee2df6bd97c298c2ee92d4da18795d7ad0051",
+        "components/ntt.hpp": "8d878ad0344cd69871ad491ed79fdfb20b061a4abc722c403727a9214306de5e",
+        "components/small_vector.hpp": "f6602e1a44b1a6da238995b4fe05d8cff0117019a9e9e9943edf162dbb42e7bb",
+        "components/montgomery32.hpp": "23d370166dec7837f0b47a9952d350c9ffafa96ccec02bc0a487de9ec1f7895a",
+        "components/monotone_minima.hpp": "c8c1243645131313a9e1671b9a8e392388b7ee386e9d7e4ba013534c64c3d592",
+        "components/fps_product_tree.hpp": "d72a0a371bcf404028ca1fd970355b01efc097dbc7431a59c26ad3be347d9d58",
+        "components/sequence_match.hpp": "d74576a5e82377109abce1ca14f2b947b2ba918ba9e27070ea3c8d798397412f",
+        "components/push_relabel.hpp": "d00ab45a27a701c9013be3dc01a2f7f7d5cb0cc27a4b85eeafcb51118145d1a9",
+        "components/static_top_tree_structure.hpp": "cf06f7ffee6ceb893ba7c3627aff39240ad72cae57452ffc5c0e4bdbcdc9b6e2",
+        "components/divisor_zeta.hpp": "883f68f4e0d54c6bdd13da55e65b44fa57febd282d927e52bb28cfa4ff82026f",
+        "components/min_cost_circulation.hpp": "7667acbfc85ce2cae75187c8a7de962df0f894e4841a63b5a964cef8cae94978",
+        "components/stern_brocot_path.hpp": "3032ce1f5177914194e79e1f4e8d71fb5a6f771f05010f907a05029249dbf83c",
+        "components/quad_bit_vector.hpp": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+        "components/RadixHeap.hpp": "b335c2d100e9630924bd51000c3986c5ad66659b68e29a3444fe1153cdb8a46e",
+        "components/limb_arithmetic.hpp": "7f0095e64bc8ddb7e5c7ee1b0901b973125cd1cdd93a979b1bf1231faae7778f",
+        "components/xor_basis_core.hpp": "2d738ffa2c08a80393f42c0a95a552492694369de391cb012381cb38799cd0cf",
+        "components/montgomery.hpp": "5be93ff94b1a4c2dcc3a85fa8431fbad3452bc1322b8a97ba0bfece9cc8e511b",
+        "components/fps_factorials.hpp": "d6719de093bbe4d95542a0b51b84e0401e35928abd311b599abd149807596ddb",
+        "components/matrix_arithmetic.hpp": "a02fc4c897b3c3d82a8c0ad8c2b36f9440fe64f369f7a7fa75284878e6f90f57",
+        "components/walsh_hadamard.hpp": "a3b29c25bc724fbcdb2ee7f9d29e86189c5734e2560ea155b4e10cedf38b41b8",
+        "components/fast_io.hpp": "56ed72cde8b330493e8dfdca79d97a5d7e3098dfc58fc57000948c34a5e130a1",
+        "components/predecessor_set.hpp": "11f5a74271be53a73cd7bd9a5f372f10a3d32896ce4c61866b5ae911629f1350",
+        "components/weighted_blossom.hpp": "027b217b7dd06709e7fa6c06b6e1c521475f0cd081362d14cc6746ef13438720",
+        "components/ntt_mod.hpp": "40cbfd5344aff36ab539243debfd71c2aeed397845d52963b5aefd4c1b63395d",
+        "components/splitmix64.hpp": "84e473d5ce9fcc1bc86e1a7c11c09aa032d9adc40b8e69a7114c137dbd1ba239",
+        "components/mod_fast_core.hpp": "b960071bd83b87bdcef0ddc2dfc56970dcfced148ef7ed580b4aa37df21fb860",
+        "components/barrett32.hpp": "ecffcdd9f837433eaf48ff883b52ca578c31febdce157c876200edf2b9082235",
+        "components/fft.hpp": "fbf555f3e9943a25fe828ed810bb2308c173dd45915def99d801ac57f125d259",
+        "components/mo_order.hpp": "4cf62e6bc4b9908f22f0fb85a93d616c276ef60afbb1a41180dfda81c811f588",
+        "components/static_range_min.hpp": "45e3d5a108984056325832931c87c855078a169ec933b4ebd1ebaed10109163e",
+        "components/binomial_prefix_core.hpp": "3b619188ae67835b073cbf27562b1f675c8ab10a65b60b28539bcd6ba30958c3",
+        "components/d_ary_heap.hpp": "944b7f6f89b265382a044f44ba5e83614473a16bdf583a10499a9e0f7fc89457",
+        "components/fps_workspace.hpp": "74c6d3646d8f20a9b3a3df15bba26c25ad7b01cca032c7d0567b8f4b65b31923",
+        "math/prime_sieve.hpp": "5e742307e8000973b95e820f26a394443b53a4498ab6d9fb998d78a75fce93df",
+        "math/monoid_floor_sum.hpp": "34abc70b077143cf19e99191e26a9c72ae2eec62d9aad17eec9965f7a9949580",
+        "math/matrix.hpp": "51ec3df6083c23f1d5e7fb41463ce3dddf8f11edb087d4495e8d38b81a9b1887",
+        "math/is_prime.hpp": "307a1400592b593bcba5f3568fa11f992328cceff1cd6c400c8e04d5d3c60627",
+        "math/kth_root.hpp": "67f3a2961c6e4e794c97ed9eb2568026da57fce6788f0e33f7d6b0bfe5b339d8",
+        "math/xor_basis.hpp": "ca3716ebce772b2ba5b404120bc26347d83126a2805fd85e5010b52ce6759058",
+        "math/factorize.hpp": "b9a934a9c6a4b960b0ff65d0bee0a72734308ed90f7b88dad2342c95f3365414",
+        "math/binomial_prefix_sum.hpp": "cb339a005584bdb6285d62cc9564b78c8ca0bb86f48da0cfc051f0402b2841a7",
+        "math/fraction.hpp": "75936e45326c6b62251dce7d103c7c009729b4348206216392d972258175cc2d",
+        "math/mint.hpp": "67cec2452dda0af8b4cd307449fc65b3f1d678613e0392fdd666031dae062171",
+        "math/min_of_mod_of_linear.hpp": "971ca6e0a9f88128a1b584d8360d65f3356199827183db1f2da48a034101b47e",
+        "math/discrete_log.hpp": "d16af40dddaa8136f80478bca72422e6406514b88506faa9a9aac65ce962f5b6",
+        "math/partition_mod_of_linear.hpp": "a6fc0d7fa1b50f2402ca49c6a3fbdb880240811f2c0872ff65d2cad1b207fa9f",
+        "math/mod_pow.hpp": "8dd5fe7994928adb61e17b68e09ee213ab056aeca297c216ab0556efb0e8adf0",
+        "math/mod_inv.hpp": "bda8bf0658d160c648a0fa5b2614a946b72561e505f8b8da06d6db3bb7482ec8",
+        "math/comb.hpp": "64ca05ffc38b2bc2df305adeafc12e4a7449155a2ca2e8a03862f0387becf3a1",
+        "math/generalized_floor_sum.hpp": "961e9b1c9f36943d05d65929e975afe7af2735fef3880e436bff8143b23ea9da",
+        "math/mod_sqrt.hpp": "c2b414db307c613ee14f535073fb80458bbd0ef768c352b1822cf658fcceb68b",
+        "math/prefix_min_of_mod_of_linear.hpp": "6e4c10f6390b73ae6bf26fa515865c6e8fe99c18e042a7607e331757a5423fd8",
+        "math/stern_brocot_tree.hpp": "7f0648852c2727ff944cfde1c7e670298fd45cc05eb14852ffeef7c72ae0e518",
+        "convolution/min_plus_convolution.hpp": "ed441328442ee36f647a694a61079f3585ebff0ae696a943522812d06c6eb2c5",
+        "convolution/convolution_ring.hpp": "877f2c3cefa12dfc9db13127035e49af10dacb7a488fd3c8acb25b545ff9fd11",
+        "convolution/convolution_fft.hpp": "ca18157bbd16c951473e0f5602dc42458cde0027134c29609f1521b9f475f492",
+        "convolution/multiplicative_convolution.hpp": "5a5f34b1579b48986183b6b927fcdca7c25abae87be6fe77863256acdbd33cc1",
+        "convolution/subset_convolution.hpp": "5e646830279799f3106949c8fe3f310de0c3839ef5abc99b8c1a569786f533e8",
+        "convolution/cyclic_convolution.hpp": "6dc96d46bc899520e3a3036a88872a168d21a4a36520eeaf8ca2c2fcf0f3ab34",
+        "convolution/multivariate_convolution.hpp": "5b3ca59d4624ddee7529e224748b7bdbcb2171892e78cdc7a60b47f065076298",
+        "convolution/bitwise_convolution.hpp": "036afd4eda1b5a11f9d661b43c7cf8d314c3323625fedfc48fa23bdf5b3977e4",
+        "convolution/convolution.hpp": "c140eab3f37df554de4763658c9f6cf03a5e5c46e063c4470139f383e5537645",
+        "convolution/ordered_convolution.hpp": "7d34610c73a58b3a2635f947d73c2028c281e7d7072c933c88ed17451d6fc78f",
+        "convolution/boolean_convolution.hpp": "f4f7390573d867c233b8fb8c37001f07e394d7a3c1ab0290f5c303ae34744bf5",
+        "convolution/gcd_lcm_convolution.hpp": "5010f6f45a4a60eb652a1f6694f37c77f9b2bc366b72f937973688575bb8373b",
+        "convolution/online_convolution.hpp": "cdd826fe1e90ef7162aae835895ae611f9ed5472aa3a6ff3227f022b16f57af9",
+        "convolution/max_min_convolution.hpp": "572a7f15fa2f7b337d10a1b159437f7bd3d9f70551098c2b79e84ac78883e171",
+        "convolution/convolution_mod.hpp": "69aaa91c1855be4c2bbeddb1829fbf82045958c218623e0c8956424cf08b7139",
+        "test/matrix_common.hpp": "e822e432c00b27be95eed1f5409c62d1d3f02f29034affeee426734a9575c3a7",
+        "test/fps_io.hpp": "5e4d04cebbaf941c5947b74d7c4c8dcf92b82d314335a37dc4aded4d59ec3c9a",
+        "test/static_top_tree_dp.hpp": "d88a0f3fa8992ebc9cba72ecbfb05ad7255ea494c22ef1b1668d4bb0a6c8b65a"
+      },
+      "variants": {
+        "current": {
+          "source_sha256": "b38668fd47c26177e2a1dc3816717d204d2495385a7704cf41f9a75f0ccd043f",
+          "binary_sha256": "097d58e84e33e74eec5e21c37b163ddc001e4faccf8a42db0871010602ee0ea5"
+        },
+        "reference_exact": {
+          "source_sha256": "86ef3c3b4a4707ef5e7515e5229b2564f2a5f46bd830bb6cbe64b506a95675b6",
+          "binary_sha256": "21389ded641e34765f12fd4a20dfbdc2d5589acadc4abeeec622ed06580758bd"
+        },
+        "reference_normal": {
+          "source_sha256": "56d5012ec72e8748f314544596cda1d4d7a3d137cc207bce65d36e0ca9aa1dd4",
+          "binary_sha256": "d3062ec823ccdd085048648b43f634aa99515209aaaacdc8086fc497ab8c494c"
+        },
+        "reference_common_io": {
+          "source_sha256": "1b2a6adbff284e69a439f1fca7beb67f61eead6569c8a50bf5a53cf58500dbe0",
+          "binary_sha256": "1a1a72595d2e0c36068e4ac677c0d2ceac2813d6169a9d85101e6bea8c3a7544"
+        },
+        "reference_api": {
+          "source_sha256": "82775e80a20232e8fd9f4dff1bd04383f062809a187266a78cf3889607ab2352",
+          "binary_sha256": "069153b52d56c5a11f62fd5a9e9e9e7d0e02ab7087b03fd0e57d7176b2d75931"
+        },
+        "current_fast_io": {
+          "source_sha256": "aa53b89f396ba4be37ff93f162395eba106ec0734357bde16d849848e952b489",
+          "binary_sha256": "598051e9c9dbb0ee878916416108f5c3df734234a20b2efbfa8f6b114b0b2b8d"
+        },
+        "reference_both_halves": {
+          "source_sha256": "64515e6ba46dac48ac35850173033760748f0eb38dbf3b508f581604f46d8baa",
+          "binary_sha256": "ae65dc0a1cbb416add01c72cc25c20dc4f180ac3872451af4ee0dc6c8c3d96c7"
+        },
+        "reference_levelwise": {
+          "source_sha256": "e88b03a0b5ca9e5598677403bdcdbedc1ec49e66c91d71cdaf4e871e0844ac24",
+          "binary_sha256": "e772aa43db6699eea6c3db8a356efae9024a8863d31cc1bede2fcadf62879832"
+        },
+        "reference_split_cyclic": {
+          "source_sha256": "bffe7791f423a70691831fcd1932e8aaeef80f0597f6dcc0bf89cb7279dd9d7b",
+          "binary_sha256": "b2e30891bb53660b3f6a7717f4bbb0ebefbdd34264e0bca4e30d375254213793"
+        },
+        "reference_no_lookahead": {
+          "source_sha256": "96b7abf5c51518d4df7d722e14a07d49dcfb1e5c17edfb90676877b488b41056",
+          "binary_sha256": "eccf45d54223aa474ac8e8ccd4df4ff2b053beace0063f921c41602f7056a45a"
+        },
+        "reference_intrinsic_leaf": {
+          "source_sha256": "205c77d2023fca9b7d4853ec2b29071553625139a5e195fa6b44bb22f2de0503",
+          "binary_sha256": "793e4820ffe615904c73845fe5283b51340d7ef5ac8cffd5b5b57292c92031d9"
+        }
+      },
+      "whole": {
+        "current": {
+          "samples_ms": [
+            21.860829001525417,
+            22.315906004223507,
+            22.377599001629278,
+            23.299882996070664,
+            22.292802001175005,
+            21.665838001354132,
+            22.34424900234444,
+            22.95312699425267,
+            21.689643996069208,
+            21.700147997762542,
+            21.690704001230188,
+            22.345510005834512,
+            22.71472100255778,
+            22.441213004640304,
+            21.998904994688928,
+            22.170790995005518,
+            22.503936997964047,
+            21.88880000176141,
+            22.16477099864278,
+            22.258560995396692,
+            23.09902400156716
+          ],
+          "median_ms": 22.292802001175005,
+          "min_ms": 21.665838001354132,
+          "max_ms": 23.299882996070664
+        },
+        "reference_exact": {
+          "samples_ms": [
+            12.628786003915593,
+            12.993629999982659,
+            15.937052005028818,
+            13.136612004018389,
+            13.384743004280608,
+            13.322278995474335,
+            13.917743002821226,
+            13.06375399872195,
+            12.848423000832554,
+            14.342415001010522,
+            13.037384997005574,
+            12.710198003333062,
+            13.417440997727681,
+            13.522207998903468,
+            12.807282000721898,
+            13.02441499865381,
+            12.992738003958948,
+            12.925078000989743,
+            13.009253001655452,
+            13.270171999465674,
+            13.37634999799775
+          ],
+          "median_ms": 13.06375399872195,
+          "min_ms": 12.628786003915593,
+          "max_ms": 15.937052005028818
+        },
+        "reference_normal": {
+          "samples_ms": [
+            12.886459997389466,
+            13.899389996367972,
+            13.508898002328351,
+            14.052778002223931,
+            13.999859998875763,
+            14.345185001729988,
+            13.292124996951316,
+            13.347157000680454,
+            12.842894997447729,
+            13.343250997422729,
+            13.791749996016733,
+            13.290032002259977,
+            13.087159000860993,
+            13.160939000954386,
+            13.599723999504931,
+            13.407796999672428,
+            13.224182999692857,
+            13.214999999036081,
+            13.52069599670358,
+            13.26740800141124,
+            13.890597001591232
+          ],
+          "median_ms": 13.347157000680454,
+          "min_ms": 12.842894997447729,
+          "max_ms": 14.345185001729988
+        },
+        "reference_common_io": {
+          "samples_ms": [
+            16.965031005383935,
+            17.01758900162531,
+            17.525435003335588,
+            17.925362000823952,
+            17.28801099670818,
+            16.881174997251946,
+            17.275233003601898,
+            17.116986993642058,
+            16.851902000780683,
+            17.117586998210754,
+            17.443160999391694,
+            17.136135000328068,
+            17.633926996495575,
+            17.698352996376343,
+            17.216033993463498,
+            17.14717099821428,
+            17.471214996476192,
+            17.19170800060965,
+            17.34800100530265,
+            17.970378998143133,
+            17.448081001930404
+          ],
+          "median_ms": 17.275233003601898,
+          "min_ms": 16.851902000780683,
+          "max_ms": 17.970378998143133
+        },
+        "reference_api": {
+          "samples_ms": [
+            24.058109003817663,
+            21.522643997741397,
+            22.361483999702614,
+            22.85409899923252,
+            23.43578599538887,
+            23.028177995001897,
+            21.850322002137545,
+            21.315214995411225,
+            21.327071997802705,
+            21.526700002141297,
+            21.25091899506515,
+            23.249788995599374,
+            21.452610002597794,
+            21.18700400023954,
+            21.591397002339363,
+            21.824094001203775,
+            21.52399600163335,
+            21.61960800003726,
+            22.797313999035396,
+            21.821219997946173,
+            28.390291998221073
+          ],
+          "median_ms": 21.821219997946173,
+          "min_ms": 21.18700400023954,
+          "max_ms": 28.390291998221073
+        },
+        "current_fast_io": {
+          "samples_ms": [
+            19.07257200218737,
+            19.219690999307204,
+            19.66477499809116,
+            19.71473899902776,
+            19.94925900362432,
+            19.75491900520865,
+            19.947376000345685,
+            19.282925000879914,
+            19.09843099565478,
+            20.16727400041418,
+            19.844232003379147,
+            19.739196002774406,
+            20.035686997289304,
+            19.218289002310485,
+            19.436504000623245,
+            19.856330000038724,
+            19.3280829989817,
+            19.15803900192259,
+            20.262176003598142,
+            19.55189700674964,
+            19.814758001302835
+          ],
+          "median_ms": 19.71473899902776,
+          "min_ms": 19.07257200218737,
+          "max_ms": 20.262176003598142
+        },
+        "reference_both_halves": {
+          "samples_ms": [
+            13.04464600252686,
+            13.366424995183479,
+            13.16015799966408,
+            13.712902000406757,
+            13.92732100066496,
+            13.231233999249525,
+            13.192004997108597,
+            13.207569005317055,
+            13.455949003400747,
+            13.189691999286879,
+            14.145888002531137,
+            13.745210999331903,
+            13.309932000993285,
+            15.582828993501607,
+            13.284002998261712,
+            13.6231080032303,
+            13.275611003336962,
+            13.204253998992499,
+            13.134149005054496,
+            13.423019998299424,
+            13.603178005723748
+          ],
+          "median_ms": 13.309932000993285,
+          "min_ms": 13.04464600252686,
+          "max_ms": 15.582828993501607
+        },
+        "reference_levelwise": {
+          "samples_ms": [
+            13.108702005411033,
+            13.250932999653742,
+            13.295058997755405,
+            13.671369997609872,
+            13.087800005450845,
+            13.221559995145071,
+            13.231143995653838,
+            12.892159000330139,
+            12.793961999705061,
+            13.088230996800121,
+            13.811008997436147,
+            13.12523599335691,
+            13.341409001441207,
+            13.8737920060521,
+            13.645541002915706,
+            13.290491995576303,
+            13.02550699620042,
+            13.234299003670458,
+            13.390211002842989,
+            13.685040998097975,
+            14.554116001818329
+          ],
+          "median_ms": 13.250932999653742,
+          "min_ms": 12.793961999705061,
+          "max_ms": 14.554116001818329
+        },
+        "reference_split_cyclic": {
+          "samples_ms": [
+            13.044865998381283,
+            12.814182999136392,
+            13.901633996283635,
+            13.672511995537207,
+            12.978737002413254,
+            12.909014003525954,
+            13.234248996013775,
+            12.955954000062775,
+            13.027178996708244,
+            13.742266004555859,
+            13.323150997166522,
+            13.953059999039397,
+            17.805918003432453,
+            13.532293000025675,
+            13.644509999721777,
+            13.26646699453704,
+            13.26365300337784,
+            13.007671004743315,
+            13.32998199359281,
+            13.390590997005347,
+            13.279154998599552
+          ],
+          "median_ms": 13.279154998599552,
+          "min_ms": 12.814182999136392,
+          "max_ms": 17.805918003432453
+        },
+        "reference_no_lookahead": {
+          "samples_ms": [
+            13.580124003055971,
+            13.521687003958505,
+            13.865619999705814,
+            14.088812000409234,
+            13.669676998688374,
+            13.154760003089905,
+            13.516018996597268,
+            13.44372099993052,
+            13.38415200007148,
+            13.79073800490005,
+            13.483480004651938,
+            13.87561400042614,
+            13.865770000847988,
+            13.240116997621953,
+            13.781945002847351,
+            13.663207995705307,
+            13.940871998784132,
+            13.3700910009793,
+            13.990135994390585,
+            14.327628996397834,
+            13.679841998964548
+          ],
+          "median_ms": 13.669676998688374,
+          "min_ms": 13.154760003089905,
+          "max_ms": 14.327628996397834
+        },
+        "reference_intrinsic_leaf": {
+          "samples_ms": [
+            13.304111998877488,
+            13.21719399857102,
+            13.793602003715932,
+            13.613372997497208,
+            13.536960002966225,
+            13.654283997311722,
+            13.622557999042328,
+            13.184843999624718,
+            13.751879996561911,
+            13.534836005419493,
+            13.652702000399586,
+            13.66748500004178,
+            13.614784998935647,
+            13.29015199735295,
+            13.505572998838034,
+            13.323942002898548,
+            13.167037999664899,
+            13.146147000952624,
+            13.347858002816793,
+            13.88217500061728,
+            13.89835900045
+          ],
+          "median_ms": 13.536960002966225,
+          "min_ms": 13.146147000952624,
+          "max_ms": 13.89835900045
+        }
+      }
+    },
+    "api": {
+      "baseline": "3dd3db7c749ba3c00d432fc82b085146f86c4b0e",
+      "flags": [
+        "-std=c++23",
+        "-O2",
+        "-DEVAL",
+        "-DONLINE_JUDGE",
+        "-ftrivial-auto-var-init=zero",
+        "-march=haswell"
+      ],
+      "cpu": 2,
+      "trials": 21,
+      "input_sha256": "71cb0227a5a1e40ece225e19cd9d2633dfd4f07f25d39f01719bc2376e1d4ac8",
+      "reference_sha256": "86ef3c3b4a4707ef5e7515e5229b2564f2a5f46bd830bb6cbe64b506a95675b6",
+      "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+      "sources": {
+        "fps/compositional_inverse.hpp": "a8edc10649d670b3dd1b2f02f89f923099e07ea19420242ee3251d20b10e443c",
+        "fps/linear_recurrence.hpp": "dc99057fe2a38c66d8d7feb9a5508d7e7b6501815d3d0efbe967b5cb3445e553",
+        "fps/compose.hpp": "08b85c447a05aa421637ef80e5697a4501fbcf4859d1fedd91222bda651b1041",
+        "fps/taylor_shift.hpp": "04928bd6ff0e313d6880ee4c7d78ad0dab189ea18c0cd64aa6cb4997fcfaedaf",
+        "fps/fps.hpp": "e671ecb2640cd98c9914ede1b00425bb15abc8574813d179e9e80b97562a127a",
+        "fps/interpolate.hpp": "2ee8bf3dc503e6f88d7fb0857c6cff99e8f2e4fea73e6af05a66301ada962e0d",
+        "fps/power_projection.hpp": "1ca47acbf95ed443c71c2e04e1e711986c8776f56533aed4915ac8a56090a73d",
+        "fps/bostan_mori.hpp": "8d3e89e20add5124dff1100f3a8282fa67a7937133b68a051232368ae2fe63fe",
+        "fps/polynomial_gcd.hpp": "f4592e06895a244282167969da984ed3bb4f99823f62fa6f2be4276cd5a9df4c",
+        "fps/multipoint_eval.hpp": "4cb93dd9d9d2b0bbbece729c7de93217a19cd4915cf9ace9aa797c0eefcb049e",
+        "components/polynomial_half_gcd.hpp": "70830eb0ea8dcdb50128030dd0fb37c7ada1909b16786eed154f938bd595b1de",
+        "components/fps_log.hpp": "28e49dc386a8c0fefab327b80fec8f7cd18f3ca0b0e514dfa68d23fdb721531d",
+        "components/fps_direct_eval.hpp": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380",
+        "components/undirected_csr.hpp": "2e53a2ce4fbaf18b7f30808cade253977b6cfe422eb3a199b1c79384a0093ec7",
+        "components/smawk.hpp": "695a3ebbf247d8bea41994ec058582dcce69a219b7c06473a49fbd0d34a70f89",
+        "components/mod_linear_prefix_min.hpp": "07fbfee2ead2eb9a673cf4d40e44bc137b819455249826193a92f755ee1f6ff2",
+        "components/flow_graph.hpp": "1d3c369de91b6f221cec348c503a9033ee7b59ccc908484a77275b7b1022fdf8",
+        "components/bitwise_zeta.hpp": "1599d735dd409a85606724f049f50ed10560818bbb91b2a8e9630dfd40eec761",
+        "components/default_init_allocator.hpp": "7eb7ea8260decc57a9809a12fbf74b112b791723aa78a2c843270bdd714cd4f5",
+        "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+        "components/fps_operations.hpp": "f318a3825777e5f093ba4e93c0fee2df6bd97c298c2ee92d4da18795d7ad0051",
+        "components/ntt.hpp": "8d878ad0344cd69871ad491ed79fdfb20b061a4abc722c403727a9214306de5e",
+        "components/small_vector.hpp": "f6602e1a44b1a6da238995b4fe05d8cff0117019a9e9e9943edf162dbb42e7bb",
+        "components/montgomery32.hpp": "23d370166dec7837f0b47a9952d350c9ffafa96ccec02bc0a487de9ec1f7895a",
+        "components/monotone_minima.hpp": "c8c1243645131313a9e1671b9a8e392388b7ee386e9d7e4ba013534c64c3d592",
+        "components/fps_product_tree.hpp": "d72a0a371bcf404028ca1fd970355b01efc097dbc7431a59c26ad3be347d9d58",
+        "components/sequence_match.hpp": "d74576a5e82377109abce1ca14f2b947b2ba918ba9e27070ea3c8d798397412f",
+        "components/push_relabel.hpp": "d00ab45a27a701c9013be3dc01a2f7f7d5cb0cc27a4b85eeafcb51118145d1a9",
+        "components/static_top_tree_structure.hpp": "cf06f7ffee6ceb893ba7c3627aff39240ad72cae57452ffc5c0e4bdbcdc9b6e2",
+        "components/divisor_zeta.hpp": "883f68f4e0d54c6bdd13da55e65b44fa57febd282d927e52bb28cfa4ff82026f",
+        "components/min_cost_circulation.hpp": "7667acbfc85ce2cae75187c8a7de962df0f894e4841a63b5a964cef8cae94978",
+        "components/stern_brocot_path.hpp": "3032ce1f5177914194e79e1f4e8d71fb5a6f771f05010f907a05029249dbf83c",
+        "components/quad_bit_vector.hpp": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+        "components/RadixHeap.hpp": "b335c2d100e9630924bd51000c3986c5ad66659b68e29a3444fe1153cdb8a46e",
+        "components/limb_arithmetic.hpp": "7f0095e64bc8ddb7e5c7ee1b0901b973125cd1cdd93a979b1bf1231faae7778f",
+        "components/xor_basis_core.hpp": "2d738ffa2c08a80393f42c0a95a552492694369de391cb012381cb38799cd0cf",
+        "components/montgomery.hpp": "5be93ff94b1a4c2dcc3a85fa8431fbad3452bc1322b8a97ba0bfece9cc8e511b",
+        "components/fps_factorials.hpp": "d6719de093bbe4d95542a0b51b84e0401e35928abd311b599abd149807596ddb",
+        "components/matrix_arithmetic.hpp": "a02fc4c897b3c3d82a8c0ad8c2b36f9440fe64f369f7a7fa75284878e6f90f57",
+        "components/walsh_hadamard.hpp": "a3b29c25bc724fbcdb2ee7f9d29e86189c5734e2560ea155b4e10cedf38b41b8",
+        "components/fast_io.hpp": "56ed72cde8b330493e8dfdca79d97a5d7e3098dfc58fc57000948c34a5e130a1",
+        "components/predecessor_set.hpp": "11f5a74271be53a73cd7bd9a5f372f10a3d32896ce4c61866b5ae911629f1350",
+        "components/weighted_blossom.hpp": "027b217b7dd06709e7fa6c06b6e1c521475f0cd081362d14cc6746ef13438720",
+        "components/ntt_mod.hpp": "40cbfd5344aff36ab539243debfd71c2aeed397845d52963b5aefd4c1b63395d",
+        "components/splitmix64.hpp": "84e473d5ce9fcc1bc86e1a7c11c09aa032d9adc40b8e69a7114c137dbd1ba239",
+        "components/mod_fast_core.hpp": "b960071bd83b87bdcef0ddc2dfc56970dcfced148ef7ed580b4aa37df21fb860",
+        "components/barrett32.hpp": "ecffcdd9f837433eaf48ff883b52ca578c31febdce157c876200edf2b9082235",
+        "components/fft.hpp": "fbf555f3e9943a25fe828ed810bb2308c173dd45915def99d801ac57f125d259",
+        "components/mo_order.hpp": "4cf62e6bc4b9908f22f0fb85a93d616c276ef60afbb1a41180dfda81c811f588",
+        "components/static_range_min.hpp": "45e3d5a108984056325832931c87c855078a169ec933b4ebd1ebaed10109163e",
+        "components/binomial_prefix_core.hpp": "3b619188ae67835b073cbf27562b1f675c8ab10a65b60b28539bcd6ba30958c3",
+        "components/d_ary_heap.hpp": "944b7f6f89b265382a044f44ba5e83614473a16bdf583a10499a9e0f7fc89457",
+        "components/fps_workspace.hpp": "74c6d3646d8f20a9b3a3df15bba26c25ad7b01cca032c7d0567b8f4b65b31923",
+        "math/prime_sieve.hpp": "5e742307e8000973b95e820f26a394443b53a4498ab6d9fb998d78a75fce93df",
+        "math/monoid_floor_sum.hpp": "34abc70b077143cf19e99191e26a9c72ae2eec62d9aad17eec9965f7a9949580",
+        "math/matrix.hpp": "51ec3df6083c23f1d5e7fb41463ce3dddf8f11edb087d4495e8d38b81a9b1887",
+        "math/is_prime.hpp": "307a1400592b593bcba5f3568fa11f992328cceff1cd6c400c8e04d5d3c60627",
+        "math/kth_root.hpp": "67f3a2961c6e4e794c97ed9eb2568026da57fce6788f0e33f7d6b0bfe5b339d8",
+        "math/xor_basis.hpp": "ca3716ebce772b2ba5b404120bc26347d83126a2805fd85e5010b52ce6759058",
+        "math/factorize.hpp": "b9a934a9c6a4b960b0ff65d0bee0a72734308ed90f7b88dad2342c95f3365414",
+        "math/binomial_prefix_sum.hpp": "cb339a005584bdb6285d62cc9564b78c8ca0bb86f48da0cfc051f0402b2841a7",
+        "math/fraction.hpp": "75936e45326c6b62251dce7d103c7c009729b4348206216392d972258175cc2d",
+        "math/mint.hpp": "67cec2452dda0af8b4cd307449fc65b3f1d678613e0392fdd666031dae062171",
+        "math/min_of_mod_of_linear.hpp": "971ca6e0a9f88128a1b584d8360d65f3356199827183db1f2da48a034101b47e",
+        "math/discrete_log.hpp": "d16af40dddaa8136f80478bca72422e6406514b88506faa9a9aac65ce962f5b6",
+        "math/partition_mod_of_linear.hpp": "a6fc0d7fa1b50f2402ca49c6a3fbdb880240811f2c0872ff65d2cad1b207fa9f",
+        "math/mod_pow.hpp": "8dd5fe7994928adb61e17b68e09ee213ab056aeca297c216ab0556efb0e8adf0",
+        "math/mod_inv.hpp": "bda8bf0658d160c648a0fa5b2614a946b72561e505f8b8da06d6db3bb7482ec8",
+        "math/comb.hpp": "64ca05ffc38b2bc2df305adeafc12e4a7449155a2ca2e8a03862f0387becf3a1",
+        "math/generalized_floor_sum.hpp": "961e9b1c9f36943d05d65929e975afe7af2735fef3880e436bff8143b23ea9da",
+        "math/mod_sqrt.hpp": "c2b414db307c613ee14f535073fb80458bbd0ef768c352b1822cf658fcceb68b",
+        "math/prefix_min_of_mod_of_linear.hpp": "6e4c10f6390b73ae6bf26fa515865c6e8fe99c18e042a7607e331757a5423fd8",
+        "math/stern_brocot_tree.hpp": "7f0648852c2727ff944cfde1c7e670298fd45cc05eb14852ffeef7c72ae0e518",
+        "convolution/min_plus_convolution.hpp": "ed441328442ee36f647a694a61079f3585ebff0ae696a943522812d06c6eb2c5",
+        "convolution/convolution_ring.hpp": "877f2c3cefa12dfc9db13127035e49af10dacb7a488fd3c8acb25b545ff9fd11",
+        "convolution/convolution_fft.hpp": "ca18157bbd16c951473e0f5602dc42458cde0027134c29609f1521b9f475f492",
+        "convolution/multiplicative_convolution.hpp": "5a5f34b1579b48986183b6b927fcdca7c25abae87be6fe77863256acdbd33cc1",
+        "convolution/subset_convolution.hpp": "5e646830279799f3106949c8fe3f310de0c3839ef5abc99b8c1a569786f533e8",
+        "convolution/cyclic_convolution.hpp": "6dc96d46bc899520e3a3036a88872a168d21a4a36520eeaf8ca2c2fcf0f3ab34",
+        "convolution/multivariate_convolution.hpp": "5b3ca59d4624ddee7529e224748b7bdbcb2171892e78cdc7a60b47f065076298",
+        "convolution/bitwise_convolution.hpp": "036afd4eda1b5a11f9d661b43c7cf8d314c3323625fedfc48fa23bdf5b3977e4",
+        "convolution/convolution.hpp": "c140eab3f37df554de4763658c9f6cf03a5e5c46e063c4470139f383e5537645",
+        "convolution/ordered_convolution.hpp": "7d34610c73a58b3a2635f947d73c2028c281e7d7072c933c88ed17451d6fc78f",
+        "convolution/boolean_convolution.hpp": "f4f7390573d867c233b8fb8c37001f07e394d7a3c1ab0290f5c303ae34744bf5",
+        "convolution/gcd_lcm_convolution.hpp": "5010f6f45a4a60eb652a1f6694f37c77f9b2bc366b72f937973688575bb8373b",
+        "convolution/online_convolution.hpp": "cdd826fe1e90ef7162aae835895ae611f9ed5472aa3a6ff3227f022b16f57af9",
+        "convolution/max_min_convolution.hpp": "572a7f15fa2f7b337d10a1b159437f7bd3d9f70551098c2b79e84ac78883e171",
+        "convolution/convolution_mod.hpp": "69aaa91c1855be4c2bbeddb1829fbf82045958c218623e0c8956424cf08b7139",
+        "test/matrix_common.hpp": "e822e432c00b27be95eed1f5409c62d1d3f02f29034affeee426734a9575c3a7",
+        "test/fps_io.hpp": "5e4d04cebbaf941c5947b74d7c4c8dcf92b82d314335a37dc4aded4d59ec3c9a",
+        "test/static_top_tree_dp.hpp": "d88a0f3fa8992ebc9cba72ecbfb05ad7255ea494c22ef1b1668d4bb0a6c8b65a"
+      },
+      "variants": {
+        "current": {
+          "source_sha256": "b38668fd47c26177e2a1dc3816717d204d2495385a7704cf41f9a75f0ccd043f",
+          "binary_sha256": "097d58e84e33e74eec5e21c37b163ddc001e4faccf8a42db0871010602ee0ea5"
+        },
+        "reference_exact": {
+          "source_sha256": "86ef3c3b4a4707ef5e7515e5229b2564f2a5f46bd830bb6cbe64b506a95675b6",
+          "binary_sha256": "21389ded641e34765f12fd4a20dfbdc2d5589acadc4abeeec622ed06580758bd"
+        },
+        "reference_normal": {
+          "source_sha256": "56d5012ec72e8748f314544596cda1d4d7a3d137cc207bce65d36e0ca9aa1dd4",
+          "binary_sha256": "d3062ec823ccdd085048648b43f634aa99515209aaaacdc8086fc497ab8c494c"
+        },
+        "reference_api": {
+          "source_sha256": "82775e80a20232e8fd9f4dff1bd04383f062809a187266a78cf3889607ab2352",
+          "binary_sha256": "069153b52d56c5a11f62fd5a9e9e9e7d0e02ab7087b03fd0e57d7176b2d75931"
+        },
+        "reference_api_o3": {
+          "source_sha256": "cca3530004aa6c94f9fd8ec15a07fd57da0f2061fbf25c380ee02e73b8ef9686",
+          "binary_sha256": "e6531363f6dc1b595c6e9d7769297d5f597fcc91615b5cb4df9e1da34dac4f8d"
+        },
+        "reference_api_fast_io": {
+          "source_sha256": "638caf86209de7390a9e73a60f05b1c67a57a2176cdd40fc0d5894acb1f8971d",
+          "binary_sha256": "eb6efadef13820321d17eea939c9959c7cbd2ba0d76a9db046c1d6478d7141ec"
+        },
+        "reference_api_o3_io": {
+          "source_sha256": "42848b5151193344307197e32f748bf7d7af4533d2367477f31b333c45324955",
+          "binary_sha256": "f0dedfecd7f36305c2b9eb031a55186284491ac41912f97240c4c543bd611d63"
+        }
+      },
+      "whole": {
+        "current": {
+          "samples_ms": [
+            22.172698998474516,
+            22.409963996324223,
+            22.406367999792565,
+            22.07084799738368,
+            22.590213004150428,
+            21.81537900469266,
+            22.057939997466747,
+            22.119620996818412,
+            22.10764399933396,
+            22.12543999485206,
+            22.94573200197192,
+            22.521645994856954,
+            23.252273997059092,
+            22.885767997649964,
+            21.927079003944527,
+            22.375476997694932,
+            22.589186002733186,
+            21.893208999244962,
+            24.728213997150306,
+            21.995611001329962,
+            22.165833004692104
+          ],
+          "median_ms": 22.172698998474516,
+          "min_ms": 21.81537900469266,
+          "max_ms": 24.728213997150306
+        },
+        "reference_exact": {
+          "samples_ms": [
+            13.382818004174624,
+            14.465642998402473,
+            13.698899005248677,
+            13.346013001864776,
+            13.362828998651821,
+            12.968992006790359,
+            13.583185995230451,
+            12.982511005247943,
+            12.815613001293968,
+            13.140556999132968,
+            12.962512999365572,
+            13.724978001846466,
+            14.655941995442845,
+            14.141346000542399,
+            12.841128002037294,
+            12.777894000464585,
+            12.95631899847649,
+            13.193082995712757,
+            13.684785000805277,
+            12.65098500152817,
+            12.826569000026211
+          ],
+          "median_ms": 13.193082995712757,
+          "min_ms": 12.65098500152817,
+          "max_ms": 14.655941995442845
+        },
+        "reference_normal": {
+          "samples_ms": [
+            13.475145999109372,
+            13.186636002501473,
+            12.93347900355002,
+            14.105435002420563,
+            13.661744000273757,
+            13.43539600202348,
+            13.735904001805466,
+            13.711758001591079,
+            13.151783998182509,
+            13.956933995359577,
+            13.112405002175365,
+            13.585606000560801,
+            13.574821001384407,
+            13.422855001408607,
+            12.88052599556977,
+            13.349536005989648,
+            13.336396004888229,
+            12.993565003853291,
+            13.501061002898496,
+            12.998502003028989,
+            13.055412004177924
+          ],
+          "median_ms": 13.422855001408607,
+          "min_ms": 12.88052599556977,
+          "max_ms": 14.105435002420563
+        },
+        "reference_api": {
+          "samples_ms": [
+            22.596061004151125,
+            22.013222995155957,
+            21.65880399843445,
+            21.474618995853234,
+            22.677111999655608,
+            21.92766599910101,
+            21.88433000264922,
+            22.07501399971079,
+            21.977618998789694,
+            23.19511400128249,
+            23.437895993993152,
+            22.533672003191896,
+            22.58367699687369,
+            22.5630459972308,
+            22.31599800143158,
+            21.914709999691695,
+            22.260426005232148,
+            22.09311600017827,
+            22.499512000649702,
+            22.86861000175122,
+            21.450085994729307
+          ],
+          "median_ms": 22.260426005232148,
+          "min_ms": 21.450085994729307,
+          "max_ms": 23.437895993993152
+        },
+        "reference_api_o3": {
+          "samples_ms": [
+            21.663001003616955,
+            21.278236999933142,
+            20.792672999959905,
+            20.358897003461607,
+            20.72462299838662,
+            20.723289999295957,
+            20.454758996493183,
+            21.291946999554057,
+            21.06124300189549,
+            21.12657100224169,
+            21.357876001275145,
+            21.003862006182317,
+            21.993287999066524,
+            20.883893994323444,
+            20.655383996199816,
+            20.728533003421035,
+            20.68409600178711,
+            20.62196299812058,
+            21.05592099542264,
+            20.477275000303052,
+            20.310906998929568
+          ],
+          "median_ms": 20.792672999959905,
+          "min_ms": 20.310906998929568,
+          "max_ms": 21.993287999066524
+        },
+        "reference_api_fast_io": {
+          "samples_ms": [
+            18.80150500073796,
+            17.95117699657567,
+            18.48253900243435,
+            18.367829005001113,
+            17.7076549953199,
+            19.073851995926816,
+            18.149151997931767,
+            17.929164998349734,
+            17.969945001823362,
+            17.941083999176044,
+            18.150264004361816,
+            18.21824599755928,
+            18.22853699559346,
+            18.748602000414394,
+            17.897453995828982,
+            17.86699800140923,
+            17.88368300185539,
+            17.652898997766897,
+            21.991800000250805,
+            17.612618998100515,
+            17.936035997990984
+          ],
+          "median_ms": 17.969945001823362,
+          "min_ms": 17.612618998100515,
+          "max_ms": 21.991800000250805
+        },
+        "reference_api_o3_io": {
+          "samples_ms": [
+            23.031469994748477,
+            22.335442998155486,
+            24.59587100020144,
+            22.201262996532023,
+            22.725855000317097,
+            22.202275002200622,
+            21.69909400254255,
+            22.13698699779343,
+            22.432207995734643,
+            22.47204699961003,
+            22.399497996957507,
+            22.465650996309705,
+            21.952456001599785,
+            21.60183500382118,
+            21.878886997001246,
+            22.123933005786967,
+            21.778647002065554,
+            21.504989999812096,
+            22.249900001042988,
+            21.874971003853716,
+            21.773838001536205
+          ],
+          "median_ms": 22.201262996532023,
+          "min_ms": 21.504989999812096,
+          "max_ms": 24.59587100020144
+        }
+      }
+    },
+    "boundary": {
+      "baseline": "3dd3db7c749ba3c00d432fc82b085146f86c4b0e",
+      "flags": [
+        "-std=c++23",
+        "-O2",
+        "-DEVAL",
+        "-DONLINE_JUDGE",
+        "-ftrivial-auto-var-init=zero",
+        "-march=haswell"
+      ],
+      "cpu": 2,
+      "trials": 21,
+      "input_sha256": "71cb0227a5a1e40ece225e19cd9d2633dfd4f07f25d39f01719bc2376e1d4ac8",
+      "reference_sha256": "86ef3c3b4a4707ef5e7515e5229b2564f2a5f46bd830bb6cbe64b506a95675b6",
+      "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+      "sources": {
+        "fps/compositional_inverse.hpp": "a8edc10649d670b3dd1b2f02f89f923099e07ea19420242ee3251d20b10e443c",
+        "fps/linear_recurrence.hpp": "dc99057fe2a38c66d8d7feb9a5508d7e7b6501815d3d0efbe967b5cb3445e553",
+        "fps/compose.hpp": "08b85c447a05aa421637ef80e5697a4501fbcf4859d1fedd91222bda651b1041",
+        "fps/taylor_shift.hpp": "04928bd6ff0e313d6880ee4c7d78ad0dab189ea18c0cd64aa6cb4997fcfaedaf",
+        "fps/fps.hpp": "e671ecb2640cd98c9914ede1b00425bb15abc8574813d179e9e80b97562a127a",
+        "fps/interpolate.hpp": "2ee8bf3dc503e6f88d7fb0857c6cff99e8f2e4fea73e6af05a66301ada962e0d",
+        "fps/power_projection.hpp": "1ca47acbf95ed443c71c2e04e1e711986c8776f56533aed4915ac8a56090a73d",
+        "fps/bostan_mori.hpp": "8d3e89e20add5124dff1100f3a8282fa67a7937133b68a051232368ae2fe63fe",
+        "fps/polynomial_gcd.hpp": "f4592e06895a244282167969da984ed3bb4f99823f62fa6f2be4276cd5a9df4c",
+        "fps/multipoint_eval.hpp": "4cb93dd9d9d2b0bbbece729c7de93217a19cd4915cf9ace9aa797c0eefcb049e",
+        "components/polynomial_half_gcd.hpp": "70830eb0ea8dcdb50128030dd0fb37c7ada1909b16786eed154f938bd595b1de",
+        "components/fps_log.hpp": "28e49dc386a8c0fefab327b80fec8f7cd18f3ca0b0e514dfa68d23fdb721531d",
+        "components/fps_direct_eval.hpp": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380",
+        "components/undirected_csr.hpp": "2e53a2ce4fbaf18b7f30808cade253977b6cfe422eb3a199b1c79384a0093ec7",
+        "components/smawk.hpp": "695a3ebbf247d8bea41994ec058582dcce69a219b7c06473a49fbd0d34a70f89",
+        "components/mod_linear_prefix_min.hpp": "07fbfee2ead2eb9a673cf4d40e44bc137b819455249826193a92f755ee1f6ff2",
+        "components/flow_graph.hpp": "1d3c369de91b6f221cec348c503a9033ee7b59ccc908484a77275b7b1022fdf8",
+        "components/bitwise_zeta.hpp": "1599d735dd409a85606724f049f50ed10560818bbb91b2a8e9630dfd40eec761",
+        "components/default_init_allocator.hpp": "7eb7ea8260decc57a9809a12fbf74b112b791723aa78a2c843270bdd714cd4f5",
+        "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+        "components/fps_operations.hpp": "f318a3825777e5f093ba4e93c0fee2df6bd97c298c2ee92d4da18795d7ad0051",
+        "components/ntt.hpp": "8d878ad0344cd69871ad491ed79fdfb20b061a4abc722c403727a9214306de5e",
+        "components/small_vector.hpp": "f6602e1a44b1a6da238995b4fe05d8cff0117019a9e9e9943edf162dbb42e7bb",
+        "components/montgomery32.hpp": "23d370166dec7837f0b47a9952d350c9ffafa96ccec02bc0a487de9ec1f7895a",
+        "components/monotone_minima.hpp": "c8c1243645131313a9e1671b9a8e392388b7ee386e9d7e4ba013534c64c3d592",
+        "components/fps_product_tree.hpp": "d72a0a371bcf404028ca1fd970355b01efc097dbc7431a59c26ad3be347d9d58",
+        "components/sequence_match.hpp": "d74576a5e82377109abce1ca14f2b947b2ba918ba9e27070ea3c8d798397412f",
+        "components/push_relabel.hpp": "d00ab45a27a701c9013be3dc01a2f7f7d5cb0cc27a4b85eeafcb51118145d1a9",
+        "components/static_top_tree_structure.hpp": "cf06f7ffee6ceb893ba7c3627aff39240ad72cae57452ffc5c0e4bdbcdc9b6e2",
+        "components/divisor_zeta.hpp": "883f68f4e0d54c6bdd13da55e65b44fa57febd282d927e52bb28cfa4ff82026f",
+        "components/min_cost_circulation.hpp": "7667acbfc85ce2cae75187c8a7de962df0f894e4841a63b5a964cef8cae94978",
+        "components/stern_brocot_path.hpp": "3032ce1f5177914194e79e1f4e8d71fb5a6f771f05010f907a05029249dbf83c",
+        "components/quad_bit_vector.hpp": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+        "components/RadixHeap.hpp": "b335c2d100e9630924bd51000c3986c5ad66659b68e29a3444fe1153cdb8a46e",
+        "components/limb_arithmetic.hpp": "7f0095e64bc8ddb7e5c7ee1b0901b973125cd1cdd93a979b1bf1231faae7778f",
+        "components/xor_basis_core.hpp": "2d738ffa2c08a80393f42c0a95a552492694369de391cb012381cb38799cd0cf",
+        "components/montgomery.hpp": "5be93ff94b1a4c2dcc3a85fa8431fbad3452bc1322b8a97ba0bfece9cc8e511b",
+        "components/fps_factorials.hpp": "d6719de093bbe4d95542a0b51b84e0401e35928abd311b599abd149807596ddb",
+        "components/matrix_arithmetic.hpp": "a02fc4c897b3c3d82a8c0ad8c2b36f9440fe64f369f7a7fa75284878e6f90f57",
+        "components/walsh_hadamard.hpp": "a3b29c25bc724fbcdb2ee7f9d29e86189c5734e2560ea155b4e10cedf38b41b8",
+        "components/fast_io.hpp": "56ed72cde8b330493e8dfdca79d97a5d7e3098dfc58fc57000948c34a5e130a1",
+        "components/predecessor_set.hpp": "11f5a74271be53a73cd7bd9a5f372f10a3d32896ce4c61866b5ae911629f1350",
+        "components/weighted_blossom.hpp": "027b217b7dd06709e7fa6c06b6e1c521475f0cd081362d14cc6746ef13438720",
+        "components/ntt_mod.hpp": "40cbfd5344aff36ab539243debfd71c2aeed397845d52963b5aefd4c1b63395d",
+        "components/splitmix64.hpp": "84e473d5ce9fcc1bc86e1a7c11c09aa032d9adc40b8e69a7114c137dbd1ba239",
+        "components/mod_fast_core.hpp": "b960071bd83b87bdcef0ddc2dfc56970dcfced148ef7ed580b4aa37df21fb860",
+        "components/barrett32.hpp": "ecffcdd9f837433eaf48ff883b52ca578c31febdce157c876200edf2b9082235",
+        "components/fft.hpp": "fbf555f3e9943a25fe828ed810bb2308c173dd45915def99d801ac57f125d259",
+        "components/mo_order.hpp": "4cf62e6bc4b9908f22f0fb85a93d616c276ef60afbb1a41180dfda81c811f588",
+        "components/static_range_min.hpp": "45e3d5a108984056325832931c87c855078a169ec933b4ebd1ebaed10109163e",
+        "components/binomial_prefix_core.hpp": "3b619188ae67835b073cbf27562b1f675c8ab10a65b60b28539bcd6ba30958c3",
+        "components/d_ary_heap.hpp": "944b7f6f89b265382a044f44ba5e83614473a16bdf583a10499a9e0f7fc89457",
+        "components/fps_workspace.hpp": "74c6d3646d8f20a9b3a3df15bba26c25ad7b01cca032c7d0567b8f4b65b31923",
+        "math/prime_sieve.hpp": "5e742307e8000973b95e820f26a394443b53a4498ab6d9fb998d78a75fce93df",
+        "math/monoid_floor_sum.hpp": "34abc70b077143cf19e99191e26a9c72ae2eec62d9aad17eec9965f7a9949580",
+        "math/matrix.hpp": "51ec3df6083c23f1d5e7fb41463ce3dddf8f11edb087d4495e8d38b81a9b1887",
+        "math/is_prime.hpp": "307a1400592b593bcba5f3568fa11f992328cceff1cd6c400c8e04d5d3c60627",
+        "math/kth_root.hpp": "67f3a2961c6e4e794c97ed9eb2568026da57fce6788f0e33f7d6b0bfe5b339d8",
+        "math/xor_basis.hpp": "ca3716ebce772b2ba5b404120bc26347d83126a2805fd85e5010b52ce6759058",
+        "math/factorize.hpp": "b9a934a9c6a4b960b0ff65d0bee0a72734308ed90f7b88dad2342c95f3365414",
+        "math/binomial_prefix_sum.hpp": "cb339a005584bdb6285d62cc9564b78c8ca0bb86f48da0cfc051f0402b2841a7",
+        "math/fraction.hpp": "75936e45326c6b62251dce7d103c7c009729b4348206216392d972258175cc2d",
+        "math/mint.hpp": "67cec2452dda0af8b4cd307449fc65b3f1d678613e0392fdd666031dae062171",
+        "math/min_of_mod_of_linear.hpp": "971ca6e0a9f88128a1b584d8360d65f3356199827183db1f2da48a034101b47e",
+        "math/discrete_log.hpp": "d16af40dddaa8136f80478bca72422e6406514b88506faa9a9aac65ce962f5b6",
+        "math/partition_mod_of_linear.hpp": "a6fc0d7fa1b50f2402ca49c6a3fbdb880240811f2c0872ff65d2cad1b207fa9f",
+        "math/mod_pow.hpp": "8dd5fe7994928adb61e17b68e09ee213ab056aeca297c216ab0556efb0e8adf0",
+        "math/mod_inv.hpp": "bda8bf0658d160c648a0fa5b2614a946b72561e505f8b8da06d6db3bb7482ec8",
+        "math/comb.hpp": "64ca05ffc38b2bc2df305adeafc12e4a7449155a2ca2e8a03862f0387becf3a1",
+        "math/generalized_floor_sum.hpp": "961e9b1c9f36943d05d65929e975afe7af2735fef3880e436bff8143b23ea9da",
+        "math/mod_sqrt.hpp": "c2b414db307c613ee14f535073fb80458bbd0ef768c352b1822cf658fcceb68b",
+        "math/prefix_min_of_mod_of_linear.hpp": "6e4c10f6390b73ae6bf26fa515865c6e8fe99c18e042a7607e331757a5423fd8",
+        "math/stern_brocot_tree.hpp": "7f0648852c2727ff944cfde1c7e670298fd45cc05eb14852ffeef7c72ae0e518",
+        "convolution/min_plus_convolution.hpp": "ed441328442ee36f647a694a61079f3585ebff0ae696a943522812d06c6eb2c5",
+        "convolution/convolution_ring.hpp": "877f2c3cefa12dfc9db13127035e49af10dacb7a488fd3c8acb25b545ff9fd11",
+        "convolution/convolution_fft.hpp": "ca18157bbd16c951473e0f5602dc42458cde0027134c29609f1521b9f475f492",
+        "convolution/multiplicative_convolution.hpp": "5a5f34b1579b48986183b6b927fcdca7c25abae87be6fe77863256acdbd33cc1",
+        "convolution/subset_convolution.hpp": "5e646830279799f3106949c8fe3f310de0c3839ef5abc99b8c1a569786f533e8",
+        "convolution/cyclic_convolution.hpp": "6dc96d46bc899520e3a3036a88872a168d21a4a36520eeaf8ca2c2fcf0f3ab34",
+        "convolution/multivariate_convolution.hpp": "5b3ca59d4624ddee7529e224748b7bdbcb2171892e78cdc7a60b47f065076298",
+        "convolution/bitwise_convolution.hpp": "036afd4eda1b5a11f9d661b43c7cf8d314c3323625fedfc48fa23bdf5b3977e4",
+        "convolution/convolution.hpp": "c140eab3f37df554de4763658c9f6cf03a5e5c46e063c4470139f383e5537645",
+        "convolution/ordered_convolution.hpp": "7d34610c73a58b3a2635f947d73c2028c281e7d7072c933c88ed17451d6fc78f",
+        "convolution/boolean_convolution.hpp": "f4f7390573d867c233b8fb8c37001f07e394d7a3c1ab0290f5c303ae34744bf5",
+        "convolution/gcd_lcm_convolution.hpp": "5010f6f45a4a60eb652a1f6694f37c77f9b2bc366b72f937973688575bb8373b",
+        "convolution/online_convolution.hpp": "cdd826fe1e90ef7162aae835895ae611f9ed5472aa3a6ff3227f022b16f57af9",
+        "convolution/max_min_convolution.hpp": "572a7f15fa2f7b337d10a1b159437f7bd3d9f70551098c2b79e84ac78883e171",
+        "convolution/convolution_mod.hpp": "69aaa91c1855be4c2bbeddb1829fbf82045958c218623e0c8956424cf08b7139",
+        "test/matrix_common.hpp": "e822e432c00b27be95eed1f5409c62d1d3f02f29034affeee426734a9575c3a7",
+        "test/fps_io.hpp": "5e4d04cebbaf941c5947b74d7c4c8dcf92b82d314335a37dc4aded4d59ec3c9a",
+        "test/static_top_tree_dp.hpp": "d88a0f3fa8992ebc9cba72ecbfb05ad7255ea494c22ef1b1668d4bb0a6c8b65a"
+      },
+      "variants": {
+        "current": {
+          "source_sha256": "b38668fd47c26177e2a1dc3816717d204d2495385a7704cf41f9a75f0ccd043f",
+          "binary_sha256": "097d58e84e33e74eec5e21c37b163ddc001e4faccf8a42db0871010602ee0ea5"
+        },
+        "reference_exact": {
+          "source_sha256": "86ef3c3b4a4707ef5e7515e5229b2564f2a5f46bd830bb6cbe64b506a95675b6",
+          "binary_sha256": "21389ded641e34765f12fd4a20dfbdc2d5589acadc4abeeec622ed06580758bd"
+        },
+        "reference_normal": {
+          "source_sha256": "56d5012ec72e8748f314544596cda1d4d7a3d137cc207bce65d36e0ca9aa1dd4",
+          "binary_sha256": "d3062ec823ccdd085048648b43f634aa99515209aaaacdc8086fc497ab8c494c"
+        },
+        "reference_api_fast_io": {
+          "source_sha256": "638caf86209de7390a9e73a60f05b1c67a57a2176cdd40fc0d5894acb1f8971d",
+          "binary_sha256": "eb6efadef13820321d17eea939c9959c7cbd2ba0d76a9db046c1d6478d7141ec"
+        },
+        "reference_api_fast_boundaries": {
+          "source_sha256": "3ed411fb75a29bf33a07ec61a08e06f49a6ce5e66f3cd249492115ad085c5427",
+          "binary_sha256": "90040b961ec26ef41ca3ef044e9e1e5ba8e57148bb64fbedc708afc30f8e041d"
+        }
+      },
+      "whole": {
+        "current": {
+          "samples_ms": [
+            22.48618000157876,
+            22.0965789994807,
+            21.91043199854903,
+            22.123239999928046,
+            22.74515599856386,
+            22.36516999982996,
+            22.142729001643602,
+            22.235046002606396,
+            22.180204003234394,
+            22.05285499803722,
+            22.332050000841264,
+            22.098171997640748,
+            21.81980699970154,
+            21.93695200548973,
+            22.3532520030858,
+            22.183308996318374,
+            22.891173997777514,
+            22.288125997874886,
+            22.623014003329445,
+            22.372981999069452,
+            22.660000002360903
+          ],
+          "median_ms": 22.235046002606396,
+          "min_ms": 21.81980699970154,
+          "max_ms": 22.891173997777514
+        },
+        "reference_exact": {
+          "samples_ms": [
+            12.988611997570843,
+            12.961111999175046,
+            13.265174995467532,
+            13.27275599760469,
+            12.981842002773192,
+            13.134629996784497,
+            13.027080000028946,
+            12.982103005924728,
+            13.036072996328585,
+            12.88913399912417,
+            13.128561004123185,
+            13.032818998908624,
+            13.39141299831681,
+            12.7899669969338,
+            13.006589004362468,
+            13.109612998960074,
+            13.503810005204286,
+            13.075451999611687,
+            13.471701997332275,
+            20.32721200521337,
+            13.457772001856938
+          ],
+          "median_ms": 13.075451999611687,
+          "min_ms": 12.7899669969338,
+          "max_ms": 20.32721200521337
+        },
+        "reference_normal": {
+          "samples_ms": [
+            13.620614001411013,
+            13.25263600301696,
+            13.23654199950397,
+            13.16398399649188,
+            13.379155003349297,
+            13.14692800224293,
+            13.22964199789567,
+            13.09206699806964,
+            12.878898000053596,
+            13.064204998954665,
+            13.465373005601577,
+            13.246517002698965,
+            13.391793996561319,
+            13.14459500281373,
+            13.247228002001066,
+            13.321759004611522,
+            13.38819800002966,
+            13.506704999599606,
+            13.584159998572432,
+            13.491511999745853,
+            13.823716995830182
+          ],
+          "median_ms": 13.25263600301696,
+          "min_ms": 12.878898000053596,
+          "max_ms": 13.823716995830182
+        },
+        "reference_api_fast_io": {
+          "samples_ms": [
+            17.72849800181575,
+            17.691073000605684,
+            18.024860000878107,
+            17.675850001978688,
+            18.11310199991567,
+            18.340771006478462,
+            17.7946370022255,
+            17.92623299843399,
+            17.921354999998584,
+            18.27680499991402,
+            17.869037998025306,
+            18.331507002585568,
+            18.167453003115952,
+            17.990018001000863,
+            19.925543005228974,
+            18.39909800037276,
+            18.395131999568548,
+            18.70249999774387,
+            18.28327499970328,
+            18.38500699523138,
+            17.99453499552328
+          ],
+          "median_ms": 18.11310199991567,
+          "min_ms": 17.675850001978688,
+          "max_ms": 19.925543005228974
+        },
+        "reference_api_fast_boundaries": {
+          "samples_ms": [
+            17.230406003363896,
+            17.364434999763034,
+            17.365836996759754,
+            17.31297899823403,
+            17.349782996461727,
+            17.316052995738573,
+            17.94194599642651,
+            17.272158002015203,
+            17.256434002774768,
+            17.044749001797754,
+            17.464465003286023,
+            17.300179999438114,
+            17.83140100451419,
+            18.064308998873457,
+            17.61276500474196,
+            17.592165000678506,
+            17.99624699924607,
+            17.64964099857025,
+            17.478745001426432,
+            17.647558001044672,
+            17.55768399743829
+          ],
+          "median_ms": 17.464465003286023,
+          "min_ms": 17.044749001797754,
+          "max_ms": 18.064308998873457
+        }
+      }
+    },
+    "phases": {
+      "phase_names": [
+        "initial_inverse",
+        "setup",
+        "forward_windows",
+        "residual",
+        "quotient",
+        "cache_forward",
+        "integration"
+      ],
+      "samples": {
+        "current": [
+          {
+            "setup": 0.0,
+            "input": 4.191839,
+            "compute": 12.653443,
+            "output": 3.600718,
+            "phase": [
+              2.416332,
+              1.493376,
+              1.641067,
+              2.220119,
+              3.452759,
+              1.045149,
+              0.336299
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.157356,
+            "compute": 12.385213,
+            "output": 3.71007,
+            "phase": [
+              2.370063,
+              1.40892,
+              1.648106,
+              2.416792,
+              3.205479,
+              0.963086,
+              0.323573
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.171498,
+            "compute": 12.290541,
+            "output": 3.634097,
+            "phase": [
+              2.414759,
+              1.360228,
+              1.687415,
+              2.318165,
+              3.171629,
+              0.964007,
+              0.323983
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.221273,
+            "compute": 12.595535,
+            "output": 3.433779,
+            "phase": [
+              2.53616,
+              1.453927,
+              1.652043,
+              2.235231,
+              3.38773,
+              0.96516,
+              0.319536
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.100643,
+            "compute": 12.343489,
+            "output": 3.566096,
+            "phase": [
+              2.419066,
+              1.385225,
+              1.632394,
+              2.289292,
+              3.300229,
+              0.948514,
+              0.318695
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.157819,
+            "compute": 12.360424,
+            "output": 3.519857,
+            "phase": [
+              2.410082,
+              1.409251,
+              1.645313,
+              2.3696,
+              3.179429,
+              0.933413,
+              0.358114
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.095495,
+            "compute": 12.345071,
+            "output": 3.411837,
+            "phase": [
+              2.429021,
+              1.374589,
+              1.635898,
+              2.315722,
+              3.284636,
+              0.933962,
+              0.324174
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.213481,
+            "compute": 12.299024,
+            "output": 3.499005,
+            "phase": [
+              2.383753,
+              1.371195,
+              1.661977,
+              2.383792,
+              3.171118,
+              0.958799,
+              0.323853
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.17296,
+            "compute": 12.295788,
+            "output": 3.675229,
+            "phase": [
+              2.389672,
+              1.399916,
+              1.656329,
+              2.328611,
+              3.194403,
+              0.952389,
+              0.322581
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.115725,
+            "compute": 12.787962,
+            "output": 3.708658,
+            "phase": [
+              2.660897,
+              1.407017,
+              1.641848,
+              2.297454,
+              3.425627,
+              0.951779,
+              0.326847
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.133482,
+            "compute": 12.419002,
+            "output": 3.561099,
+            "phase": [
+              2.447458,
+              1.38866,
+              1.669579,
+              2.28083,
+              3.27402,
+              0.96559,
+              0.323682
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.197197,
+            "compute": 13.077363,
+            "output": 3.699846,
+            "phase": [
+              2.407549,
+              1.378124,
+              1.669889,
+              2.38853,
+              3.237045,
+              1.58983,
+              0.34206
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.171539,
+            "compute": 13.795084,
+            "output": 4.990278,
+            "phase": [
+              3.545336,
+              1.416551,
+              1.695358,
+              2.296722,
+              3.379028,
+              1.089184,
+              0.323622
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.158509,
+            "compute": 12.371361,
+            "output": 3.521339,
+            "phase": [
+              2.383633,
+              1.378606,
+              1.651141,
+              2.330023,
+              3.244526,
+              0.951999,
+              0.359366
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.299569,
+            "compute": 12.582786,
+            "output": 3.671003,
+            "phase": [
+              2.523171,
+              1.402921,
+              1.746564,
+              2.314868,
+              3.27282,
+              0.934264,
+              0.328029
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.215013,
+            "compute": 12.426913,
+            "output": 3.567589,
+            "phase": [
+              2.417103,
+              1.410142,
+              1.637481,
+              2.350946,
+              3.251926,
+              0.959089,
+              0.350713
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.199459,
+            "compute": 14.884888,
+            "output": 4.760817,
+            "phase": [
+              2.581859,
+              1.4625,
+              1.958118,
+              3.46247,
+              4.024309,
+              0.946862,
+              0.333989
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.453469,
+            "compute": 13.088901,
+            "output": 3.762448,
+            "phase": [
+              2.559055,
+              1.452305,
+              1.799061,
+              2.425345,
+              3.385116,
+              1.057838,
+              0.33571
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.197046,
+            "compute": 14.94026,
+            "output": 5.102176,
+            "phase": [
+              3.379758,
+              1.551172,
+              1.910668,
+              2.318285,
+              4.401072,
+              0.980502,
+              0.328909
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.632235,
+            "compute": 13.137634,
+            "output": 3.760014,
+            "phase": [
+              2.493536,
+              1.403543,
+              1.664781,
+              2.466267,
+              3.348131,
+              1.379916,
+              0.325155
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.337255,
+            "compute": 12.662595,
+            "output": 3.745414,
+            "phase": [
+              2.488289,
+              1.411093,
+              1.664241,
+              2.334019,
+              3.360159,
+              0.962415,
+              0.349901
+            ]
+          }
+        ],
+        "reference": [
+          {
+            "setup": 0.194971,
+            "input": 1.056805,
+            "compute": 8.690595,
+            "output": 1.380999,
+            "phase": [
+              1.67031,
+              0.0,
+              1.199958,
+              1.987714,
+              2.737089,
+              0.729608,
+              0.365335
+            ]
+          },
+          {
+            "setup": 0.289532,
+            "input": 1.17401,
+            "compute": 9.927057,
+            "output": 1.466086,
+            "phase": [
+              1.674997,
+              0.0,
+              1.215462,
+              2.997427,
+              2.814727,
+              0.85867,
+              0.365404
+            ]
+          },
+          {
+            "setup": 0.19456,
+            "input": 1.100811,
+            "compute": 8.689684,
+            "output": 1.339777,
+            "phase": [
+              1.642208,
+              0.0,
+              1.199008,
+              1.989856,
+              2.745333,
+              0.730268,
+              0.382711
+            ]
+          },
+          {
+            "setup": 0.194691,
+            "input": 1.093159,
+            "compute": 8.765386,
+            "output": 1.393397,
+            "phase": [
+              1.666194,
+              0.0,
+              1.251465,
+              2.016356,
+              2.701748,
+              0.746624,
+              0.382619
+            ]
+          },
+          {
+            "setup": 0.211325,
+            "input": 1.068423,
+            "compute": 8.70816,
+            "output": 1.437503,
+            "phase": [
+              1.654737,
+              0.0,
+              1.195932,
+              2.016045,
+              2.746794,
+              0.729267,
+              0.364925
+            ]
+          },
+          {
+            "setup": 0.192767,
+            "input": 1.032189,
+            "compute": 8.694249,
+            "output": 1.353708,
+            "phase": [
+              1.65068,
+              0.0,
+              1.209864,
+              2.004979,
+              2.69706,
+              0.728905,
+              0.402661
+            ]
+          },
+          {
+            "setup": 0.225707,
+            "input": 1.041412,
+            "compute": 8.656082,
+            "output": 1.324134,
+            "phase": [
+              1.625453,
+              0.0,
+              1.222943,
+              1.992842,
+              2.70393,
+              0.744189,
+              0.366025
+            ]
+          },
+          {
+            "setup": 0.209993,
+            "input": 1.024277,
+            "compute": 8.803593,
+            "output": 1.3414,
+            "phase": [
+              1.648908,
+              0.0,
+              1.195663,
+              2.03254,
+              2.825573,
+              0.729668,
+              0.370841
+            ]
+          },
+          {
+            "setup": 0.193358,
+            "input": 1.042795,
+            "compute": 8.732848,
+            "output": 1.343733,
+            "phase": [
+              1.680986,
+              0.0,
+              1.204165,
+              2.008054,
+              2.735127,
+              0.73853,
+              0.365726
+            ]
+          },
+          {
+            "setup": 0.197885,
+            "input": 1.06663,
+            "compute": 8.954518,
+            "output": 1.368901,
+            "phase": [
+              1.824209,
+              0.0,
+              1.218787,
+              2.016806,
+              2.747937,
+              0.780774,
+              0.365915
+            ]
+          },
+          {
+            "setup": 0.197173,
+            "input": 1.203295,
+            "compute": 8.765596,
+            "output": 1.411875,
+            "phase": [
+              1.665432,
+              0.0,
+              1.206108,
+              2.021824,
+              2.772273,
+              0.729226,
+              0.370042
+            ]
+          },
+          {
+            "setup": 0.19418,
+            "input": 1.070125,
+            "compute": 8.669482,
+            "output": 1.295611,
+            "phase": [
+              1.640456,
+              0.0,
+              1.192096,
+              1.99146,
+              2.733664,
+              0.729666,
+              0.38174
+            ]
+          },
+          {
+            "setup": 0.225587,
+            "input": 1.12053,
+            "compute": 8.800448,
+            "output": 1.447057,
+            "phase": [
+              1.669118,
+              0.0,
+              1.249152,
+              2.018489,
+              2.720605,
+              0.770439,
+              0.372255
+            ]
+          },
+          {
+            "setup": 0.19455,
+            "input": 1.051297,
+            "compute": 8.866077,
+            "output": 1.351324,
+            "phase": [
+              1.681807,
+              0.0,
+              1.20729,
+              1.990117,
+              2.837279,
+              0.775826,
+              0.373376
+            ]
+          },
+          {
+            "setup": 0.193919,
+            "input": 1.055594,
+            "compute": 8.775421,
+            "output": 1.384744,
+            "phase": [
+              1.653164,
+              0.0,
+              1.219378,
+              2.009596,
+              2.755177,
+              0.759001,
+              0.378715
+            ]
+          },
+          {
+            "setup": 0.193949,
+            "input": 1.054752,
+            "compute": 9.173915,
+            "output": 1.420918,
+            "phase": [
+              1.673985,
+              0.0,
+              1.20102,
+              2.10666,
+              3.066071,
+              0.745701,
+              0.380077
+            ]
+          },
+          {
+            "setup": 0.193358,
+            "input": 1.128792,
+            "compute": 9.697465,
+            "output": 2.334605,
+            "phase": [
+              1.648587,
+              0.0,
+              1.207831,
+              2.035382,
+              3.63536,
+              0.779403,
+              0.390381
+            ]
+          },
+          {
+            "setup": 0.197335,
+            "input": 1.102052,
+            "compute": 9.143659,
+            "output": 1.613375,
+            "phase": [
+              1.678212,
+              0.0,
+              1.350793,
+              2.145528,
+              2.872341,
+              0.730459,
+              0.365896
+            ]
+          },
+          {
+            "setup": 0.244174,
+            "input": 1.077616,
+            "compute": 8.919636,
+            "output": 1.467498,
+            "phase": [
+              1.636108,
+              0.0,
+              1.253419,
+              1.971859,
+              2.831881,
+              0.828786,
+              0.397072
+            ]
+          },
+          {
+            "setup": 0.2418,
+            "input": 1.204396,
+            "compute": 9.408024,
+            "output": 1.557221,
+            "phase": [
+              1.745421,
+              0.0,
+              1.543771,
+              2.030086,
+              2.866093,
+              0.806563,
+              0.415379
+            ]
+          },
+          {
+            "setup": 0.199267,
+            "input": 1.098327,
+            "compute": 9.10376,
+            "output": 1.464783,
+            "phase": [
+              1.732212,
+              0.0,
+              1.244345,
+              2.134531,
+              2.780916,
+              0.79115,
+              0.420125
+            ]
+          }
+        ]
+      },
+      "medians": {
+        "current": {
+          "setup": 0.0,
+          "input": 4.191839,
+          "compute": 12.582786,
+          "output": 3.671003,
+          "phase": {
+            "initial_inverse": 2.429021,
+            "setup": 1.407017,
+            "forward_windows": 1.661977,
+            "residual": 2.328611,
+            "quotient": 3.284636,
+            "cache_forward": 0.962415,
+            "integration": 0.326847
+          }
+        },
+        "reference": {
+          "setup": 0.197173,
+          "input": 1.070125,
+          "compute": 8.800448,
+          "output": 1.393397,
+          "phase": {
+            "initial_inverse": 1.666194,
+            "setup": 0.0,
+            "forward_windows": 1.209864,
+            "residual": 2.016356,
+            "quotient": 2.755177,
+            "cache_forward": 0.745701,
+            "integration": 0.373376
+          }
+        }
+      },
+      "source_sha256": {
+        "reference.cpp": "56296639496e02cb0354d61cfe46e9210c817732b0081bb4390cb187b40f777f",
+        "current.cpp": "fa55bba4759454fb34826f533fd6ed8596ae0442bf12771decb040a508e23ffe",
+        "include/fps/fps.hpp": "2c7b9d3f58f2175bb7d93a05b3506ac1be25707db98e19d54f08faee1ae6dc95"
+      }
+    },
+    "api_phases": {
+      "phase_names": [
+        "setup",
+        "import",
+        "backend",
+        "result_allocation",
+        "export",
+        "unused",
+        "unused"
+      ],
+      "samples": {
+        "o2": [
+          {
+            "setup": 0.0,
+            "input": 4.096577,
+            "compute": 12.035232,
+            "output": 3.801747,
+            "phase": [
+              0.203012,
+              0.848005,
+              9.083241,
+              1.173699,
+              0.702858,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.33347,
+            "compute": 12.89978,
+            "output": 4.047033,
+            "phase": [
+              0.227099,
+              1.024577,
+              9.640141,
+              1.295281,
+              0.678351,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.173822,
+            "compute": 11.965317,
+            "output": 3.449091,
+            "phase": [
+              0.202792,
+              0.861845,
+              8.998284,
+              1.171356,
+              0.706954,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.173512,
+            "compute": 12.151775,
+            "output": 3.70288,
+            "phase": [
+              0.213298,
+              0.799492,
+              9.181607,
+              1.24118,
+              0.692543,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.076887,
+            "compute": 12.61793,
+            "output": 3.703812,
+            "phase": [
+              0.21518,
+              0.815746,
+              9.655744,
+              1.206529,
+              0.697369,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.080032,
+            "compute": 11.985047,
+            "output": 3.526156,
+            "phase": [
+              0.213579,
+              0.825931,
+              9.043041,
+              1.199618,
+              0.67771,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.04518,
+            "compute": 12.363521,
+            "output": 3.400108,
+            "phase": [
+              0.196804,
+              0.835335,
+              9.399312,
+              1.231365,
+              0.677761,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.191358,
+            "compute": 11.832479,
+            "output": 3.653586,
+            "phase": [
+              0.206788,
+              0.850438,
+              8.754871,
+              1.253739,
+              0.743919,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.071409,
+            "compute": 11.916975,
+            "output": 3.407389,
+            "phase": [
+              0.202232,
+              0.844338,
+              8.96164,
+              1.176844,
+              0.708546,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.198228,
+            "compute": 11.770567,
+            "output": 3.765003,
+            "phase": [
+              0.200119,
+              0.935444,
+              8.737786,
+              1.166519,
+              0.707074,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.327351,
+            "compute": 12.396901,
+            "output": 3.692304,
+            "phase": [
+              0.225496,
+              1.007732,
+              9.241547,
+              1.173299,
+              0.721977,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.143196,
+            "compute": 12.019688,
+            "output": 3.6963,
+            "phase": [
+              0.202222,
+              0.8525,
+              8.933307,
+              1.167871,
+              0.8384,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.127653,
+            "compute": 12.132627,
+            "output": 3.519566,
+            "phase": [
+              0.195541,
+              0.843728,
+              9.192904,
+              1.181912,
+              0.695847,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.15211,
+            "compute": 12.198925,
+            "output": 3.647277,
+            "phase": [
+              0.201811,
+              0.848044,
+              9.193946,
+              1.249202,
+              0.680835,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.052641,
+            "compute": 11.796726,
+            "output": 3.401531,
+            "phase": [
+              0.199247,
+              0.841404,
+              8.877194,
+              1.162423,
+              0.695107,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.057388,
+            "compute": 11.977766,
+            "output": 3.637602,
+            "phase": [
+              0.199157,
+              0.833803,
+              9.06292,
+              1.1603,
+              0.696979,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.125189,
+            "compute": 12.370441,
+            "output": 3.596621,
+            "phase": [
+              0.2012,
+              0.847443,
+              9.396788,
+              1.196824,
+              0.703099,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.077979,
+            "compute": 11.860441,
+            "output": 3.538855,
+            "phase": [
+              0.196363,
+              0.844188,
+              8.935971,
+              1.16724,
+              0.693905,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.1259,
+            "compute": 12.016263,
+            "output": 3.489482,
+            "phase": [
+              0.197415,
+              0.861694,
+              9.061599,
+              1.193789,
+              0.67762,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.157428,
+            "compute": 12.226897,
+            "output": 4.01822,
+            "phase": [
+              0.204385,
+              0.862495,
+              9.099025,
+              1.251185,
+              0.776077,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.147924,
+            "compute": 11.772429,
+            "output": 3.452056,
+            "phase": [
+              0.199878,
+              0.856356,
+              8.831125,
+              1.16732,
+              0.695156,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "o3": [
+          {
+            "setup": 0.0,
+            "input": 4.2265,
+            "compute": 10.748183,
+            "output": 3.397895,
+            "phase": [
+              0.230964,
+              0.296672,
+              8.849282,
+              1.153309,
+              0.195892,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.107754,
+            "compute": 10.750606,
+            "output": 3.667548,
+            "phase": [
+              0.196983,
+              0.342771,
+              8.774511,
+              1.216563,
+              0.194971,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.050187,
+            "compute": 10.68553,
+            "output": 3.421791,
+            "phase": [
+              0.197965,
+              0.327669,
+              8.786198,
+              1.154351,
+              0.197825,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.144469,
+            "compute": 11.183341,
+            "output": 3.662379,
+            "phase": [
+              0.2014,
+              0.323953,
+              9.070832,
+              1.364965,
+              0.196723,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.27984,
+            "compute": 10.828573,
+            "output": 3.768358,
+            "phase": [
+              0.204185,
+              0.380096,
+              8.817756,
+              1.203945,
+              0.196022,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.087703,
+            "compute": 10.924726,
+            "output": 3.490023,
+            "phase": [
+              0.200008,
+              0.317013,
+              8.986697,
+              1.20116,
+              0.196153,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.089125,
+            "compute": 10.938216,
+            "output": 3.552296,
+            "phase": [
+              0.212758,
+              0.310302,
+              8.969972,
+              1.18031,
+              0.241349,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.27987,
+            "compute": 11.561735,
+            "output": 3.829149,
+            "phase": [
+              0.209663,
+              0.546014,
+              9.179143,
+              1.188562,
+              0.414879,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.11874,
+            "compute": 10.662726,
+            "output": 3.517083,
+            "phase": [
+              0.202251,
+              0.32155,
+              8.744897,
+              1.17414,
+              0.195271,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.456764,
+            "compute": 10.848232,
+            "output": 3.472276,
+            "phase": [
+              0.198787,
+              0.385765,
+              8.884354,
+              1.158637,
+              0.195892,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.06547,
+            "compute": 10.933349,
+            "output": 3.633346,
+            "phase": [
+              0.197695,
+              0.340217,
+              8.849773,
+              1.324875,
+              0.197704,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.456084,
+            "compute": 10.772799,
+            "output": 3.56887,
+            "phase": [
+              0.20125,
+              0.351935,
+              8.763734,
+              1.233929,
+              0.197875,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.043578,
+            "compute": 10.702104,
+            "output": 3.504404,
+            "phase": [
+              0.196563,
+              0.331234,
+              8.753549,
+              1.201822,
+              0.19468,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.11869,
+            "compute": 10.884285,
+            "output": 3.67552,
+            "phase": [
+              0.199747,
+              0.357013,
+              8.925856,
+              1.183223,
+              0.196023,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.109917,
+            "compute": 11.022842,
+            "output": 3.477414,
+            "phase": [
+              0.20118,
+              0.314078,
+              9.004553,
+              1.234401,
+              0.242882,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.307171,
+            "compute": 10.908812,
+            "output": 3.471165,
+            "phase": [
+              0.199958,
+              0.334189,
+              8.985825,
+              1.170294,
+              0.195953,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.163247,
+            "compute": 11.001681,
+            "output": 3.536652,
+            "phase": [
+              0.20174,
+              0.384624,
+              9.020658,
+              1.176543,
+              0.195101,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.130527,
+            "compute": 10.845939,
+            "output": 3.452036,
+            "phase": [
+              0.19463,
+              0.351805,
+              8.806217,
+              1.273199,
+              0.196463,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.211809,
+            "compute": 11.046077,
+            "output": 3.586006,
+            "phase": [
+              0.197334,
+              0.340228,
+              9.11659,
+              1.171166,
+              0.197635,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.124638,
+            "compute": 10.744618,
+            "output": 3.485235,
+            "phase": [
+              0.196693,
+              0.321058,
+              8.83415,
+              1.157856,
+              0.211315,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "setup": 0.0,
+            "input": 4.156516,
+            "compute": 10.886669,
+            "output": 3.739655,
+            "phase": [
+              0.204465,
+              0.34227,
+              8.914229,
+              1.201912,
+              0.196342,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "medians": {
+        "o2": {
+          "setup": 0.0,
+          "input": 4.127653,
+          "compute": 12.019688,
+          "output": 3.637602,
+          "phase": {
+            "setup": 0.202222,
+            "import": 0.848005,
+            "backend": 9.06292,
+            "result_allocation": 1.181912,
+            "export": 0.696979
+          }
+        },
+        "o3": {
+          "setup": 0.0,
+          "input": 4.130527,
+          "compute": 10.884285,
+          "output": 3.536652,
+          "phase": {
+            "setup": 0.200008,
+            "import": 0.340217,
+            "backend": 8.884354,
+            "result_allocation": 1.188562,
+            "export": 0.196342
+          }
+        }
+      },
+      "source_sha256": {
+        "o3.cpp": "639c90e4c702884a1220f33b74f3c9f49e4f893775595416c35f0783877863a8",
+        "o2.cpp": "33d34c68a354ddde3cc9bcfd17552279177f82af4cd5ac28063e4d944a522749"
+      }
+    },
+    "fast_api_phases": {
+      "samples": [
+        {
+          "setup": 0.0,
+          "input": 2.625925,
+          "compute": 10.810795,
+          "output": 1.946722,
+          "phase": [
+            0.164595,
+            0.400908,
+            8.849221,
+            1.171206,
+            0.197575,
+            1.155492,
+            0.423482
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.605855,
+          "compute": 10.600662,
+          "output": 1.981204,
+          "phase": [
+            0.169602,
+            0.318405,
+            8.709473,
+            1.18025,
+            0.19468,
+            1.114061,
+            0.44938
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.61567,
+          "compute": 10.688794,
+          "output": 1.877719,
+          "phase": [
+            0.171686,
+            0.326136,
+            8.776964,
+            1.191756,
+            0.196654,
+            1.12682,
+            0.438804
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.673115,
+          "compute": 10.68634,
+          "output": 1.977748,
+          "phase": [
+            0.192206,
+            0.327038,
+            8.765537,
+            1.181511,
+            0.19439,
+            1.164866,
+            0.424673
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.895186,
+          "compute": 11.183852,
+          "output": 1.935606,
+          "phase": [
+            0.34153,
+            0.345935,
+            8.916162,
+            1.34858,
+            0.208531,
+            1.363713,
+            0.44288
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.658012,
+          "compute": 10.581945,
+          "output": 1.914885,
+          "phase": [
+            0.178056,
+            0.324824,
+            8.686399,
+            1.172117,
+            0.196924,
+            1.135623,
+            0.459284
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.619104,
+          "compute": 10.63264,
+          "output": 1.839933,
+          "phase": [
+            0.202372,
+            0.330362,
+            8.72057,
+            1.163344,
+            0.1944,
+            1.130285,
+            0.437612
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.77744,
+          "compute": 10.731948,
+          "output": 2.029315,
+          "phase": [
+            0.173849,
+            0.323773,
+            8.825947,
+            1.172488,
+            0.209943,
+            1.101592,
+            0.613925
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.591203,
+          "compute": 10.671518,
+          "output": 1.873443,
+          "phase": [
+            0.200169,
+            0.321268,
+            8.754561,
+            1.172117,
+            0.196333,
+            1.105849,
+            0.436841
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.705593,
+          "compute": 10.779359,
+          "output": 1.970678,
+          "phase": [
+            0.185757,
+            0.32875,
+            8.803554,
+            1.215361,
+            0.217665,
+            1.121662,
+            0.524031
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.732614,
+          "compute": 10.713771,
+          "output": 1.976877,
+          "phase": [
+            0.19457,
+            0.32879,
+            8.785016,
+            1.183625,
+            0.19483,
+            1.198286,
+            0.440447
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.665533,
+          "compute": 10.641874,
+          "output": 1.91856,
+          "phase": [
+            0.174279,
+            0.324204,
+            8.735382,
+            1.18753,
+            0.195311,
+            1.16079,
+            0.437592
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.684441,
+          "compute": 10.879358,
+          "output": 2.008344,
+          "phase": [
+            0.175622,
+            0.407478,
+            8.898044,
+            1.176914,
+            0.195231,
+            1.121472,
+            0.42285
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.598003,
+          "compute": 10.738208,
+          "output": 1.839051,
+          "phase": [
+            0.177124,
+            0.363562,
+            8.775342,
+            1.203524,
+            0.195732,
+            1.109985,
+            0.424883
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.652615,
+          "compute": 10.677136,
+          "output": 1.917779,
+          "phase": [
+            0.17431,
+            0.400787,
+            8.721902,
+            1.16054,
+            0.19465,
+            1.104927,
+            0.424093
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.689189,
+          "compute": 10.674252,
+          "output": 2.03895,
+          "phase": [
+            0.200709,
+            0.325125,
+            8.730825,
+            1.19398,
+            0.196463,
+            1.164987,
+            0.439285
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.756119,
+          "compute": 10.615495,
+          "output": 2.025149,
+          "phase": [
+            0.183243,
+            0.332416,
+            8.690826,
+            1.183884,
+            0.197575,
+            1.197295,
+            0.441939
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.678212,
+          "compute": 11.294617,
+          "output": 1.916637,
+          "phase": [
+            0.18104,
+            0.338775,
+            9.220305,
+            1.228261,
+            0.299366,
+            1.14716,
+            0.42258
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.610942,
+          "compute": 10.622726,
+          "output": 1.802537,
+          "phase": [
+            0.184375,
+            0.324584,
+            8.719969,
+            1.172868,
+            0.197465,
+            1.121422,
+            0.430752
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.859894,
+          "compute": 10.660391,
+          "output": 1.927624,
+          "phase": [
+            0.18107,
+            0.34904,
+            8.664506,
+            1.244856,
+            0.196453,
+            1.26762,
+            0.42243
+          ]
+        },
+        {
+          "setup": 0.0,
+          "input": 2.61633,
+          "compute": 10.638649,
+          "output": 1.948735,
+          "phase": [
+            0.165747,
+            0.324173,
+            8.698758,
+            1.215862,
+            0.210083,
+            1.132819,
+            0.421869
+          ]
+        }
+      ],
+      "phase_names": [
+        "setup",
+        "import",
+        "backend",
+        "result_allocation",
+        "export",
+        "input_allocation",
+        "input_conversion"
+      ],
+      "medians": {
+        "setup": 0.0,
+        "input": 2.665533,
+        "compute": 10.677136,
+        "output": 1.935606,
+        "phase": {
+          "setup": 0.18104,
+          "import": 0.32875,
+          "backend": 8.754561,
+          "result_allocation": 1.183625,
+          "export": 0.196463,
+          "input_allocation": 1.132819,
+          "input_conversion": 0.437592
+        }
+      },
+      "source_sha256": "811d2aaa11f7affda0c64a2fd1cbd2f4c5200978f74b4738473e20bbc9f9b644"
+    }
+  },
+  "generation_scripts": {
+    "experiment.py": "import re,argparse,subprocess,shutil,json,hashlib,random,statistics,time,os,tempfile,fcntl\nfrom pathlib import Path\nROOT=Path('/workspace/cp-library');WORK=Path('/tmp/fps-gap');REF=Path('/tmp/fps-reference/log_of_formal_power_series/409452.cpp')\nFLAGS=['-std=c++23','-O2','-DEVAL','-DONLINE_JUDGE','-ftrivial-auto-var-init=zero','-march=haswell']\nHASH='86ef3c3b4a4707ef5e7515e5229b2564f2a5f46bd830bb6cbe64b506a95675b6'\ndef sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()\ns=REF.read_text();assert sha(REF)==HASH\nprefix=s[:s.rindex('namespace {\\n\\nvoid solve()')]\norigmain=s[s.rindex('namespace {\\n\\nvoid solve()'):]\nnormal=origmain[:origmain.index('#ifdef __ELF__')]+'}\\nint main(){solve();}\\n'\ninclude='#include \"test/fps_io.hpp\"\\n'\nadapter='''\nfps reference_log(const fps &a) {\n const std::size_t n=a.size();const int lg=poly::log_log(n);\n poly::Arena arena(poly::Transform::words(lg)+poly::Arena::footprint(n)+poly::Arena::footprint(poly::log_scratch(n)));\n const poly::Transform t(arena,lg);auto g=arena.take(n),scratch=arena.take(poly::log_scratch(n));\n for(std::size_t i=0;i<n;++i)g[i]=a[i].val();\n poly::log(t,g,g,scratch);\n fps r(n);for(std::size_t i=0;i<n;++i)r[i]=fps_mint::raw(g[i]);return r;\n}\n'''\ncommon='''\nint main(){FastInput input;FastOutput output;int n=0;input.read(n);fps a=read_fps(input,n);fps r=CALL;write_fps(output,r);}\n'''\nplain='''\nint main(){FastInput input;FastOutput output;unsigned n=0;input.read(n);\n const int lg=poly::log_log(n);poly::Arena arena(poly::Transform::words(lg)+poly::Arena::footprint(n)+poly::Arena::footprint(poly::log_scratch(n)));\n const poly::Transform t(arena,lg);auto g=arena.take(n),scratch=arena.take(poly::log_scratch(n));\n for(auto &x:g) input.read(x);poly::log(t,g,g,scratch);for(auto x:g){output.write(x);output.write(' ');}output.write('\\\\n');}\n'''\nfastcurrent='''\nint main(){io::Reader input;const unsigned n=input.read<std::uint32_t>();\n poly::Arena arena(poly::Arena::footprint(n)+poly::Arena::footprint(fields::kTextBytes/4+1024));\n auto g=arena.take(n),scratch=arena.take(fields::kTextBytes/4+1024);io::read_bulk(input,g.data(),n);\n fps a(n);for(unsigned i=0;i<n;++i)a[i]=fps_mint::raw(g[i]);fps r=a.log(n);\n for(unsigned i=0;i<n;++i)g[i]=r[i].val();io::Writer out;\n const auto text=(reinterpret_cast<std::uintptr_t>(scratch.data())+4095)&~std::uintptr_t(4095);\n fields::write(out,g.data(),n,reinterpret_cast<char*>(text));}\n'''\nadapted=re.sub(r'\\bntt\\b','gap_ntt',prefix)\nvariants={'current':include+common.replace('CALL','a.log(n)'), 'reference_exact':s,'reference_normal':prefix+normal,\n'reference_common_io':adapted+include+plain,'reference_api':adapted+include+adapter+common.replace('CALL','reference_log(a)'),\n'current_fast_io':adapted+include+fastcurrent}\n# Reference ablations keep its I/O and regular main.\nbase=prefix+normal\nq=base\nfor left,right in [('inline void inverse_step(', '\\n// g = 1 / f mod'),('[[gnu::always_inline]] inline void log_derivative(', '\\ninline int log_derivative_log')]:\n a=q.index(left);b=q.index(right,a);part=q[a:b].replace('Half::kUpper','Half::kBoth').replace('Half::kLower','Half::kBoth');q=q[:a]+part+q[b:]\nvariants['reference_both_halves']=q\nvariants['reference_levelwise']=base.replace('static constexpr std::size_t kTile = 256;','static constexpr std::size_t kTile = 1 << 20;')\nq=base\nold='run(out, source(in, shift, out.size()), detail::ProductBottom{roots_, inverse_roots_, b.data()}, scale, output);'\nnew='''forward(in,shift,out);\n        const detail::ProductBottom product{roots_,inverse_roots_,b.data()};\n        run(out,detail::Source(nullptr,0,0),detail::InverseProductBottom{product,out.data()},scale,output);'''\nassert q.count(old)==1;q=q.replace(old,new);variants['reference_split_cyclic']=q\nq=base\nq=q.replace('prepare(a, first, window[0]);','')\nq=q.replace('if (j + 1 < count) prepare(a + 32, first + j + 1, window[(j + 1) & 1]);','prepare(a,first+j,window[j & 1]);')\nq=q.replace('prepare(first, window[0]);','')\nq=q.replace('if (j + 1 < count) prepare(first + j + 1, window[(j + 1) & 1]);','prepare(first+j,window[j & 1]);')\nq=q.replace('term.prepare(first, window[0]);','')\n# term.prepare is replaced separately because ordinary replacement is a suffix.\nq=q.replace('term.\\n','\\n').replace('product.\\n','\\n')\nq=q.replace('if (j + 1 < count) product.prepare(a + 32, first + j + 1, window[(j + 1) & 1]);','product.prepare(a,first+j,window[j & 1]);')\nq=q.replace('if (j + 1 < count) term.prepare(first + j + 1, window[(j + 1) & 1]);','term.prepare(first+j,window[j & 1]);')\nvariants['reference_no_lookahead']=q\nq=base;a=q.index('    const Vec ni = broadcast(ntt::kernels::kNI)',q.index('inline Vec leaf_product'));b=q.index('\\n    return even;',a)\nbody='''    const Vec ni=broadcast(ntt::kernels::kNI),p=broadcast(kP),p2=broadcast(2*kP);\n    Vec even=_mm256_setzero_si256(),odd=even;\n#pragma GCC unroll 8\n    for(int i=0;i<8;++i){const Vec v=broadcast(b[i]);\n        even=_mm256_add_epi64(even,_mm256_mul_epu32(load(window.word+8-i),v));\n        odd=_mm256_add_epi64(odd,_mm256_mul_epu32(load(window.word+9-i),v));}\n    even=_mm256_add_epi64(even,_mm256_mul_epu32(_mm256_mul_epu32(even,ni),p));\n    odd=_mm256_add_epi64(odd,_mm256_mul_epu32(_mm256_mul_epu32(odd,ni),p));\n    even=_mm256_blend_epi32(_mm256_srli_epi64(even,32),odd,0xaa);\n    even=_mm256_min_epu32(even,_mm256_sub_epi32(even,p2));'''\nq=q[:a]+body+q[b:];variants['reference_intrinsic_leaf']=q\n\ndef build():\n for name,src in variants.items():\n  path=WORK/(name+'.cpp')\n  if path.exists() and path.read_text()==src and (WORK/(name+'.out')).exists() and (WORK/(name+'.out')).stat().st_mtime>=path.stat().st_mtime:\n   print('reused build',name,flush=True);continue\n  path.write_text(src)\n  subprocess.run(['g++',*FLAGS,'-I'+str(ROOT),str(path),'-o',str(WORK/(name+'.out'))],check=True)\n  print('built',name,flush=True)\ndef run():\n os.sched_setaffinity(0,{2});rng=random.Random(20261018)\n folder=Path('/tmp/library-checker-problems/polynomial/log_of_formal_power_series');inp=folder/'in/max_random_00.in';answer=folder/'out/max_random_00.out'\n result=dict(baseline=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),flags=FLAGS,cpu=2,trials=21,input_sha256=sha(inp),reference_sha256=HASH,compiler=subprocess.check_output(['g++','--version'],text=True).splitlines()[0],sources={p.relative_to(ROOT).as_posix():sha(p) for folder in ['fps','components','math','convolution','test'] for p in (ROOT/folder).glob('*.hpp')},variants={},whole={})\n for name in variants:result['variants'][name]=dict(source_sha256=sha(WORK/(name+'.cpp')),binary_sha256=sha(WORK/(name+'.out')))\n samples={k:[] for k in variants}\n with open('/tmp/cp-fps-tuning.lock','w') as lock:\n  fcntl.flock(lock,fcntl.LOCK_EX)\n  for trial in range(22):\n   order=list(variants);rng.shuffle(order)\n   for name in order:\n    out=WORK/'actual.txt'\n    with inp.open('rb') as stdin,out.open('wb') as stdout:\n     start=time.perf_counter();subprocess.run([str(WORK/(name+'.out'))],stdin=stdin,stdout=stdout,check=True);elapsed=(time.perf_counter()-start)*1000\n    subprocess.run([str(folder/'checker'),str(inp),str(out),str(answer)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)\n    if trial:samples[name].append(elapsed)\n   if trial%5==0:print('trial',trial,flush=True)\n result['whole']={k:dict(samples_ms=v,median_ms=statistics.median(v),min_ms=min(v),max_ms=max(v)) for k,v in samples.items()}\n (WORK/'whole.json').write_text(json.dumps(result,indent=2)+'\\n');print({k:v['median_ms'] for k,v in result['whole'].items()},flush=True)\nif __name__=='__main__':\n parser=argparse.ArgumentParser();parser.add_argument('--run-only',action='store_true');args=parser.parse_args()\n if not args.run_only:build()\n run()\n",
+    "api.py": "import importlib.util,shutil\nfrom pathlib import Path\nspec=importlib.util.spec_from_file_location('exp','/tmp/fps-gap/experiment.py');e=importlib.util.module_from_spec(spec);spec.loader.exec_module(e)\ne.WORK=Path('/tmp/fps-gap/api');e.WORK.mkdir(exist_ok=True)\na=e.adapter.replace('fps reference_log(', '[[gnu::optimize(\"O3\")]] fps reference_log(')\nselected={k:e.variants[k] for k in ['current','reference_exact','reference_normal','reference_api']}\nfor name,src in selected.items():\n for ext in ['cpp','out']:shutil.copy2('/tmp/fps-gap/'+name+'.'+ext,e.WORK/(name+'.'+ext))\nselected['reference_api_o3']=e.adapted+e.include+a+e.common.replace('CALL','reference_log(a)')\nselected['reference_api_fast_io']=e.adapted+e.include+a+e.fastcurrent.replace('fps r=a.log(n);','fps r=reference_log(a);')\n# Keep public coefficient read/write operations and O3 boundary conversion in the same function context.\nselected['reference_api_o3_io']=e.adapted+e.include.replace('#include', '#include',1)+'\\n#pragma GCC push_options\\n#pragma GCC optimize(\"O3\")\\n'+a+e.common.replace('CALL','reference_log(a)')+'\\n#pragma GCC pop_options\\n'\ne.variants=selected;e.build();e.run()\n",
+    "boundary.py": "import importlib.util,shutil\nfrom pathlib import Path\nspec=importlib.util.spec_from_file_location('exp','/tmp/fps-gap/experiment.py');e=importlib.util.module_from_spec(spec);spec.loader.exec_module(e)\ne.WORK=Path('/tmp/fps-gap/boundary');e.WORK.mkdir(exist_ok=True)\na=e.adapter.replace('fps reference_log(', '[[gnu::optimize(\"O3\")]] fps reference_log(')\nhelpers='''\n[[gnu::optimize(\"O3\")]] fps import_values(std::span<const unsigned> a){fps r(a.size());for(unsigned i=0;i<a.size();++i)r[i]=fps_mint::raw(a[i]);return r;}\n[[gnu::optimize(\"O3\")]] void export_values(std::span<unsigned> a,const fps&r){for(unsigned i=0;i<a.size();++i)a[i]=r[i].val();}\n'''\nmain=e.fastcurrent.replace('fps a(n);for(unsigned i=0;i<n;++i)a[i]=fps_mint::raw(g[i]);fps r=a.log(n);','fps a=import_values(g);fps r=reference_log(a);').replace('for(unsigned i=0;i<n;++i)g[i]=r[i].val();','export_values(g,r);')\nselected={k:e.variants[k] for k in ['current','reference_exact','reference_normal']}\nselected['reference_api_fast_io']=(Path('/tmp/fps-gap/api/reference_api_fast_io.cpp')).read_text()\nfor name in selected:\n source=Path('/tmp/fps-gap/api') if name=='reference_api_fast_io' else Path('/tmp/fps-gap')\n for ext in ['cpp','out']:shutil.copy2(source/(name+'.'+ext),e.WORK/(name+'.'+ext))\nselected['reference_api_fast_boundaries']=e.adapted+e.include+a+helpers+main\ne.variants=selected;e.build();e.run()\n",
+    "profile.py": "import json,subprocess,hashlib,statistics,time,random,os,shutil\nfrom pathlib import Path\nROOT=Path('/workspace/cp-library');W=Path('/tmp/fps-gap');P=W/'profile';P.mkdir(exist_ok=True)\nREF=Path('/tmp/fps-reference/log_of_formal_power_series/409452.cpp')\nFLAGS=['-std=c++23','-O2','-DEVAL','-DONLINE_JUDGE','-ftrivial-auto-var-init=zero','-march=haswell']\nhelper='''#include <chrono>\n#include <cstdio>\nnamespace gap {\nusing Clock=std::chrono::steady_clock;\ninline double phase[7]{};\ninline auto now(){return Clock::now();}\ninline double ms(Clock::time_point a,Clock::time_point b){return std::chrono::duration<double,std::milli>(b-a).count();}\ninline void mark(Clock::time_point &p,int i){auto q=now();phase[i]+=ms(p,q);p=q;}\ninline void dump(double setup,double input,double compute,double output){\n std::fprintf(stderr,\"{\\\\\\\"setup\\\\\\\":%.9f,\\\\\\\"input\\\\\\\":%.9f,\\\\\\\"compute\\\\\\\":%.9f,\\\\\\\"output\\\\\\\":%.9f,\\\\\\\"phase\\\\\\\":[\",setup,input,compute,output);\n for(int i=0;i<7;++i)std::fprintf(stderr,\"%s%.9f\",i?\",\":\"\",phase[i]);std::fprintf(stderr,\"]}\\\\n\");}\n}\n'''\ncurrent=(ROOT/'fps/fps.hpp').read_text();a=current.index('\\tF log_derivative(int deg, bool integrate = false) const {');b=current.index('\\n\\ttemplate <bool differentiated>',a);part=current[a:b]\ndef replace(s,old,new):\n assert s.count(old)==1,(old,s.count(old));return s.replace(old,new)\npart=replace(part,'F h = inv(k), r(deg);','auto tick = gap::now();\\n\\t\\t\\t\\tF h = inv(k);gap::mark(tick,0);F r(deg);')\npart=replace(part,'t.forward(ht, n, norm, true);','gap::mark(tick,1);\\n\\t\\t\\t\\tt.forward(ht, n, norm, true);')\npart=replace(part,'for (int j = 0; j < count; ++j) {','gap::mark(tick,2);\\n\\t\\t\\t\\tfor (int j = 0; j < count; ++j) {')\npart=replace(part,'t.forward(work, n, 1, true);','gap::mark(tick,3);\\n\\t\\t\\t\\t\\tt.forward(work, n, 1, true);')\npart=replace(part,'if (integrate)\\n','gap::mark(tick,4);\\n\\t\\t\\t\\t\\tif (integrate)\\n')\npart=replace(part,'if (j + 1 < count) {','gap::mark(tick,6);\\n\\t\\t\\t\\t\\tif (j + 1 < count) {')\npart=replace(part,'t.forward(cache, n, norm, true);\\n\\t\\t\\t\\t\\t}', 't.forward(cache, n, norm, true);\\n\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\tgap::mark(tick,5);')\n(P/'include/fps').mkdir(parents=True,exist_ok=True);\nif not (P/'include/components').exists():(P/'include/components').symlink_to(ROOT/'components',target_is_directory=True)\n(P/'include/fps/fps.hpp').write_text(current[:a]+part+current[b:])\nmain='''\nint main(){auto t0=gap::now();FastInput input;FastOutput output;int n=0;input.read(n);fps a=read_fps(input,n);auto t1=gap::now();fps r=a.log(n);auto t2=gap::now();write_fps(output,r);output.flush();auto t3=gap::now();gap::dump(0,gap::ms(t0,t1),gap::ms(t1,t2),gap::ms(t2,t3));}\n'''\n(P/'current.cpp').write_text(helper+'#include \"test/fps_io.hpp\"\\n'+main)\ns=REF.read_text();s=s[:s.rindex('namespace {\\n\\nvoid solve()')]\na=s.index('[[gnu::always_inline]] inline void log_derivative(');b=s.index('\\ninline int log_derivative_log',a);part=s[a:b]\npart=replace(part,'    inverse(t, f, ht.first(k),','    auto tick=gap::now();\\n    inverse(t, f, ht.first(k),')\npart=replace(part,'    t.forward(ht.first(k), 0, ht);','    gap::mark(tick,0);\\n    t.forward(ht.first(k), 0, ht);')\npart=replace(part,'    for (std::size_t j = 0; j < blocks; ++j) {','    gap::mark(tick,2);\\n    for (std::size_t j = 0; j < blocks; ++j) {')\npart=replace(part,'        t.cyclic_product(work.first(count),','        gap::mark(tick,3);\\n        t.cyclic_product(work.first(count),')\npart=replace(part,'        sink(first,','        gap::mark(tick,4);\\n        sink(first,')\npart=replace(part,'        if (j + 1 < blocks) t.forward(work.first(k), 0, work);','        gap::mark(tick,6);\\n        if (j + 1 < blocks) t.forward(work.first(k), 0, work);\\n        gap::mark(tick,5);')\ns=s[:a]+part+s[b:]\nmain='''\nint main(){auto t0=gap::now();io::Reader in;const unsigned n=in.read<std::uint32_t>();auto t1=gap::now();\n const int lg=poly::log_log(n);const auto sw=std::max(poly::log_scratch(n),fields::kTextBytes/4+1024);\n poly::Arena arena(poly::Transform::words(lg)+poly::Arena::footprint(n)+poly::Arena::footprint(sw));\n const poly::Transform t(arena,lg);auto g=arena.take(n),scratch=arena.take(sw);auto t2=gap::now();\n io::read_bulk(in,g.data(),n);auto t3=gap::now();poly::log(t,g,g,scratch);auto t4=gap::now();\n io::Writer out;const auto text=(reinterpret_cast<std::uintptr_t>(scratch.data())+4095)&~std::uintptr_t(4095);\n fields::write(out,g.data(),n,reinterpret_cast<char*>(text));out.flush();auto t5=gap::now();\n gap::dump(gap::ms(t1,t2),gap::ms(t0,t1)+gap::ms(t2,t3),gap::ms(t3,t4),gap::ms(t4,t5));}\n'''\n(P/'reference.cpp').write_text(helper+s+main)\nfor name in ['current','reference']:\n subprocess.run(['g++',*FLAGS,'-I'+str(P/'include'),'-I'+str(ROOT),str(P/(name+'.cpp')),'-o',str(P/(name+'.out'))],check=True);print('built',name,flush=True)\nos.sched_setaffinity(0,{2});folder=Path('/tmp/library-checker-problems/polynomial/log_of_formal_power_series');inp=folder/'in/max_random_00.in';answer=folder/'out/max_random_00.out'\nresult={'phase_names':['initial_inverse','setup','forward_windows','residual','quotient','cache_forward','integration'],'samples':{'current':[],'reference':[]}}\nrng=random.Random(20261018)\nfor trial in range(22):\n order=['current','reference'];rng.shuffle(order)\n for name in order:\n  with inp.open('rb') as stdin,(P/'actual.txt').open('wb') as stdout:\n   p=subprocess.run([str(P/(name+'.out'))],stdin=stdin,stdout=stdout,stderr=subprocess.PIPE,check=True,text=True)\n  subprocess.run([str(folder/'checker'),str(inp),str(P/'actual.txt'),str(answer)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)\n  if trial:result['samples'][name].append(json.loads(p.stderr))\nresult['medians']={}\nfor name,samples in result['samples'].items():\n result['medians'][name]={k:statistics.median(s[k] for s in samples) for k in ['setup','input','compute','output']}\n result['medians'][name]['phase']={k:statistics.median(s['phase'][i] for s in samples) for i,k in enumerate(result['phase_names'])}\nresult['source_sha256']={str(p.relative_to(P)):hashlib.sha256(p.read_bytes()).hexdigest() for p in P.rglob('*.cpp')}\nresult['source_sha256']['include/fps/fps.hpp']=hashlib.sha256((P/'include/fps/fps.hpp').read_bytes()).hexdigest()\n(P/'result.json').write_text(json.dumps(result,indent=2)+'\\n');print(result['medians'],flush=True)\n",
+    "api_profile.py": "from pathlib import Path\nimport subprocess,json,os,statistics,random,hashlib\nW=Path('/tmp/fps-gap');P=W/'api_profile';P.mkdir(exist_ok=True);ROOT=Path('/workspace/cp-library')\nhelper=(W/'profile/current.cpp').read_text().split('#include \"test/fps_io.hpp\"')[0]\ns=(W/'reference_api.cpp').read_text();prefix=s[:s.index('fps reference_log(')];adapter=s[s.index('fps reference_log('):s.index('\\nint main(){')]\nmain=(W/'profile/current.cpp').read_text().split('#include \"test/fps_io.hpp\"\\n')[1].replace('a.log(n)','reference_log(a)')\nassert 'auto tick' not in adapter\nadapter=adapter.replace(' const std::size_t n=a.size();',' auto tick=gap::now();const std::size_t n=a.size();').replace(' for(std::size_t i=0;i<n;++i)g[i]=a[i].val();',' gap::mark(tick,0);for(std::size_t i=0;i<n;++i)g[i]=a[i].val();gap::mark(tick,1);').replace(' poly::log(t,g,g,scratch);',' poly::log(t,g,g,scratch);gap::mark(tick,2);').replace(' fps r(n);for(std::size_t i=0;i<n;++i)r[i]=fps_mint::raw(g[i]);return r;',' fps r(n);gap::mark(tick,3);for(std::size_t i=0;i<n;++i)r[i]=fps_mint::raw(g[i]);gap::mark(tick,4);return r;')\nflags=['-std=c++23','-O2','-DEVAL','-DONLINE_JUDGE','-ftrivial-auto-var-init=zero','-march=haswell']\nfor name in ['o2','o3']:\n text=helper+prefix+('[[gnu::optimize(\"O3\")]] ' if name=='o3' else '')+adapter+main;(P/(name+'.cpp')).write_text(text)\n subprocess.run(['g++',*flags,'-I'+str(ROOT),str(P/(name+'.cpp')),'-o',str(P/(name+'.out'))],check=True);print('built',name,flush=True)\nfolder=Path('/tmp/library-checker-problems/polynomial/log_of_formal_power_series');inp=folder/'in/max_random_00.in';answer=folder/'out/max_random_00.out'\nos.sched_setaffinity(0,{2});rng=random.Random(20261018);result={'phase_names':['setup','import','backend','result_allocation','export','unused','unused'],'samples':{'o2':[],'o3':[]}}\nfor trial in range(22):\n order=['o2','o3'];rng.shuffle(order)\n for name in order:\n  with inp.open('rb') as stdin,(P/'actual.txt').open('wb') as stdout:p=subprocess.run([str(P/(name+'.out'))],stdin=stdin,stdout=stdout,stderr=subprocess.PIPE,check=True,text=True)\n  subprocess.run([str(folder/'checker'),str(inp),str(P/'actual.txt'),str(answer)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)\n  if trial:result['samples'][name].append(json.loads(p.stderr))\nresult['medians']={}\nfor name,samples in result['samples'].items():\n result['medians'][name]={k:statistics.median(s[k] for s in samples) for k in ['setup','input','compute','output']}\n result['medians'][name]['phase']={k:statistics.median(s['phase'][i] for s in samples) for i,k in enumerate(result['phase_names'][:5])}\nresult['source_sha256']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in P.glob('*.cpp')};(P/'result.json').write_text(json.dumps(result,indent=2)+'\\n');print(result['medians'],flush=True)\n",
+    "fast_profile.py": "from pathlib import Path\nimport subprocess,json,statistics,os,hashlib\nW=Path('/tmp/fps-gap');P=W/'fast_profile';P.mkdir(exist_ok=True)\ns=(W/'boundary/reference_api_fast_boundaries.cpp').read_text();helper=(W/'profile/current.cpp').read_text().split('#include \"test/fps_io.hpp\"')[0]\na=s.index('[[gnu::optimize(\"O3\")]] fps reference_log(');b=s.index('\\n[[gnu::optimize(\"O3\")]] fps import_values',a)\nprof=(W/'api_profile/o3.cpp').read_text();aa=prof.index('[[gnu::optimize(\"O3\")]] fps reference_log(');bb=prof.index('\\nint main(){',aa)\ns=s[:a]+prof[aa:bb]+s[b:]\ns=s.replace('fps r(a.size());for(unsigned i=0;i<a.size();++i)r[i]=fps_mint::raw(a[i]);return r;','auto tick=gap::now();fps r(a.size());gap::mark(tick,5);for(unsigned i=0;i<a.size();++i)r[i]=fps_mint::raw(a[i]);gap::mark(tick,6);return r;')\ns=s.replace('int main(){io::Reader input;','int main(){auto t0=gap::now();io::Reader input;')\ns=s.replace('fps a=import_values(g);fps r=reference_log(a);','fps a=import_values(g);auto t1=gap::now();fps r=reference_log(a);auto t2=gap::now();')\ns=s.replace('fields::write(out,g.data(),n,reinterpret_cast<char*>(text));}','fields::write(out,g.data(),n,reinterpret_cast<char*>(text));out.flush();auto t3=gap::now();gap::dump(0,gap::ms(t0,t1),gap::ms(t1,t2),gap::ms(t2,t3));}')\n(P/'profile.cpp').write_text(helper+s)\nsubprocess.run(['g++','-std=c++23','-O2','-DEVAL','-DONLINE_JUDGE','-ftrivial-auto-var-init=zero','-march=haswell','-I/workspace/cp-library',str(P/'profile.cpp'),'-o',str(P/'profile.out')],check=True)\nfolder=Path('/tmp/library-checker-problems/polynomial/log_of_formal_power_series');inp=folder/'in/max_random_00.in';answer=folder/'out/max_random_00.out';samples=[];os.sched_setaffinity(0,{2})\nfor trial in range(22):\n with inp.open('rb') as stdin,(P/'actual.txt').open('wb') as stdout:p=subprocess.run([str(P/'profile.out')],stdin=stdin,stdout=stdout,stderr=subprocess.PIPE,check=True,text=True)\n subprocess.run([str(folder/'checker'),str(inp),str(P/'actual.txt'),str(answer)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)\n if trial:samples.append(json.loads(p.stderr))\nr={'samples':samples,'phase_names':['setup','import','backend','result_allocation','export','input_allocation','input_conversion']}\nr['medians']={k:statistics.median(s[k] for s in samples) for k in ['setup','input','compute','output']};r['medians']['phase']={k:statistics.median(s['phase'][i] for s in samples) for i,k in enumerate(r['phase_names'])};r['source_sha256']=hashlib.sha256((P/'profile.cpp').read_bytes()).hexdigest();(P/'result.json').write_text(json.dumps(r,indent=2)+'\\n');print(r['medians'])\n"
+  }
+}

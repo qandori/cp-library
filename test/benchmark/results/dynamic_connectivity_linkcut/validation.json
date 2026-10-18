@@ -1,0 +1,55 @@
+{
+  "headers": [
+    "data_structure/dynamic_connectivity.hpp"
+  ],
+  "unit": [
+    "test/unit/dynamic_connectivity.cpp",
+    "test/unit/dynamic_connectivity_lazy.cpp",
+    "test/unit/standalone.cpp"
+  ],
+  "sanitize": [
+    "test/unit/dynamic_connectivity.cpp",
+    "test/unit/dynamic_connectivity_lazy.cpp"
+  ],
+  "verification": [
+    "test/dynamic_connectivity.test.cpp"
+  ],
+  "bundles": [
+    "data_structure/dynamic_connectivity.hpp"
+  ],
+  "state": {
+    "targets": {
+      "verification": {
+        "test/dynamic_connectivity.test.cpp": "fbb88dbfd99c09464eba3319c1bbf6c23e3dbb8af231ffc72ccbd40f950e95de"
+      }
+    }
+  },
+  "recorded_at": "2026-10-18T14:19:35.171828+00:00",
+  "source_sha256": {
+    "components/fast_io.hpp": "08ffaf08bb8f27003d770509f9f95f64c2e9f7139477e85a5b57033a893b86c6",
+    "components/splitmix64.hpp": "f74be6033b41f893dfa0550b99dca38b3da7eb565baeb2813c94cb7b5db3e566",
+    "data_structure/dynamic_connectivity.hpp": "d0e09d7c2c9448ccd5fbe676cdb326a971e5c0eaab108a9c7e41b5920f73739d",
+    "test/dynamic_connectivity.test.cpp": "97e5aaf0e8c166b7d685f3b185acfe65dd966b3526bcf9f5251a44f740c55d7f",
+    "test/unit/dynamic_connectivity.cpp": "1cc21d8878ede8d3710031431b6ec0fc0b4a04597134d919faaea252b8cf9d2e",
+    "test/unit/dynamic_connectivity_lazy.cpp": "211c023416d4a3ed694bd2079dda26a8640234020059d42a0fe0043e2b2fe080",
+    "test/unit/standalone.cpp": "0ace0914bb5ff3a32224ea782f629aae2dc96efeca4cca84c0d6c9237c677b6e"
+  },
+  "checks": {
+    "compilers": [
+      "GCC 15.2.0",
+      "GCC 13.4.0",
+      "Clang 21.1.8"
+    ],
+    "normal_flags": "-std=c++2b -O2 -Wall -Wextra -DDEBUG=1",
+    "sanitizers": "Clang ASan/UBSan, UBSAN_OPTIONS=halt_on_error=1",
+    "ndebug": "new regression: GCC -O2 -DNDEBUG -Wall -Wextra -Werror",
+    "official": "19 cases, GCC and Clang, both passed",
+    "logs": [
+      "check.log",
+      "judge.log",
+      "docs.log"
+    ],
+    "api_audit": "Changed DynamicConnectivity only; the wider optional audit stopped at an unrelated upstream docs/fps_log.md table",
+    "integration": "After rebasing on 2be6469, standalone was rechecked on all three compilers; official GCC/Clang cases and documentation were rerun. Unchanged DC-only units and sanitizers were reused."
+  }
+}

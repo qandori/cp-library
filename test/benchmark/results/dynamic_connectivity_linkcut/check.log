@@ -1,0 +1,27 @@
+g++: standalone data_structure/dynamic_connectivity.hpp
+g++: dynamic_connectivity.cpp
+g++: dynamic_connectivity_lazy.cpp
+g++: standalone.cpp
+Verification passed
+clang++: standalone data_structure/dynamic_connectivity.hpp
+clang++: dynamic_connectivity.cpp
+clang++: dynamic_connectivity_lazy.cpp
+clang++: standalone.cpp
+Verification passed
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: standalone data_structure/dynamic_connectivity.hpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: dynamic_connectivity.cpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: dynamic_connectivity_lazy.cpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: standalone.cpp
+Verification passed
+clang++: dynamic_connectivity.cpp
+clang++: dynamic_connectivity_lazy.cpp
+Verification passed
+All checks passed
+
+Latest main: standalone dependency recheck
+g++: standalone.cpp
+Verification passed
+clang++: standalone.cpp
+Verification passed
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: standalone.cpp
+Verification passed

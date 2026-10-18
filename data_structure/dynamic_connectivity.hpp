@@ -128,6 +128,10 @@ class DynamicConnectivity {
 		splay(v);
 		return t[u].parent != 0;
 	}
+	bool same_vertices(int u, int v) {
+		int a = vertices[0][u], b = vertices[0][v];
+		return a && b && same_nodes(a, b);
+	}
 	int join(int a, int b) {
 		if (!a || !b) return a ? a : b;
 		int x = a;
@@ -158,7 +162,10 @@ class DynamicConnectivity {
 			t.emplace_back();
 			t[x].key = v + 1;
 			t[x].size = 1;
-			if constexpr (aggregate) sums.push_back(e());
+			if constexpr (aggregate) {
+				if (level == 0) t[x].own = 4, sums.push_back(values[v]);
+				else sums.push_back(e());
+			}
 		}
 		return x;
 	}
@@ -200,7 +207,14 @@ class DynamicConnectivity {
 		edges[id].top = a;
 	}
 	std::pair<int, int> cut_tree(int a) {
-		int b = a + 1;
+		int base = a, b = a + 1;
+		int x = a, y = b;
+		for (int i = 0; i < 4; ++i) {
+			if (!t[x].parent) break;
+			if (!t[y].parent) { std::swap(a, b); break; }
+			x = t[x].parent;
+			y = t[y].parent;
+		}
 		splay<false>(a);
 		int l = t[a].ch[0], r = t[a].ch[1];
 		if (l) t[l].parent = 0;
@@ -210,8 +224,8 @@ class DynamicConnectivity {
 		l = t[b].ch[0], r = t[b].ch[1];
 		if (l) t[l].parent = 0;
 		if (r) t[r].parent = 0;
-		t[a].ch[0] = free_arc;
-		free_arc = a;
+		t[base].ch[0] = free_arc;
+		free_arc = base;
 		return {l, r};
 	}
 	int find_flag(int x, int flag) {
@@ -297,20 +311,14 @@ class DynamicConnectivity {
 		assert(0 <= count && count < std::numeric_limits<int>::max() / 3);
 		n = groups = count;
 		t.reserve(std::size_t(n) * 3 + 1);
-		t.resize(std::size_t(n) + 1);
-		vertices.emplace_back(n);
-		for (int v = 0; v < n; ++v) {
-			vertices[0][v] = v + 1;
-			t[v + 1].key = v + 1;
-			t[v + 1].size = 1;
-			t[v + 1].own = aggregate ? 4 : 0;
-		}
+		t.resize(1);
+		vertices.emplace_back(n, 0);
 		edges.emplace_back();
 		table.assign(8, 0);
 		if constexpr (aggregate) {
 			values.assign(n, e());
 			sums.reserve(std::size_t(n) * 3 + 1);
-			sums.assign(std::size_t(n) + 1, e());
+			sums.assign(1, e());
 		}
 	}
 
@@ -322,7 +330,6 @@ class DynamicConnectivity {
 		assert(a.size() < std::size_t(std::numeric_limits<int>::max() / 3));
 		init(static_cast<int>(a.size()));
 		values = a;
-		for (int i = 0; i < n; ++i) sums[i + 1] = a[i];
 	}
 	void reserve(int capacity) {
 		assert(0 <= capacity && capacity < std::numeric_limits<int>::max() / 4);
@@ -333,8 +340,10 @@ class DynamicConnectivity {
 	int size() const { return n; }
 	int size(int v) {
 		check(v);
-		splay(v + 1);
-		return t[v + 1].size;
+		int x = vertices[0][v];
+		if (!x) return 1;
+		splay(x);
+		return t[x].size;
 	}
 	int component_count() const { return groups; }
 	std::int64_t edge_count() const { return m; }
@@ -346,7 +355,7 @@ class DynamicConnectivity {
 	bool same(int u, int v) {
 		check(u);
 		check(v);
-		return u == v || groups == 1 || (groups != n && same_nodes(u + 1, v + 1));
+		return u == v || groups == 1 || (groups != n && same_vertices(u, v));
 	}
 	bool link(int u, int v) {
 		check(u);
@@ -373,7 +382,7 @@ class DynamicConnectivity {
 		edges[id].count = 1;
 		++active;
 		if (u == v) return false;
-		if (groups != 1 && !same_nodes(u + 1, v + 1)) {
+		if (groups != 1 && !same_vertices(u, v)) {
 			link_tree(id, 0, true);
 			--groups;
 			return true;
@@ -418,16 +427,19 @@ class DynamicConnectivity {
 		requires aggregate
 	{
 		check(v);
-		splay<false>(v + 1);
+		int x = vertices[0][v];
+		if (x) splay<false>(x);
 		values[v] = std::move(value);
-		pull(v + 1);
+		if (x) pull(x);
 	}
 	Value prod(int v)
 		requires aggregate
 	{
 		check(v);
-		splay(v + 1);
-		return sums[v + 1];
+		int x = vertices[0][v];
+		if (!x) return values[v];
+		splay(x);
+		return sums[x];
 	}
 };
 

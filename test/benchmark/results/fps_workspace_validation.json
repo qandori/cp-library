@@ -1,0 +1,40 @@
+{
+  "baseline": "e348f396c801964e72d4b1460a39dae91fdc88a3",
+  "sources": {
+    "components/fps_workspace.hpp": "74c6d3646d8f20a9b3a3df15bba26c25ad7b01cca032c7d0567b8f4b65b31923",
+    "components/fps_operations.hpp": "f318a3825777e5f093ba4e93c0fee2df6bd97c298c2ee92d4da18795d7ad0051",
+    "fps/fps.hpp": "e7f57edb3566576f66be2201dc4e5cfdc29ec1ccb77a89b0124b06c0849b42a8",
+    "test/unit/fps_workspace.cpp": "e2d332bbef54141cc0456d7010fa3240df8028ce524a44fa9b897172a7e9dccd",
+    "test/benchmark/fps_speed.py": "174e961f44cfeebe1e90c69dab2ef67b863bccd572666de610df9999cb7aa634",
+    "test/benchmark/fps_workspace_memory.py": "371e7e2fcd985b08c61a7b4ce2b8bc17aa3330412a7838bfb23ed0de0cc9d0d1"
+  },
+  "preliminary": {
+    "headers": 20,
+    "unit": 14,
+    "sanitize": 14
+  },
+  "final": {
+    "headers": 20,
+    "unit": [
+      "test/unit/fps.cpp",
+      "test/unit/fps_speed.cpp",
+      "test/unit/fps_workspace.cpp"
+    ],
+    "sanitize": [
+      "test/unit/fps.cpp",
+      "test/unit/fps_speed.cpp",
+      "test/unit/fps_workspace.cpp"
+    ],
+    "official_drivers": 22,
+    "official_cases": 596,
+    "bundles": 20
+  },
+  "skipped_local": {
+    "yukicoder_1307": "Token unavailable; 2 drivers are checked in CI",
+    "clang": "Compiler unavailable; checked in CI",
+    "macos": "Checked in CI",
+    "leak_sanitizer": "Disabled because of the runtime ptrace restriction"
+  },
+  "asAN_options": "detect_leaks=0",
+  "ubsan_options": "halt_on_error=1"
+}

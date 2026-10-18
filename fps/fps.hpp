@@ -3,6 +3,8 @@
 
 #include "../components/fps_operations.hpp"
 #include "../components/fps_factorials.hpp"
+#include "../components/fps_workspace.hpp"
+#include "../components/fps_log.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cstddef>
@@ -181,27 +183,27 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 		int size = 1;
 		while (size < deg) size <<= 1;
 		if (deg < size - size / 4) size >>= 1;
-		const int block = size / 32, length = 2 * block, count = (deg + block - 1) / block;
+		const int block = size / 32, length = 2 * block, pitch = length + 16, count = (deg + block - 1) / block;
 		F inverse = g.inv(block), r = multiply(pre(block), inverse).pre(block);
 		r.resize(deg);
 		inverse.resize(length);
 		ntt_half(inverse);
 		const Word norm = T::mod() - (T::mod() - 1) / length;
 		transform(1).scale(words(inverse), length, norm);
-		fps_detail::NTT::CompositionWords storage(new (std::align_val_t(64)) unsigned int[(2 * count - 1) * length]);
-		Word *denominator = storage.get(), *quotient = denominator + count * length;
+		auto storage = fps_detail::allocate_fps_words((2 * count - 1) * pitch);
+		Word *denominator = storage.get(), *quotient = denominator + count * pitch;
 		for (int i = 0; i < count; ++i) {
-			Word *h = denominator + i * length;
+			Word *h = denominator + i * pitch;
 			const int available = std::max(0, std::min<int>(block, static_cast<int>(g.size()) - i * block));
 			if (available) std::copy_n(words(g) + i * block, available, h);
 			std::fill(h + available, h + block, 0u);
 			ntt_half(h, length);
 		}
-		O::join_windows(denominator, length, count);
+		O::join_windows_strided(denominator, length, count, pitch);
 		base error(length);
 		for (int i = 1; i < count; ++i) {
 			const int offset = i * block, n = std::min(block, deg - offset);
-			Word *q = quotient + (i - 1) * length;
+			Word *q = quotient + (i - 1) * pitch;
 			std::copy_n(words(r) + offset - block, block, q);
 			ntt_half(q, length);
 			fps_detail::NTT::scale_normalize(q, length, norm);
@@ -210,8 +212,8 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 				const Word *a[7], *b[7];
 				int terms = std::min(7, i - j);
 				for (int k = 0; k < terms; ++k) {
-					a[k] = quotient + (j + k) * length;
-					b[k] = denominator + (i - j - k) * length;
+					a[k] = quotient + (j + k) * pitch;
+					b[k] = denominator + (i - j - k) * pitch;
 				}
 				auto update = [&](auto number) {
 					constexpr int count = decltype(number)::value;
@@ -268,12 +270,12 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 			g[i] =
 				-g[0] * dot(this->data() + 1, g.data() + i - 1, std::min<int>(i, this->size() - 1));
 #if defined(__x86_64__) || defined(__i386__)
-		fps_detail::NTT::CompositionWords storage;
+		fps_detail::FpsWords storage;
 		Word *a = nullptr, *b = nullptr;
 		if (deg > 96 && fps_detail::NTT::vectorized()) {
 			int capacity = 64;
 			while (capacity < deg && capacity < (1 << 23)) capacity <<= 1;
-			storage.reset(new (std::align_val_t(64)) unsigned int[2 * capacity]);
+			storage = fps_detail::allocate_fps_words(2 * capacity);
 			a = storage.get();
 			b = a + capacity;
 			g.reserve(capacity);
@@ -357,7 +359,7 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 			int size = 1;
 			while (size < target) size <<= 1;
 			if (target < size - size / 4) size >>= 1;
-			const int block = size / 32, length = 2 * block, count = (target + block - 1) / block;
+			const int block = size / 32, length = 2 * block, pitch = length + 16, count = (target + block - 1) / block;
 			g = f.pre(block).sqrt(block);
 			base inverse = g.inv(block);
 			inverse.resize(length);
@@ -367,14 +369,14 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 			T root_norm = T::raw(T::mod() - (T::mod() - 1) / (1 << (levels / 2)));
 			if (levels & 1) root_norm *= T::raw(441024591);
 			transform(1).scale(words(inverse), length, half_norm);
-			fps_detail::NTT::CompositionWords storage(new (std::align_val_t(64)) unsigned int[(count - 1) * length]);
+			auto storage = fps_detail::allocate_fps_words((count - 1) * pitch);
 			Word *cache = storage.get();
 			base error(length);
 			base zero(length);
 			g.resize(target);
 			for (int i = 1; i < count; ++i) {
 				int offset = i * block, n = std::min(block, target - offset);
-				Word *q = cache + (i - 1) * length;
+				Word *q = cache + (i - 1) * pitch;
 				std::copy_n(words(g) + offset - block, block, q);
 				ntt_half(q, length);
 				fps_detail::NTT::scale_normalize(q, length, root_norm.val());
@@ -383,9 +385,9 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 					const Word *a[6], *b[6], *c[6];
 					int terms = std::min(6, (i + 1) / 2 - j);
 					for (int k = 0; k < terms; ++k) {
-						a[k] = cache + (j + k) * length;
-						b[k] = (j + k ? cache + (i - j - k) * length : words(zero));
-						c[k] = cache + (i - j - k - 1) * length;
+						a[k] = cache + (j + k) * pitch;
+						b[k] = (j + k ? cache + (i - j - k) * pitch : words(zero));
+						c[k] = cache + (i - j - k - 1) * pitch;
 					}
 					auto update = [&](auto number) {
 						constexpr int count = decltype(number)::value;
@@ -404,7 +406,7 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 					else if (terms == 2) update(std::integral_constant<int, 2>{});
 					else update(std::integral_constant<int, 1>{});
 				}
-				fps_detail::NTT::square_fold(words(error), cache + (i / 2) * length, block, i & 1);
+				fps_detail::NTT::square_fold(words(error), cache + (i / 2) * pitch, block, i & 1);
 				ntt_inverse(error);
 				for (int j = 0; j < block; ++j) error[j] = (offset + j < target ? f[offset + j] : T(0)) - error[j];
 				ntt_half(error);
@@ -506,10 +508,7 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 		assert(deg >= 0);
 		if (deg == 0) return {};
 		assert(!this->empty() && (*this)[0] == T(1));
-		F r = log_derivative(deg);
-		const auto &inv = inverses(deg - 1);
-		fps_detail::NTT::product(words(r), words(r), words(inv), deg);
-		return r;
+		return log_derivative(deg, true);
 	}
 
 	F exp(int deg = -1) const {
@@ -632,10 +631,73 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 
 	using Word = typename O::Word;
 
-	F log_derivative(int deg) const {
+	F log_derivative(int deg, bool integrate = false) const {
+#if defined(__x86_64__) || defined(__i386__)
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
+			if (deg >= 256 && deg <= (1 << 24) && this->size() >= 64 && fps_detail::NTT::vectorized()) {
+				int k = 32;
+				while (k * 4 < deg - 1) k *= 2;
+				const int n = 2 * k, count = (deg - 1 + k - 1) / k, pitch = n + 16;
+				F h = inv(k), r(deg);
+				fps_detail::LogTransform t{transform(n / 16)};
+				auto memory = fps_detail::allocate_fps_words((count + 2) * pitch);
+				Word *ht = memory.get(), *window = ht + pitch, *q = window + (count - 1) * pitch, *work = q + pitch;
+				std::copy_n(words(h), k, ht);
+				const Word norm = T::mod() - (T::mod() - 1) / (n / 8);
+				t.forward(ht, n, norm, true);
+				for (int j = 1; j < count; ++j) {
+					Word *w = window + (j - 1) * pitch;
+					const int first = (j - 1) * k, c = std::max(0, std::min<int>(n, static_cast<int>(this->size()) - first));
+					if (c) std::copy_n(words(*this) + first, c, w);
+					std::fill(w + c, w + n, 0u);
+					t.forward(w, n);
+				}
+				for (int j = 0; j < count; ++j) {
+					const int first = j * k, c = std::min(k, deg - 1 - first);
+					if (j) {
+						const Word *aa[] = {window + (j - 1) * pitch, window}, *bb[] = {q, work};
+						if (count == 4 && j == 2)
+							t.toeplitz(work, window + 2 * pitch, window, window + pitch, q, work, n);
+						else if (count == 4 && j == 3) {
+							const Word *a[] = {window}, *b[] = {work};
+							t.products(work, a, b, 1, n, window + 2 * pitch);
+						} else {
+							t.products(work, aa, bb, j, n);
+						}
+						t.inverse(work, n);
+					}
+					const int available = std::max(0, std::min<int>(c, static_cast<int>(this->size()) - first - 1));
+					if (available) fps_detail::NTT::weighted(work, words(*this) + first + 1, available, first + 1);
+					std::fill(work + available, work + k, 0u);
+					if (j)
+						for (int i = 0; i < k; ++i) work[i] = fps_detail::NTT::sub(work[i], work[k + i]);
+					t.forward(work, n, 1, true);
+					const Word *aa[] = {work}, *bb[] = {ht};
+					t.products(work, aa, bb, 1, n);
+					t.inverse(work, n);
+					if (integrate)
+						fps_detail::LogTransform::integrate(words(r) + first + 1, work, work + k, first + 1, c);
+					else
+						std::copy_n(work, c, words(r) + first + 1);
+					if (j + 1 < count) {
+						Word *cache = j == 0 ? q : work;
+						if (j == 0) std::copy_n(work, k, cache);
+						t.forward(cache, n, norm, true);
+					}
+				}
+				return r;
+			}
+		}
+#endif
+
 		F derivative(std::min<int>(deg, this->size()));
 		if (derivative.size() > 1) fps_detail::NTT::weighted(words(derivative) + 1, words(*this) + 1, derivative.size() - 1, 1);
-		return derivative.div_series(*this, deg);
+		F r = derivative.div_series(*this, deg);
+		if (integrate) {
+			const auto &iv = inverses(deg - 1);
+			fps_detail::NTT::product(words(r), words(r), words(iv), deg);
+		}
+		return r;
 	}
 
 	template <bool differentiated>
@@ -678,17 +740,17 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 			int size = 1;
 			while (size < deg) size <<= 1;
 			if (deg < size - size / 4) size >>= 1;
-			const int block = size / 32, length = 2 * block, count = (deg + block - 1) / block;
+			const int block = size / 32, length = 2 * block, pitch = length + 16, count = (deg + block - 1) / block;
 			g = pre(block).template exp_impl<differentiated>(block);
 			base inverse = g.inv(block);
 			inverse.resize(length);
 			ntt_half(inverse);
 			const Word norm = T::mod() - (T::mod() - 1) / length;
 			transform(1).scale(words(inverse), length, norm);
-			fps_detail::NTT::CompositionWords storage(new (std::align_val_t(64)) unsigned int[(2 * count - 1) * length]);
-			Word *derivative = storage.get(), *cache = derivative + count * length;
+			auto storage = fps_detail::allocate_fps_words((2 * count - 1) * pitch);
+			Word *derivative = storage.get(), *cache = derivative + count * pitch;
 			for (int i = 0; i < count; ++i) {
-				Word *d = derivative + i * length;
+				Word *d = derivative + i * pitch;
 				const int offset = i * block;
 				const int available = std::max(0, std::min<int>(block, std::min<int>(deg, this->size()) - offset));
 				if (available) {
@@ -698,12 +760,12 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 				std::fill(d + available, d + block, 0u);
 				ntt_half(d, length);
 			}
-			O::join_windows(derivative, length, count);
+			O::join_windows_strided(derivative, length, count, pitch);
 			base error(length);
 			g.resize(deg);
 			for (int i = 1; i < count; ++i) {
 				int offset = i * block, n = std::min(block, deg - offset);
-				Word *q = cache + (i - 1) * length;
+				Word *q = cache + (i - 1) * pitch;
 				std::copy_n(words(g) + offset - block, block, q);
 				ntt_half(q, length);
 				fps_detail::NTT::scale_normalize(q, length, norm);
@@ -711,8 +773,8 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 					const Word *a[7], *b[7];
 					int terms = std::min(7, i - j);
 					for (int k = 0; k < terms; ++k) {
-						a[k] = cache + (j + k) * length;
-						b[k] = derivative + (i - j - k) * length;
+						a[k] = cache + (j + k) * pitch;
+						b[k] = derivative + (i - j - k) * pitch;
 					}
 					auto update = [&](auto number) {
 						constexpr int count = decltype(number)::value;

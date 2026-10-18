@@ -20,6 +20,7 @@ documentation_of: //components/fps_operations.hpp
 | `accumulate_products<count,first>(dst,a,b,n)` | `count` 組の先頭 `n` 個の要素ごとの積を加算。`first` が真なら上書き、偽なら `dst` へ加算 |
 | `accumulate_products8<count,first>(dst,a,b,n)` | `accumulate_products` の AVX2 版 |
 | `join_windows(blocks,length,count)` | 連続する `count` 個の変換済みブロックを接続。前半に直前のブロックを加え、後半から引く |
+| `join_windows_strided(blocks,length,count,pitch)` | 要素数 `pitch` の間隔で並べたブロックを接続 |
 | `inverse_extend(h,a,cache)` | キャッシュした変換を使って逆数の精度を倍化 |
 | `dot(a,b,n)` | 逆向きの添字を使う内積 |
 | `mod_sqrt(a)` | 法 998244353 の平方根。非平方剰余は 0 |
@@ -29,7 +30,7 @@ documentation_of: //components/fps_operations.hpp
 
 `accumulate_products` は $$1\le\mathrm{count}\le7$$ とし、`a`・`b` は各 `count` 個の配列ポインタを渡します。各配列と `dst` に `n` 要素を用意し、内部 Montgomery ワードとして `a[k][i]` は $$[0,p)$$、`b[k][i]` は $$[0,2p)$$ に収めます。ここで $$p=998244353$$ です。`first = false` のときは元の `dst` も $$[0,2p)$$ にします。結果も $$[0,2p)$$ です。`n` が 8 以上なら 8 の倍数にします。`accumulate_products8` は x86 のみで定義され、`n` を 8 の倍数とし、AVX2 対応を確認してから呼び出します。
 
-`join_windows` は `length` を 2 以上の 2 冪、`count` を 1 以上とします。各ブロックは、前半に係数を置き、後半を 0 とした長さ `length` の NTT です。全ブロックで `count * length` 要素を用意します。接続前の直前のブロックを参照するため、処理は後ろから行います。
+`join_windows` は `length` を 2 以上の 2 冪、`count` を 1 以上とします。各ブロックは、前半に係数を置き、後半を 0 とした長さ `length` の NTT です。全ブロックで `count * length` 要素を用意します。`join_windows_strided` では、ブロック先頭間の要素数 `pitch` を `length` 以上とし、`count * pitch` 要素を用意します。接続前の直前のブロックを参照するため、処理は後ろから行います。
 
 係数数を $$n$$ として、変換・`inverse_extend` は $$O(n\log n)$$、その他の配列操作は $$O(n)$$ です。根・逆元のキャッシュ拡張は追加要素数に比例し、取得のみなら $$O(1)$$、`words` は $$O(1)$$ です。`mod_sqrt` は固定法に対して $$O(1)$$、追加空間・キャッシュは $$O(n)$$ です。
 

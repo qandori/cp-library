@@ -9,7 +9,7 @@ from affected import (GROUPS, SourceTree, binding_source_digest, canonical, chec
 
 MODE = "control-full-no-cache-v1"
 REF = "refs/heads/codex/ci-tree-reuse-20261018"
-BASE = "e348f396c801964e72d4b1460a39dae91fdc88a3"
+BASE = "7fb5f2897349aa0a11c18e3ab56f3e4815319017"
 TRAILER = "Verify-Mode: control-full"
 PATHS = {
     ".github/workflows/verify.yml", ".github/workflows/macos-portability.yml",
@@ -19,17 +19,25 @@ PATHS = {
     ".verify-helper/tree_baseline.py", ".verify-helper/tree_baseline_test.py",
     ".verify-helper/control_full.py", ".verify-helper/control_full_test.py",
     ".verify-helper/review/tree-equivalent-baseline.md",
+    ".verify-helper/control_delta.py", ".verify-helper/control_delta_test.py",
+    ".verify-helper/check_context.py", ".verify-helper/check_context_test.py",
+    ".verify-helper/control-receipts.json",
 }
+DELTA_MAIN_CONCURRENCY = ("${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && "
+                          "contains(github.event.head_commit.message, 'Verify-Mode: control-delta') && "
+                          "format('-{0}', github.sha) || '' }}")
 IDENTITY_PREFIX = "uname -a\ng++ --version\ng++ -dumpmachine\nclang++ --version\n"
 CONTROL_TIMEOUT = """    timeout-minutes: >-
       ${{ (
-        (github.event_name == 'push' && github.ref == 'refs/heads/codex/ci-tree-reuse-20261018') ||
+        (github.event_name == 'push' && (github.ref == 'refs/heads/codex/ci-tree-reuse-20261018' ||
+          github.ref == 'refs/heads/codex/ci-tree-anchor-20261018')) ||
         (github.event_name == 'pull_request' && github.head_ref == 'codex/ci-tree-reuse-20261018' &&
-          github.event.pull_request.head.repo.full_name == 'qandori/cp-library' &&
-          github.event.pull_request.base.sha == 'e348f396c801964e72d4b1460a39dae91fdc88a3') ||
+          github.event.pull_request.head.repo.full_name == 'qandori/cp-library') ||
         (github.event_name == 'push' && github.ref == 'refs/heads/main' &&
-          github.event.before == 'e348f396c801964e72d4b1460a39dae91fdc88a3' &&
-          contains(github.event.head_commit.message, 'Verify-Mode: control-full'))
+          github.event.before == '7fb5f2897349aa0a11c18e3ab56f3e4815319017' &&
+          contains(github.event.head_commit.message, 'Verify-Mode: control-full')) ||
+        (github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          contains(github.event.head_commit.message, 'Verify-Mode: control-delta'))
       ) && 120 || 60 }}
 """
 
@@ -44,12 +52,14 @@ def expected_workflow(source, name):
         nonlocal source
         require(source.count(before) == 1, "Unsupported bootstrap workflow source")
         source = source.replace(before, after)
+    concurrency = "verify-${{ github.workflow }}-${{ github.ref }}" if name == "verify.yml" else "macos-portability-${{ github.ref }}"
+    replace("  group: " + concurrency + "\n", "  group: >-\n    " + concurrency + DELTA_MAIN_CONCURRENCY + "\n")
     if name == "verify.yml":
         replace("    timeout-minutes: 60\n", CONTROL_TIMEOUT)
         replace("if: steps.route.outputs.mode == 'no-cache'\n        with:\n          python-version: '3.12'",
-                "if: steps.route.outputs.mode == 'no-cache' || steps.route.outputs.mode == 'control-full'\n        with:\n          python-version: '3.12'")
+                "if: steps.route.outputs.mode == 'no-cache' || steps.route.outputs.mode == 'control-full' || steps.route.outputs.mode == 'control-anchor' || steps.route.outputs.mode == 'control-delta'\n        with:\n          python-version: '3.12'")
         replace("- name: Install dependencies without cache\n        if: steps.route.outputs.mode == 'no-cache'",
-                "- name: Install dependencies without cache\n        if: steps.route.outputs.mode == 'no-cache' || steps.route.outputs.mode == 'control-full'")
+                "- name: Install dependencies without cache\n        if: steps.route.outputs.mode == 'no-cache' || steps.route.outputs.mode == 'control-full' || steps.route.outputs.mode == 'control-anchor' || steps.route.outputs.mode == 'control-delta'")
         replace("      - name: Run unit tests with GCC and Clang\n        run: |\n",
                 "      - name: Run unit tests with GCC and Clang\n        run: |\n"
                 + "".join("          " + line + "\n" for line in IDENTITY_PREFIX.splitlines()))
@@ -58,6 +68,11 @@ def expected_workflow(source, name):
             "        if: steps.route.outputs.mode == 'control-full'\n"
             "        env:\n          VERIFY_EXPECTED_HEAD: ${{ steps.route.outputs.head }}\n"
             '        run: python .verify-helper/ci.py plan --control-full --expected-head "$VERIFY_EXPECTED_HEAD"\n' + anchor)
+    replace(anchor, "      - name: Select exact-head control evidence scope without cache\n"
+            "        if: steps.route.outputs.mode == 'control-anchor' || steps.route.outputs.mode == 'control-delta'\n"
+            "        env:\n          VERIFY_EXPECTED_HEAD: ${{ steps.route.outputs.head }}\n"
+            "          GH_TOKEN: ${{ github.token }}\n"
+            '        run: python .verify-helper/ci.py plan --control-evidence --expected-head "$VERIFY_EXPECTED_HEAD"\n' + anchor)
     return source
 
 

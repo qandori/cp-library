@@ -140,9 +140,12 @@ struct Operations {
 		}
 	}
 	static void join_windows(Word *blocks, int length, int count) {
+		join_windows_strided(blocks, length, count, length);
+	}
+	static void join_windows_strided(Word *blocks, int length, int count, int pitch) {
 		for (int i = count - 1; i > 0; --i) {
-			Word *a = blocks + i * length;
-			const Word *b = a - length;
+			Word *a = blocks + i * pitch;
+			const Word *b = a - pitch;
 			for (int j = 0; j < length / 2; ++j) a[j] = fps_detail::NTT::add(a[j], b[j]);
 			for (int j = length / 2; j < length; ++j) a[j] = fps_detail::NTT::sub(a[j], b[j]);
 		}

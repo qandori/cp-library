@@ -1,3 +1,9 @@
+import contextlib
+import io
+import os
+from pathlib import Path
+import sys
+from unittest.mock import patch
 import copy
 import json
 import unittest
@@ -527,6 +533,187 @@ class NoCacheWorkflowTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             driver["validate_context"]("b" * 40, candidate, context, event)
 
+
+
+class ControlDeltaRoutingTests(unittest.TestCase):
+    git = affected_test.AffectedVerification.git
+    write = affected_test.AffectedVerification.write
+    commit = affected_test.AffectedVerification.commit
+
+    def setUp(self):
+        import control_delta
+        import control_full
+        self.delta, self.full = control_delta, control_full
+        affected_test.AffectedVerification.setUp(self)
+        outer = Path(__file__).resolve().parent.parent
+        for path in route.CONTROL_PATHS_V2:
+            self.write(path, "# Synthetic control source, never executed.\n")
+        for name in ("verify.yml", "macos-portability.yml"):
+            path = ".github/workflows/" + name
+            self.write(path, self.git_from(outer, control_delta.ANCHOR_BASE + ":" + path))
+        self.base = self.commit("anchor product baseline", bind=False)
+        self.addCleanup(patch.stopall)
+        patch.object(control_delta, "ANCHOR_BASE", self.base).start()
+        patch.object(control_full, "BASE", self.base).start()
+        for name in ("verify.yml", "macos-portability.yml"):
+            path = ".github/workflows/" + name
+            self.write(path, (outer / path).read_text())
+        self.write(".verify-helper/control_delta.py", "# Reviewed synthetic control helper.\n")
+        self.write(control_delta.INPUT, '{"receipts":[],"version":1}\n')
+        self.anchor = self.commit("immutable anchor\n\n" + control_delta.ANCHOR_MARKER, bind=False)
+
+    @staticmethod
+    def git_from(root, spec):
+        from affected import git
+        return git(root, "show", spec).decode()
+
+    def push(self, head, ref, base=None):
+        return ({"ref": ref, "after": head, "before": base or self.base, "deleted": False},
+                {"GITHUB_EVENT_NAME": "push", "GITHUB_REPOSITORY": route.REPOSITORY,
+                 "GITHUB_SHA": head, "GITHUB_REF": ref})
+
+    def integration(self):
+        # Main may advance; preserve its product change and immutable anchor ancestry.
+        self.git("checkout", "--quiet", "-B", "main", self.base)
+        self.write("math/unrelated.hpp", "#pragma once\n// independently updated on main\n")
+        base = self.commit("independent main update", bind=False)
+        self.git("checkout", "--quiet", self.anchor)
+        self.git("merge", "--quiet", "--no-ff", base, "-m", "delta integration\n\n" + self.delta.MARKER)
+        return base, self.git("rev-parse", "HEAD").decode().strip()
+
+    def test_anchor_accepts_only_immutable_source_push(self):
+        selected = route.select_event(self.root, *self.push(self.anchor, self.delta.ANCHOR_REF))
+        self.assertEqual(selected["mode"], "control-anchor")
+        self.assertEqual(selected["base"], self.base)
+        for ref in (route.MAIN_REF, self.delta.REF, "refs/heads/other"):
+            with self.subTest(ref=ref), self.assertRaises(ValueError):
+                route.select_event(self.root, *self.push(self.anchor, ref))
+        for kind in ("pull_request", "workflow_dispatch"):
+            event, context = self.push(self.anchor, self.delta.ANCHOR_REF)
+            context["GITHUB_EVENT_NAME"] = kind
+            if kind == "pull_request":
+                context["GITHUB_HEAD_REF"] = self.delta.ANCHOR_REF.removeprefix("refs/heads/")
+                event["pull_request"] = {"head": {"sha": self.anchor}}
+            with self.subTest(kind=kind), self.assertRaises(ValueError):
+                route.select_event(self.root, event, context)
+
+    def test_quoted_or_nonfinal_control_markers_cannot_enter_normal_work(self):
+        for marker in (self.full.TRAILER, self.delta.ANCHOR_MARKER, self.delta.MARKER):
+            for message in ("docs quote: " + marker + " in prose", "quoted marker\n" + marker + "\nnot final"):
+                self.git("checkout", "--quiet", self.base)
+                head = self.commit(message, bind=False)
+                for ref in (route.MAIN_REF, "refs/heads/ordinary"):
+                    with self.subTest(marker=marker, message=message, ref=ref), \
+                            self.assertRaisesRegex(ValueError, "Reserved control marker"):
+                        route.select_event(self.root, *self.push(head, ref))
+        self.git("checkout", "--quiet", self.anchor)
+        head = self.commit("valid trailing blank lines\n\n" + self.delta.ANCHOR_MARKER + "\n\n", bind=False)
+        self.assertEqual(route.select_event(self.root, *self.push(head, self.delta.ANCHOR_REF))["mode"], "control-anchor")
+
+    def test_main_movement_does_not_rebase_or_invalidate_anchor(self):
+        base, head = self.integration()
+        self.git("checkout", "--quiet", self.anchor)
+        self.assertEqual(route.select_event(self.root, *self.push(self.anchor, self.delta.ANCHOR_REF))["base"], self.base)
+        self.git("checkout", "--quiet", head)
+        selected = route.select_event(self.root, *self.push(head, self.delta.REF, base))
+        self.assertEqual(selected["base"], base)
+        self.assertEqual(selected["mode"], "control-delta")
+        self.assertIn("independently updated", (self.root / "math/unrelated.hpp").read_text())
+
+    def test_only_marked_delta_main_push_gets_commit_isolated_concurrency(self):
+        import yaml
+        for name, original in (("verify.yml", "verify-${{ github.workflow }}-${{ github.ref }}"),
+                               ("macos-portability.yml", "macos-portability-${{ github.ref }}")):
+            workflow = yaml.safe_load((self.root / ".github/workflows" / name).read_text())
+            concurrency = workflow["concurrency"]
+            self.assertIs(concurrency["cancel-in-progress"], True)
+            self.assertEqual(concurrency["group"], original + self.full.DELTA_MAIN_CONCURRENCY)
+            suffix = self.full.DELTA_MAIN_CONCURRENCY
+            for guard in ("github.event_name == 'push'", "github.ref == 'refs/heads/main'",
+                          "contains(github.event.head_commit.message, 'Verify-Mode: control-delta')",
+                          "format('-{0}', github.sha) || ''"):
+                self.assertIn(guard, suffix)
+
+    def test_upstream_ci_helper_changes_require_renewed_review(self):
+        self.git("checkout", "--quiet", "-B", "main", self.base)
+        self.write(".verify-helper/ci.py", "# User's upstream CI change must not be overwritten.\n")
+        base = self.commit("upstream CI update", bind=False)
+        # Even a candidate restoring our expected controls cannot silently erase it.
+        tree = self.git("rev-parse", self.anchor + "^{tree}").decode().strip()
+        head = self.git("commit-tree", tree, "-p", self.anchor, "-p", base,
+                        "-m", "overwrite attempt\n\n" + self.delta.MARKER).decode().strip()
+        self.git("checkout", "--quiet", head)
+        with self.assertRaisesRegex(ValueError, "renewed review"):
+            route.select_event(self.root, *self.push(head, self.delta.REF, base))
+
+    def test_delta_exact_ordered_main_merge_and_pr(self):
+        base, head = self.integration()
+        tree = self.git("rev-parse", head + "^{tree}").decode().strip()
+        merged = self.git("commit-tree", tree, "-p", base, "-p", head,
+                          "-m", "main delta\n\n" + self.delta.MARKER).decode().strip()
+        self.git("checkout", "--quiet", merged)
+        selected = route.select_event(self.root, *self.push(merged, route.MAIN_REF, base))
+        self.assertEqual(selected["source_head"], head)
+        event = {"number": 24, "pull_request": {
+            "head": {"sha": head, "ref": self.delta.REF.removeprefix("refs/heads/"), "repo": {"full_name": route.REPOSITORY}},
+            "base": {"sha": base, "ref": "main", "repo": {"full_name": route.REPOSITORY}}}}
+        context = {"GITHUB_EVENT_NAME": "pull_request", "GITHUB_REPOSITORY": route.REPOSITORY, "GITHUB_SHA": merged,
+                   "GITHUB_REF": "refs/pull/24/merge", "GITHUB_HEAD_REF": self.delta.REF.removeprefix("refs/heads/")}
+        self.assertEqual(route.select_event(self.root, event, context)["base"], base)
+        for field, value in (("sha", self.base), ("ref", "other"), ("repo", {"full_name": "fork/repo"})):
+            altered = copy.deepcopy(event)
+            altered["pull_request"]["base"][field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                route.select_event(self.root, altered, context)
+        with self.assertRaises(ValueError):
+            route.select_event(self.root, *self.push(merged, route.MAIN_REF, self.base))
+
+    def test_wrong_product_change_and_dirty_checkout_fail_before_checks(self):
+        base, head = self.integration()
+        self.write("math/unrelated.hpp", "not the main product bytes\n")
+        with self.assertRaises(ValueError):
+            route.select_event(self.root, *self.push(head, self.delta.REF, base))
+        tree = self.git("write-tree").decode().strip()
+        self.git("add", "math/unrelated.hpp")
+        tree = self.git("write-tree").decode().strip()
+        wrong = self.git("commit-tree", tree, "-p", self.anchor, "-p", base,
+                         "-m", "extra product change\n\n" + self.delta.MARKER).decode().strip()
+        self.git("checkout", "--quiet", "--force", wrong)
+        with self.assertRaisesRegex(ValueError, "non-control"):
+            route.select_event(self.root, *self.push(wrong, self.delta.REF, base))
+
+    def test_missing_marker_single_parent_and_unmarked_main_transition_fail(self):
+        base, head = self.integration()
+        tree = self.git("rev-parse", head + "^{tree}").decode().strip()
+        for message, parents in ((self.delta.MARKER, [base]), ("not opted in", [self.anchor, base])):
+            args = [item for parent in parents for item in ("-p", parent)]
+            wrong = self.git("commit-tree", tree, *args, "-m", message).decode().strip()
+            self.git("checkout", "--quiet", wrong)
+            with self.subTest(message=message), self.assertRaises(ValueError):
+                route.select_event(self.root, *self.push(wrong, self.delta.REF, base))
+        wrong = self.git("commit-tree", tree, "-p", base, "-m", "unmarked squash").decode().strip()
+        self.git("checkout", "--quiet", wrong)
+        with self.assertRaisesRegex(ValueError, "explicit direct control route"):
+            route.select_event(self.root, *self.push(wrong, route.MAIN_REF, base))
+
+    def test_control_evidence_cli_requires_route_and_does_not_save_cache(self):
+        import ci
+        import control_delta_test as fixtures
+        selected = route.select_event(self.root, *self.push(self.anchor, self.delta.ANCHOR_REF))
+        # Supply immutable helper/settings bytes only for this synthetic plan.
+        with patch.object(self.delta, "group_checks", return_value={g: "a" * 64 for g in ci.GROUPS}):
+            plan = self.delta.make_plan(self.root, selected, fixtures.LINUX, fixtures.runtime(), [])
+        with patch.object(ci, "ROOT", self.root), patch.object(sys, "argv", ["ci.py", "plan", "--control-evidence", "--expected-head", self.anchor]), \
+                patch.dict(os.environ, {"VERIFY_NO_CACHE": "true", "VERIFY_CONTROL_EVIDENCE": ""}), self.assertRaises(SystemExit):
+            ci.main()
+        with patch.object(ci, "ROOT", self.root), patch.object(sys, "argv", ["ci.py", "plan", "--control-evidence", "--expected-head", self.anchor]), \
+                patch.dict(os.environ, {"VERIFY_NO_CACHE": "true", "VERIFY_CONTROL_EVIDENCE": "true"}), \
+                patch.object(self.delta, "build_plan", return_value=plan), contextlib.redirect_stdout(io.StringIO()):
+            ci.main()
+        self.assertFalse((self.root / ".verify-helper/verified-state.json").exists())
+        with patch.object(ci, "ROOT", self.root), patch.object(sys, "argv", ["ci.py", "save"]), \
+                patch.object(self.delta, "validate_plan"), self.assertRaises(SystemExit):
+            ci.main()
 
 
 if __name__ == "__main__":

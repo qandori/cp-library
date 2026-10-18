@@ -293,16 +293,17 @@ class ControlFullTests(unittest.TestCase):
                             lambda *args: self.fail("API called"), lambda *args: self.fail("Log requested"),
                             route.BASELINE_JOBS)
 
-    def test_only_exact_bootstrap_context_gets_the_reviewed_fixed_timeout(self):
+    def test_only_dedicated_control_context_gets_the_reviewed_fixed_timeout(self):
         import yaml
         text = (self.root / ".github/workflows/verify.yml").read_text()
         value = yaml.safe_load(text)["jobs"]["verify"]["timeout-minutes"]
-        self.assertIn("github.event_name == 'push' && github.ref == '" + control.REF + "'", value)
+        self.assertIn("github.ref == '" + control.REF + "'", value)
+        self.assertIn("github.ref == 'refs/heads/codex/ci-tree-anchor-20261018'", value)
         self.assertIn("github.event_name == 'pull_request' && github.head_ref == '" + control.REF.removeprefix("refs/heads/") + "'", value)
         self.assertIn("github.event.pull_request.head.repo.full_name == 'qandori/cp-library'", value)
-        self.assertIn("github.event.pull_request.base.sha == 'e348f396c801964e72d4b1460a39dae91fdc88a3'", value)
-        self.assertIn("github.event.before == 'e348f396c801964e72d4b1460a39dae91fdc88a3'", value)
+        self.assertIn("github.event.before == '7fb5f2897349aa0a11c18e3ab56f3e4815319017'", value)
         self.assertIn("contains(github.event.head_commit.message, 'Verify-Mode: control-full')", value)
+        self.assertIn("contains(github.event.head_commit.message, 'Verify-Mode: control-delta')", value)
         self.assertTrue(value.endswith(") && 120 || 60 }}"))
         self.write(".github/workflows/verify.yml", text.replace(") && 120 || 60 }}", ") && 120 || 120 }}"))
         self.head = self.commit("unreviewed ordinary timeout\n\n" + control.TRAILER, bind=False)

@@ -66,6 +66,12 @@ void check() {
 		auto shifted = taylor_shift(f, c);
 		for (int x = 0; x <= n; ++x) assert(shifted.eval(T(x)) == f.eval(T(x) + c));
 		assert(taylor_shift(shifted, -c) == f && taylor_shift(f, 0) == f);
+		if (n) {
+			F a = f;
+			a[0] = 1;
+			a.resize(n + 3);
+			assert(a.log(n + 3).exp(n + 3) == a);
+		}
 		if (n > 1) {
 			auto inverse = compositional_inverse(g);
 			F identity(n); identity[1] = 1;

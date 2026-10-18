@@ -1,0 +1,89 @@
+{
+  "retrieved_at": "2026-10-18T12:39:14.618106+00:00",
+  "listing_url": "https://v3.api.judge.yosupo.jp/submissions?problem=log_of_formal_power_series&order=%2Btime&status=AC&count=3",
+  "listing": {
+    "count": 1489,
+    "submissions": [
+      {
+        "id": 409452,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 15474688,
+        "problem_name": "log_of_formal_power_series",
+        "problem_title": "Log of Formal Power Series",
+        "status": "AC",
+        "submission_time": "2026-10-10T05:03:05.948735Z",
+        "time": 0.013,
+        "user_name": "Aiyiyi"
+      },
+      {
+        "id": 409363,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 18100224,
+        "problem_name": "log_of_formal_power_series",
+        "problem_title": "Log of Formal Power Series",
+        "status": "AC",
+        "submission_time": "2026-10-10T01:59:57.36938Z",
+        "time": 0.014,
+        "user_name": "Aiyiyi"
+      },
+      {
+        "id": 409264,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 18206720,
+        "problem_name": "log_of_formal_power_series",
+        "problem_title": "Log of Formal Power Series",
+        "status": "AC",
+        "submission_time": "2026-10-09T22:08:06.156265Z",
+        "time": 0.015,
+        "user_name": "Aiyiyi"
+      }
+    ]
+  },
+  "references": [
+    {
+      "id": 409452,
+      "is_latest": true,
+      "lang": "cpp",
+      "memory": 15474688,
+      "problem_name": "log_of_formal_power_series",
+      "problem_title": "Log of Formal Power Series",
+      "status": "AC",
+      "submission_time": "2026-10-10T05:03:05.948735Z",
+      "time": 0.013,
+      "user_name": "Aiyiyi",
+      "url": "https://judge.yosupo.jp/submission/409452",
+      "source_sha256": "86ef3c3b4a4707ef5e7515e5229b2564f2a5f46bd830bb6cbe64b506a95675b6"
+    },
+    {
+      "id": 409363,
+      "is_latest": true,
+      "lang": "cpp",
+      "memory": 18100224,
+      "problem_name": "log_of_formal_power_series",
+      "problem_title": "Log of Formal Power Series",
+      "status": "AC",
+      "submission_time": "2026-10-10T01:59:57.36938Z",
+      "time": 0.014,
+      "user_name": "Aiyiyi",
+      "url": "https://judge.yosupo.jp/submission/409363",
+      "source_sha256": "5f95eee7d3c274d0a4c06347df01a6b9bbbd880b9f087836308d4866129dfb88"
+    },
+    {
+      "id": 409264,
+      "is_latest": true,
+      "lang": "cpp",
+      "memory": 18206720,
+      "problem_name": "log_of_formal_power_series",
+      "problem_title": "Log of Formal Power Series",
+      "status": "AC",
+      "submission_time": "2026-10-09T22:08:06.156265Z",
+      "time": 0.015,
+      "user_name": "Aiyiyi",
+      "url": "https://judge.yosupo.jp/submission/409264",
+      "source_sha256": "6f5646ab47efa371e6ded81fb877e7670b80b6d871c20341761f5386c259966c"
+    }
+  ]
+}

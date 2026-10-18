@@ -1,0 +1,45 @@
+built before
+built current
+built padding_only
+built pages_only
+kernel inv 32768 {'before': 0.531673, 'current': 0.538362, 'padding_only': 0.535018, 'pages_only': 0.523972}
+kernel log 32768 {'before': 1.157806, 'current': 1.0123689999999999, 'padding_only': 1.003115, 'pages_only': 1.170805}
+kernel exp 32768 {'before': 1.220229, 'current': 1.126199, 'padding_only': 1.123715, 'pages_only': 1.235942}
+kernel sqrt 32768 {'before': 0.7312799999999999, 'current': 0.7054010000000001, 'padding_only': 0.734094, 'pages_only': 0.7231479999999999}
+kernel pow 32768 {'before': 2.3413510000000004, 'current': 2.0786279999999997, 'padding_only': 2.087412, 'pages_only': 2.357634}
+kernel div_series 32768 {'before': 0.9719089999999999, 'current': 0.821344, 'padding_only': 0.854434, 'pages_only': 0.9770060000000002}
+kernel divmod 32768 {'before': 0.9788889999999999, 'current': 0.898149, 'padding_only': 0.9027160000000001, 'pages_only': 0.9458500000000001}
+kernel square 32768 {'before': 0.568397, 'current': 0.5623079999999999, 'padding_only': 0.5684670000000001, 'pages_only': 0.5550470000000001}
+kernel multiply 32768 {'before': 0.648777, 'current': 0.656358, 'padding_only': 0.65069, 'pages_only': 0.646834}
+kernel inv 131073 {'before': 2.404855, 'current': 2.284436, 'padding_only': 2.412035, 'pages_only': 2.308932}
+kernel log 131073 {'before': 4.886093, 'current': 4.126511, 'padding_only': 4.460808999999999, 'pages_only': 4.56827}
+kernel exp 131073 {'before': 5.53437, 'current': 4.743892000000001, 'padding_only': 5.023298, 'pages_only': 5.268715}
+kernel sqrt 131073 {'before': 3.124899, 'current': 3.033211, 'padding_only': 3.028304, 'pages_only': 3.1083339999999997}
+kernel pow 131073 {'before': 10.233665, 'current': 9.044182, 'padding_only': 9.518298999999999, 'pages_only': 9.583957}
+kernel div_series 131073 {'before': 3.9982100000000003, 'current': 3.343354, 'padding_only': 3.701638, 'pages_only': 3.734667}
+kernel divmod 131073 {'before': 4.032241, 'current': 3.7432, 'padding_only': 3.784342, 'pages_only': 3.972702}
+kernel square 131073 {'before': 4.668019, 'current': 4.7471570000000005, 'padding_only': 4.70257, 'pages_only': 4.7093609999999995}
+kernel multiply 131073 {'before': 5.512868, 'current': 5.5202990000000005, 'padding_only': 5.481452, 'pages_only': 5.508451}
+kernel inv 500000 {'before': 10.523617000000002, 'current': 9.629976000000001, 'padding_only': 10.409577, 'pages_only': 9.643415000000001}
+kernel log 500000 {'before': 19.142376, 'current': 16.3212, 'padding_only': 18.079110999999997, 'pages_only': 17.975526}
+kernel exp 500000 {'before': 21.957603, 'current': 19.180172, 'padding_only': 20.758604, 'pages_only': 20.382164}
+kernel sqrt 500000 {'before': 12.925979, 'current': 11.717236000000002, 'padding_only': 12.601886, 'pages_only': 23.45807}
+kernel pow 500000 {'before': 41.5311, 'current': 35.21909, 'padding_only': 37.520652, 'pages_only': 38.04258}
+kernel div_series 500000 {'before': 16.350383, 'current': 13.401207999999999, 'padding_only': 15.236593, 'pages_only': 15.168762000000001}
+kernel divmod 500000 {'before': 13.435628999999999, 'current': 12.901813, 'padding_only': 12.900139999999999, 'pages_only': 13.911788}
+kernel square 500000 {'before': 10.45145, 'current': 10.219234, 'padding_only': 10.2702, 'pages_only': 10.146856}
+kernel multiply 500000 {'before': 11.946378000000001, 'current': 11.705119, 'padding_only': 11.740211, 'pages_only': 11.799129}
+kernel inv 524288 {'before': 10.279974000000001, 'current': 9.42563, 'padding_only': 10.211432, 'pages_only': 9.474623999999999}
+kernel log 524288 {'before': 19.998532, 'current': 17.291647, 'padding_only': 18.466088, 'pages_only': 18.303706}
+kernel exp 524288 {'before': 22.99652, 'current': 19.688339, 'padding_only': 21.233432999999998, 'pages_only': 21.16391}
+kernel sqrt 524288 {'before': 13.416378, 'current': 12.602324999999999, 'padding_only': 13.210773, 'pages_only': 18.019541}
+kernel pow 524288 {'before': 43.576279, 'current': 36.599849, 'padding_only': 39.311420999999996, 'pages_only': 39.831657}
+kernel div_series 524288 {'before': 17.39432, 'current': 14.245016, 'padding_only': 15.977287, 'pages_only': 15.26783}
+kernel divmod 524288 {'before': 17.373047999999997, 'current': 16.477713, 'padding_only': 16.778312, 'pages_only': 17.484704999999998}
+kernel square 524288 {'before': 10.429758000000001, 'current': 10.099264999999999, 'padding_only': 10.457219, 'pages_only': 10.16281}
+kernel multiply 524288 {'before': 11.715214, 'current': 12.016143, 'padding_only': 11.573613, 'pages_only': 11.737988}
+judge inv max_random_00.in {'before': 20.202816001983592, 'current_old_io': 19.450043997494504, 'current': 19.631964998552576, 'reference_409370': 10.987460002070293, 'reference_409242': 12.338561999058584}
+judge exp max_random_00.in {'before': 31.652775000111433, 'current_old_io': 29.400829000223894, 'current': 29.01064600155223, 'reference_409662': 15.890798000327777, 'reference_409661': 15.343041999585694}
+judge log max_random_00.in {'before': 28.44724600072368, 'current_old_io': 26.20814900001278, 'current': 25.868501998047577, 'reference_409452': 13.223532001575222, 'reference_409363': 13.652872999955434}
+judge sqrt max_random_01.in {'before': 22.77250600309344, 'current_old_io': 22.24165599909611, 'current': 21.717765001085354, 'reference_409728': 10.93291800134466, 'reference_409316': 11.795233000157168}
+judge pow binary_exp_max_00.in {'before': 51.2146559995017, 'current_old_io': 45.67332599981455, 'current': 46.19221900065895, 'reference_409718': 23.225782002555206, 'reference_409358': 25.358090999361593}

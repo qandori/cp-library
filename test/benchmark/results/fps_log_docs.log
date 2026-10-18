@@ -1,0 +1,4 @@
+/tmp/fps-venv/lib/python3.12/site-packages/onlinejudge_verify/documentation/build.py:10: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Generated documentation for 151 library and judge sources
+Checked documentation for 127 libraries; compiled 19 affected bundles

@@ -1,0 +1,7 @@
+g++: fps.cpp
+fps_mint: scalar_cases=960 division_cases=192 adjacent_cases=666
+NontrivialMint: scalar_cases=960 division_cases=192 adjacent_cases=666
+PASS scalar checks=1037502
+g++: fps_speed.cpp
+g++: fps_workspace.cpp
+Verification passed

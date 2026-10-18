@@ -14,6 +14,8 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 VERSION = 2
 GROUPS = ("headers", "unit", "sanitize", "verification", "bundles")
+NO_CACHE_MODES = ("affected-no-cache-v1", "control-full-no-cache-v1",
+                  "control-anchor-no-cache-v1", "control-delta-no-cache-v1")
 
 
 def digest(value):
@@ -211,13 +213,13 @@ def record_success(previous, plan, groups):
 
 
 def verify_selected(plan, marker, run):
-    if affected_inventory(plan) and plan.get("mode") not in ("affected-no-cache-v1", "control-full-no-cache-v1"):
+    if affected_inventory(plan) and plan.get("mode") not in NO_CACHE_MODES:
         raise ValueError("Affected provenance requires the exact affected mode")
     paths = set(plan["state"]["targets"]["verification"])
     selected = set(plan["verification"])
     for name in sorted(selected):
         marker.mark_failed(Path(name))
-    if plan.get("mode") not in ("affected-no-cache-v1", "control-full-no-cache-v1"):
+    if plan.get("mode") not in NO_CACHE_MODES:
         for name in sorted(paths - selected):
             marker.mark_verified(Path(name))
     if selected:
@@ -228,7 +230,7 @@ def verify_selected(plan, marker, run):
         unfinished = [name for name in sorted(selected) if not marker.is_verified(Path(name))]
         if unfinished:
             raise RuntimeError("Verification did not finish: " + ", ".join(unfinished))
-    other = "unaffected/not run" if plan.get("mode") in ("affected-no-cache-v1", "control-full-no-cache-v1") else "reused"
+    other = "unaffected/not run" if plan.get("mode") in NO_CACHE_MODES else "reused"
     print(f"Judge tests: verified {len(selected)}, {other} {len(paths - selected)}", flush=True)
 
 
@@ -240,15 +242,20 @@ def main():
     parser.add_argument("--full", action="store_true")
     parser.add_argument("--groups", nargs="+", choices=GROUPS, default=GROUPS)
     parser.add_argument("--control-full", action="store_true")
+    parser.add_argument("--control-evidence", action="store_true")
     parser.add_argument("--affected-base")
     parser.add_argument("--expected-head")
     parser.add_argument("--expected-ref")
     args = parser.parse_args()
+    if args.control_evidence:
+        if (args.command != "plan" or not args.expected_head or args.affected_base or args.expected_ref
+                or args.control_full or os.environ.get("VERIFY_CONTROL_EVIDENCE") != "true"):
+            parser.error("Control evidence requires its explicit route and exact head")
     if args.control_full:
         if (args.command != "plan" or not args.expected_head or args.affected_base or args.expected_ref
                 or os.environ.get("VERIFY_CONTROL_FULL") != "true"):
             parser.error("Full control validation requires its explicit route and exact head")
-    if not args.control_full and bool(args.affected_base) != bool(args.expected_head):
+    if not args.control_full and not args.control_evidence and bool(args.affected_base) != bool(args.expected_head):
         parser.error("--affected-base and --expected-head are required together")
     if bool(args.expected_ref) != bool(args.affected_base):
         parser.error("--expected-ref and --affected-base are required together")
@@ -256,10 +263,15 @@ def main():
         parser.error("Affected source options apply only to plan")
     os.chdir(ROOT)
     if args.command == "plan":
-        if no_cache_context() and not args.affected_base and not args.control_full:
+        if no_cache_context() and not args.affected_base and not args.control_full and not args.control_evidence:
             parser.error("The explicit no-cache event requires explicit affected source options")
         force = args.full or os.environ.get("VERIFY_FULL") == "true"
-        if args.control_full:
+        if args.control_evidence:
+            from control_delta import build_plan as build_control_plan, log_records
+            plan = build_control_plan(ROOT, args.expected_head)
+            for record in log_records(plan):
+                print(json.dumps(record, sort_keys=True), flush=True)
+        elif args.control_full:
             from control_full import build_plan as build_control_plan
             plan = build_control_plan(ROOT, args.expected_head)
             print(json.dumps({key: value for key, value in plan.items() if key != "state"}, sort_keys=True), flush=True)
@@ -272,7 +284,7 @@ def main():
             previous = read_json(args.state)
             plan = build_plan(ROOT, previous, environment=environment_key(), force=force)
         write_json(args.selection, plan)
-        if not args.affected_base and not args.control_full:
+        if not args.affected_base and not args.control_full and not args.control_evidence:
             write_json(args.state, invalidate_selected(previous, plan))
         print(plan["reason"], flush=True)
         rows = ["| Check | Selected | Total |", "| --- | ---: | ---: |"]
@@ -288,12 +300,16 @@ def main():
                 stream.write(plan["reason"] + "\n\n" + "\n".join(rows) + "\n")
     else:
         plan = json.loads(args.selection.read_text())
-        control = plan.get("mode") == "control-full-no-cache-v1"
-        if no_cache_context() and plan.get("mode") not in ("affected-no-cache-v1", "control-full-no-cache-v1"):
+        evidence_control = plan.get("mode") in ("control-anchor-no-cache-v1", "control-delta-no-cache-v1")
+        control = evidence_control or plan.get("mode") == "control-full-no-cache-v1"
+        if no_cache_context() and plan.get("mode") not in NO_CACHE_MODES:
             parser.error("The explicit no-cache event requires an exact affected plan")
         affected = affected_inventory(plan)
         if control:
-            from control_full import completed, validate_plan
+            if evidence_control:
+                from control_delta import completed, validate_plan
+            else:
+                from control_full import completed, validate_plan
             validate_plan(ROOT, plan)
         elif affected:
             from affected import record_affected_success, validate_affected_plan

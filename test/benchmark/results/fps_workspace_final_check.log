@@ -1,0 +1,33 @@
+g++: standalone components/fps_operations.hpp
+g++: standalone components/fps_product_tree.hpp
+g++: standalone components/fps_workspace.hpp
+g++: standalone components/polynomial_half_gcd.hpp
+g++: standalone convolution/convolution.hpp
+g++: standalone convolution/cyclic_convolution.hpp
+g++: standalone convolution/max_min_convolution.hpp
+g++: standalone convolution/multiplicative_convolution.hpp
+g++: standalone convolution/multivariate_convolution.hpp
+g++: standalone convolution/ordered_convolution.hpp
+g++: standalone fps/bostan_mori.hpp
+g++: standalone fps/compose.hpp
+g++: standalone fps/compositional_inverse.hpp
+g++: standalone fps/fps.hpp
+g++: standalone fps/interpolate.hpp
+g++: standalone fps/linear_recurrence.hpp
+g++: standalone fps/multipoint_eval.hpp
+g++: standalone fps/polynomial_gcd.hpp
+g++: standalone fps/power_projection.hpp
+g++: standalone fps/taylor_shift.hpp
+g++: fps.cpp
+fps_mint: scalar_cases=960 division_cases=192 adjacent_cases=666
+NontrivialMint: scalar_cases=960 division_cases=192 adjacent_cases=666
+PASS scalar checks=1037502
+g++: fps_speed.cpp
+g++: fps_workspace.cpp
+/workspace/cp-library/test/unit/fps_workspace.cpp:10:95: warning: ignoring attributes on template argument ‘void (*)(fps_detail::Operations<fps_detail::Mint>::Word*, int, int)’ {aka ‘void (*)(unsigned int*, int, int)’} [-Wignored-attributes]
+   10 |                                                         void (*)(Operations::Word *, int, int)>);
+      |                                                                                               ^
+/workspace/cp-library/test/unit/fps_workspace.cpp:10:95: warning: ignoring attributes on template argument ‘void (*)(fps_detail::Operations<fps_detail::Mint>::Word*, int, int)’ {aka ‘void (*)(unsigned int*, int, int)’} [-Wignored-attributes]
+Verification passed
+
+Final fps_workspace.cpp: GCC -Wall -Wextra -Werror compiled and passed after the API pointer check was revised.

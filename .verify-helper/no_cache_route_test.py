@@ -704,7 +704,7 @@ class ControlDeltaRoutingTests(unittest.TestCase):
         with patch.object(self.delta, "group_checks", return_value={g: "a" * 64 for g in ci.GROUPS}):
             plan = self.delta.make_plan(self.root, selected, fixtures.LINUX, fixtures.runtime(), [])
         with patch.object(ci, "ROOT", self.root), patch.object(sys, "argv", ["ci.py", "plan", "--control-evidence", "--expected-head", self.anchor]), \
-                patch.dict(os.environ, {"VERIFY_NO_CACHE": "true"}), self.assertRaises(SystemExit):
+                patch.dict(os.environ, {"VERIFY_NO_CACHE": "true", "VERIFY_CONTROL_EVIDENCE": ""}), self.assertRaises(SystemExit):
             ci.main()
         with patch.object(ci, "ROOT", self.root), patch.object(sys, "argv", ["ci.py", "plan", "--control-evidence", "--expected-head", self.anchor]), \
                 patch.dict(os.environ, {"VERIFY_NO_CACHE": "true", "VERIFY_CONTROL_EVIDENCE": "true"}), \

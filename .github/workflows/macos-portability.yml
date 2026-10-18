@@ -49,6 +49,11 @@ jobs:
           VERIFY_EXPECTED_HEAD: ${{ steps.route.outputs.head }}
           VERIFY_EXPECTED_REF: ${{ steps.route.outputs.ref }}
         run: python .verify-helper/ci.py plan --affected-base "$VERIFY_AFFECTED_BASE" --expected-head "$VERIFY_EXPECTED_HEAD" --expected-ref "$VERIFY_EXPECTED_REF"
+      - name: Select exact-head full scope without cache
+        if: steps.route.outputs.mode == 'control-full'
+        env:
+          VERIFY_EXPECTED_HEAD: ${{ steps.route.outputs.head }}
+        run: python .verify-helper/ci.py plan --control-full --expected-head "$VERIFY_EXPECTED_HEAD"
       - name: Check Apple Clang
         run: |
           uname -a

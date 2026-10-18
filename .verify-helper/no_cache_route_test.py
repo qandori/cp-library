@@ -86,6 +86,11 @@ class NoCacheRouteTests(unittest.TestCase):
                     "steps": [{"name": name, "status": "completed", "conclusion": "success"} for name in steps]}]}
         self.fail("Unexpected API path: " + path)
 
+    def test_legacy_production_route_does_not_execute_new_control_helper(self):
+        from unittest.mock import patch
+        with patch("control_full.select_event", side_effect=AssertionError("Unbound helper executed")):
+            self.assertEqual(self.selected()["mode"], "no-cache")
+
     def test_exact_production_source_and_bounded_baseline_evidence(self):
         selected = self.selected()
         self.assertEqual(selected["head"], self.head)

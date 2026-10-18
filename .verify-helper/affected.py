@@ -193,6 +193,11 @@ def verify_push_binding(root, event, context, expected_ref):
 def build_affected_plan(root, base, head, *, expected_ref, force=False):
     root = Path(root).resolve()
     checked_source(root, base, head)
+    return source_affected_plan(root, base, head, expected_ref=expected_ref, force=force)
+
+
+def source_affected_plan(root, base, head, *, expected_ref, force=False):
+    """Build an immutable-source inventory; this is not evidence of execution."""
     old, new = SourceTree(root, base), SourceTree(root, head)
     old_targets, targets = old.targets(), new.targets()
     changed = sorted(name for name in old.entries.keys() | new.entries.keys()

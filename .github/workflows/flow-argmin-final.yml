@@ -1,0 +1,32 @@
+name: Flow argmin finalist
+
+on:
+  push:
+    branches: [codex/flow-argmin-20261018]
+    paths:
+      - components/push_relabel.hpp
+      - components/flow_graph.hpp
+      - graph/max_flow.hpp
+      - components/fast_io.hpp
+      - test/benchmark/flow_compare.cpp
+      - test/benchmark/flow.py
+      - .github/workflows/flow-argmin-final.yml
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Fixed GCC 15.2 comparison
+        timeout-minutes: 8
+        run: >-
+          python3 -B test/benchmark/flow.py
+          --base-ref bce99d05caeea138a0598eab170f1110c1c6f786
+          --candidate-ref "$GITHUB_SHA"

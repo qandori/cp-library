@@ -157,7 +157,7 @@ def read_binding(tree):
     require(type(value["version"]) is int and value["version"] == 1, "Unsupported binding version")
     for name, size in (("base", 40), ("source_digest", 64)):
         require(isinstance(value[name], str) and re.fullmatch("[0-9a-f]{%d}" % size, value[name]), "Invalid binding " + name)
-    require(isinstance(value["ref"], str) and re.fullmatch(r"refs/heads/codex/(?:dwm|matrix)-[a-z0-9][a-z0-9._-]*", value["ref"])
+    require(isinstance(value["ref"], str) and re.fullmatch(r"refs/heads/codex/(?:dwm|matrix|flow)-[a-z0-9][a-z0-9._-]*", value["ref"])
             and ".." not in value["ref"], "Binding requires an exact temporary branch")
     require(raw == canonical(value) + b"\n", "Binding must use exact canonical JSON plus one newline")
     return value

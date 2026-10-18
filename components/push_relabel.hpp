@@ -60,10 +60,10 @@ template<class Cap> Cap push_relabel(Graph<Cap>& graph, int s, int t) {
 		active[v] = 0;
 		while (excess[v] && height[v] < dead) {
 			if (current[v] == graph.start[v + 1]) {
-				int old = height[v], value = dead;
+				int old = height[v], value = dead, best = graph.start[v];
 				for (int j = graph.start[v]; j < graph.start[v + 1]; ++j) {
 					const auto& e = graph.arcs[graph.order[j]];
-					if (e.cap) value = std::min(value, height[e.to] + 1);
+					if (e.cap && height[e.to] + 1 < value) value = height[e.to] + 1, best = j;
 				}
 				work += graph.start[v + 1] - graph.start[v];
 				--count[old], ++count[value], height[v] = value, current[v] = graph.start[v];
@@ -74,6 +74,7 @@ template<class Cap> Cap push_relabel(Graph<Cap>& graph, int s, int t) {
 					buckets();
 					break;
 				}
+				if (value < dead) work += best - graph.start[v], current[v] = best;
 			} else {
 				++work;
 				int i = graph.order[current[v]];

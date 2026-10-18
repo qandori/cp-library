@@ -90,3 +90,34 @@ oj download -d .verify-helper/cache/flow-samples/3668 https://yukicoder.me/probl
 oj download -d .verify-helper/cache/flow-samples/3669 https://yukicoder.me/problems/no/3669
 python3 test/benchmark/flow_check.py --samples .verify-helper/cache/flow-samples
 ```
+
+## Push-Relabel argmin local screen (2026-10-18)
+
+The relabel scan retains the first strictly smaller finite minimum CSR position. After a non-gap relabel it resumes there, adding the skipped prefix length to logical work. Gap and global resets, thresholds, public API/layout, allocation and the limited-flow Dinic path are unchanged.
+
+One fixed screen compared baseline `8d0babd9e56d88ea1ff332ded0c6b60f76680444` against the three-line production change. GCC 14.2.0, Linux x86_64, CPU 2, `-std=c++2b -O2 -DNDEBUG`, seed 36683669. Each row used exactly four pairs in AB/BA/AB/BA order. Batch sizes were fixed before timing; there were no tuning or favorable reruns. The same production change was later reconciled onto `bce99d05caeea138a0598eab170f1110c1c6f786`; its flow headers were unchanged, and the timings were not rerun.
+
+Process time includes startup/input, repeated graph construction/allocation, solver, all-edge result consumption, destruction, output and exit. Solver time surrounds each `flow` call and includes CSR build and solver scratch allocation/destruction. Values below are batch medians in ms; speedup is baseline/candidate.
+
+| Case | Batch | Process baseline | Process candidate | Process speedup | Solver baseline | Solver candidate | Solver speedup |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| max_random | 64 | 14.260 | 13.887 | 1.027x | 6.612 | 6.343 | 1.042x |
+| max_ladder | 64 | 10.728 | 10.608 | 1.011x | 6.497 | 6.697 | 0.970x |
+| max_layered | 64 | 262.396 | 246.979 | 1.062x | 251.558 | 235.714 | 1.067x |
+| max_dense | 16 | 66.612 | 66.391 | 1.003x | 42.447 | 42.104 | 1.008x |
+| max_bipartite_lex | 16 | 40.001 | 40.298 | 0.993x | 27.341 | 28.080 | 0.974x |
+| max_bipartite_shuffled | 16 | 27.355 | 26.569 | 1.030x | 14.563 | 14.102 | 1.033x |
+| max_gap | 16 | 1405.492 | 1244.684 | 1.129x | 1389.270 | 1227.359 | 1.132x |
+| max_chain | 4 | 93.633 | 90.624 | 1.033x | 58.356 | 57.902 | 1.008x |
+
+The layered and gap rows show bounded useful gains. The lexicographic bipartite row regressed in both process and solver measurements, and ladder solver time regressed by about 3%. Other small differences overlap run variation and do not establish a broad improvement. This is preliminary screening, not merge qualification or an AtCoder/Mac performance claim.
+
+The first three inputs exactly reuse the existing generator sequence. Dense uses N=1024, M=131072, capacities 1..10^9, a fresh seed 36683669 and self-edge correction as in max_random. Bipartite uses 256+256 vertices, complete unit middle edges, source/left and right/sink unit edges; the shuffled case shuffles the entire edge list with the same fresh seed. Gap uses 10000 intermediates, source capacity 10^6 to each, cyclic offsets 1,2,4,8,16,32,64,128 with capacity 10^6, and the first 100 intermediates to the sink with capacity 1. Chain uses 300000 vertices and capacity 123.
+
+Untimed instrumentation compared complete binary event streams (push, gap, global, relabel and discharge) including logical work at push/gap/global/discharge boundaries. All eight streams and complete edge/residual output files were byte-identical. Removed physical prefix checks were 14, 0, 43038, 4314, 0, 83, 2773693, 0 in table order. Instrumentation was not present in timed binaries.
+
+Raw samples, input/source hashes, counters, original setup error and check logs are retained locally and are not committed. The initial harness compilation used an unsupported multi-argument `FastOutput::println`; it was fixed before any timing, and the error log is retained. Local checks and outstanding qualification requirements are recorded separately from this curated summary.
+
+The existing yukicoder submission 1174960 / 24 ms reference above is historical. It was not newly downloaded/executed, its current ranking was not reverified, and no current-fastest claim is made.
+
+Qualification preparation reuses `flow.py --base-ref ... --candidate-ref ...` and the same eight fixed inputs/batches/order. It requires exact GCC 15.2.0 and active assertions on the target runner, compares all residual states before timing, and uses the same candidate-owned `flow_compare.cpp` harness for both revision snapshots. Exact-head Linux/Apple Clang verification, normal sanitizers, affected judges, documentation and the target-compiler gate are still required before any merge.

@@ -164,6 +164,33 @@ class NoCacheRouteTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "CI control"):
             route.verify_baseline(self.root, selected, "fixture-token", self.api)
 
+    def test_flow_branch_and_controls_are_explicit_and_source_bound(self):
+        self.assertEqual(route.SOURCE_REF, "refs/heads/codex/flow-argmin-20261018")
+        controls = {".github/workflows/flow-argmin-final.yml",
+                    "test/benchmark/flow.py", "test/benchmark/flow_compare.cpp"}
+        self.assertTrue(controls <= set(route.CONTROL_PATHS))
+        self.assertEqual(len(route.CONTROL_PATHS), len(set(route.CONTROL_PATHS)))
+        original = self.head
+        for name in sorted(controls):
+            with self.subTest(control=name):
+                self.git("checkout", "--quiet", original)
+                self.write(name, "# Changed flow qualification control.\n")
+                self.head = self.commit("changed flow control\n\n" + route.TRAILER)
+                with self.assertRaisesRegex(ValueError, "CI control"):
+                    route.verify_baseline(self.root, self.selected(), "fixture-token", self.forbidden_api)
+
+    def test_another_accepted_binding_branch_is_not_a_flow_route(self):
+        original = self.head
+        for ref in ("refs/heads/codex/dwm-neighbor-20261017",
+                    "refs/heads/codex/matrix-backward-20261018",
+                    "refs/heads/codex/flow-other-20261018"):
+            with self.subTest(ref=ref):
+                self.git("checkout", "--quiet", original)
+                self.ref = ref
+                self.head = self.commit("different bound branch\n\n" + route.TRAILER)
+                with self.assertRaisesRegex(ValueError, "reviewed production branch"):
+                    self.selected()
+
     def test_missing_baseline_evidence_fails_before_api(self):
         (self.root / route.EVIDENCE_PATH).unlink()
         self.head = self.commit("missing baseline evidence\n\n" + route.TRAILER)

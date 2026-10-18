@@ -282,6 +282,36 @@ class AffectedVerification(unittest.TestCase):
             with self.assertRaises(ValueError):
                 read_binding(SourceTree(self.root, head))
 
+    def test_flow_prefix_keeps_exact_binding_and_canonical_validation(self):
+        self.ref = "refs/heads/codex/flow-argmin-20261018"
+        head = self.change_bits()
+        self.assertEqual(self.plan()["expected_ref"], self.ref)
+        binding = read_binding(SourceTree(self.root, head))
+        for ref in ("refs/heads/codex/flow", "refs/heads/codex/flow-",
+                    "refs/heads/codex/flow-A", "refs/heads/codex/flow-a..b",
+                    "refs/heads/codex/flow-a/b", "refs/heads/flow-argmin-20261018",
+                    "refs/heads/codex/flow-a\nINJECTED=1"):
+            with self.subTest(ref=ref):
+                self.git("checkout", "--quiet", head)
+                self.write(BINDING_PATH, (canonical({**binding, "ref": ref}) + b"\n").decode())
+                bad = self.commit("invalid flow branch", bind=False)
+                with self.assertRaisesRegex(ValueError, "exact temporary branch"):
+                    read_binding(SourceTree(self.root, bad))
+        variants = (json.dumps(binding, indent=2) + "\n", canonical(binding).decode(),
+                    canonical(binding).decode()[:-1] + ',"version":1}\n')
+        for raw in variants:
+            with self.subTest(raw=raw):
+                self.git("checkout", "--quiet", head)
+                self.write(BINDING_PATH, raw)
+                self.commit("noncanonical flow binding", bind=False)
+                with self.assertRaises(ValueError):
+                    self.plan()
+        self.git("checkout", "--quiet", head)
+        self.write("test/benchmark/flow.py", "# Different driver bytes.\n")
+        self.commit("unbound flow driver", bind=False)
+        with self.assertRaisesRegex(ValueError, "source digest mismatch"):
+            self.plan()
+
     def test_no_state_read_write_and_record_is_selected_only(self):
         head = self.change_bits()
         state = self.root / ".verify-helper/verified-state.json"

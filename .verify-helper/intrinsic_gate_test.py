@@ -347,6 +347,253 @@ class MatrixIntrinsicGateTests(unittest.TestCase):
             emit.assert_called_once_with("gate_skipped", reason="normal event; no extra C++ commands")
 
 
+class FlowIntrinsicGateTests(unittest.TestCase):
+    git = affected_test.AffectedVerification.git
+    write = affected_test.AffectedVerification.write
+    commit = affected_test.AffectedVerification.commit
+    push = no_cache_route_test.NoCacheRouteTests.push
+    merge = no_cache_route_test.NoCacheRouteTests.merge
+    pr = no_cache_route_test.NoCacheRouteTests.pr
+
+    def setUp(self):
+        no_cache_route_test.NoCacheRouteTests.setUp(self)
+        self.git("checkout", "--quiet", self.base)
+        self.write("components/flow_graph.hpp", "#pragma once\n")
+        self.write("components/push_relabel.hpp", '#include "flow_graph.hpp"\n')
+        self.write("graph/max_flow.hpp", '#include "../components/push_relabel.hpp"\n')
+        self.write("graph/min_cost_flow.hpp", '#include "../components/flow_graph.hpp"\n')
+        self.write("test/unit/max_flow.cpp", '#include "graph/max_flow.hpp"\n')
+        self.write("test/unit/flow_capacity.cpp", '#include "graph/max_flow.hpp"\n'
+                   '#include "graph/min_cost_flow.hpp"\n')
+        self.write("test/unit/standalone.cpp", '#include "data_structure/dynamic_wavelet_matrix.hpp"\n'
+                   '#include "graph/max_flow.hpp"\n#include "graph/min_cost_flow.hpp"\n')
+        for name in ("max_flow", "max_flow_yuki"):
+            self.write("test/" + name + ".test.cpp", '#include "../graph/max_flow.hpp"\n')
+        self.base = self.commit("flow baseline", bind=False)
+        tree = SourceTree(self.root, self.base)
+        evidence = {
+            "version": 1, "base": self.base,
+            "baseline_source_sha256": route.source_hash(tree, route.BASELINE_INPUTS),
+            "reviewed_control_sha256": route.source_hash(tree, route.CONTROL_PATHS),
+            "policy": "exact-baseline-ci-and-reviewed-source-keys-v1",
+            "runs": {name: {"id": number, "attempt": 1}
+                     for number, name in enumerate(route.BASELINE_JOBS, 1)},
+        }
+        self.write(route.EVIDENCE_PATH, (canonical(evidence) + b"\n").decode())
+        self.write("components/push_relabel.hpp", '#include "flow_graph.hpp"\nusing flow_changed = int;\n')
+        self.head = self.commit("flow candidate\n\n" + route.TRAILER)
+
+    def test_exact_flow_push_pr_and_main_select_transitive_units(self):
+        selected, plan = gate.selected(self.root, *self.push())
+        self.assertEqual(gate.scope_mode(plan), "flow")
+        self.assertEqual(set(plan["unit"]), gate.FLOW_REQUIRED_UNITS)
+        self.assertEqual(set(plan["headers"]), gate.FLOW_PRODUCTS)
+        self.assertEqual(selected["source_head"], self.head)
+        self.assertEqual(plan["verification"], ["test/max_flow.test.cpp", "test/max_flow_yuki.test.cpp"])
+        self.assertEqual(plan["sanitize"], plan["unit"])
+        self.assertEqual(plan["bundles"], plan["headers"])
+        merged = self.merge()
+        for event, context in (self.pr(merged), self.push(merged, route.MAIN_REF)):
+            selected, plan = gate.selected(self.root, event, context)
+            self.assertEqual(selected["head"], merged)
+            self.assertEqual(selected["source_head"], self.head)
+            self.assertEqual(gate.scope_mode(plan), "flow")
+            self.assertEqual(set(plan["unit"]), gate.FLOW_REQUIRED_UNITS)
+            self.assertEqual(set(plan["headers"]), gate.FLOW_PRODUCTS)
+            self.assertEqual(plan["verification"], ["test/max_flow.test.cpp", "test/max_flow_yuki.test.cpp"])
+
+    def test_missing_flow_units_or_headers_fail_closed(self):
+        head = self.head
+        for name in sorted(gate.FLOW_REQUIRED_UNITS | gate.FLOW_PRODUCTS):
+            with self.subTest(name=name):
+                self.git("checkout", "--quiet", head)
+                (self.root / name).unlink()
+                self.head = self.commit("remove flow input\n\n" + route.TRAILER)
+                with self.assertRaisesRegex(ValueError, "(Required FLOW units|Production FLOW headers|Include escapes source tree)"):
+                    gate.selected(self.root, *self.push())
+
+    def test_reduced_extra_or_mixed_scope_cannot_silently_pass(self):
+        _, plan = gate.selected(self.root, *self.push())
+        variants = []
+        for group in ("headers", "unit"):
+            for target in plan[group]:
+                altered = copy.deepcopy(plan)
+                altered[group].remove(target)
+                variants.append(altered)
+            for extra in ([plan[group][0]], ["test/unit/extra.cpp" if group == "unit" else "math/extra.hpp"]):
+                altered = copy.deepcopy(plan)
+                altered[group].extend(extra)
+                variants.append(altered)
+        for field, values in (("changed_paths", []), ("changed_paths", ["math/unrelated.hpp"]),
+                              ("changed_paths", plan["changed_paths"] + sorted(gate.PRODUCTS)),
+                              ("headers", plan["headers"] + sorted(gate.PRODUCTS)),
+                              ("changed_paths", plan["changed_paths"] + sorted(gate.MATRIX_PRODUCTS)),
+                              ("headers", plan["headers"] + sorted(gate.MATRIX_PRODUCTS))):
+            altered = copy.deepcopy(plan)
+            altered[field] = values
+            variants.append(altered)
+        for altered in variants:
+            with self.subTest(plan=altered), patch.object(gate, "build_affected_plan", return_value=altered):
+                with self.assertRaises(ValueError):
+                    gate.selected(self.root, *self.push())
+
+    def test_actual_extra_dependent_is_rejected_not_removed(self):
+        self.write("test/unit/flow_extra.cpp", '#include "graph/max_flow.hpp"\n')
+        self.head = self.commit("new dependent requires review\n\n" + route.TRAILER)
+        with self.assertRaisesRegex(ValueError, "exceeds reviewed gate budget"):
+            gate.selected(self.root, *self.push())
+
+    def test_actual_mixed_production_changes_fail_closed(self):
+        self.write("components/dynamic_bit_vector.hpp", "#pragma once\nusing other_changed = int;\n")
+        self.head = self.commit("mixed intrinsic changes\n\n" + route.TRAILER)
+        with self.assertRaisesRegex(ValueError, "exactly one reviewed intrinsic mode"):
+            gate.selected(self.root, *self.push())
+
+    def test_flow_dependency_proofs_include_exact_production_bytes(self):
+        tree = SourceTree(self.root, self.head)
+        with tempfile.TemporaryDirectory(prefix="flow-deps-") as directory:
+            depfile = Path(directory) / "unit.d"
+            for target in sorted(gate.FLOW_REQUIRED_UNITS | gate.FLOW_PRODUCTS):
+                generated = target in gate.FLOW_PRODUCTS
+                source = Path(directory) / "header.cpp" if generated else self.root / target
+                if generated:
+                    source.write_text(gate.header_source(target))
+                names = {name for name in tree.closure(target) if tree.content(name) is not None}
+                paths = {str(source)} | {str(self.root / name) for name in names}
+                depfile.write_text("gate-output: " + " ".join(sorted(paths)) + "\n")
+                proof = gate.dependency_proof(self.root, tree, depfile, source, target, generated, "flow")
+                self.assertEqual({item["project_path"] for item in proof["project_dependencies"]}, names)
+                self.assertEqual(set(proof["production_headers"]), gate.FLOW_PRODUCTS & names)
+                for product in gate.FLOW_PRODUCTS & names:
+                    with self.subTest(target=target, omitted=product):
+                        depfile.write_text("gate-output: " + " ".join(sorted(paths - {str(self.root / product)})) + "\n")
+                        with self.assertRaisesRegex(ValueError, "current production FLOW headers"):
+                            gate.dependency_proof(self.root, tree, depfile, source, target, generated, "flow")
+
+    def test_flow_baseline_foreign_unresolved_and_changed_dependencies_fail(self):
+        tree = SourceTree(self.root, self.head)
+        target = "test/unit/max_flow.cpp"
+        source = self.root / target
+        with tempfile.TemporaryDirectory(prefix="flow-baseline-") as directory:
+            depfile, old = Path(directory) / "unit.d", Path(directory) / "push_relabel.hpp"
+            old.write_bytes(tree.content("components/push_relabel.hpp"))
+            depfile.write_text(f"gate-output: {source} {old}\n")
+            with self.assertRaisesRegex(ValueError, "escaped production checkout"):
+                gate.dependency_proof(self.root, tree, depfile, source, target, family="flow")
+            paths = {str(self.root / name) for name in {target} | gate.FLOW_PRODUCTS}
+            depfile.write_text("gate-output: " + " ".join(sorted(paths | {str(self.root / 'math/unrelated.hpp')})) + "\n")
+            with self.assertRaisesRegex(ValueError, "not resolved by reviewed source selector"):
+                gate.dependency_proof(self.root, tree, depfile, source, target, family="flow")
+            depfile.write_text("gate-output: " + " ".join(sorted(paths - {str(source)})) + "\n")
+            with self.assertRaisesRegex(ValueError, "actual source"):
+                gate.dependency_proof(self.root, tree, depfile, source, target, family="flow")
+            depfile.write_text("gate-output: " + " ".join(sorted(paths)) + "\n")
+            self.write("components/push_relabel.hpp", "wrong source bytes\n")
+            with self.assertRaisesRegex(ValueError, "differ from exact head"):
+                gate.dependency_proof(self.root, tree, depfile, source, target, family="flow")
+
+    def test_flow_modes_keep_compiler_assertion_and_isa_guards(self):
+        self.assertEqual(gate.macro_proof(MACROS, "scalar", "flow")["isa"], {})
+        self.assertEqual(gate.macro_proof(NATIVE_MACROS, "native", "flow")["gcc"], "15.2.0")
+        self.assertEqual(gate.FLOW_PRODUCTS, {"components/push_relabel.hpp", "graph/max_flow.hpp"})
+        self.assertEqual(gate.FLOW_REQUIRED_UNITS, {
+            "test/unit/max_flow.cpp", "test/unit/flow_capacity.cpp", "test/unit/standalone.cpp"})
+        self.assertEqual(gate.SCOPES["flow"][2:], (2, 3))
+        for raw, mode in ((MACROS, "native"), (NATIVE_MACROS, "scalar"),
+                          (NATIVE_MACROS.replace(b"#define __BMI2__ 1\n", b""), "native"),
+                          (NATIVE_MACROS + b"#define NDEBUG 1\n", "native"),
+                          (MACROS.replace(b"#define assert(expr) check(expr)\n", b""), "scalar"),
+                          (MACROS.replace(b"__GNUC__ 15", b"__GNUC__ 14"), "scalar"),
+                          (MACROS.replace(b"__GNUC_MINOR__ 2", b"__GNUC_MINOR__ 3"), "scalar"),
+                          (MACROS.replace(b"__GNUC_PATCHLEVEL__ 0", b"__GNUC_PATCHLEVEL__ 1"), "scalar"),
+                          (MACROS.replace(b"ONLINE_JUDGE 1", b"ONLINE_JUDGE 0"), "scalar"),
+                          (MACROS.replace(b"ATCODER 1", b"ATCODER 0"), "scalar"),
+                          (MACROS.replace(b"__x86_64__ 1", b"__x86_64__ 0"), "scalar")):
+            with self.subTest(raw=raw, mode=mode), self.assertRaises(ValueError):
+                gate.macro_proof(raw, mode, "flow")
+        for mode in gate.MODES:
+            self.assertEqual(gate.mode_flags(mode, "flow"), gate.COMMON + gate.MODES[mode])
+            self.assertNotIn("-DMATRIX_DISABLE_AVX2", gate.mode_flags(mode, "flow"))
+            self.assertNotIn("-DNDEBUG", gate.mode_flags(mode, "flow"))
+            self.assertNotIn("MATRIX_DISABLE_AVX2", gate.macro_proof(
+                NATIVE_MACROS if mode == "native" else MACROS, mode, "flow"))
+        self.assertIn("-fno-lto", gate.COMMON)
+
+    def test_flow_driver_runs_every_target_with_checked_mode_flags(self):
+        selected, plan = gate.selected(self.root, *self.push())
+        tree = SourceTree(self.root, self.head)
+        with tempfile.TemporaryDirectory(prefix="flow-driver-") as directory:
+            directory = Path(directory)
+            compiler, cc1 = directory / "g++-15", directory / "cc1plus"
+            compiler.write_bytes(b"compiler fixture")
+            cc1.write_bytes(b"cc1 fixture")
+            commands = gate.Commands(directory)
+            compiled, executed, probes = [], [], []
+
+            def run(command, *, source=b"", seconds=gate.COMMAND_SECONDS):
+                command = [str(value) for value in command]
+                commands.count += 1
+                if command == [str(compiler), "-dumpfullversion"]:
+                    return b"15.2.0\n"
+                if command == [str(compiler), "-print-prog-name=cc1plus"]:
+                    return str(cc1).encode() + b"\n"
+                if command[0] != str(compiler):
+                    self.assertEqual(len(command), 1)
+                    executed.append(command[0])
+                    return b""
+                mode = "native" if "-march=native" in command else "scalar"
+                flags = gate.mode_flags(mode, "flow")
+                self.assertEqual(command[1:1 + len(flags)], flags)
+                if "-dM" in command:
+                    self.assertEqual(source, b"#include <cassert>\n")
+                    probes.append(mode)
+                    return NATIVE_MACROS if mode == "native" else MACROS
+                self.assertEqual(command[1 + len(flags):3 + len(flags)], ["-I", str(self.root)])
+                source_path, binary = Path(command[-3]), Path(command[-1])
+                if source_path.is_relative_to(self.root):
+                    target = source_path.relative_to(self.root).as_posix()
+                else:
+                    target = source_path.read_text().split('"')[1]
+                names = {name for name in tree.closure(target) if tree.content(name) is not None}
+                paths = {str(source_path)} | {str(self.root / name) for name in names}
+                depfile = Path(command[command.index("-MF") + 1])
+                depfile.write_text("gate-output: " + " ".join(sorted(paths)) + "\n")
+                binary.write_bytes(b"test binary fixture")
+                compiled.append((mode, target, str(binary)))
+                return b""
+
+            def fixture_path(value):
+                return compiler if value == "/usr/bin/g++-15" else Path(value)
+
+            with patch.object(gate, "Commands", return_value=commands), \
+                 patch.object(commands, "run", side_effect=run), \
+                 patch.object(gate, "Path", side_effect=fixture_path), patch.object(gate, "emit") as emit:
+                gate.execute(self.root, selected, plan, directory)
+            self.assertEqual(probes, ["native", "scalar"])
+            self.assertEqual([(mode, target) for mode, target, _ in compiled],
+                             [(mode, target) for mode in ("native", "scalar")
+                              for group in ("headers", "unit") for target in plan[group]])
+            self.assertEqual(executed, [binary for _, _, binary in compiled])
+            self.assertEqual(commands.count, 24)
+            self.assertEqual(emit.call_args.args, ("gate_completed",))
+
+    def test_normal_flow_event_does_not_plan_or_run_cpp(self):
+        self.git("checkout", "--quiet", "-B", "main", self.base)
+        self.write("components/push_relabel.hpp", "#pragma once\nusing normal = int;\n")
+        head = self.commit("ordinary flow event", bind=False)
+        event, context = self.push(head, route.MAIN_REF)
+        with tempfile.TemporaryDirectory(prefix="flow-event-") as directory:
+            event_path = Path(directory) / "event.json"
+            event_path.write_text(json.dumps(event))
+            with patch.dict(os.environ, {**context, "GITHUB_EVENT_PATH": str(event_path)}), \
+                 patch.object(gate, "__file__", str(self.root / ".verify-helper/intrinsic_gate.py")), \
+                 patch.object(gate, "build_affected_plan", side_effect=AssertionError("unexpected planner")), \
+                 patch.object(gate, "execute", side_effect=AssertionError("unexpected C++")), \
+                 patch.object(gate, "emit") as emit:
+                gate.main()
+            emit.assert_called_once_with("gate_skipped", reason="normal event; no extra C++ commands")
+
+
 class IntrinsicCommandTests(unittest.TestCase):
     def test_clean_environment_and_nonzero_exit_fail_closed(self):
         directory = Path("/tmp/intrinsic-command-fixture")

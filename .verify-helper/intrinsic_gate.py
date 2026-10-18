@@ -22,9 +22,14 @@ MATRIX_PRODUCTS = {"components/matrix_arithmetic.hpp", "math/matrix.hpp"}
 MATRIX_REQUIRED_UNITS = {"test/unit/" + name + ".cpp" for name in (
     "matrix", "matrix_characteristic", "standalone",
 )}
+FLOW_PRODUCTS = {"components/push_relabel.hpp", "graph/max_flow.hpp"}
+FLOW_REQUIRED_UNITS = {"test/unit/" + name + ".cpp" for name in (
+    "max_flow", "flow_capacity", "standalone",
+)}
 SCOPES = {
     "dwm": (PRODUCTS, REQUIRED_UNITS, 4, 8),
     "matrix": (MATRIX_PRODUCTS, MATRIX_REQUIRED_UNITS, 2, 3),
+    "flow": (FLOW_PRODUCTS, FLOW_REQUIRED_UNITS, 2, 3),
 }
 COMMON = ["-O2", "-std=gnu++23", "-ftrivial-auto-var-init=zero", "-fmodules",
           "-DONLINE_JUDGE", "-DATCODER", "-fno-lto"]

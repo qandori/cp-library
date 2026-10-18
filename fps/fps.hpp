@@ -2,6 +2,7 @@
 #define FPS_998244353_HPP
 
 #include "../components/fps_operations.hpp"
+#include "../components/fps_factorials.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cstddef>
@@ -243,15 +244,15 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 		assert(!this->empty() && (*this)[0] != T(0));
 		F g{(*this)[0].inv()};
 		auto terms = sparse_terms(deg, 32);
-		if (terms.size() <= 32) {
+		int stride = terms.size() <= 32 ? prepare_sparse(terms) : 1;
+		if (terms.size() <= 32 && (deg <= 256 || terms.size() <= 12ULL * stride)) {
 			g.resize(deg);
-			for (int i = 1; i < deg; ++i) {
-				for (auto [j, x] : terms) {
-					if (j > i) break;
-					g[i] -= x * g[i - j];
-				}
-				g[i] *= g[0];
+			if (terms.size() == 1 && stride == 1) {
+				std::fill(g.begin(), g.end(), g[0]);
+				geometric_scale(g, T(1), -terms[0].second * g[0]);
+				return g;
 			}
+			for (long long i = stride; stride && i < deg; i += stride) g[i] = -sparse_dot(terms, g, static_cast<int>(i)) * g[0];
 			return g;
 		}
 
@@ -291,21 +292,13 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 			}
 #if defined(__x86_64__) || defined(__i386__)
 			if (m >= 64 && n <= (1 << 23) && fps_detail::NTT::vectorized()) {
-				int lo = std::min<int>(m, this->size());
-				std::copy_n(words(*this), lo, a);
-				std::fill(a + lo, a + m, Word(0));
-				std::copy_n(words(g), m, b);
-				int hi = std::max(0, std::min<int>(m, this->size() - m));
-				if (hi) fps_detail::NTT::inverse_fold8(a, words(*this) + m, hi);
-				transform(std::max(1, m / 16)).template inverse_cubic8<false>(a, b, m);
-				g.resize(n);
-				std::copy_n(a, m, words(g) + m);
-				lo = std::min<int>(n, this->size());
+				int lo = std::min<int>(n, this->size());
 				std::copy_n(words(*this), lo, a);
 				std::fill(a + lo, a + n, Word(0));
 				std::copy_n(words(g), m, b);
-				transform(std::max(1, n / 16)).template inverse_cubic8<true>(a, b, n);
-				fps_detail::NTT::inverse_recover8(words(g), a, m);
+				transform(std::max(1, n / 16)).inverse_newton8(a, b, n);
+				g.resize(n);
+				std::copy_n(a + m, m, words(g) + m);
 
 			} else
 #endif
@@ -629,6 +622,8 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 	using O::pointwise;
 	using O::inverse_extend;
 	using O::dot;
+	using O::prepare_sparse;
+	using O::sparse_dot;
 	using O::intt;
 	using O::mod_sqrt;
 	using O::inverse_ntt_roots;
@@ -649,21 +644,26 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 		assert(deg >= 0);
 		if (deg == 0) return {};
 		assert(this->empty() || (*this)[0] == T(0));
-		const auto &iv = inverses(deg);
 		auto terms = sparse_terms(deg, 64);
-		if (terms.size() <= 64) {
-			if constexpr (!differentiated) for (auto &[j, x] : terms) x *= T(j);
+		int stride = terms.size() <= 64 ? prepare_sparse(terms) : 1;
+		if (terms.size() <= 64 && (deg <= 256 || terms.size() <= 24ULL * stride)) {
 			F g(deg);
 			g[0] = 1;
-			for (int i = 1; i < deg; ++i) {
-				for (auto [j, x] : terms) {
-					if (j > i) break;
-					g[i] += x * g[i - j];
-				}
-				g[i] *= iv[i];
+			if (terms.size() == 1 && stride == 1 && deg >= 256) {
+				base fact(deg);
+				fps_detail::factorials(words(fact), words(g), deg);
+				geometric_scale(g, T(1), terms[0].second);
+				return g;
 			}
+			if (!stride) return g;
+			const auto &iv = inverses((deg - 1) / stride);
+			T factor = differentiated ? T(stride).inv() : T(1);
+			for (auto &[j, x] : terms) x *= differentiated ? factor : T(j / stride);
+			prepare_sparse(terms);
+			for (long long i = stride; i < deg; i += stride) g[i] = sparse_dot(terms, g, static_cast<int>(i)) * iv[i / stride];
 			return g;
 		}
+		const auto &iv = inverses(deg);
 		const int initial = std::min(deg, 32);
 		F g(initial);
 		g[0] = 1;

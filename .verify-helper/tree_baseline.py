@@ -203,8 +203,8 @@ def source_plans(root, base, proof):
 def log_lines(text):
     require(isinstance(text, str) and len(text.encode()) <= LOG_LIMIT, "Invalid Actions log")
     lines = []
-    for line in text.removeprefix("\ufeff").splitlines():
-        match = re.fullmatch(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d+Z (.*)", line)
+    for line in text.splitlines():
+        match = re.fullmatch(r"\ufeff?\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d+Z (.*)", line)
         require(match is not None, "Unrecognized Actions log format")
         lines.append(match[1])
     return lines

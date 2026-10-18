@@ -1,0 +1,8 @@
+built before
+built current
+built group1
+built group2
+built group4
+kernel inv 32768 {'before': 0.609548, 'current': 0.5354679999999999, 'group1': 0.682408, 'group2': 0.612764, 'group4': 0.551823}
+kernel inv 131073 {'before': 2.623561, 'current': 2.328942, 'group1': 2.9169780000000003, 'group2': 2.570772, 'group4': 2.414349}
+kernel inv 524288 {'before': 11.276278000000001, 'current': 10.239333, 'group1': 12.693249999999999, 'group2': 11.312522, 'group4': 10.722142}

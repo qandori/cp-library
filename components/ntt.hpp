@@ -1092,7 +1092,7 @@ struct NTT {
 		I8 e[count], o[count];
 		for (int k = 0; k < count; ++k) {
 			I8 x = load8(a + 8 * k), y = load8(b + 8 * k);
-			if constexpr (!second) x = _mm256_min_epu32(x, _mm256_sub_epi32(x, pp));
+			x = _mm256_min_epu32(x, _mm256_sub_epi32(x, pp));
 			if constexpr (!second) y = _mm256_min_epu32(y, _mm256_sub_epi32(y, pp));
 			x = _mm256_min_epu32(x, _mm256_sub_epi32(x, p));
 			if constexpr (!second) y = _mm256_min_epu32(y, _mm256_sub_epi32(y, p));
@@ -1256,6 +1256,37 @@ struct NTT {
 		U normal = mod - (mod - 1) / (2 * (n / 8));
 		if constexpr (!negative) scale8(a, n, normal);
 	}
+	__attribute__((target("avx2"))) void inverse_newton8(U *a, U *b, int n) const {
+		assert(n >= 64 && !(n & (n - 1)) && n <= (1 << 23) && static_cast<int>(roots.size()) >= n / 16);
+		std::copy_n(b, n / 2, b + n / 2);
+		inverse_partial8<false>(b, n, n / 2);
+		inverse_partial8<false>(a, n);
+		for (int i = 0; i < n; i += 64) {
+			U ws[8], qs[8];
+			for (int j = 0; j < 8; ++j) {
+				int k = i / 8 + j;
+				ws[j] = (k & 1) ? mod - roots[k / 2] : roots[k / 2];
+				qs[j] = (k & 1) ? ~root_quotients[k / 2] : root_quotients[k / 2];
+			}
+			inverse_leaf_products8<8>(a + i, b + i, ws, qs);
+		}
+		inverse_partial8<true>(a, n);
+		std::fill_n(a, n / 2, U(0));
+		inverse_partial8<false>(a, n);
+		for (int i = 0; i < n; i += 64) {
+			U ws[8], qs[8];
+			for (int j = 0; j < 8; ++j) {
+				int k = i / 8 + j;
+				ws[j] = (k & 1) ? mod - roots[k / 2] : roots[k / 2];
+				qs[j] = (k & 1) ? ~root_quotients[k / 2] : root_quotients[k / 2];
+			}
+			inverse_leaf_products8<8, true>(a + i, b + i, ws, qs);
+		}
+		inverse_partial8<true>(a, n);
+		U norm = mod - (mod - 1) / (n / 8);
+		scale8(a + n / 2, n / 2, mod - (unsigned long long)norm * norm % mod);
+	}
+
 	template <int n>
 	__attribute__((target("avx2"), always_inline)) void convolution_tile8(U *a, U *b, int k) const {
 		if constexpr (n == 8) leaf8(a, b, k);

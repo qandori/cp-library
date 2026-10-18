@@ -1,0 +1,101 @@
+{
+  "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+  "sources": {
+    "components/fast_io.hpp": "56ed72cde8b330493e8dfdca79d97a5d7e3098dfc58fc57000948c34a5e130a1",
+    "components/fps_operations.hpp": "7c838d4ca3399bf681c9f049e409c180df106c1e9b784b8b73676b0eda422182",
+    "components/ntt.hpp": "8d878ad0344cd69871ad491ed79fdfb20b061a4abc722c403727a9214306de5e",
+    "fps/fps.hpp": "6e0085a5d07be7b486151677e562d5c578057822bfa1d0a14a29b3e5c2337b45",
+    "test/unit/fps_speed.cpp": "b3946d94cf0c2d2a20df1b0e464d1f0fd0f164e02470c266144ca2f13db78722",
+    "test/unit/fps_speed_io.cpp": "e1b07ae0f6be0b1780876c9c2b16c0a1498173be6cbc1d37d659674bd0bc91aa",
+    "test/fps_inv_sparse.test.cpp": "e7067f299524f2b49da354862022afe3f588ddb63c85e49bc11f92ce9b22fa2d",
+    "test/fps_exp_sparse.test.cpp": "8ab7c46a63a492b75d2264203a67b91a79fc881d2bf33bb2d04953e6bf7f12d8"
+  },
+  "gcc": {
+    "headers": 24,
+    "unit": 17,
+    "logs": [
+      "fps_speed_check.log",
+      "fps_speed_final_check.log",
+      "fps_speed_io_check.log"
+    ],
+    "stage": "before_main_integration"
+  },
+  "sanitizer": {
+    "unit": 17,
+    "flags": [
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer"
+    ],
+    "environment": {
+      "ASAN_OPTIONS": "detect_leaks=0",
+      "UBSAN_OPTIONS": "halt_on_error=1"
+    },
+    "logs": [
+      "fps_speed_sanitize.log",
+      "fps_speed_final_sanitize.log"
+    ],
+    "reused": [
+      "test/unit/fourier_transforms.cpp"
+    ],
+    "stage": "before_main_integration"
+  },
+  "release": {
+    "flags": [
+      "-std=c++23",
+      "-O2",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra"
+    ],
+    "unit": [
+      "test/unit/fps_speed.cpp",
+      "test/unit/fps_speed_io.cpp"
+    ],
+    "passed": true
+  },
+  "scalar": {
+    "unit": "test/unit/fps_speed.cpp",
+    "modification": "NTT::vectorized() forced to false in a temporary copy",
+    "passed": true,
+    "stage": "before_main_integration"
+  },
+  "official": {
+    "results": [
+      "fps_speed_judge.json",
+      "fps_speed_online_judge.json"
+    ],
+    "reused": {
+      "driver": "test/ntt.test.cpp",
+      "cases": 53,
+      "dependencies": {
+        "components/ntt.hpp": "8d878ad0344cd69871ad491ed79fdfb20b061a4abc722c403727a9214306de5e",
+        "math/mint.hpp": "67cec2452dda0af8b4cd307449fc65b3f1d678613e0392fdd666031dae062171"
+      }
+    }
+  },
+  "compile_only": "fps_speed_io_drivers.json",
+  "bundles": {
+    "count": 24,
+    "log": "fps_speed_bundles.log"
+  },
+  "sources_before_main_integration": {
+    "components/fast_io.hpp": "56ed72cde8b330493e8dfdca79d97a5d7e3098dfc58fc57000948c34a5e130a1",
+    "components/fps_operations.hpp": "7c838d4ca3399bf681c9f049e409c180df106c1e9b784b8b73676b0eda422182",
+    "components/ntt.hpp": "8d878ad0344cd69871ad491ed79fdfb20b061a4abc722c403727a9214306de5e",
+    "fps/fps.hpp": "72e7d2afa9163c59e0b57131eaf399e34bfa038b620fe01266909f6cf75d1c6f",
+    "test/unit/fps_speed.cpp": "b3946d94cf0c2d2a20df1b0e464d1f0fd0f164e02470c266144ca2f13db78722",
+    "test/unit/fps_speed_io.cpp": "e1b07ae0f6be0b1780876c9c2b16c0a1498173be6cbc1d37d659674bd0bc91aa",
+    "test/fps_inv_sparse.test.cpp": "e7067f299524f2b49da354862022afe3f588ddb63c85e49bc11f92ce9b22fa2d",
+    "test/fps_exp_sparse.test.cpp": "8ab7c46a63a492b75d2264203a67b91a79fc881d2bf33bb2d04953e6bf7f12d8"
+  },
+  "integration": {
+    "base": "82fe5f034fca2805aeb59aee1be56216493ea5de",
+    "unit": [
+      "test/unit/fps.cpp",
+      "test/unit/fps_speed.cpp"
+    ],
+    "normal_passed": true,
+    "sanitizer_log": "fps_speed_merge_sanitize.log",
+    "scalar_checks": 1037502
+  }
+}

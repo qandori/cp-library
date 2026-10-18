@@ -1,0 +1,10 @@
+g++: convolution.cpp
+==3186==LeakSanitizer has encountered a fatal error.
+==3186==HINT: For debugging, try setting environment variable LSAN_OPTIONS=verbosity=1:log_threads=1
+==3186==HINT: LeakSanitizer does not work under ptrace (strace, gdb, etc)
+Traceback (most recent call last):
+  File "/workspace/cp-library/test/verify.py", line 45, in <module>
+    subprocess.run([str(executable)], check=True, timeout=120, cwd=root)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/tmp/kyopro-verify-esdkw78y/convolution']' returned non-zero exit status 1.

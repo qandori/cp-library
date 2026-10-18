@@ -9,7 +9,7 @@ from affected import (GROUPS, SourceTree, binding_source_digest, canonical, chec
 
 MODE = "control-full-no-cache-v1"
 REF = "refs/heads/codex/ci-tree-reuse-20261018"
-BASE = "82fe5f034fca2805aeb59aee1be56216493ea5de"
+BASE = "e348f396c801964e72d4b1460a39dae91fdc88a3"
 TRAILER = "Verify-Mode: control-full"
 PATHS = {
     ".github/workflows/verify.yml", ".github/workflows/macos-portability.yml",
@@ -21,6 +21,17 @@ PATHS = {
     ".verify-helper/review/tree-equivalent-baseline.md",
 }
 IDENTITY_PREFIX = "uname -a\ng++ --version\ng++ -dumpmachine\nclang++ --version\n"
+CONTROL_TIMEOUT = """    timeout-minutes: >-
+      ${{ (
+        (github.event_name == 'push' && github.ref == 'refs/heads/codex/ci-tree-reuse-20261018') ||
+        (github.event_name == 'pull_request' && github.head_ref == 'codex/ci-tree-reuse-20261018' &&
+          github.event.pull_request.head.repo.full_name == 'qandori/cp-library' &&
+          github.event.pull_request.base.sha == 'e348f396c801964e72d4b1460a39dae91fdc88a3') ||
+        (github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          github.event.before == 'e348f396c801964e72d4b1460a39dae91fdc88a3' &&
+          contains(github.event.head_commit.message, 'Verify-Mode: control-full'))
+      ) && 120 || 60 }}
+"""
 
 
 def marked(root, commit):
@@ -34,6 +45,7 @@ def expected_workflow(source, name):
         require(source.count(before) == 1, "Unsupported bootstrap workflow source")
         source = source.replace(before, after)
     if name == "verify.yml":
+        replace("    timeout-minutes: 60\n", CONTROL_TIMEOUT)
         replace("if: steps.route.outputs.mode == 'no-cache'\n        with:\n          python-version: '3.12'",
                 "if: steps.route.outputs.mode == 'no-cache' || steps.route.outputs.mode == 'control-full'\n        with:\n          python-version: '3.12'")
         replace("- name: Install dependencies without cache\n        if: steps.route.outputs.mode == 'no-cache'",

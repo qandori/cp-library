@@ -1,0 +1,2880 @@
+{
+  "environment": {
+    "baseline": "82fe5f034fca2805aeb59aee1be56216493ea5de",
+    "flags": [
+      "-std=c++23",
+      "-O2",
+      "-DEVAL",
+      "-DONLINE_JUDGE",
+      "-ftrivial-auto-var-init=zero",
+      "-march=haswell"
+    ],
+    "trials": 9,
+    "cpu": 2,
+    "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+    "hardware": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  5\nOn-line CPU(s) list:                     0-4\nVendor ID:                               AuthenticAMD\nModel name:                              AMD EPYC 9V74 80-Core Processor\nCPU family:                              25\nModel:                                   17\nThread(s) per core:                      1\nCore(s) per socket:                      5\nSocket(s):                               1\nStepping:                                1\nBogoMIPS:                                5192.28\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               96 KiB (3 instances)\nL1i cache:                               96 KiB (3 instances)\nL2 cache:                                3 MiB (3 instances)\nL3 cache:                                32 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-4\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Vulnerable\nVulnerability Spec store bypass:         Vulnerable\nVulnerability Spectre v1:                Vulnerable: __user pointer sanitization and usercopy barriers only; no swapgs barriers\nVulnerability Spectre v2:                Vulnerable; STIBP: disabled; PBRSB-eIBRS: Not affected; BHI: Not affected\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Vulnerable\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+    "seed": 20261018,
+    "harness_sha256": "28e84eaea85962e7170ee1604fb21615a2813cca69401f95cb3f28e5be11cd6f",
+    "driver_sha256": "a96a1c87e299b308183f0b43177a86d0c94f94f92d657ffa5583fbeda3a52806",
+    "official_commit": "1814c4e5205517e368bb57a8d1127eb961cfeaae"
+  },
+  "sources": {
+    "before": {
+      "math/xor_basis.hpp": "ca3716ebce772b2ba5b404120bc26347d83126a2805fd85e5010b52ce6759058",
+      "math/stern_brocot_tree.hpp": "7f0648852c2727ff944cfde1c7e670298fd45cc05eb14852ffeef7c72ae0e518",
+      "math/prime_sieve.hpp": "5e742307e8000973b95e820f26a394443b53a4498ab6d9fb998d78a75fce93df",
+      "math/prefix_min_of_mod_of_linear.hpp": "6e4c10f6390b73ae6bf26fa515865c6e8fe99c18e042a7607e331757a5423fd8",
+      "math/partition_mod_of_linear.hpp": "a6fc0d7fa1b50f2402ca49c6a3fbdb880240811f2c0872ff65d2cad1b207fa9f",
+      "math/monoid_floor_sum.hpp": "34abc70b077143cf19e99191e26a9c72ae2eec62d9aad17eec9965f7a9949580",
+      "math/mod_sqrt.hpp": "c2b414db307c613ee14f535073fb80458bbd0ef768c352b1822cf658fcceb68b",
+      "math/mod_pow.hpp": "8dd5fe7994928adb61e17b68e09ee213ab056aeca297c216ab0556efb0e8adf0",
+      "math/mod_inv.hpp": "bda8bf0658d160c648a0fa5b2614a946b72561e505f8b8da06d6db3bb7482ec8",
+      "math/mint.hpp": "67cec2452dda0af8b4cd307449fc65b3f1d678613e0392fdd666031dae062171",
+      "math/min_of_mod_of_linear.hpp": "971ca6e0a9f88128a1b584d8360d65f3356199827183db1f2da48a034101b47e",
+      "math/matrix.hpp": "51ec3df6083c23f1d5e7fb41463ce3dddf8f11edb087d4495e8d38b81a9b1887",
+      "math/kth_root.hpp": "67f3a2961c6e4e794c97ed9eb2568026da57fce6788f0e33f7d6b0bfe5b339d8",
+      "math/is_prime.hpp": "307a1400592b593bcba5f3568fa11f992328cceff1cd6c400c8e04d5d3c60627",
+      "math/generalized_floor_sum.hpp": "961e9b1c9f36943d05d65929e975afe7af2735fef3880e436bff8143b23ea9da",
+      "math/fraction.hpp": "75936e45326c6b62251dce7d103c7c009729b4348206216392d972258175cc2d",
+      "math/factorize.hpp": "b9a934a9c6a4b960b0ff65d0bee0a72734308ed90f7b88dad2342c95f3365414",
+      "math/discrete_log.hpp": "d16af40dddaa8136f80478bca72422e6406514b88506faa9a9aac65ce962f5b6",
+      "math/comb.hpp": "64ca05ffc38b2bc2df305adeafc12e4a7449155a2ca2e8a03862f0387becf3a1",
+      "math/binomial_prefix_sum.hpp": "cb339a005584bdb6285d62cc9564b78c8ca0bb86f48da0cfc051f0402b2841a7",
+      "fps/taylor_shift.hpp": "04928bd6ff0e313d6880ee4c7d78ad0dab189ea18c0cd64aa6cb4997fcfaedaf",
+      "fps/power_projection.hpp": "1ca47acbf95ed443c71c2e04e1e711986c8776f56533aed4915ac8a56090a73d",
+      "fps/polynomial_gcd.hpp": "f4592e06895a244282167969da984ed3bb4f99823f62fa6f2be4276cd5a9df4c",
+      "fps/multipoint_eval.hpp": "4cb93dd9d9d2b0bbbece729c7de93217a19cd4915cf9ace9aa797c0eefcb049e",
+      "fps/linear_recurrence.hpp": "dc99057fe2a38c66d8d7feb9a5508d7e7b6501815d3d0efbe967b5cb3445e553",
+      "fps/interpolate.hpp": "2ee8bf3dc503e6f88d7fb0857c6cff99e8f2e4fea73e6af05a66301ada962e0d",
+      "fps/fps.hpp": "b29e2144d453eafa17e296ca77c603bfb8f77b04b02274bfb4d4a75d93263a34",
+      "fps/compositional_inverse.hpp": "a8edc10649d670b3dd1b2f02f89f923099e07ea19420242ee3251d20b10e443c",
+      "fps/compose.hpp": "08b85c447a05aa421637ef80e5697a4501fbcf4859d1fedd91222bda651b1041",
+      "fps/bostan_mori.hpp": "8d3e89e20add5124dff1100f3a8282fa67a7937133b68a051232368ae2fe63fe",
+      "convolution/subset_convolution.hpp": "5e646830279799f3106949c8fe3f310de0c3839ef5abc99b8c1a569786f533e8",
+      "convolution/ordered_convolution.hpp": "7d34610c73a58b3a2635f947d73c2028c281e7d7072c933c88ed17451d6fc78f",
+      "convolution/online_convolution.hpp": "cdd826fe1e90ef7162aae835895ae611f9ed5472aa3a6ff3227f022b16f57af9",
+      "convolution/multivariate_convolution.hpp": "5b3ca59d4624ddee7529e224748b7bdbcb2171892e78cdc7a60b47f065076298",
+      "convolution/multiplicative_convolution.hpp": "5a5f34b1579b48986183b6b927fcdca7c25abae87be6fe77863256acdbd33cc1",
+      "convolution/min_plus_convolution.hpp": "ed441328442ee36f647a694a61079f3585ebff0ae696a943522812d06c6eb2c5",
+      "convolution/max_min_convolution.hpp": "572a7f15fa2f7b337d10a1b159437f7bd3d9f70551098c2b79e84ac78883e171",
+      "convolution/gcd_lcm_convolution.hpp": "5010f6f45a4a60eb652a1f6694f37c77f9b2bc366b72f937973688575bb8373b",
+      "convolution/cyclic_convolution.hpp": "6dc96d46bc899520e3a3036a88872a168d21a4a36520eeaf8ca2c2fcf0f3ab34",
+      "convolution/convolution_ring.hpp": "877f2c3cefa12dfc9db13127035e49af10dacb7a488fd3c8acb25b545ff9fd11",
+      "convolution/convolution_mod.hpp": "69aaa91c1855be4c2bbeddb1829fbf82045958c218623e0c8956424cf08b7139",
+      "convolution/convolution_fft.hpp": "ca18157bbd16c951473e0f5602dc42458cde0027134c29609f1521b9f475f492",
+      "convolution/convolution.hpp": "c140eab3f37df554de4763658c9f6cf03a5e5c46e063c4470139f383e5537645",
+      "convolution/boolean_convolution.hpp": "f4f7390573d867c233b8fb8c37001f07e394d7a3c1ab0290f5c303ae34744bf5",
+      "convolution/bitwise_convolution.hpp": "036afd4eda1b5a11f9d661b43c7cf8d314c3323625fedfc48fa23bdf5b3977e4",
+      "components/xor_basis_core.hpp": "2d738ffa2c08a80393f42c0a95a552492694369de391cb012381cb38799cd0cf",
+      "components/weighted_blossom.hpp": "027b217b7dd06709e7fa6c06b6e1c521475f0cd081362d14cc6746ef13438720",
+      "components/walsh_hadamard.hpp": "a3b29c25bc724fbcdb2ee7f9d29e86189c5734e2560ea155b4e10cedf38b41b8",
+      "components/undirected_csr.hpp": "2e53a2ce4fbaf18b7f30808cade253977b6cfe422eb3a199b1c79384a0093ec7",
+      "components/stern_brocot_path.hpp": "3032ce1f5177914194e79e1f4e8d71fb5a6f771f05010f907a05029249dbf83c",
+      "components/static_top_tree_structure.hpp": "cf06f7ffee6ceb893ba7c3627aff39240ad72cae57452ffc5c0e4bdbcdc9b6e2",
+      "components/static_range_min.hpp": "45e3d5a108984056325832931c87c855078a169ec933b4ebd1ebaed10109163e",
+      "components/splitmix64.hpp": "84e473d5ce9fcc1bc86e1a7c11c09aa032d9adc40b8e69a7114c137dbd1ba239",
+      "components/smawk.hpp": "695a3ebbf247d8bea41994ec058582dcce69a219b7c06473a49fbd0d34a70f89",
+      "components/small_vector.hpp": "f6602e1a44b1a6da238995b4fe05d8cff0117019a9e9e9943edf162dbb42e7bb",
+      "components/sequence_match.hpp": "d74576a5e82377109abce1ca14f2b947b2ba918ba9e27070ea3c8d798397412f",
+      "components/quad_bit_vector.hpp": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+      "components/push_relabel.hpp": "d00ab45a27a701c9013be3dc01a2f7f7d5cb0cc27a4b85eeafcb51118145d1a9",
+      "components/predecessor_set.hpp": "11f5a74271be53a73cd7bd9a5f372f10a3d32896ce4c61866b5ae911629f1350",
+      "components/polynomial_half_gcd.hpp": "70830eb0ea8dcdb50128030dd0fb37c7ada1909b16786eed154f938bd595b1de",
+      "components/ntt_mod.hpp": "40cbfd5344aff36ab539243debfd71c2aeed397845d52963b5aefd4c1b63395d",
+      "components/ntt.hpp": "439441a442bff69c3fcb2f586c002ef0a47700b8d7a5bb9a59fe70979af6aefd",
+      "components/montgomery32.hpp": "23d370166dec7837f0b47a9952d350c9ffafa96ccec02bc0a487de9ec1f7895a",
+      "components/montgomery.hpp": "5be93ff94b1a4c2dcc3a85fa8431fbad3452bc1322b8a97ba0bfece9cc8e511b",
+      "components/monotone_minima.hpp": "c8c1243645131313a9e1671b9a8e392388b7ee386e9d7e4ba013534c64c3d592",
+      "components/mod_linear_prefix_min.hpp": "07fbfee2ead2eb9a673cf4d40e44bc137b819455249826193a92f755ee1f6ff2",
+      "components/mod_fast_core.hpp": "b960071bd83b87bdcef0ddc2dfc56970dcfced148ef7ed580b4aa37df21fb860",
+      "components/mo_order.hpp": "4cf62e6bc4b9908f22f0fb85a93d616c276ef60afbb1a41180dfda81c811f588",
+      "components/min_cost_circulation.hpp": "7667acbfc85ce2cae75187c8a7de962df0f894e4841a63b5a964cef8cae94978",
+      "components/matrix_arithmetic.hpp": "a02fc4c897b3c3d82a8c0ad8c2b36f9440fe64f369f7a7fa75284878e6f90f57",
+      "components/limb_arithmetic.hpp": "7f0095e64bc8ddb7e5c7ee1b0901b973125cd1cdd93a979b1bf1231faae7778f",
+      "components/fps_product_tree.hpp": "d72a0a371bcf404028ca1fd970355b01efc097dbc7431a59c26ad3be347d9d58",
+      "components/fps_operations.hpp": "aea3810caea8556ad4eacdfe1ffd4c9919f20c6f7017caa2dc8eda0e2bccdd30",
+      "components/fps_factorials.hpp": "d6719de093bbe4d95542a0b51b84e0401e35928abd311b599abd149807596ddb",
+      "components/fps_direct_eval.hpp": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380",
+      "components/flow_graph.hpp": "1d3c369de91b6f221cec348c503a9033ee7b59ccc908484a77275b7b1022fdf8",
+      "components/fft.hpp": "fbf555f3e9943a25fe828ed810bb2308c173dd45915def99d801ac57f125d259",
+      "components/fast_io.hpp": "d4a7e58d2a9373e675ddaed1a31ea3f1748b75a2af4201791ac63163b3af38b8",
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/divisor_zeta.hpp": "883f68f4e0d54c6bdd13da55e65b44fa57febd282d927e52bb28cfa4ff82026f",
+      "components/default_init_allocator.hpp": "7eb7ea8260decc57a9809a12fbf74b112b791723aa78a2c843270bdd714cd4f5",
+      "components/d_ary_heap.hpp": "944b7f6f89b265382a044f44ba5e83614473a16bdf583a10499a9e0f7fc89457",
+      "components/bitwise_zeta.hpp": "1599d735dd409a85606724f049f50ed10560818bbb91b2a8e9630dfd40eec761",
+      "components/binomial_prefix_core.hpp": "3b619188ae67835b073cbf27562b1f675c8ab10a65b60b28539bcd6ba30958c3",
+      "components/barrett32.hpp": "ecffcdd9f837433eaf48ff883b52ca578c31febdce157c876200edf2b9082235",
+      "components/RadixHeap.hpp": "b335c2d100e9630924bd51000c3986c5ad66659b68e29a3444fe1153cdb8a46e"
+    },
+    "current": {
+      "convolution/convolution_mod.hpp": "69aaa91c1855be4c2bbeddb1829fbf82045958c218623e0c8956424cf08b7139",
+      "convolution/max_min_convolution.hpp": "572a7f15fa2f7b337d10a1b159437f7bd3d9f70551098c2b79e84ac78883e171",
+      "convolution/online_convolution.hpp": "cdd826fe1e90ef7162aae835895ae611f9ed5472aa3a6ff3227f022b16f57af9",
+      "convolution/gcd_lcm_convolution.hpp": "5010f6f45a4a60eb652a1f6694f37c77f9b2bc366b72f937973688575bb8373b",
+      "convolution/boolean_convolution.hpp": "f4f7390573d867c233b8fb8c37001f07e394d7a3c1ab0290f5c303ae34744bf5",
+      "convolution/ordered_convolution.hpp": "7d34610c73a58b3a2635f947d73c2028c281e7d7072c933c88ed17451d6fc78f",
+      "convolution/convolution.hpp": "c140eab3f37df554de4763658c9f6cf03a5e5c46e063c4470139f383e5537645",
+      "convolution/bitwise_convolution.hpp": "036afd4eda1b5a11f9d661b43c7cf8d314c3323625fedfc48fa23bdf5b3977e4",
+      "convolution/multivariate_convolution.hpp": "5b3ca59d4624ddee7529e224748b7bdbcb2171892e78cdc7a60b47f065076298",
+      "convolution/cyclic_convolution.hpp": "6dc96d46bc899520e3a3036a88872a168d21a4a36520eeaf8ca2c2fcf0f3ab34",
+      "convolution/subset_convolution.hpp": "5e646830279799f3106949c8fe3f310de0c3839ef5abc99b8c1a569786f533e8",
+      "convolution/multiplicative_convolution.hpp": "5a5f34b1579b48986183b6b927fcdca7c25abae87be6fe77863256acdbd33cc1",
+      "convolution/convolution_fft.hpp": "ca18157bbd16c951473e0f5602dc42458cde0027134c29609f1521b9f475f492",
+      "convolution/convolution_ring.hpp": "877f2c3cefa12dfc9db13127035e49af10dacb7a488fd3c8acb25b545ff9fd11",
+      "convolution/min_plus_convolution.hpp": "ed441328442ee36f647a694a61079f3585ebff0ae696a943522812d06c6eb2c5",
+      "math/stern_brocot_tree.hpp": "7f0648852c2727ff944cfde1c7e670298fd45cc05eb14852ffeef7c72ae0e518",
+      "math/prefix_min_of_mod_of_linear.hpp": "6e4c10f6390b73ae6bf26fa515865c6e8fe99c18e042a7607e331757a5423fd8",
+      "math/mod_sqrt.hpp": "c2b414db307c613ee14f535073fb80458bbd0ef768c352b1822cf658fcceb68b",
+      "math/generalized_floor_sum.hpp": "961e9b1c9f36943d05d65929e975afe7af2735fef3880e436bff8143b23ea9da",
+      "math/comb.hpp": "64ca05ffc38b2bc2df305adeafc12e4a7449155a2ca2e8a03862f0387becf3a1",
+      "math/mod_inv.hpp": "bda8bf0658d160c648a0fa5b2614a946b72561e505f8b8da06d6db3bb7482ec8",
+      "math/mod_pow.hpp": "8dd5fe7994928adb61e17b68e09ee213ab056aeca297c216ab0556efb0e8adf0",
+      "math/partition_mod_of_linear.hpp": "a6fc0d7fa1b50f2402ca49c6a3fbdb880240811f2c0872ff65d2cad1b207fa9f",
+      "math/discrete_log.hpp": "d16af40dddaa8136f80478bca72422e6406514b88506faa9a9aac65ce962f5b6",
+      "math/min_of_mod_of_linear.hpp": "971ca6e0a9f88128a1b584d8360d65f3356199827183db1f2da48a034101b47e",
+      "math/mint.hpp": "67cec2452dda0af8b4cd307449fc65b3f1d678613e0392fdd666031dae062171",
+      "math/fraction.hpp": "75936e45326c6b62251dce7d103c7c009729b4348206216392d972258175cc2d",
+      "math/binomial_prefix_sum.hpp": "cb339a005584bdb6285d62cc9564b78c8ca0bb86f48da0cfc051f0402b2841a7",
+      "math/factorize.hpp": "b9a934a9c6a4b960b0ff65d0bee0a72734308ed90f7b88dad2342c95f3365414",
+      "math/xor_basis.hpp": "ca3716ebce772b2ba5b404120bc26347d83126a2805fd85e5010b52ce6759058",
+      "math/kth_root.hpp": "67f3a2961c6e4e794c97ed9eb2568026da57fce6788f0e33f7d6b0bfe5b339d8",
+      "math/is_prime.hpp": "307a1400592b593bcba5f3568fa11f992328cceff1cd6c400c8e04d5d3c60627",
+      "math/matrix.hpp": "51ec3df6083c23f1d5e7fb41463ce3dddf8f11edb087d4495e8d38b81a9b1887",
+      "math/monoid_floor_sum.hpp": "34abc70b077143cf19e99191e26a9c72ae2eec62d9aad17eec9965f7a9949580",
+      "math/prime_sieve.hpp": "5e742307e8000973b95e820f26a394443b53a4498ab6d9fb998d78a75fce93df",
+      "components/d_ary_heap.hpp": "944b7f6f89b265382a044f44ba5e83614473a16bdf583a10499a9e0f7fc89457",
+      "components/binomial_prefix_core.hpp": "3b619188ae67835b073cbf27562b1f675c8ab10a65b60b28539bcd6ba30958c3",
+      "components/static_range_min.hpp": "45e3d5a108984056325832931c87c855078a169ec933b4ebd1ebaed10109163e",
+      "components/mo_order.hpp": "4cf62e6bc4b9908f22f0fb85a93d616c276ef60afbb1a41180dfda81c811f588",
+      "components/fft.hpp": "fbf555f3e9943a25fe828ed810bb2308c173dd45915def99d801ac57f125d259",
+      "components/barrett32.hpp": "ecffcdd9f837433eaf48ff883b52ca578c31febdce157c876200edf2b9082235",
+      "components/mod_fast_core.hpp": "b960071bd83b87bdcef0ddc2dfc56970dcfced148ef7ed580b4aa37df21fb860",
+      "components/splitmix64.hpp": "84e473d5ce9fcc1bc86e1a7c11c09aa032d9adc40b8e69a7114c137dbd1ba239",
+      "components/ntt_mod.hpp": "40cbfd5344aff36ab539243debfd71c2aeed397845d52963b5aefd4c1b63395d",
+      "components/weighted_blossom.hpp": "027b217b7dd06709e7fa6c06b6e1c521475f0cd081362d14cc6746ef13438720",
+      "components/predecessor_set.hpp": "11f5a74271be53a73cd7bd9a5f372f10a3d32896ce4c61866b5ae911629f1350",
+      "components/fast_io.hpp": "56ed72cde8b330493e8dfdca79d97a5d7e3098dfc58fc57000948c34a5e130a1",
+      "components/walsh_hadamard.hpp": "a3b29c25bc724fbcdb2ee7f9d29e86189c5734e2560ea155b4e10cedf38b41b8",
+      "components/matrix_arithmetic.hpp": "a02fc4c897b3c3d82a8c0ad8c2b36f9440fe64f369f7a7fa75284878e6f90f57",
+      "components/fps_factorials.hpp": "d6719de093bbe4d95542a0b51b84e0401e35928abd311b599abd149807596ddb",
+      "components/montgomery.hpp": "5be93ff94b1a4c2dcc3a85fa8431fbad3452bc1322b8a97ba0bfece9cc8e511b",
+      "components/xor_basis_core.hpp": "2d738ffa2c08a80393f42c0a95a552492694369de391cb012381cb38799cd0cf",
+      "components/limb_arithmetic.hpp": "7f0095e64bc8ddb7e5c7ee1b0901b973125cd1cdd93a979b1bf1231faae7778f",
+      "components/RadixHeap.hpp": "b335c2d100e9630924bd51000c3986c5ad66659b68e29a3444fe1153cdb8a46e",
+      "components/quad_bit_vector.hpp": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+      "components/stern_brocot_path.hpp": "3032ce1f5177914194e79e1f4e8d71fb5a6f771f05010f907a05029249dbf83c",
+      "components/min_cost_circulation.hpp": "7667acbfc85ce2cae75187c8a7de962df0f894e4841a63b5a964cef8cae94978",
+      "components/divisor_zeta.hpp": "883f68f4e0d54c6bdd13da55e65b44fa57febd282d927e52bb28cfa4ff82026f",
+      "components/static_top_tree_structure.hpp": "cf06f7ffee6ceb893ba7c3627aff39240ad72cae57452ffc5c0e4bdbcdc9b6e2",
+      "components/push_relabel.hpp": "d00ab45a27a701c9013be3dc01a2f7f7d5cb0cc27a4b85eeafcb51118145d1a9",
+      "components/sequence_match.hpp": "d74576a5e82377109abce1ca14f2b947b2ba918ba9e27070ea3c8d798397412f",
+      "components/fps_product_tree.hpp": "d72a0a371bcf404028ca1fd970355b01efc097dbc7431a59c26ad3be347d9d58",
+      "components/monotone_minima.hpp": "c8c1243645131313a9e1671b9a8e392388b7ee386e9d7e4ba013534c64c3d592",
+      "components/montgomery32.hpp": "23d370166dec7837f0b47a9952d350c9ffafa96ccec02bc0a487de9ec1f7895a",
+      "components/small_vector.hpp": "f6602e1a44b1a6da238995b4fe05d8cff0117019a9e9e9943edf162dbb42e7bb",
+      "components/ntt.hpp": "8d878ad0344cd69871ad491ed79fdfb20b061a4abc722c403727a9214306de5e",
+      "components/fps_operations.hpp": "7c838d4ca3399bf681c9f049e409c180df106c1e9b784b8b73676b0eda422182",
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/default_init_allocator.hpp": "7eb7ea8260decc57a9809a12fbf74b112b791723aa78a2c843270bdd714cd4f5",
+      "components/bitwise_zeta.hpp": "1599d735dd409a85606724f049f50ed10560818bbb91b2a8e9630dfd40eec761",
+      "components/flow_graph.hpp": "1d3c369de91b6f221cec348c503a9033ee7b59ccc908484a77275b7b1022fdf8",
+      "components/mod_linear_prefix_min.hpp": "07fbfee2ead2eb9a673cf4d40e44bc137b819455249826193a92f755ee1f6ff2",
+      "components/smawk.hpp": "695a3ebbf247d8bea41994ec058582dcce69a219b7c06473a49fbd0d34a70f89",
+      "components/undirected_csr.hpp": "2e53a2ce4fbaf18b7f30808cade253977b6cfe422eb3a199b1c79384a0093ec7",
+      "components/fps_direct_eval.hpp": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380",
+      "components/polynomial_half_gcd.hpp": "70830eb0ea8dcdb50128030dd0fb37c7ada1909b16786eed154f938bd595b1de",
+      "fps/multipoint_eval.hpp": "4cb93dd9d9d2b0bbbece729c7de93217a19cd4915cf9ace9aa797c0eefcb049e",
+      "fps/polynomial_gcd.hpp": "f4592e06895a244282167969da984ed3bb4f99823f62fa6f2be4276cd5a9df4c",
+      "fps/bostan_mori.hpp": "8d3e89e20add5124dff1100f3a8282fa67a7937133b68a051232368ae2fe63fe",
+      "fps/power_projection.hpp": "1ca47acbf95ed443c71c2e04e1e711986c8776f56533aed4915ac8a56090a73d",
+      "fps/interpolate.hpp": "2ee8bf3dc503e6f88d7fb0857c6cff99e8f2e4fea73e6af05a66301ada962e0d",
+      "fps/fps.hpp": "6e0085a5d07be7b486151677e562d5c578057822bfa1d0a14a29b3e5c2337b45",
+      "fps/taylor_shift.hpp": "04928bd6ff0e313d6880ee4c7d78ad0dab189ea18c0cd64aa6cb4997fcfaedaf",
+      "fps/compose.hpp": "08b85c447a05aa421637ef80e5697a4501fbcf4859d1fedd91222bda651b1041",
+      "fps/linear_recurrence.hpp": "dc99057fe2a38c66d8d7feb9a5508d7e7b6501815d3d0efbe967b5cb3445e553",
+      "fps/compositional_inverse.hpp": "a8edc10649d670b3dd1b2f02f89f923099e07ea19420242ee3251d20b10e443c"
+    },
+    "current_old_io": {
+      "fps/compositional_inverse.hpp": "a8edc10649d670b3dd1b2f02f89f923099e07ea19420242ee3251d20b10e443c",
+      "fps/linear_recurrence.hpp": "dc99057fe2a38c66d8d7feb9a5508d7e7b6501815d3d0efbe967b5cb3445e553",
+      "fps/compose.hpp": "08b85c447a05aa421637ef80e5697a4501fbcf4859d1fedd91222bda651b1041",
+      "fps/taylor_shift.hpp": "04928bd6ff0e313d6880ee4c7d78ad0dab189ea18c0cd64aa6cb4997fcfaedaf",
+      "fps/fps.hpp": "6e0085a5d07be7b486151677e562d5c578057822bfa1d0a14a29b3e5c2337b45",
+      "fps/interpolate.hpp": "2ee8bf3dc503e6f88d7fb0857c6cff99e8f2e4fea73e6af05a66301ada962e0d",
+      "fps/power_projection.hpp": "1ca47acbf95ed443c71c2e04e1e711986c8776f56533aed4915ac8a56090a73d",
+      "fps/bostan_mori.hpp": "8d3e89e20add5124dff1100f3a8282fa67a7937133b68a051232368ae2fe63fe",
+      "fps/polynomial_gcd.hpp": "f4592e06895a244282167969da984ed3bb4f99823f62fa6f2be4276cd5a9df4c",
+      "fps/multipoint_eval.hpp": "4cb93dd9d9d2b0bbbece729c7de93217a19cd4915cf9ace9aa797c0eefcb049e",
+      "components/polynomial_half_gcd.hpp": "70830eb0ea8dcdb50128030dd0fb37c7ada1909b16786eed154f938bd595b1de",
+      "components/fps_direct_eval.hpp": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380",
+      "components/undirected_csr.hpp": "2e53a2ce4fbaf18b7f30808cade253977b6cfe422eb3a199b1c79384a0093ec7",
+      "components/smawk.hpp": "695a3ebbf247d8bea41994ec058582dcce69a219b7c06473a49fbd0d34a70f89",
+      "components/mod_linear_prefix_min.hpp": "07fbfee2ead2eb9a673cf4d40e44bc137b819455249826193a92f755ee1f6ff2",
+      "components/flow_graph.hpp": "1d3c369de91b6f221cec348c503a9033ee7b59ccc908484a77275b7b1022fdf8",
+      "components/bitwise_zeta.hpp": "1599d735dd409a85606724f049f50ed10560818bbb91b2a8e9630dfd40eec761",
+      "components/default_init_allocator.hpp": "7eb7ea8260decc57a9809a12fbf74b112b791723aa78a2c843270bdd714cd4f5",
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/fps_operations.hpp": "7c838d4ca3399bf681c9f049e409c180df106c1e9b784b8b73676b0eda422182",
+      "components/ntt.hpp": "8d878ad0344cd69871ad491ed79fdfb20b061a4abc722c403727a9214306de5e",
+      "components/small_vector.hpp": "f6602e1a44b1a6da238995b4fe05d8cff0117019a9e9e9943edf162dbb42e7bb",
+      "components/montgomery32.hpp": "23d370166dec7837f0b47a9952d350c9ffafa96ccec02bc0a487de9ec1f7895a",
+      "components/monotone_minima.hpp": "c8c1243645131313a9e1671b9a8e392388b7ee386e9d7e4ba013534c64c3d592",
+      "components/fps_product_tree.hpp": "d72a0a371bcf404028ca1fd970355b01efc097dbc7431a59c26ad3be347d9d58",
+      "components/sequence_match.hpp": "d74576a5e82377109abce1ca14f2b947b2ba918ba9e27070ea3c8d798397412f",
+      "components/push_relabel.hpp": "d00ab45a27a701c9013be3dc01a2f7f7d5cb0cc27a4b85eeafcb51118145d1a9",
+      "components/static_top_tree_structure.hpp": "cf06f7ffee6ceb893ba7c3627aff39240ad72cae57452ffc5c0e4bdbcdc9b6e2",
+      "components/divisor_zeta.hpp": "883f68f4e0d54c6bdd13da55e65b44fa57febd282d927e52bb28cfa4ff82026f",
+      "components/min_cost_circulation.hpp": "7667acbfc85ce2cae75187c8a7de962df0f894e4841a63b5a964cef8cae94978",
+      "components/stern_brocot_path.hpp": "3032ce1f5177914194e79e1f4e8d71fb5a6f771f05010f907a05029249dbf83c",
+      "components/quad_bit_vector.hpp": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+      "components/RadixHeap.hpp": "b335c2d100e9630924bd51000c3986c5ad66659b68e29a3444fe1153cdb8a46e",
+      "components/limb_arithmetic.hpp": "7f0095e64bc8ddb7e5c7ee1b0901b973125cd1cdd93a979b1bf1231faae7778f",
+      "components/xor_basis_core.hpp": "2d738ffa2c08a80393f42c0a95a552492694369de391cb012381cb38799cd0cf",
+      "components/montgomery.hpp": "5be93ff94b1a4c2dcc3a85fa8431fbad3452bc1322b8a97ba0bfece9cc8e511b",
+      "components/fps_factorials.hpp": "d6719de093bbe4d95542a0b51b84e0401e35928abd311b599abd149807596ddb",
+      "components/matrix_arithmetic.hpp": "a02fc4c897b3c3d82a8c0ad8c2b36f9440fe64f369f7a7fa75284878e6f90f57",
+      "components/walsh_hadamard.hpp": "a3b29c25bc724fbcdb2ee7f9d29e86189c5734e2560ea155b4e10cedf38b41b8",
+      "components/fast_io.hpp": "d4a7e58d2a9373e675ddaed1a31ea3f1748b75a2af4201791ac63163b3af38b8",
+      "components/predecessor_set.hpp": "11f5a74271be53a73cd7bd9a5f372f10a3d32896ce4c61866b5ae911629f1350",
+      "components/weighted_blossom.hpp": "027b217b7dd06709e7fa6c06b6e1c521475f0cd081362d14cc6746ef13438720",
+      "components/ntt_mod.hpp": "40cbfd5344aff36ab539243debfd71c2aeed397845d52963b5aefd4c1b63395d",
+      "components/splitmix64.hpp": "84e473d5ce9fcc1bc86e1a7c11c09aa032d9adc40b8e69a7114c137dbd1ba239",
+      "components/mod_fast_core.hpp": "b960071bd83b87bdcef0ddc2dfc56970dcfced148ef7ed580b4aa37df21fb860",
+      "components/barrett32.hpp": "ecffcdd9f837433eaf48ff883b52ca578c31febdce157c876200edf2b9082235",
+      "components/fft.hpp": "fbf555f3e9943a25fe828ed810bb2308c173dd45915def99d801ac57f125d259",
+      "components/mo_order.hpp": "4cf62e6bc4b9908f22f0fb85a93d616c276ef60afbb1a41180dfda81c811f588",
+      "components/static_range_min.hpp": "45e3d5a108984056325832931c87c855078a169ec933b4ebd1ebaed10109163e",
+      "components/binomial_prefix_core.hpp": "3b619188ae67835b073cbf27562b1f675c8ab10a65b60b28539bcd6ba30958c3",
+      "components/d_ary_heap.hpp": "944b7f6f89b265382a044f44ba5e83614473a16bdf583a10499a9e0f7fc89457",
+      "math/prime_sieve.hpp": "5e742307e8000973b95e820f26a394443b53a4498ab6d9fb998d78a75fce93df",
+      "math/monoid_floor_sum.hpp": "34abc70b077143cf19e99191e26a9c72ae2eec62d9aad17eec9965f7a9949580",
+      "math/matrix.hpp": "51ec3df6083c23f1d5e7fb41463ce3dddf8f11edb087d4495e8d38b81a9b1887",
+      "math/is_prime.hpp": "307a1400592b593bcba5f3568fa11f992328cceff1cd6c400c8e04d5d3c60627",
+      "math/kth_root.hpp": "67f3a2961c6e4e794c97ed9eb2568026da57fce6788f0e33f7d6b0bfe5b339d8",
+      "math/xor_basis.hpp": "ca3716ebce772b2ba5b404120bc26347d83126a2805fd85e5010b52ce6759058",
+      "math/factorize.hpp": "b9a934a9c6a4b960b0ff65d0bee0a72734308ed90f7b88dad2342c95f3365414",
+      "math/binomial_prefix_sum.hpp": "cb339a005584bdb6285d62cc9564b78c8ca0bb86f48da0cfc051f0402b2841a7",
+      "math/fraction.hpp": "75936e45326c6b62251dce7d103c7c009729b4348206216392d972258175cc2d",
+      "math/mint.hpp": "67cec2452dda0af8b4cd307449fc65b3f1d678613e0392fdd666031dae062171",
+      "math/min_of_mod_of_linear.hpp": "971ca6e0a9f88128a1b584d8360d65f3356199827183db1f2da48a034101b47e",
+      "math/discrete_log.hpp": "d16af40dddaa8136f80478bca72422e6406514b88506faa9a9aac65ce962f5b6",
+      "math/partition_mod_of_linear.hpp": "a6fc0d7fa1b50f2402ca49c6a3fbdb880240811f2c0872ff65d2cad1b207fa9f",
+      "math/mod_pow.hpp": "8dd5fe7994928adb61e17b68e09ee213ab056aeca297c216ab0556efb0e8adf0",
+      "math/mod_inv.hpp": "bda8bf0658d160c648a0fa5b2614a946b72561e505f8b8da06d6db3bb7482ec8",
+      "math/comb.hpp": "64ca05ffc38b2bc2df305adeafc12e4a7449155a2ca2e8a03862f0387becf3a1",
+      "math/generalized_floor_sum.hpp": "961e9b1c9f36943d05d65929e975afe7af2735fef3880e436bff8143b23ea9da",
+      "math/mod_sqrt.hpp": "c2b414db307c613ee14f535073fb80458bbd0ef768c352b1822cf658fcceb68b",
+      "math/prefix_min_of_mod_of_linear.hpp": "6e4c10f6390b73ae6bf26fa515865c6e8fe99c18e042a7607e331757a5423fd8",
+      "math/stern_brocot_tree.hpp": "7f0648852c2727ff944cfde1c7e670298fd45cc05eb14852ffeef7c72ae0e518",
+      "convolution/min_plus_convolution.hpp": "ed441328442ee36f647a694a61079f3585ebff0ae696a943522812d06c6eb2c5",
+      "convolution/convolution_ring.hpp": "877f2c3cefa12dfc9db13127035e49af10dacb7a488fd3c8acb25b545ff9fd11",
+      "convolution/convolution_fft.hpp": "ca18157bbd16c951473e0f5602dc42458cde0027134c29609f1521b9f475f492",
+      "convolution/multiplicative_convolution.hpp": "5a5f34b1579b48986183b6b927fcdca7c25abae87be6fe77863256acdbd33cc1",
+      "convolution/subset_convolution.hpp": "5e646830279799f3106949c8fe3f310de0c3839ef5abc99b8c1a569786f533e8",
+      "convolution/cyclic_convolution.hpp": "6dc96d46bc899520e3a3036a88872a168d21a4a36520eeaf8ca2c2fcf0f3ab34",
+      "convolution/multivariate_convolution.hpp": "5b3ca59d4624ddee7529e224748b7bdbcb2171892e78cdc7a60b47f065076298",
+      "convolution/bitwise_convolution.hpp": "036afd4eda1b5a11f9d661b43c7cf8d314c3323625fedfc48fa23bdf5b3977e4",
+      "convolution/convolution.hpp": "c140eab3f37df554de4763658c9f6cf03a5e5c46e063c4470139f383e5537645",
+      "convolution/ordered_convolution.hpp": "7d34610c73a58b3a2635f947d73c2028c281e7d7072c933c88ed17451d6fc78f",
+      "convolution/boolean_convolution.hpp": "f4f7390573d867c233b8fb8c37001f07e394d7a3c1ab0290f5c303ae34744bf5",
+      "convolution/gcd_lcm_convolution.hpp": "5010f6f45a4a60eb652a1f6694f37c77f9b2bc366b72f937973688575bb8373b",
+      "convolution/online_convolution.hpp": "cdd826fe1e90ef7162aae835895ae611f9ed5472aa3a6ff3227f022b16f57af9",
+      "convolution/max_min_convolution.hpp": "572a7f15fa2f7b337d10a1b159437f7bd3d9f70551098c2b79e84ac78883e171",
+      "convolution/convolution_mod.hpp": "69aaa91c1855be4c2bbeddb1829fbf82045958c218623e0c8956424cf08b7139"
+    }
+  },
+  "kernel": [
+    {
+      "operation": "inv",
+      "size": 32768,
+      "checksum": "13522776339329510144",
+      "samples_ms": {
+        "before": [
+          0.60361,
+          0.5985320000000001,
+          0.6103700000000001,
+          0.647976,
+          0.710529,
+          0.601777,
+          0.604201,
+          0.604621,
+          0.586194
+        ],
+        "current": [
+          0.574106,
+          0.558082,
+          0.570661,
+          0.5448919999999999,
+          0.507196,
+          0.543841,
+          0.5660339999999999,
+          0.5089279999999999,
+          0.522199
+        ]
+      },
+      "median_ms": {
+        "before": 0.604201,
+        "current": 0.5448919999999999
+      }
+    },
+    {
+      "operation": "log",
+      "size": 32768,
+      "checksum": "487829692027417732",
+      "samples_ms": {
+        "before": [
+          1.22045,
+          1.1805100000000002,
+          1.194831,
+          1.2428730000000001,
+          1.261039,
+          1.197575,
+          1.203995,
+          1.202823,
+          1.206529
+        ],
+        "current": [
+          1.156013,
+          1.182572,
+          1.207049,
+          1.177605,
+          1.2866279999999999,
+          1.1479920000000001,
+          1.148872,
+          1.221621,
+          1.144506
+        ]
+      },
+      "median_ms": {
+        "before": 1.203995,
+        "current": 1.177605
+      }
+    },
+    {
+      "operation": "exp",
+      "size": 32768,
+      "checksum": "1837120959152118695",
+      "samples_ms": {
+        "before": [
+          1.2135690000000001,
+          1.253449,
+          1.214661,
+          1.3033229999999998,
+          1.2177049999999998,
+          1.262762,
+          1.213128,
+          1.2584149999999998,
+          1.231225
+        ],
+        "current": [
+          1.3187749999999998,
+          1.201331,
+          1.243955,
+          1.312597,
+          1.202563,
+          1.227099,
+          1.2010809999999998,
+          1.263984,
+          1.2074399999999998
+        ]
+      },
+      "median_ms": {
+        "before": 1.231225,
+        "current": 1.227099
+      }
+    },
+    {
+      "operation": "sqrt",
+      "size": 32768,
+      "checksum": "10946737930833592038",
+      "samples_ms": {
+        "before": [
+          0.767725,
+          0.773012,
+          0.77779,
+          0.7379,
+          0.801505,
+          0.7457619999999999,
+          0.741034,
+          0.743438,
+          0.774695
+        ],
+        "current": [
+          0.730559,
+          0.7257319999999999,
+          0.7236480000000001,
+          0.712853,
+          0.762186,
+          0.708155,
+          0.816017,
+          0.747014,
+          0.7064429999999999
+        ]
+      },
+      "median_ms": {
+        "before": 0.767725,
+        "current": 0.7257319999999999
+      }
+    },
+    {
+      "operation": "pow",
+      "size": 32768,
+      "checksum": "18339831740919652226",
+      "samples_ms": {
+        "before": [
+          2.371005,
+          2.396953,
+          2.4048950000000002,
+          2.3655769999999996,
+          2.38144,
+          2.362411,
+          2.3625719999999997,
+          2.3652059999999997,
+          2.373007
+        ],
+        "current": [
+          2.3548,
+          2.3588459999999998,
+          2.371364,
+          2.3227320000000002,
+          2.301591,
+          2.340649,
+          2.6347169999999998,
+          2.3360019999999997,
+          2.349192
+        ]
+      },
+      "median_ms": {
+        "before": 2.371005,
+        "current": 2.349192
+      }
+    },
+    {
+      "operation": "div_series",
+      "size": 32768,
+      "checksum": "14510471088444304688",
+      "samples_ms": {
+        "before": [
+          0.9616439999999999,
+          1.060991,
+          1.008022,
+          1.000862,
+          1.008964,
+          1.0463289999999998,
+          1.101532,
+          0.991558,
+          0.9872719999999999
+        ],
+        "current": [
+          1.011007,
+          0.991558,
+          1.029264,
+          0.9945430000000001,
+          1.01987,
+          1.014082,
+          0.9607020000000001,
+          0.9912479999999999,
+          1.019831
+        ]
+      },
+      "median_ms": {
+        "before": 1.008022,
+        "current": 1.011007
+      }
+    },
+    {
+      "operation": "divmod",
+      "size": 32768,
+      "checksum": "8972280344723286081",
+      "samples_ms": {
+        "before": [
+          0.9603320000000001,
+          0.959961,
+          0.9515790000000001,
+          0.957528,
+          0.950737,
+          0.9569770000000001,
+          0.9972970000000001,
+          0.971117,
+          0.987022
+        ],
+        "current": [
+          0.94603,
+          0.9718180000000001,
+          0.9644980000000001,
+          0.953441,
+          0.9711080000000001,
+          0.9706969999999999,
+          0.948474,
+          0.949185,
+          0.958319
+        ]
+      },
+      "median_ms": {
+        "before": 0.959961,
+        "current": 0.958319
+      }
+    },
+    {
+      "operation": "square",
+      "size": 32768,
+      "checksum": "4915648979177043539",
+      "samples_ms": {
+        "before": [
+          0.568457,
+          0.551512,
+          0.563981,
+          0.543971,
+          0.571322,
+          0.5443619999999999,
+          0.619043,
+          0.5460839999999999,
+          0.545643
+        ],
+        "current": [
+          0.565233,
+          0.547616,
+          0.5882269999999999,
+          0.545603,
+          0.562438,
+          0.546555,
+          0.567976,
+          0.5804649999999999,
+          0.565213
+        ]
+      },
+      "median_ms": {
+        "before": 0.551512,
+        "current": 0.565213
+      }
+    },
+    {
+      "operation": "multiply",
+      "size": 32768,
+      "checksum": "5057605802715421499",
+      "samples_ms": {
+        "before": [
+          0.670129,
+          0.642077,
+          0.673163,
+          0.661156,
+          0.6449309999999999,
+          0.68471,
+          0.666704,
+          0.6440400000000001,
+          0.6449819999999999
+        ],
+        "current": [
+          0.6529539999999999,
+          0.629449,
+          0.657049,
+          0.653374,
+          0.651411,
+          0.635497,
+          0.659934,
+          0.712442,
+          0.6297689999999999
+        ]
+      },
+      "median_ms": {
+        "before": 0.661156,
+        "current": 0.6529539999999999
+      }
+    },
+    {
+      "operation": "inv:1:1",
+      "size": 32768,
+      "checksum": "5413801566430983400",
+      "samples_ms": {
+        "before": [
+          0.417161,
+          0.31525,
+          0.31573,
+          0.38676699999999997,
+          0.40241000000000005,
+          0.318324,
+          0.314388,
+          0.330693,
+          0.31522
+        ],
+        "current": [
+          0.144395,
+          0.126418,
+          0.129083,
+          0.12948300000000001,
+          0.14353400000000002,
+          0.12570699999999999,
+          0.131146,
+          0.128471,
+          0.128051
+        ]
+      },
+      "median_ms": {
+        "before": 0.318324,
+        "current": 0.129083
+      }
+    },
+    {
+      "operation": "inv:12:1",
+      "size": 32768,
+      "checksum": "12026107291484104730",
+      "samples_ms": {
+        "before": [
+          1.767795,
+          1.768336,
+          1.7501490000000002,
+          1.779092,
+          1.73711,
+          1.799483,
+          1.75775,
+          1.74387,
+          1.802787
+        ],
+        "current": [
+          0.586775,
+          0.572613,
+          0.5709909999999999,
+          0.585353,
+          0.585724,
+          0.5701200000000001,
+          0.641356,
+          0.587646,
+          0.5693579999999999
+        ]
+      },
+      "median_ms": {
+        "before": 1.767795,
+        "current": 0.585353
+      }
+    },
+    {
+      "operation": "inv:32:1",
+      "size": 32768,
+      "checksum": "17395226711315940228",
+      "samples_ms": {
+        "before": [
+          3.947244,
+          3.9158880000000003,
+          3.774727,
+          3.9135029999999995,
+          3.833885,
+          3.738043,
+          3.7678659999999997,
+          3.901226,
+          4.137628
+        ],
+        "current": [
+          0.5772499999999999,
+          0.578542,
+          0.564461,
+          0.547106,
+          0.5823379999999999,
+          0.616249,
+          0.590551,
+          0.601777,
+          0.5431900000000001
+        ]
+      },
+      "median_ms": {
+        "before": 3.901226,
+        "current": 0.578542
+      }
+    },
+    {
+      "operation": "exp:1:1",
+      "size": 32768,
+      "checksum": "17497333200758241471",
+      "samples_ms": {
+        "before": [
+          0.460096,
+          0.456551,
+          0.42666600000000005,
+          0.435489,
+          0.482589,
+          0.46621500000000005,
+          0.428518,
+          0.401939,
+          0.419805
+        ],
+        "current": [
+          0.264695,
+          0.260028,
+          0.329221,
+          0.293458,
+          0.259848,
+          0.258896,
+          0.260148,
+          0.258826,
+          0.262551
+        ]
+      },
+      "median_ms": {
+        "before": 0.435489,
+        "current": 0.260148
+      }
+    },
+    {
+      "operation": "exp:24:1",
+      "size": 32768,
+      "checksum": "589874861896539158",
+      "samples_ms": {
+        "before": [
+          3.1574060000000004,
+          3.2134300000000002,
+          3.145188,
+          3.197136,
+          3.221923,
+          3.184547,
+          3.377214,
+          3.2259089999999997,
+          3.294221
+        ],
+        "current": [
+          1.170765,
+          1.191115,
+          1.165637,
+          1.2053369999999999,
+          1.193128,
+          1.1899739999999999,
+          1.192898,
+          1.18679,
+          1.1854879999999999
+        ]
+      },
+      "median_ms": {
+        "before": 3.2134300000000002,
+        "current": 1.1899739999999999
+      }
+    },
+    {
+      "operation": "exp:64:1",
+      "size": 32768,
+      "checksum": "16541217715813853922",
+      "samples_ms": {
+        "before": [
+          8.029238,
+          8.00353,
+          8.037961,
+          8.011963,
+          8.011663,
+          8.315676,
+          7.9986429999999995,
+          7.985252999999999,
+          8.004492
+        ],
+        "current": [
+          1.3212300000000001,
+          1.284946,
+          1.552694,
+          1.2664279999999999,
+          1.2767430000000002,
+          1.255742,
+          1.275001,
+          1.29488,
+          1.251486
+        ]
+      },
+      "median_ms": {
+        "before": 8.011663,
+        "current": 1.2767430000000002
+      }
+    },
+    {
+      "operation": "inv:32:1024",
+      "size": 32768,
+      "checksum": "11168026609612887047",
+      "samples_ms": {
+        "before": [
+          1.427898,
+          1.411024,
+          1.3697620000000001,
+          1.433918,
+          1.389952,
+          1.437173,
+          1.3689609999999999,
+          1.425595,
+          1.487788
+        ],
+        "current": [
+          0.10455600000000001,
+          0.104005,
+          0.104466,
+          0.106699,
+          0.10743000000000001,
+          0.156723,
+          0.10302399999999999,
+          0.104866,
+          0.105087
+        ]
+      },
+      "median_ms": {
+        "before": 1.425595,
+        "current": 0.104866
+      }
+    },
+    {
+      "operation": "exp:64:1024",
+      "size": 32768,
+      "checksum": "18208159358629699860",
+      "samples_ms": {
+        "before": [
+          1.708677,
+          1.624652,
+          1.688226,
+          1.685863,
+          1.6746969999999999,
+          1.687916,
+          1.648387,
+          1.6625889999999999,
+          1.651431
+        ],
+        "current": [
+          0.106289,
+          0.125207,
+          0.120439,
+          0.105006,
+          0.10757,
+          0.105848,
+          0.10713900000000001,
+          0.10596699999999999,
+          0.106229
+        ]
+      },
+      "median_ms": {
+        "before": 1.6746969999999999,
+        "current": 0.106289
+      }
+    },
+    {
+      "operation": "inv",
+      "size": 131073,
+      "checksum": "1527634314573095316",
+      "samples_ms": {
+        "before": [
+          2.625855,
+          2.544893,
+          2.646555,
+          2.5328350000000004,
+          2.538484,
+          2.567398,
+          2.59673,
+          2.574878,
+          2.546596
+        ],
+        "current": [
+          2.332127,
+          2.2874689999999998,
+          2.239708,
+          2.3361620000000003,
+          2.252638,
+          2.306968,
+          2.317645,
+          2.323564,
+          2.311996
+        ]
+      },
+      "median_ms": {
+        "before": 2.567398,
+        "current": 2.311996
+      }
+    },
+    {
+      "operation": "log",
+      "size": 131073,
+      "checksum": "2737796204615918703",
+      "samples_ms": {
+        "before": [
+          4.8535449999999996,
+          4.70978,
+          4.76262,
+          4.717422,
+          4.717131999999999,
+          4.828087,
+          4.717031,
+          4.768859,
+          4.770732
+        ],
+        "current": [
+          4.717251,
+          4.659776,
+          4.641438,
+          4.627237999999999,
+          4.652725,
+          4.690872,
+          4.666867,
+          4.705835,
+          4.603692000000001
+        ]
+      },
+      "median_ms": {
+        "before": 4.76262,
+        "current": 4.659776
+      }
+    },
+    {
+      "operation": "exp",
+      "size": 131073,
+      "checksum": "12731854367312602159",
+      "samples_ms": {
+        "before": [
+          5.331568,
+          5.324827,
+          5.321051000000001,
+          5.318257,
+          5.3474509999999995,
+          5.391086,
+          5.328323,
+          5.375533,
+          5.352438
+        ],
+        "current": [
+          5.303005000000001,
+          5.292199,
+          5.287272,
+          5.271007,
+          5.301863,
+          5.311507,
+          5.356654,
+          5.280542,
+          5.276936
+        ]
+      },
+      "median_ms": {
+        "before": 5.331568,
+        "current": 5.292199
+      }
+    },
+    {
+      "operation": "sqrt",
+      "size": 131073,
+      "checksum": "18079884612114203878",
+      "samples_ms": {
+        "before": [
+          3.0724799999999997,
+          3.1199909999999997,
+          3.113621,
+          3.076756,
+          3.13308,
+          3.114432,
+          3.122855,
+          3.105329,
+          3.125449
+        ],
+        "current": [
+          3.050027,
+          3.042225,
+          3.079441,
+          3.0486240000000002,
+          3.0592409999999997,
+          3.06564,
+          3.0708580000000003,
+          3.046431,
+          3.066811
+        ]
+      },
+      "median_ms": {
+        "before": 3.114432,
+        "current": 3.0592409999999997
+      }
+    },
+    {
+      "operation": "pow",
+      "size": 131073,
+      "checksum": "9025018060276754506",
+      "samples_ms": {
+        "before": [
+          9.933196,
+          9.938976,
+          10.301496,
+          9.891294,
+          9.945114,
+          10.013055999999999,
+          10.06955,
+          10.144632000000001,
+          10.037101
+        ],
+        "current": [
+          9.790754,
+          9.770995,
+          9.927038,
+          9.701572,
+          9.788661000000001,
+          10.054778,
+          9.873878000000001,
+          9.925856,
+          9.852316
+        ]
+      },
+      "median_ms": {
+        "before": 10.013055999999999,
+        "current": 9.852316
+      }
+    },
+    {
+      "operation": "div_series",
+      "size": 131073,
+      "checksum": "14639166660897905540",
+      "samples_ms": {
+        "before": [
+          3.99855,
+          3.994434,
+          4.00531,
+          4.041785,
+          4.014223,
+          4.01853,
+          4.028175,
+          4.035035000000001,
+          4.030698
+        ],
+        "current": [
+          3.943358,
+          3.9410950000000002,
+          3.969758,
+          3.9592309999999995,
+          3.951009,
+          3.947064,
+          3.972191,
+          3.949487,
+          3.934746
+        ]
+      },
+      "median_ms": {
+        "before": 4.01853,
+        "current": 3.949487
+      }
+    },
+    {
+      "operation": "divmod",
+      "size": 131073,
+      "checksum": "17305954092114260075",
+      "samples_ms": {
+        "before": [
+          3.95805,
+          3.950429,
+          4.0014650000000005,
+          4.017749,
+          3.9716500000000003,
+          3.969096,
+          3.9540340000000005,
+          3.9207449999999997,
+          3.972741
+        ],
+        "current": [
+          3.87749,
+          3.8697380000000003,
+          3.906774,
+          3.906953,
+          3.898902,
+          3.8811660000000003,
+          3.913504,
+          3.89746,
+          3.883358
+        ]
+      },
+      "median_ms": {
+        "before": 3.969096,
+        "current": 3.89746
+      }
+    },
+    {
+      "operation": "square",
+      "size": 131073,
+      "checksum": "5425857454159462346",
+      "samples_ms": {
+        "before": [
+          4.665865,
+          4.6073379999999995,
+          4.636671,
+          4.598795999999999,
+          4.607398000000001,
+          4.562011,
+          4.61508,
+          4.6400570000000005,
+          4.552707
+        ],
+        "current": [
+          4.637914,
+          4.654418,
+          4.668309,
+          4.562131,
+          4.633647,
+          4.589872,
+          4.590813,
+          4.5995669999999995,
+          4.567208
+        ]
+      },
+      "median_ms": {
+        "before": 4.607398000000001,
+        "current": 4.5995669999999995
+      }
+    },
+    {
+      "operation": "multiply",
+      "size": 131073,
+      "checksum": "11247937031996762126",
+      "samples_ms": {
+        "before": [
+          5.631754999999999,
+          6.044811,
+          5.722040000000001,
+          5.56834,
+          5.60163,
+          5.472778,
+          5.606888,
+          5.592486,
+          5.526799
+        ],
+        "current": [
+          6.362989000000001,
+          5.557835,
+          5.483624000000001,
+          5.5863570000000005,
+          5.465587,
+          5.878893,
+          5.462182,
+          5.473739,
+          5.445067
+        ]
+      },
+      "median_ms": {
+        "before": 5.60163,
+        "current": 5.483624000000001
+      }
+    },
+    {
+      "operation": "inv:1:1",
+      "size": 131073,
+      "checksum": "12534410931042051143",
+      "samples_ms": {
+        "before": [
+          1.265206,
+          1.3929669999999998,
+          1.264605,
+          1.2624520000000001,
+          1.2609190000000001,
+          1.2609190000000001,
+          1.274801,
+          1.297003,
+          1.280108
+        ],
+        "current": [
+          0.502679,
+          0.556219,
+          0.528969,
+          0.508218,
+          0.49408700000000005,
+          0.510471,
+          0.5144369999999999,
+          0.532473,
+          0.5559989999999999
+        ]
+      },
+      "median_ms": {
+        "before": 1.265206,
+        "current": 0.5144369999999999
+      }
+    },
+    {
+      "operation": "inv:12:1",
+      "size": 131073,
+      "checksum": "11521260311032692432",
+      "samples_ms": {
+        "before": [
+          7.020425,
+          6.9876759999999996,
+          7.038241,
+          7.012514,
+          7.0168289999999995,
+          7.140022999999999,
+          7.386961,
+          7.057189,
+          7.0097689999999995
+        ],
+        "current": [
+          2.315001,
+          2.40197,
+          2.3360019999999997,
+          2.290384,
+          2.317104,
+          2.544443,
+          2.3102840000000002,
+          2.312617,
+          2.322021
+        ]
+      },
+      "median_ms": {
+        "before": 7.020425,
+        "current": 2.317104
+      }
+    },
+    {
+      "operation": "inv:32:1",
+      "size": 131073,
+      "checksum": "12373989008679360326",
+      "samples_ms": {
+        "before": [
+          15.077995,
+          15.607179,
+          15.091501000000001,
+          15.093914,
+          15.109307000000001,
+          15.138531,
+          15.103168,
+          15.420411999999999,
+          15.089567
+        ],
+        "current": [
+          2.504542,
+          2.411123,
+          2.455169,
+          2.404884,
+          2.438134,
+          2.4952989999999997,
+          2.468779,
+          2.4837309999999997,
+          2.4839919999999998
+        ]
+      },
+      "median_ms": {
+        "before": 15.103168,
+        "current": 2.468779
+      }
+    },
+    {
+      "operation": "exp:1:1",
+      "size": 131073,
+      "checksum": "1666519949806996400",
+      "samples_ms": {
+        "before": [
+          1.596559,
+          1.65767,
+          1.65086,
+          1.649618,
+          1.625542,
+          1.666153,
+          1.656088,
+          1.682958,
+          1.669378
+        ],
+        "current": [
+          1.034432,
+          1.048773,
+          1.03978,
+          1.0299449999999999,
+          1.0218930000000002,
+          1.029985,
+          1.027892,
+          1.066179,
+          1.038988
+        ]
+      },
+      "median_ms": {
+        "before": 1.656088,
+        "current": 1.034432
+      }
+    },
+    {
+      "operation": "exp:24:1",
+      "size": 131073,
+      "checksum": "10483438680367764182",
+      "samples_ms": {
+        "before": [
+          12.640047999999998,
+          12.635521,
+          12.726116000000001,
+          12.611705,
+          13.022627,
+          12.716461,
+          12.700608,
+          13.340992,
+          13.240060999999999
+        ],
+        "current": [
+          4.679273,
+          4.6859839999999995,
+          4.716489,
+          4.6938960000000005,
+          4.8017959999999995,
+          4.744592,
+          6.020413,
+          4.890147,
+          5.042745
+        ]
+      },
+      "median_ms": {
+        "before": 12.716461,
+        "current": 4.744592
+      }
+    },
+    {
+      "operation": "exp:64:1",
+      "size": 131073,
+      "checksum": "11496663844609367087",
+      "samples_ms": {
+        "before": [
+          33.93293,
+          34.440206,
+          32.007541,
+          31.954782,
+          32.089729,
+          31.977506,
+          32.087168999999996,
+          32.025848,
+          31.967321
+        ],
+        "current": [
+          5.930538,
+          5.711412,
+          6.225858,
+          5.4652140000000005,
+          5.536110000000001,
+          5.499816,
+          5.471234,
+          5.572095,
+          5.833914
+        ]
+      },
+      "median_ms": {
+        "before": 32.025848,
+        "current": 5.572095
+      }
+    },
+    {
+      "operation": "inv:32:1024",
+      "size": 131073,
+      "checksum": "12684518687309438373",
+      "samples_ms": {
+        "before": [
+          12.18521,
+          12.003439,
+          12.194023,
+          12.619527,
+          12.252881,
+          12.209846,
+          12.20566,
+          12.197208,
+          12.087404
+        ],
+        "current": [
+          0.48877800000000005,
+          0.40965,
+          0.407858,
+          0.419324,
+          0.453786,
+          0.429781,
+          0.403721,
+          0.42699699999999996,
+          0.40873899999999996
+        ]
+      },
+      "median_ms": {
+        "before": 12.197208,
+        "current": 0.419324
+      }
+    },
+    {
+      "operation": "exp:64:1024",
+      "size": 131073,
+      "checksum": "3141788166826842221",
+      "samples_ms": {
+        "before": [
+          23.737524999999998,
+          23.587533,
+          23.348945999999998,
+          23.287936,
+          23.789053000000003,
+          23.735102,
+          23.620321,
+          24.952676,
+          23.669795
+        ],
+        "current": [
+          0.47407699999999997,
+          0.47564900000000004,
+          0.426696,
+          0.440637,
+          0.42891,
+          0.46285,
+          0.431473,
+          0.445825,
+          0.44733700000000004
+        ]
+      },
+      "median_ms": {
+        "before": 23.669795,
+        "current": 0.445825
+      }
+    },
+    {
+      "operation": "inv",
+      "size": 500000,
+      "checksum": "9481953001063454271",
+      "samples_ms": {
+        "before": [
+          11.694618,
+          11.079863000000001,
+          11.220592,
+          11.331117,
+          11.169486,
+          10.902518,
+          11.60158,
+          10.733276,
+          11.291077
+        ],
+        "current": [
+          10.175625,
+          10.451085,
+          9.957079,
+          10.11914,
+          10.377695,
+          10.518005,
+          10.267251,
+          10.410924999999999,
+          10.338686999999998
+        ]
+      },
+      "median_ms": {
+        "before": 11.220592,
+        "current": 10.338686999999998
+      }
+    },
+    {
+      "operation": "log",
+      "size": 500000,
+      "checksum": "5681045367622853136",
+      "samples_ms": {
+        "before": [
+          22.769263000000002,
+          20.287098999999998,
+          19.543466,
+          19.245352,
+          20.525098,
+          19.200034000000002,
+          20.404018,
+          19.942952,
+          21.214296
+        ],
+        "current": [
+          20.716874,
+          19.996911,
+          19.186253999999998,
+          18.81539,
+          18.826106,
+          18.905445,
+          19.617095000000003,
+          19.376846999999998,
+          20.202748
+        ]
+      },
+      "median_ms": {
+        "before": 20.287098999999998,
+        "current": 19.376846999999998
+      }
+    },
+    {
+      "operation": "exp",
+      "size": 500000,
+      "checksum": "4765430167214132695",
+      "samples_ms": {
+        "before": [
+          22.938055,
+          22.821,
+          22.469095000000003,
+          21.973096,
+          22.544708,
+          22.235508,
+          22.455916,
+          22.878776,
+          24.847821
+        ],
+        "current": [
+          23.572180000000003,
+          22.901339999999998,
+          22.267736,
+          21.906538,
+          21.675743,
+          22.31794,
+          22.624558,
+          23.35738,
+          22.636045
+        ]
+      },
+      "median_ms": {
+        "before": 22.544708,
+        "current": 22.624558
+      }
+    },
+    {
+      "operation": "sqrt",
+      "size": 500000,
+      "checksum": "883083612621977939",
+      "samples_ms": {
+        "before": [
+          13.112902,
+          12.667497999999998,
+          12.986583,
+          13.000424,
+          13.134744,
+          13.067993999999999,
+          13.836279999999999,
+          13.555582,
+          14.813637
+        ],
+        "current": [
+          13.263195,
+          13.383485,
+          16.106102,
+          13.936449,
+          12.989328,
+          12.980995,
+          13.114484,
+          13.176666,
+          13.184658
+        ]
+      },
+      "median_ms": {
+        "before": 13.112902,
+        "current": 13.184658
+      }
+    },
+    {
+      "operation": "pow",
+      "size": 500000,
+      "checksum": "781852380807739503",
+      "samples_ms": {
+        "before": [
+          44.691356,
+          43.384677,
+          44.032253,
+          46.448034,
+          42.434179,
+          43.321452,
+          42.914044999999994,
+          43.985191,
+          43.209694999999996
+        ],
+        "current": [
+          41.420679,
+          44.504676,
+          46.159934,
+          45.790895,
+          42.831522,
+          43.510324000000004,
+          42.822048,
+          43.823371,
+          44.99612
+        ]
+      },
+      "median_ms": {
+        "before": 43.384677,
+        "current": 43.823371
+      }
+    },
+    {
+      "operation": "div_series",
+      "size": 500000,
+      "checksum": "9655071240611835654",
+      "samples_ms": {
+        "before": [
+          16.759669000000002,
+          17.89367,
+          16.57958,
+          18.024645,
+          17.293053999999998,
+          17.780761,
+          17.475916,
+          19.894071999999998,
+          16.441114
+        ],
+        "current": [
+          16.712749,
+          16.575494,
+          17.179976,
+          16.762202000000002,
+          16.83436,
+          16.623926,
+          16.816433,
+          17.801362,
+          16.222598
+        ]
+      },
+      "median_ms": {
+        "before": 17.475916,
+        "current": 16.762202000000002
+      }
+    },
+    {
+      "operation": "divmod",
+      "size": 500000,
+      "checksum": "1743610093931337372",
+      "samples_ms": {
+        "before": [
+          13.353250000000001,
+          13.501551000000001,
+          13.361342,
+          14.261183,
+          14.326231,
+          14.152312,
+          14.342443999999999,
+          13.734798,
+          14.045271
+        ],
+        "current": [
+          13.276325,
+          13.40629,
+          13.479447,
+          13.730191,
+          17.117912999999998,
+          14.05748,
+          16.519851,
+          13.552748,
+          15.541753
+        ]
+      },
+      "median_ms": {
+        "before": 14.045271,
+        "current": 13.730191
+      }
+    },
+    {
+      "operation": "square",
+      "size": 500000,
+      "checksum": "16939324865107801682",
+      "samples_ms": {
+        "before": [
+          11.305957,
+          10.265115,
+          10.991849,
+          10.337884,
+          10.418915,
+          10.513003999999999,
+          10.828746,
+          10.990836999999999,
+          10.959701
+        ],
+        "current": [
+          11.01266,
+          10.393727,
+          10.568678,
+          10.816256999999998,
+          10.269722,
+          10.311795,
+          10.878789999999999,
+          10.647475,
+          10.599103
+        ]
+      },
+      "median_ms": {
+        "before": 10.828746,
+        "current": 10.599103
+      }
+    },
+    {
+      "operation": "multiply",
+      "size": 500000,
+      "checksum": "186646970602345954",
+      "samples_ms": {
+        "before": [
+          12.299398,
+          12.156775999999999,
+          11.779133,
+          11.900033,
+          11.807715,
+          11.808997999999999,
+          11.732634000000001,
+          14.670202999999999,
+          15.991824000000001
+        ],
+        "current": [
+          12.241452,
+          11.851901,
+          11.570511,
+          11.71679,
+          11.935105,
+          11.814735,
+          12.159039,
+          15.483656,
+          12.302092
+        ]
+      },
+      "median_ms": {
+        "before": 11.900033,
+        "current": 11.935105
+      }
+    },
+    {
+      "operation": "inv:1:1",
+      "size": 500000,
+      "checksum": "11179925691407128927",
+      "samples_ms": {
+        "before": [
+          5.213523,
+          5.024090999999999,
+          5.024802,
+          5.058822,
+          4.993766,
+          4.958283,
+          5.493551,
+          5.072433,
+          5.003641
+        ],
+        "current": [
+          1.9337639999999998,
+          2.036056,
+          1.916848,
+          2.040152,
+          1.9844989999999998,
+          1.9761969999999998,
+          1.912671,
+          1.9454909999999999,
+          1.94532
+        ]
+      },
+      "median_ms": {
+        "before": 5.024802,
+        "current": 1.9454909999999999
+      }
+    },
+    {
+      "operation": "inv:12:1",
+      "size": 500000,
+      "checksum": "1143906600169758380",
+      "samples_ms": {
+        "before": [
+          29.261589,
+          28.066387000000002,
+          28.26296,
+          28.063344999999998,
+          27.3357,
+          30.236573999999997,
+          27.624381,
+          27.729892,
+          26.806041
+        ],
+        "current": [
+          8.961051,
+          8.964125,
+          9.752350999999999,
+          9.684263,
+          9.07849,
+          9.231599,
+          9.27257,
+          9.090098,
+          9.119772
+        ]
+      },
+      "median_ms": {
+        "before": 28.063344999999998,
+        "current": 9.119772
+      }
+    },
+    {
+      "operation": "inv:32:1",
+      "size": 500000,
+      "checksum": "7157107451728898467",
+      "samples_ms": {
+        "before": [
+          59.308232000000004,
+          60.07882,
+          61.369304,
+          59.876529,
+          57.849828,
+          60.100873,
+          58.963238000000004,
+          60.918941999999994,
+          61.013063
+        ],
+        "current": [
+          10.664955,
+          10.838303,
+          11.74532,
+          11.157819,
+          11.164268999999999,
+          10.819485,
+          10.930792,
+          10.454711,
+          11.370777
+        ]
+      },
+      "median_ms": {
+        "before": 60.07882,
+        "current": 10.930792
+      }
+    },
+    {
+      "operation": "exp:1:1",
+      "size": 500000,
+      "checksum": "7471978394349215074",
+      "samples_ms": {
+        "before": [
+          6.267692,
+          6.24691,
+          6.199921,
+          6.287380000000001,
+          6.325237,
+          6.269424,
+          6.237076,
+          6.272428,
+          6.264697
+        ],
+        "current": [
+          4.019811,
+          3.9312690000000003,
+          3.961725,
+          3.964809,
+          3.947473,
+          3.968605,
+          4.023606,
+          3.95149,
+          3.939932
+        ]
+      },
+      "median_ms": {
+        "before": 6.267692,
+        "current": 3.961725
+      }
+    },
+    {
+      "operation": "exp:24:1",
+      "size": 500000,
+      "checksum": "12215102210639666345",
+      "samples_ms": {
+        "before": [
+          48.184613,
+          48.588725,
+          48.327136,
+          48.585971,
+          48.10866,
+          48.660583,
+          48.211193,
+          50.885168,
+          48.133277
+        ],
+        "current": [
+          18.189249,
+          18.764416,
+          17.981098,
+          17.954929,
+          17.855771999999998,
+          17.936953,
+          17.932406,
+          17.959687,
+          17.976803
+        ]
+      },
+      "median_ms": {
+        "before": 48.327136,
+        "current": 17.959687
+      }
+    },
+    {
+      "operation": "exp:64:1",
+      "size": 500000,
+      "checksum": "5985075179836857746",
+      "samples_ms": {
+        "before": [
+          122.803494,
+          123.55256,
+          123.580723,
+          123.29259300000001,
+          130.93923900000001,
+          129.239306,
+          129.111886,
+          127.258018,
+          123.592731
+        ],
+        "current": [
+          21.784737,
+          22.965107,
+          21.666251000000003,
+          22.361848,
+          22.226486,
+          23.805819999999997,
+          23.201229,
+          22.676446,
+          24.630859
+        ]
+      },
+      "median_ms": {
+        "before": 123.592731,
+        "current": 22.676446
+      }
+    },
+    {
+      "operation": "inv:32:1024",
+      "size": 500000,
+      "checksum": "8323769929825997261",
+      "samples_ms": {
+        "before": [
+          55.955014,
+          53.449999999999996,
+          53.593415,
+          52.995153,
+          53.487116,
+          54.09634,
+          53.445641,
+          55.157653,
+          53.539731
+        ],
+        "current": [
+          1.655998,
+          1.835807,
+          1.649929,
+          1.6054629999999999,
+          1.599043,
+          1.742688,
+          1.734165,
+          1.6349369999999999,
+          1.6220480000000002
+        ]
+      },
+      "median_ms": {
+        "before": 53.539731,
+        "current": 1.649929
+      }
+    },
+    {
+      "operation": "exp:64:1024",
+      "size": 500000,
+      "checksum": "10468251642770696935",
+      "samples_ms": {
+        "before": [
+          117.208311,
+          119.770061,
+          117.614738,
+          117.369703,
+          117.461289,
+          119.639074,
+          117.988214,
+          117.86475,
+          118.30278299999999
+        ],
+        "current": [
+          1.7641289999999998,
+          1.810319,
+          1.8234679999999999,
+          1.8675840000000001,
+          1.804089,
+          1.767265,
+          1.859162,
+          1.602529,
+          1.800514
+        ]
+      },
+      "median_ms": {
+        "before": 117.86475,
+        "current": 1.804089
+      }
+    },
+    {
+      "operation": "inv",
+      "size": 524288,
+      "checksum": "8775593434744529522",
+      "samples_ms": {
+        "before": [
+          11.348086,
+          11.686660999999999,
+          11.060888,
+          11.359994,
+          11.493003,
+          11.178594,
+          11.32307,
+          11.634893,
+          11.141758999999999
+        ],
+        "current": [
+          10.307935,
+          10.130752,
+          10.268767,
+          10.170231,
+          10.206515,
+          10.503205999999999,
+          10.481064,
+          10.207756,
+          10.467543
+        ]
+      },
+      "median_ms": {
+        "before": 11.348086,
+        "current": 10.268767
+      }
+    },
+    {
+      "operation": "log",
+      "size": 524288,
+      "checksum": "4327729277539616944",
+      "samples_ms": {
+        "before": [
+          22.318740000000002,
+          20.255635,
+          20.603754,
+          19.805615,
+          21.605237,
+          20.036468000000003,
+          19.658756,
+          19.738104,
+          20.526238
+        ],
+        "current": [
+          20.475753,
+          20.254683,
+          20.214484000000002,
+          19.399469,
+          20.079082000000003,
+          19.649601999999998,
+          19.847997,
+          20.245751,
+          19.7291
+        ]
+      },
+      "median_ms": {
+        "before": 20.255635,
+        "current": 20.079082000000003
+      }
+    },
+    {
+      "operation": "exp",
+      "size": 524288,
+      "checksum": "165330221183074949",
+      "samples_ms": {
+        "before": [
+          22.434143,
+          22.669493,
+          22.772827999999997,
+          22.471258000000002,
+          22.515984,
+          22.45962,
+          22.437147,
+          22.771054999999997,
+          22.201255
+        ],
+        "current": [
+          22.208976,
+          22.267014000000003,
+          22.660050000000002,
+          22.234395,
+          22.199792,
+          22.642492999999998,
+          22.528283,
+          22.163219,
+          22.262696
+        ]
+      },
+      "median_ms": {
+        "before": 22.471258000000002,
+        "current": 22.262696
+      }
+    },
+    {
+      "operation": "sqrt",
+      "size": 524288,
+      "checksum": "13179673395861167862",
+      "samples_ms": {
+        "before": [
+          13.015070999999999,
+          13.263712,
+          13.227979000000001,
+          13.127739,
+          13.153198,
+          13.174699,
+          13.673073,
+          13.941903,
+          13.903926
+        ],
+        "current": [
+          13.105535999999999,
+          13.138545,
+          13.028903,
+          12.94088,
+          13.036394,
+          13.288469000000001,
+          13.306195,
+          13.270311999999999,
+          14.116773
+        ]
+      },
+      "median_ms": {
+        "before": 13.227979000000001,
+        "current": 13.138545
+      }
+    },
+    {
+      "operation": "pow",
+      "size": 524288,
+      "checksum": "13760547320171538304",
+      "samples_ms": {
+        "before": [
+          43.046239,
+          43.084064999999995,
+          44.019971,
+          43.887353,
+          43.418844,
+          43.868685,
+          45.278695,
+          42.949414,
+          43.213598
+        ],
+        "current": [
+          42.216882,
+          42.073087,
+          42.703959,
+          43.146398000000005,
+          43.466235,
+          43.26216,
+          43.232356,
+          44.14801,
+          41.907511
+        ]
+      },
+      "median_ms": {
+        "before": 43.418844,
+        "current": 43.146398000000005
+      }
+    },
+    {
+      "operation": "div_series",
+      "size": 524288,
+      "checksum": "1386138747102312161",
+      "samples_ms": {
+        "before": [
+          16.747301999999998,
+          16.997585,
+          16.637779,
+          17.125694,
+          17.405311,
+          18.563197,
+          16.883715000000002,
+          16.858155999999997,
+          16.482727
+        ],
+        "current": [
+          16.432813,
+          16.641123,
+          16.40421,
+          16.951195,
+          17.197862,
+          17.468135,
+          16.738146999999998,
+          16.92749,
+          17.302438
+        ]
+      },
+      "median_ms": {
+        "before": 16.883715000000002,
+        "current": 16.92749
+      }
+    },
+    {
+      "operation": "divmod",
+      "size": 524288,
+      "checksum": "1627432320587863681",
+      "samples_ms": {
+        "before": [
+          17.50492,
+          17.461755999999998,
+          17.690056,
+          17.501756,
+          17.693832,
+          17.67977,
+          17.472772000000003,
+          17.355427,
+          17.214496999999998
+        ],
+        "current": [
+          16.872277,
+          16.911255,
+          17.056061,
+          17.510768,
+          17.494915,
+          17.515616,
+          17.795483,
+          17.411821,
+          17.061139
+        ]
+      },
+      "median_ms": {
+        "before": 17.501756,
+        "current": 17.411821
+      }
+    },
+    {
+      "operation": "square",
+      "size": 524288,
+      "checksum": "940708242398576581",
+      "samples_ms": {
+        "before": [
+          10.259432,
+          10.496474000000001,
+          10.062407,
+          10.78239,
+          10.205751000000001,
+          10.433110000000001,
+          10.551927,
+          10.52673,
+          10.36608
+        ],
+        "current": [
+          10.672156000000001,
+          10.682091,
+          10.102537,
+          10.127714,
+          10.170739,
+          10.318749,
+          10.156178,
+          10.121706,
+          10.057089999999999
+        ]
+      },
+      "median_ms": {
+        "before": 10.433110000000001,
+        "current": 10.156178
+      }
+    },
+    {
+      "operation": "multiply",
+      "size": 524288,
+      "checksum": "10100464824552091102",
+      "samples_ms": {
+        "before": [
+          11.980277,
+          11.753679,
+          11.84907,
+          11.726728000000001,
+          11.750613,
+          11.806316,
+          12.082488000000001,
+          11.876230999999999,
+          12.187335000000001
+        ],
+        "current": [
+          11.665296,
+          11.680418999999999,
+          11.498137999999999,
+          11.604456,
+          11.417057,
+          11.447823,
+          11.820087,
+          11.51332,
+          11.653880000000001
+        ]
+      },
+      "median_ms": {
+        "before": 11.84907,
+        "current": 11.604456
+      }
+    },
+    {
+      "operation": "inv:1:1",
+      "size": 524288,
+      "checksum": "6553120668931859580",
+      "samples_ms": {
+        "before": [
+          5.109546000000001,
+          5.170737,
+          5.198168000000001,
+          5.073892,
+          5.1383280000000005,
+          5.1903060000000005,
+          5.124467,
+          5.204486999999999,
+          5.118099
+        ],
+        "current": [
+          2.030806,
+          2.10035,
+          2.114702,
+          2.018579,
+          2.0517980000000002,
+          2.0046880000000002,
+          2.0763439999999997,
+          2.0157640000000003,
+          2.01294
+        ]
+      },
+      "median_ms": {
+        "before": 5.1383280000000005,
+        "current": 2.030806
+      }
+    },
+    {
+      "operation": "inv:12:1",
+      "size": 524288,
+      "checksum": "17979705765499316515",
+      "samples_ms": {
+        "before": [
+          28.333509,
+          28.216165,
+          28.340099000000002,
+          28.354561,
+          28.16519,
+          28.280079999999998,
+          28.217137,
+          28.281693,
+          28.618234
+        ],
+        "current": [
+          9.357467,
+          9.280432,
+          9.290847,
+          9.372208,
+          9.219130000000002,
+          9.251068,
+          9.254664,
+          9.231529,
+          9.371708
+        ]
+      },
+      "median_ms": {
+        "before": 28.281693,
+        "current": 9.280432
+      }
+    },
+    {
+      "operation": "inv:32:1",
+      "size": 524288,
+      "checksum": "15633898435686110820",
+      "samples_ms": {
+        "before": [
+          60.964204,
+          61.2833,
+          60.448716,
+          61.258281999999994,
+          63.016984,
+          60.967228999999996,
+          62.822993999999994,
+          60.788982999999995,
+          61.888529999999996
+        ],
+        "current": [
+          11.088257,
+          11.456014,
+          11.098742,
+          11.232492,
+          10.877593,
+          11.327102,
+          11.122257999999999,
+          10.991412,
+          10.699737
+        ]
+      },
+      "median_ms": {
+        "before": 61.258281999999994,
+        "current": 11.098742
+      }
+    },
+    {
+      "operation": "exp:1:1",
+      "size": 524288,
+      "checksum": "6432760432269015071",
+      "samples_ms": {
+        "before": [
+          6.558193999999999,
+          6.5153609999999995,
+          6.613396,
+          6.604444,
+          6.812083,
+          6.664583,
+          6.6140870000000005,
+          6.757592,
+          7.00419
+        ],
+        "current": [
+          4.482862,
+          4.149785,
+          4.088344,
+          4.338947,
+          4.07927,
+          4.191407,
+          4.103306,
+          4.210375,
+          4.761036
+        ]
+      },
+      "median_ms": {
+        "before": 6.6140870000000005,
+        "current": 4.191407
+      }
+    },
+    {
+      "operation": "exp:24:1",
+      "size": 524288,
+      "checksum": "10393257362010089071",
+      "samples_ms": {
+        "before": [
+          50.852942999999996,
+          51.31372,
+          50.795176999999995,
+          50.895136,
+          51.963127,
+          50.804812,
+          51.153191,
+          51.415932,
+          51.372097
+        ],
+        "current": [
+          19.049101,
+          18.983043000000002,
+          18.989463,
+          18.784496,
+          19.076162,
+          19.02736,
+          19.034039,
+          18.877934999999997,
+          18.904636
+        ]
+      },
+      "median_ms": {
+        "before": 51.153191,
+        "current": 18.989463
+      }
+    },
+    {
+      "operation": "exp:64:1",
+      "size": 524288,
+      "checksum": "15663242113889676097",
+      "samples_ms": {
+        "before": [
+          128.853948,
+          129.115398,
+          130.29270300000002,
+          128.537086,
+          128.84435399999998,
+          128.603215,
+          127.971563,
+          129.399932,
+          128.00956
+        ],
+        "current": [
+          23.320257,
+          23.545703,
+          23.307578999999997,
+          23.334899999999998,
+          23.668326,
+          23.299035999999997,
+          22.783597,
+          23.125687,
+          23.138907
+        ]
+      },
+      "median_ms": {
+        "before": 128.84435399999998,
+        "current": 23.307578999999997
+      }
+    },
+    {
+      "operation": "inv:32:1024",
+      "size": 524288,
+      "checksum": "8855146463708079431",
+      "samples_ms": {
+        "before": [
+          55.199271,
+          54.718003,
+          55.162496,
+          55.632816,
+          55.048094999999996,
+          55.145801,
+          55.030370000000005,
+          55.388863,
+          55.262907
+        ],
+        "current": [
+          1.7812139999999999,
+          1.6516110000000002,
+          1.8577489999999999,
+          1.711712,
+          1.729618,
+          1.66407,
+          1.7069640000000001,
+          1.749017,
+          1.7380410000000002
+        ]
+      },
+      "median_ms": {
+        "before": 55.162496,
+        "current": 1.729618
+      }
+    },
+    {
+      "operation": "exp:64:1024",
+      "size": 524288,
+      "checksum": "7775193127879999322",
+      "samples_ms": {
+        "before": [
+          121.73381599999999,
+          121.934405,
+          121.880174,
+          122.220311,
+          121.945251,
+          121.866263,
+          121.981285,
+          122.083537,
+          121.895477
+        ],
+        "current": [
+          1.8744930000000002,
+          1.848255,
+          1.708496,
+          1.861374,
+          1.708276,
+          1.861584,
+          1.8416249999999998,
+          1.875836,
+          1.848895
+        ]
+      },
+      "median_ms": {
+        "before": 121.934405,
+        "current": 1.848895
+      }
+    }
+  ],
+  "judge": [
+    {
+      "operation": "inv",
+      "input": "max_random_00.in",
+      "input_sha256": "52b3f657383765daeb3b3926e7ce94ef072b4021f82d49b0cf01978f10777f36",
+      "samples_ms": {
+        "before": [
+          24.100721002469072,
+          24.159089000022504,
+          24.34277199790813,
+          24.326647999259876,
+          24.25463200052036,
+          24.234545999206603,
+          24.09937900301884,
+          25.61727099964628,
+          24.219027000071947
+        ],
+        "current_old_io": [
+          23.471884000173304,
+          23.76614199965843,
+          23.672612998780096,
+          23.96108299944899,
+          23.95518499906757,
+          23.595007001858903,
+          24.60380999764311,
+          23.92585100096767,
+          24.664722001034534
+        ],
+        "current": [
+          19.146167000144487,
+          19.40842800104292,
+          19.294678000733256,
+          19.08197100055986,
+          19.196782999642892,
+          18.995131002156995,
+          20.025677000376163,
+          19.399443997826893,
+          20.181739000690868
+        ],
+        "reference_409370": [
+          10.657134000211954,
+          10.579318000964122,
+          10.591707003186457,
+          10.510535001230892,
+          10.421983999549411,
+          10.541450999880908,
+          10.529063001740724,
+          10.617104002449196,
+          10.71901600153069
+        ],
+        "reference_409242": [
+          11.841640000056941,
+          11.645296999631682,
+          11.894107999978587,
+          11.597766999329906,
+          11.58174200099893,
+          12.097421000362374,
+          11.83860500168521,
+          11.714229996869108,
+          11.767318999773124
+        ]
+      },
+      "median_ms": {
+        "before": 24.234545999206603,
+        "current_old_io": 23.92585100096767,
+        "current": 19.294678000733256,
+        "reference_409370": 10.579318000964122,
+        "reference_409242": 11.767318999773124
+      }
+    },
+    {
+      "operation": "exp",
+      "input": "max_random_00.in",
+      "input_sha256": "9b12be7a72b0dcf2e8c1b5e661cffef8092fc8b6db5eb4bc507049dd10ffd1cd",
+      "samples_ms": {
+        "before": [
+          36.39592299805372,
+          37.020373998529976,
+          35.36865400019451,
+          35.25843099851045,
+          35.96654600187321,
+          35.36377800264745,
+          36.418960997252725,
+          35.93151799941552,
+          35.31897500215564
+        ],
+        "current_old_io": [
+          38.40568799932953,
+          34.98154499902739,
+          35.6466260018351,
+          35.37572599816485,
+          34.82417299892404,
+          35.29946200069389,
+          35.40091299873893,
+          35.519963999831816,
+          35.00979399905191
+        ],
+        "current": [
+          31.35615200153552,
+          31.14950300005148,
+          31.604551997588715,
+          31.471756999962963,
+          31.172251001407858,
+          31.997340000089025,
+          31.956849998096004,
+          31.570825001836056,
+          32.84905299733509
+        ],
+        "reference_409662": [
+          18.35541599939461,
+          16.061587000876898,
+          15.17557699844474,
+          16.356808999262284,
+          15.31697899918072,
+          15.719588998763356,
+          15.240534998156363,
+          15.521133002039278,
+          15.52342899958603
+        ],
+        "reference_409661": [
+          15.774729999975534,
+          15.631455997208832,
+          15.507471998716937,
+          15.257629998814082,
+          15.132534001168096,
+          15.700219999416731,
+          15.705828998761717,
+          15.664328999264399,
+          15.272254000592511
+        ]
+      },
+      "median_ms": {
+        "before": 35.93151799941552,
+        "current_old_io": 35.37572599816485,
+        "current": 31.570825001836056,
+        "reference_409662": 15.52342899958603,
+        "reference_409661": 15.631455997208832
+      }
+    },
+    {
+      "operation": "log",
+      "input": "max_random_00.in",
+      "input_sha256": "71cb0227a5a1e40ece225e19cd9d2633dfd4f07f25d39f01719bc2376e1d4ac8",
+      "samples_ms": {
+        "before": [
+          32.70750800220412,
+          33.05586900023627,
+          32.47378100058995,
+          33.423357002902776,
+          32.87464900131454,
+          33.656905998213915,
+          32.875631000933936,
+          33.34996700141346,
+          34.23537699927692
+        ],
+        "current_old_io": [
+          32.702159998734714,
+          32.825656002387404,
+          33.23172100135707,
+          32.61931800079765,
+          32.46325500003877,
+          32.93499900246388,
+          37.30247799830977,
+          32.50398700038204,
+          34.052303999487776
+        ],
+        "current": [
+          28.10960500210058,
+          28.885353000077885,
+          28.084208999644034,
+          27.764040998590644,
+          28.01183100018534,
+          27.95833100026357,
+          27.907085001061205,
+          30.31661099885241,
+          29.59357799772988
+        ],
+        "reference_409452": [
+          13.186064999899827,
+          13.619900000776397,
+          12.951864999195095,
+          12.833870001486503,
+          12.845686000218848,
+          12.81807600025786,
+          12.83768600114854,
+          12.753879997035256,
+          13.225100999989081
+        ],
+        "reference_409363": [
+          13.926878000347642,
+          13.48788399991463,
+          13.37372200214304,
+          13.580693001131294,
+          13.606810000055702,
+          13.378661002207082,
+          13.326821997907246,
+          13.354293998418143,
+          13.498409000021638
+        ]
+      },
+      "median_ms": {
+        "before": 33.05586900023627,
+        "current_old_io": 32.825656002387404,
+        "current": 28.084208999644034,
+        "reference_409452": 12.845686000218848,
+        "reference_409363": 13.48788399991463
+      }
+    },
+    {
+      "operation": "sqrt",
+      "input": "max_random_01.in",
+      "input_sha256": "23bba4b0457d6a0df2c70b75d0c357ea9741c4a13fe27ef0fce1c6cf7346449b",
+      "samples_ms": {
+        "before": [
+          27.614931997959502,
+          27.430537000327604,
+          27.30381899891654,
+          26.95804299946758,
+          27.30158600024879,
+          26.738714997918578,
+          28.76597800059244,
+          26.925162997940788,
+          27.527932998054894
+        ],
+        "current_old_io": [
+          27.663344000757206,
+          27.412490999267902,
+          30.088870000327006,
+          27.568061999772908,
+          29.046781000943156,
+          26.862000002438435,
+          27.17352499894332,
+          27.560040998650948,
+          27.029419001337374
+        ],
+        "current": [
+          22.275983999861637,
+          22.75888399890391,
+          25.575982999725966,
+          22.76675599932787,
+          22.25477200045134,
+          22.333130000333767,
+          22.719466000125976,
+          22.46618799836142,
+          22.802489998866804
+        ],
+        "reference_409728": [
+          10.815560999617446,
+          10.908429998380598,
+          11.094666999269975,
+          11.247083999478491,
+          10.619128002872458,
+          10.598048000247218,
+          10.973196996928891,
+          11.806878999777837,
+          10.767560997919645
+        ],
+        "reference_409316": [
+          11.680001000058837,
+          11.70017999902484,
+          11.722864001058042,
+          12.12759699774324,
+          11.545209999894723,
+          11.658889001409989,
+          11.619490000157384,
+          11.82247299948358,
+          11.712307998095639
+        ]
+      },
+      "median_ms": {
+        "before": 27.30381899891654,
+        "current_old_io": 27.560040998650948,
+        "current": 22.719466000125976,
+        "reference_409728": 10.908429998380598,
+        "reference_409316": 11.70017999902484
+      }
+    },
+    {
+      "operation": "pow",
+      "input": "binary_exp_max_00.in",
+      "input_sha256": "3567cb0064f22498ad3a019cd448c8388dcef5aa85dff8f59ad649087085316f",
+      "samples_ms": {
+        "before": [
+          55.39084499832825,
+          54.79874199954793,
+          54.21927899806178,
+          57.03390399867203,
+          54.68339999788441,
+          54.54336299953866,
+          54.63183399842819,
+          55.051518997061066,
+          54.48879100003978
+        ],
+        "current_old_io": [
+          54.128144001879264,
+          54.33306900158641,
+          54.91342399909627,
+          56.09530500078108,
+          55.18424800175126,
+          54.443893997813575,
+          54.23188799977652,
+          55.34602899933816,
+          54.134060999786016
+        ],
+        "current": [
+          49.73909000182175,
+          50.56662399874767,
+          50.61840199778089,
+          51.4181139988068,
+          50.57516799934092,
+          50.33503899903735,
+          51.28381400209037,
+          50.57934399883379,
+          50.18586799997138
+        ],
+        "reference_409718": [
+          22.593346002395265,
+          22.955257998546585,
+          22.829620000266004,
+          23.78446299917414,
+          23.306660001253476,
+          22.817690998635953,
+          25.255464999645483,
+          22.596552000322845,
+          22.84786800009897
+        ],
+        "reference_409358": [
+          24.922399999923073,
+          24.779896997642936,
+          24.8951979992853,
+          27.43479499986279,
+          25.35273100147606,
+          24.983430997963296,
+          24.850441001035506,
+          25.27101800296805,
+          25.107354998908704
+        ]
+      },
+      "median_ms": {
+        "before": 54.68339999788441,
+        "current_old_io": 54.443893997813575,
+        "current": 50.57516799934092,
+        "reference_409718": 22.84786800009897,
+        "reference_409358": 24.983430997963296
+      }
+    }
+  ]
+}

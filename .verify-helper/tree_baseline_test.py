@@ -186,6 +186,16 @@ class TreeBaselineTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "regular files"):
             reuse.historical_controls(SourceTree(self.root, head))
 
+    def test_real_chunk_boundary_bom_preserves_strict_timestamp_grammar(self):
+        # Unmodified boundary line from PR24 push job 117635743372; raw log stays local.
+        boundary = "\ufeff2026-10-18T09:52:32.7908921Z ok 5 tokens"
+        self.assertEqual(reuse.log_lines("2026-10-18T09:52:32.0000000Z previous chunk\n" + boundary + "\n"),
+                         ["previous chunk", "ok 5 tokens"])
+        self.assertEqual(reuse.log_lines(boundary + "\n"), ["ok 5 tokens"])
+        for invalid in ("\ufeff" + boundary, "\ufeffuntimestamped output", boundary.replace("2026-", "2026-\ufeff")):
+            with self.subTest(invalid=invalid), self.assertRaisesRegex(ValueError, "log format"):
+                reuse.log_lines(invalid + "\n")
+
     def test_squash_and_unreviewed_control_are_rejected_before_api(self):
         with self.assertRaisesRegex(ValueError, "two-parent"):
             reuse.source_plans(self.root, self.source, self.proof)

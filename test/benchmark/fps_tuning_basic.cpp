@@ -17,11 +17,17 @@ int main(int argc, char **argv) {
 	for (int i = 0; i < n; ++i) a[i] = rng(), b[i] = rng();
 	if (const auto colon = op.find(':'); colon != std::string::npos) {
 		const int terms = std::atoi(op.c_str() + colon + 1);
+		const auto next = op.find(':', colon + 1);
+		const int stride = next == std::string::npos ? 0 : std::atoi(op.c_str() + next + 1);
 		op.resize(colon);
 		fps &sparse = op == "div_series" ? b : a;
 		std::fill(sparse.begin(), sparse.end(), fps_mint(0));
 		sparse[0] = 1;
-		for (int i = 0; i < terms && 1 + 7 * i < n; ++i) sparse[1 + 7 * i] = rng();
+		for (int i = 0; i < terms; ++i) {
+			const long long at = stride ? (long long)stride * (i + 1) : 1 + 7LL * i;
+			if (at >= n) break;
+			sparse[at] = rng();
+		}
 	}
 	if (op == "inv" || op == "log") a[0] = 1;
 	if (op == "exp") a[0] = 0;

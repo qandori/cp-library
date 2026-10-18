@@ -1,0 +1,17 @@
+g++: convolution.cpp
+g++: fast_io.cpp
+g++: fast_io_integer.cpp
+g++: fps.cpp
+g++: fps_algorithms.cpp
+g++: fps_speed.cpp
+g++: fps_speed_io.cpp
+g++: fps_tuning_advanced.cpp
+g++: fps_tuning_basic.cpp
+g++: fps_tuning_polynomial.cpp
+g++: multipoint_tree.cpp
+g++: online_convolution.cpp
+g++: ordered_convolution.cpp
+g++: polynomial_gcd.cpp
+g++: power_projection.cpp
+g++: standalone.cpp
+Verification passed

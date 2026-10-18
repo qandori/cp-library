@@ -1,0 +1,38 @@
+g++: standalone components/fps_direct_eval.hpp
+g++: standalone components/fps_factorials.hpp
+g++: standalone components/fps_operations.hpp
+g++: standalone components/fps_product_tree.hpp
+g++: standalone components/ntt.hpp
+g++: standalone components/polynomial_half_gcd.hpp
+g++: standalone convolution/convolution.hpp
+g++: standalone convolution/cyclic_convolution.hpp
+g++: standalone convolution/max_min_convolution.hpp
+g++: standalone convolution/multiplicative_convolution.hpp
+g++: standalone convolution/multivariate_convolution.hpp
+g++: standalone convolution/online_convolution.hpp
+g++: standalone convolution/ordered_convolution.hpp
+g++: standalone fps/bostan_mori.hpp
+g++: standalone fps/compose.hpp
+g++: standalone fps/compositional_inverse.hpp
+g++: standalone fps/fps.hpp
+g++: standalone fps/interpolate.hpp
+g++: standalone fps/linear_recurrence.hpp
+g++: standalone fps/multipoint_eval.hpp
+g++: standalone fps/polynomial_gcd.hpp
+g++: standalone fps/power_projection.hpp
+g++: standalone fps/taylor_shift.hpp
+g++: convolution.cpp
+g++: fourier_transforms.cpp
+g++: fps.cpp
+g++: fps_algorithms.cpp
+g++: fps_speed.cpp
+g++: fps_tuning_advanced.cpp
+g++: fps_tuning_basic.cpp
+g++: fps_tuning_polynomial.cpp
+g++: multipoint_tree.cpp
+g++: online_convolution.cpp
+g++: ordered_convolution.cpp
+g++: polynomial_gcd.cpp
+g++: power_projection.cpp
+g++: standalone.cpp
+Verification passed

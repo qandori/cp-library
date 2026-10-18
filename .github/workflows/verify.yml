@@ -23,7 +23,16 @@ jobs:
     outputs:
       mode: ${{ steps.route.outputs.mode }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: >-
+      ${{ (
+        (github.event_name == 'push' && github.ref == 'refs/heads/codex/ci-tree-reuse-20261018') ||
+        (github.event_name == 'pull_request' && github.head_ref == 'codex/ci-tree-reuse-20261018' &&
+          github.event.pull_request.head.repo.full_name == 'qandori/cp-library' &&
+          github.event.pull_request.base.sha == 'e348f396c801964e72d4b1460a39dae91fdc88a3') ||
+        (github.event_name == 'push' && github.ref == 'refs/heads/main' &&
+          github.event.before == 'e348f396c801964e72d4b1460a39dae91fdc88a3' &&
+          contains(github.event.head_commit.message, 'Verify-Mode: control-full'))
+      ) && 120 || 60 }}
     steps:
       - uses: actions/checkout@v4
         with:

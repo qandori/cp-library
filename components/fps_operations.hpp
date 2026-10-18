@@ -4,6 +4,7 @@
 #include "ntt.hpp"
 #include <algorithm>
 #include <cassert>
+#include <numeric>
 #include <type_traits>
 #include <vector>
 
@@ -177,6 +178,40 @@ struct Operations {
 		}
 		return T::raw(result);
 	}
+	static int prepare_sparse(std::vector<std::pair<int, T>> &terms) {
+		int stride = 0;
+		for (auto &[j, x] : terms) {
+			stride = std::gcd(stride, j);
+			if constexpr (std::is_same_v<T, fps_detail::Mint>) if (x.v >= T::mod()) x.v -= T::mod();
+		}
+		return stride;
+	}
+	static T sparse_dot(const std::vector<std::pair<int, T>> &terms, const F &g, int i) {
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
+			static_assert(7ULL * (T::mod() - 1) * (2ULL * T::mod() - 1) + 0xffffffffULL * T::mod() < ~0ULL);
+			unsigned long long sum = 0;
+			Word result = 0;
+			int count = 0;
+			for (auto [j, x] : terms) {
+				if (j > i) break;
+				sum += (unsigned long long)x.v * g[i - j].v;
+				if (++count == 7) {
+					result = fps_detail::NTT::add(result, fps_detail::NTT::reduce(sum) % T::mod());
+					sum = 0;
+					count = 0;
+				}
+			}
+			return T::word(fps_detail::NTT::add(result, fps_detail::NTT::reduce(sum) % T::mod()));
+		} else {
+			T result = 0;
+			for (auto [j, x] : terms) {
+				if (j > i) break;
+				result += x * g[i - j];
+			}
+			return result;
+		}
+	}
+
 	static void intt(base &a) {
 		ntt_inverse(a);
 		const T inv = T::raw(T::mod() - (T::mod() - 1) / static_cast<int>(a.size()));

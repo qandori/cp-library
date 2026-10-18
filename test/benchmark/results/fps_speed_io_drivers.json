@@ -1,0 +1,282 @@
+{
+  "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+  "flags": [
+    "-std=c++23",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-DEVAL",
+    "-DONLINE_JUDGE",
+    "-I",
+    "/workspace/cp-library"
+  ],
+  "official_commit": "1814c4e5205517e368bb57a8d1127eb961cfeaae",
+  "sources": {
+    "fps/compositional_inverse.hpp": "a8edc10649d670b3dd1b2f02f89f923099e07ea19420242ee3251d20b10e443c",
+    "fps/linear_recurrence.hpp": "dc99057fe2a38c66d8d7feb9a5508d7e7b6501815d3d0efbe967b5cb3445e553",
+    "fps/compose.hpp": "08b85c447a05aa421637ef80e5697a4501fbcf4859d1fedd91222bda651b1041",
+    "fps/taylor_shift.hpp": "04928bd6ff0e313d6880ee4c7d78ad0dab189ea18c0cd64aa6cb4997fcfaedaf",
+    "fps/fps.hpp": "72e7d2afa9163c59e0b57131eaf399e34bfa038b620fe01266909f6cf75d1c6f",
+    "fps/interpolate.hpp": "2ee8bf3dc503e6f88d7fb0857c6cff99e8f2e4fea73e6af05a66301ada962e0d",
+    "fps/power_projection.hpp": "1ca47acbf95ed443c71c2e04e1e711986c8776f56533aed4915ac8a56090a73d",
+    "fps/bostan_mori.hpp": "8d3e89e20add5124dff1100f3a8282fa67a7937133b68a051232368ae2fe63fe",
+    "fps/polynomial_gcd.hpp": "f4592e06895a244282167969da984ed3bb4f99823f62fa6f2be4276cd5a9df4c",
+    "fps/multipoint_eval.hpp": "4cb93dd9d9d2b0bbbece729c7de93217a19cd4915cf9ace9aa797c0eefcb049e",
+    "components/polynomial_half_gcd.hpp": "70830eb0ea8dcdb50128030dd0fb37c7ada1909b16786eed154f938bd595b1de",
+    "components/fps_direct_eval.hpp": "73f3c335566cad50271ed5a0c8336ec10c57c6ec2c69a193c463939d15136380",
+    "components/undirected_csr.hpp": "2e53a2ce4fbaf18b7f30808cade253977b6cfe422eb3a199b1c79384a0093ec7",
+    "components/smawk.hpp": "695a3ebbf247d8bea41994ec058582dcce69a219b7c06473a49fbd0d34a70f89",
+    "components/mod_linear_prefix_min.hpp": "07fbfee2ead2eb9a673cf4d40e44bc137b819455249826193a92f755ee1f6ff2",
+    "components/flow_graph.hpp": "1d3c369de91b6f221cec348c503a9033ee7b59ccc908484a77275b7b1022fdf8",
+    "components/bitwise_zeta.hpp": "1599d735dd409a85606724f049f50ed10560818bbb91b2a8e9630dfd40eec761",
+    "components/default_init_allocator.hpp": "7eb7ea8260decc57a9809a12fbf74b112b791723aa78a2c843270bdd714cd4f5",
+    "components/dynamic_bit_vector.hpp": "1d6a47b55ba375810b30fa297bfae23755099b13e3b4707f2ff575b63e5278ae",
+    "components/fps_operations.hpp": "7c838d4ca3399bf681c9f049e409c180df106c1e9b784b8b73676b0eda422182",
+    "components/ntt.hpp": "8d878ad0344cd69871ad491ed79fdfb20b061a4abc722c403727a9214306de5e",
+    "components/small_vector.hpp": "f6602e1a44b1a6da238995b4fe05d8cff0117019a9e9e9943edf162dbb42e7bb",
+    "components/montgomery32.hpp": "23d370166dec7837f0b47a9952d350c9ffafa96ccec02bc0a487de9ec1f7895a",
+    "components/monotone_minima.hpp": "c8c1243645131313a9e1671b9a8e392388b7ee386e9d7e4ba013534c64c3d592",
+    "components/fps_product_tree.hpp": "d72a0a371bcf404028ca1fd970355b01efc097dbc7431a59c26ad3be347d9d58",
+    "components/sequence_match.hpp": "d74576a5e82377109abce1ca14f2b947b2ba918ba9e27070ea3c8d798397412f",
+    "components/push_relabel.hpp": "d00ab45a27a701c9013be3dc01a2f7f7d5cb0cc27a4b85eeafcb51118145d1a9",
+    "components/static_top_tree_structure.hpp": "cf06f7ffee6ceb893ba7c3627aff39240ad72cae57452ffc5c0e4bdbcdc9b6e2",
+    "components/divisor_zeta.hpp": "883f68f4e0d54c6bdd13da55e65b44fa57febd282d927e52bb28cfa4ff82026f",
+    "components/min_cost_circulation.hpp": "7667acbfc85ce2cae75187c8a7de962df0f894e4841a63b5a964cef8cae94978",
+    "components/stern_brocot_path.hpp": "3032ce1f5177914194e79e1f4e8d71fb5a6f771f05010f907a05029249dbf83c",
+    "components/quad_bit_vector.hpp": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+    "components/RadixHeap.hpp": "b335c2d100e9630924bd51000c3986c5ad66659b68e29a3444fe1153cdb8a46e",
+    "components/limb_arithmetic.hpp": "7f0095e64bc8ddb7e5c7ee1b0901b973125cd1cdd93a979b1bf1231faae7778f",
+    "components/xor_basis_core.hpp": "2d738ffa2c08a80393f42c0a95a552492694369de391cb012381cb38799cd0cf",
+    "components/montgomery.hpp": "5be93ff94b1a4c2dcc3a85fa8431fbad3452bc1322b8a97ba0bfece9cc8e511b",
+    "components/fps_factorials.hpp": "d6719de093bbe4d95542a0b51b84e0401e35928abd311b599abd149807596ddb",
+    "components/matrix_arithmetic.hpp": "9173946654c088d0adf507ac86556ca83b6ae6f900e66dcb1038ce3123302604",
+    "components/walsh_hadamard.hpp": "a3b29c25bc724fbcdb2ee7f9d29e86189c5734e2560ea155b4e10cedf38b41b8",
+    "components/fast_io.hpp": "56ed72cde8b330493e8dfdca79d97a5d7e3098dfc58fc57000948c34a5e130a1",
+    "components/predecessor_set.hpp": "11f5a74271be53a73cd7bd9a5f372f10a3d32896ce4c61866b5ae911629f1350",
+    "components/weighted_blossom.hpp": "027b217b7dd06709e7fa6c06b6e1c521475f0cd081362d14cc6746ef13438720",
+    "components/ntt_mod.hpp": "40cbfd5344aff36ab539243debfd71c2aeed397845d52963b5aefd4c1b63395d",
+    "components/splitmix64.hpp": "84e473d5ce9fcc1bc86e1a7c11c09aa032d9adc40b8e69a7114c137dbd1ba239",
+    "components/mod_fast_core.hpp": "b960071bd83b87bdcef0ddc2dfc56970dcfced148ef7ed580b4aa37df21fb860",
+    "components/barrett32.hpp": "ecffcdd9f837433eaf48ff883b52ca578c31febdce157c876200edf2b9082235",
+    "components/fft.hpp": "fbf555f3e9943a25fe828ed810bb2308c173dd45915def99d801ac57f125d259",
+    "components/mo_order.hpp": "4cf62e6bc4b9908f22f0fb85a93d616c276ef60afbb1a41180dfda81c811f588",
+    "components/static_range_min.hpp": "45e3d5a108984056325832931c87c855078a169ec933b4ebd1ebaed10109163e",
+    "components/binomial_prefix_core.hpp": "3b619188ae67835b073cbf27562b1f675c8ab10a65b60b28539bcd6ba30958c3",
+    "components/d_ary_heap.hpp": "944b7f6f89b265382a044f44ba5e83614473a16bdf583a10499a9e0f7fc89457",
+    "math/prime_sieve.hpp": "5e742307e8000973b95e820f26a394443b53a4498ab6d9fb998d78a75fce93df",
+    "math/monoid_floor_sum.hpp": "34abc70b077143cf19e99191e26a9c72ae2eec62d9aad17eec9965f7a9949580",
+    "math/matrix.hpp": "f79b70def9f73c1faf8db2d7b976f58b3fc4287cc1a93254966238da688b7104",
+    "math/is_prime.hpp": "307a1400592b593bcba5f3568fa11f992328cceff1cd6c400c8e04d5d3c60627",
+    "math/kth_root.hpp": "67f3a2961c6e4e794c97ed9eb2568026da57fce6788f0e33f7d6b0bfe5b339d8",
+    "math/xor_basis.hpp": "ca3716ebce772b2ba5b404120bc26347d83126a2805fd85e5010b52ce6759058",
+    "math/factorize.hpp": "b9a934a9c6a4b960b0ff65d0bee0a72734308ed90f7b88dad2342c95f3365414",
+    "math/binomial_prefix_sum.hpp": "cb339a005584bdb6285d62cc9564b78c8ca0bb86f48da0cfc051f0402b2841a7",
+    "math/fraction.hpp": "75936e45326c6b62251dce7d103c7c009729b4348206216392d972258175cc2d",
+    "math/mint.hpp": "67cec2452dda0af8b4cd307449fc65b3f1d678613e0392fdd666031dae062171",
+    "math/min_of_mod_of_linear.hpp": "971ca6e0a9f88128a1b584d8360d65f3356199827183db1f2da48a034101b47e",
+    "math/discrete_log.hpp": "d16af40dddaa8136f80478bca72422e6406514b88506faa9a9aac65ce962f5b6",
+    "math/partition_mod_of_linear.hpp": "a6fc0d7fa1b50f2402ca49c6a3fbdb880240811f2c0872ff65d2cad1b207fa9f",
+    "math/mod_pow.hpp": "8dd5fe7994928adb61e17b68e09ee213ab056aeca297c216ab0556efb0e8adf0",
+    "math/mod_inv.hpp": "bda8bf0658d160c648a0fa5b2614a946b72561e505f8b8da06d6db3bb7482ec8",
+    "math/comb.hpp": "64ca05ffc38b2bc2df305adeafc12e4a7449155a2ca2e8a03862f0387becf3a1",
+    "math/generalized_floor_sum.hpp": "961e9b1c9f36943d05d65929e975afe7af2735fef3880e436bff8143b23ea9da",
+    "math/mod_sqrt.hpp": "c2b414db307c613ee14f535073fb80458bbd0ef768c352b1822cf658fcceb68b",
+    "math/prefix_min_of_mod_of_linear.hpp": "6e4c10f6390b73ae6bf26fa515865c6e8fe99c18e042a7607e331757a5423fd8",
+    "math/stern_brocot_tree.hpp": "7f0648852c2727ff944cfde1c7e670298fd45cc05eb14852ffeef7c72ae0e518",
+    "convolution/min_plus_convolution.hpp": "ed441328442ee36f647a694a61079f3585ebff0ae696a943522812d06c6eb2c5",
+    "convolution/convolution_ring.hpp": "877f2c3cefa12dfc9db13127035e49af10dacb7a488fd3c8acb25b545ff9fd11",
+    "convolution/convolution_fft.hpp": "ca18157bbd16c951473e0f5602dc42458cde0027134c29609f1521b9f475f492",
+    "convolution/multiplicative_convolution.hpp": "5a5f34b1579b48986183b6b927fcdca7c25abae87be6fe77863256acdbd33cc1",
+    "convolution/subset_convolution.hpp": "5e646830279799f3106949c8fe3f310de0c3839ef5abc99b8c1a569786f533e8",
+    "convolution/cyclic_convolution.hpp": "6dc96d46bc899520e3a3036a88872a168d21a4a36520eeaf8ca2c2fcf0f3ab34",
+    "convolution/multivariate_convolution.hpp": "5b3ca59d4624ddee7529e224748b7bdbcb2171892e78cdc7a60b47f065076298",
+    "convolution/bitwise_convolution.hpp": "036afd4eda1b5a11f9d661b43c7cf8d314c3323625fedfc48fa23bdf5b3977e4",
+    "convolution/convolution.hpp": "c140eab3f37df554de4763658c9f6cf03a5e5c46e063c4470139f383e5537645",
+    "convolution/ordered_convolution.hpp": "7d34610c73a58b3a2635f947d73c2028c281e7d7072c933c88ed17451d6fc78f",
+    "convolution/boolean_convolution.hpp": "f4f7390573d867c233b8fb8c37001f07e394d7a3c1ab0290f5c303ae34744bf5",
+    "convolution/gcd_lcm_convolution.hpp": "5010f6f45a4a60eb652a1f6694f37c77f9b2bc366b72f937973688575bb8373b",
+    "convolution/online_convolution.hpp": "cdd826fe1e90ef7162aae835895ae611f9ed5472aa3a6ff3227f022b16f57af9",
+    "convolution/max_min_convolution.hpp": "572a7f15fa2f7b337d10a1b159437f7bd3d9f70551098c2b79e84ac78883e171",
+    "convolution/convolution_mod.hpp": "69aaa91c1855be4c2bbeddb1829fbf82045958c218623e0c8956424cf08b7139",
+    "test/matrix_common.hpp": "e822e432c00b27be95eed1f5409c62d1d3f02f29034affeee426734a9575c3a7",
+    "test/fps_io.hpp": "5e4d04cebbaf941c5947b74d7c4c8dcf92b82d314335a37dc4aded4d59ec3c9a",
+    "test/static_top_tree_dp.hpp": "d88a0f3fa8992ebc9cba72ecbfb05ad7255ea494c22ef1b1668d4bb0a6c8b65a"
+  },
+  "tests": {
+    "test/binomial_prefix_sum_offline.test.cpp": {
+      "source_sha256": "2af611f92853ec8f8f1d8f64b8cb46af285b0c77e48b45b81129e3f9bff70e9e",
+      "compiled": true
+    },
+    "test/interval_set_predecessor.test.cpp": {
+      "source_sha256": "8de9a3524793b4e460945f5551c59d438f9328fbe785e1b94b4501e17402f406",
+      "compiled": true
+    },
+    "test/hungarian.test.cpp": {
+      "source_sha256": "3a315efb1b529f873dd401fbd18ec201703522ef87d4b16e83551d5dbd50be50",
+      "compiled": true
+    },
+    "test/point_set_tree_path_composite_sum_fixed_root.test.cpp": {
+      "source_sha256": "6b270033d29d5d46b845b1fe57ddf4ea78d45107365a8593567e18f46e46be4e",
+      "compiled": true
+    },
+    "test/generalized_floor_sum.test.cpp": {
+      "source_sha256": "5e0b6c6ce0e87167bc85288df745cbc7d62593addbce57bebf85412ee9be3b8e",
+      "compiled": true
+    },
+    "test/general_matching.test.cpp": {
+      "source_sha256": "3dd0d67616d5b00a1fb79f510fc5a12be73b272e2acacb17b87601151b5bc74e",
+      "compiled": true
+    },
+    "test/matrix_pow.test.cpp": {
+      "source_sha256": "d2c8db998727fbe838cdd3749b18fbfd86d4d8efed1ddd246b9aa688df73942a",
+      "compiled": true
+    },
+    "test/dynamic_li_chao_tree_segment.test.cpp": {
+      "source_sha256": "f056edfc4805a1dd804dc7220eab96309cc7685aeb3c894ef497ea7b10bb3752",
+      "compiled": true
+    },
+    "test/general_weighted_matching.test.cpp": {
+      "source_sha256": "c4c7b37de221be37bbfe37450ddbd901840724816d11f58b24ae23ce622c984b",
+      "compiled": true
+    },
+    "test/mod_sqrt.test.cpp": {
+      "source_sha256": "ff4a99a107b93cb083763fb55473249dc17811d8e5e70fecabac535a4b2b75f9",
+      "compiled": true
+    },
+    "test/min_cost_flow.test.cpp": {
+      "source_sha256": "1b2a8dd1cfa3063c022fd10a254a988c354584086f1aa870340467cbfaa4ffc6",
+      "compiled": true
+    },
+    "test/min_cost_b_flow.test.cpp": {
+      "source_sha256": "b9afb6f8b3e87c55e7a64ceb2731f123d76157b1cd5682eda86c09208d0d350e",
+      "compiled": true
+    },
+    "test/fast_set.test.cpp": {
+      "source_sha256": "2935e60a896da914d31d98100c7d12b72f38b486976eeed21cd58c8a58eb6e9a",
+      "compiled": true
+    },
+    "test/segtree_beats.test.cpp": {
+      "source_sha256": "a2116c33ab3bff9628840a986a6d384f6027512f7338b1ff2967dd70af49cc14",
+      "compiled": true
+    },
+    "test/generic_segtree_beats.test.cpp": {
+      "source_sha256": "050bb89678a0fab5c11caa41bf07f2e656c0879e41a235b83339c83de5c25c47",
+      "compiled": true
+    },
+    "test/dynamic_li_chao_tree_line.test.cpp": {
+      "source_sha256": "56ad5a90e403f9a46c8df15a6ab3b102b6cf2ec50ec0ddaf74f36160d234fa4e",
+      "compiled": true
+    },
+    "test/matrix_rank.test.cpp": {
+      "source_sha256": "06572c8e4f2e80bed0f55a553c2081250bdaab7e27107bafa7fc7ca741e160c7",
+      "compiled": true
+    },
+    "test/eertree.test.cpp": {
+      "source_sha256": "8b3bb3be8e19a43e4017bc1dc745931cd192013db9669fcb3fd74ecae4a889cf",
+      "compiled": true
+    },
+    "test/two_edge_connected_components.test.cpp": {
+      "source_sha256": "cb1c265e08ff53ca1a7cc79ac37642441ce49cb3efff0ea51e1ac88519f14834",
+      "compiled": true
+    },
+    "test/discrete_log.test.cpp": {
+      "source_sha256": "52ae089ed9326e954f23b75cc26d8409813bc430e00911b786c7a49f0b8e42d1",
+      "compiled": true
+    },
+    "test/matrix_product.test.cpp": {
+      "source_sha256": "0b63b98a882d205e0d0c8f256ae6601f6ff5feb5590bdc9ac3061eb53296d4b2",
+      "compiled": true
+    },
+    "test/max_flow_yuki.test.cpp": {
+      "source_sha256": "4a890cdcef5aac1d19b17a92af4bc88340f028ffaae403e6e8626c9c229e70cc",
+      "compiled": true
+    },
+    "test/run_enumerate.test.cpp": {
+      "source_sha256": "242d3ab6260d26566c0f933884ec19a4b4bfa3f927c2ffaad2c16febe945b709",
+      "compiled": true
+    },
+    "test/lazy_reversible_treap_affine.test.cpp": {
+      "source_sha256": "827e5b569d53d95aed8343b3f5146867f0e5c6d755b821d81a50f0db00d2e6ef",
+      "compiled": true
+    },
+    "test/sortable_segtree.test.cpp": {
+      "source_sha256": "74eac81b9ecb94563352c3f2e874e3544e6968137f77adec6214a40b16020a81",
+      "compiled": true
+    },
+    "test/virtual_tree.test.cpp": {
+      "source_sha256": "d5d3181b1cd38fb6c7f752fc2363f5744b688c985571dc6935f1fe03dd21abc1",
+      "compiled": true
+    },
+    "test/matrix_inverse.test.cpp": {
+      "source_sha256": "40dc3361f4af3a25490065d234a953fcb8d00b30b5c828e6c818ba4d91f0fade",
+      "compiled": true
+    },
+    "test/lazy_reversible_treap_reverse.test.cpp": {
+      "source_sha256": "c6a2c1c7baf040e0493c22e499f0545a2bda8ce23efbf6468f1e36449ef36240",
+      "compiled": true
+    },
+    "test/mod_pow_log.test.cpp": {
+      "source_sha256": "91a547e0b091236a938921a88836f02880c60ed45aa50d72a90edaa03a99cffb",
+      "compiled": true
+    },
+    "test/matrix_adjugate.test.cpp": {
+      "source_sha256": "2440af692573704b89da772f04d99625edcf77141baecfd85a719c2924f84951",
+      "compiled": true
+    },
+    "test/permutation_tree.test.cpp": {
+      "source_sha256": "e93472fef3f58a0c6108ae7a1914b71cc9dea583ce7f82dc09f69b153b57ae29",
+      "compiled": true
+    },
+    "test/monotone_minima.test.cpp": {
+      "source_sha256": "fc37d3c1a15bf9cc62085b9a876186a5ac3bae703a8da3e6ddeda715f58d70fc",
+      "compiled": true
+    },
+    "test/rerooting_diameter.test.cpp": {
+      "source_sha256": "be8632a666a8487a2d65e831be768948e245181fa48dbb2d5aa6a4584d353389",
+      "compiled": true
+    },
+    "test/matrix_characteristic_polynomial.test.cpp": {
+      "source_sha256": "e9459ea94e73dc683bc2fed80068ccafc83931e3033dcb538b481558716f6de4",
+      "compiled": true
+    },
+    "test/max_flow.test.cpp": {
+      "source_sha256": "c7a4a9f0e23bb062589ee953896b4f02e81ab9db720524282fc928228a7ca985",
+      "compiled": true
+    },
+    "test/binomial_prefix_sum_online.test.cpp": {
+      "source_sha256": "61e6f9466376fbf9c8c5ebcb1129526333d6e7b2ac527cf5ffb914bcb312daf6",
+      "compiled": true
+    },
+    "test/matrix_det.test.cpp": {
+      "source_sha256": "c2ca20d9753c06302b0e7413c4c9168a66b849eb7377dc75bba4eed766555ce1",
+      "compiled": true
+    },
+    "test/kth_root.test.cpp": {
+      "source_sha256": "4716e4721368576b4e0f9a9536560b2ba770dc80295c8da1954644dec5631081",
+      "compiled": true
+    },
+    "test/matrix_solve.test.cpp": {
+      "source_sha256": "c95cc464446e947cc4683e10ba921254464cf3d7a4568e9c7dea6d62e1a5549d",
+      "compiled": true
+    },
+    "test/point_set_tree_path_composite_sum.test.cpp": {
+      "source_sha256": "b2d62953c94b59490d18bd92a48ab161d9052c4869cdfc2b22d1305cb15f7621",
+      "compiled": true
+    },
+    "test/stern_brocot_tree.test.cpp": {
+      "source_sha256": "29883198d08f1db9f5848592c826058f746a3b3c239eb1ccc5d1e971f9728ae4",
+      "compiled": true
+    },
+    "test/rerooting.test.cpp": {
+      "source_sha256": "f7586c09904b2a429c50e91e86a9531d37f79c96737fb108a6332adfbb4da676",
+      "compiled": true
+    },
+    "test/xor_basis_intersection.test.cpp": {
+      "source_sha256": "6564388ed0d5e3aefdc32684fddb33e06f718c04af366d36ec7e090899483e70",
+      "compiled": true
+    }
+  },
+  "skipped": {
+    "test/dijkstra_bigint_yuki.test.cpp": "Boost headers unavailable"
+  }
+}

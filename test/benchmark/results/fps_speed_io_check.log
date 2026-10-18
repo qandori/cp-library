@@ -1,0 +1,5 @@
+g++: standalone components/fast_io.hpp
+g++: fast_io.cpp
+g++: fast_io_integer.cpp
+g++: fps_speed_io.cpp
+Verification passed

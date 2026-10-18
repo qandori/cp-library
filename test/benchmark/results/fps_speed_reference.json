@@ -1,0 +1,1396 @@
+{
+  "retrieved_at": "2026-10-18T03:49:44.592753+00:00",
+  "problems": {
+    "convolution_mod": {
+      "listing": {
+        "count": 8921,
+        "submissions": [
+          {
+            "id": 409465,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 21602304,
+            "problem_name": "convolution_mod",
+            "problem_title": "Convolution",
+            "status": "AC",
+            "submission_time": "2026-10-10T05:53:37.818419Z",
+            "time": 0.012,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409433,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 21667840,
+            "problem_name": "convolution_mod",
+            "problem_title": "Convolution",
+            "status": "AC",
+            "submission_time": "2026-10-10T04:30:17.99098Z",
+            "time": 0.013,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409432,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 21864448,
+            "problem_name": "convolution_mod",
+            "problem_title": "Convolution",
+            "status": "AC",
+            "submission_time": "2026-10-10T04:28:39.819753Z",
+            "time": 0.013,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409465,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 21602304,
+          "problem_name": "convolution_mod",
+          "problem_title": "Convolution",
+          "status": "AC",
+          "submission_time": "2026-10-10T05:53:37.818419Z",
+          "time": 0.012,
+          "user_name": "Aiyiyi",
+          "source_sha256": "6cd230b64c18b2d41870f0be209727b019e0b7fca6b036f19f9d802b9d0a883d",
+          "url": "https://judge.yosupo.jp/submission/409465"
+        },
+        {
+          "id": 409433,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 21667840,
+          "problem_name": "convolution_mod",
+          "problem_title": "Convolution",
+          "status": "AC",
+          "submission_time": "2026-10-10T04:30:17.99098Z",
+          "time": 0.013,
+          "user_name": "Aiyiyi",
+          "source_sha256": "4e80b5abf6762e7768714c55b4074112c75d19a6bc2d311d0d81b0aab9b7d9e0",
+          "url": "https://judge.yosupo.jp/submission/409433"
+        },
+        {
+          "id": 409432,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 21864448,
+          "problem_name": "convolution_mod",
+          "problem_title": "Convolution",
+          "status": "AC",
+          "submission_time": "2026-10-10T04:28:39.819753Z",
+          "time": 0.013,
+          "user_name": "Aiyiyi",
+          "source_sha256": "4e80b5abf6762e7768714c55b4074112c75d19a6bc2d311d0d81b0aab9b7d9e0",
+          "url": "https://judge.yosupo.jp/submission/409432"
+        }
+      ]
+    },
+    "inv_of_formal_power_series": {
+      "listing": {
+        "count": 3081,
+        "submissions": [
+          {
+            "id": 409370,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 12091392,
+            "problem_name": "inv_of_formal_power_series",
+            "problem_title": "Inv of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T02:11:09.403965Z",
+            "time": 0.011,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409242,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 15581184,
+            "problem_name": "inv_of_formal_power_series",
+            "problem_title": "Inv of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-09T20:10:38.898175Z",
+            "time": 0.013,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409369,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 11927552,
+            "problem_name": "inv_of_formal_power_series",
+            "problem_title": "Inv of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T02:10:16.829797Z",
+            "time": 0.018,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409370,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 12091392,
+          "problem_name": "inv_of_formal_power_series",
+          "problem_title": "Inv of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T02:11:09.403965Z",
+          "time": 0.011,
+          "user_name": "Aiyiyi",
+          "source_sha256": "611eaf933f4187e567c90214aa5fc93f6bce7d139a122f68d11b769deeaabe66",
+          "url": "https://judge.yosupo.jp/submission/409370"
+        },
+        {
+          "id": 409242,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 15581184,
+          "problem_name": "inv_of_formal_power_series",
+          "problem_title": "Inv of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-09T20:10:38.898175Z",
+          "time": 0.013,
+          "user_name": "Aiyiyi",
+          "source_sha256": "50a4bd2c7c26b8932ac9e654cdc05f83743d1a3abc9860e4cdcf8db6dfda9868",
+          "url": "https://judge.yosupo.jp/submission/409242"
+        },
+        {
+          "id": 409369,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 11927552,
+          "problem_name": "inv_of_formal_power_series",
+          "problem_title": "Inv of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T02:10:16.829797Z",
+          "time": 0.018,
+          "user_name": "Aiyiyi",
+          "source_sha256": "611eaf933f4187e567c90214aa5fc93f6bce7d139a122f68d11b769deeaabe66",
+          "url": "https://judge.yosupo.jp/submission/409369"
+        }
+      ]
+    },
+    "log_of_formal_power_series": {
+      "listing": {
+        "count": 1489,
+        "submissions": [
+          {
+            "id": 409452,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 15474688,
+            "problem_name": "log_of_formal_power_series",
+            "problem_title": "Log of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T05:03:05.948735Z",
+            "time": 0.013,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409363,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 18100224,
+            "problem_name": "log_of_formal_power_series",
+            "problem_title": "Log of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T01:59:57.36938Z",
+            "time": 0.014,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409264,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 18206720,
+            "problem_name": "log_of_formal_power_series",
+            "problem_title": "Log of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-09T22:08:06.156265Z",
+            "time": 0.015,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409452,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 15474688,
+          "problem_name": "log_of_formal_power_series",
+          "problem_title": "Log of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T05:03:05.948735Z",
+          "time": 0.013,
+          "user_name": "Aiyiyi",
+          "source_sha256": "86ef3c3b4a4707ef5e7515e5229b2564f2a5f46bd830bb6cbe64b506a95675b6",
+          "url": "https://judge.yosupo.jp/submission/409452"
+        },
+        {
+          "id": 409363,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 18100224,
+          "problem_name": "log_of_formal_power_series",
+          "problem_title": "Log of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T01:59:57.36938Z",
+          "time": 0.014,
+          "user_name": "Aiyiyi",
+          "source_sha256": "5f95eee7d3c274d0a4c06347df01a6b9bbbd880b9f087836308d4866129dfb88",
+          "url": "https://judge.yosupo.jp/submission/409363"
+        },
+        {
+          "id": 409264,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 18206720,
+          "problem_name": "log_of_formal_power_series",
+          "problem_title": "Log of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-09T22:08:06.156265Z",
+          "time": 0.015,
+          "user_name": "Aiyiyi",
+          "source_sha256": "6f5646ab47efa371e6ded81fb877e7670b80b6d871c20341761f5386c259966c",
+          "url": "https://judge.yosupo.jp/submission/409264"
+        }
+      ]
+    },
+    "exp_of_formal_power_series": {
+      "listing": {
+        "count": 2453,
+        "submissions": [
+          {
+            "id": 409662,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 15740928,
+            "problem_name": "exp_of_formal_power_series",
+            "problem_title": "Exp of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T16:37:46.435994Z",
+            "time": 0.016,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409661,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 16404480,
+            "problem_name": "exp_of_formal_power_series",
+            "problem_title": "Exp of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T16:10:10.19126Z",
+            "time": 0.016,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409402,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 17342464,
+            "problem_name": "exp_of_formal_power_series",
+            "problem_title": "Exp of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T03:25:57.30805Z",
+            "time": 0.016,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409662,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 15740928,
+          "problem_name": "exp_of_formal_power_series",
+          "problem_title": "Exp of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T16:37:46.435994Z",
+          "time": 0.016,
+          "user_name": "Aiyiyi",
+          "source_sha256": "ed6a6a427359ce548106dddc7dacb0a7de7bb9bbe5f1db1442799d5ed6998031",
+          "url": "https://judge.yosupo.jp/submission/409662"
+        },
+        {
+          "id": 409661,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 16404480,
+          "problem_name": "exp_of_formal_power_series",
+          "problem_title": "Exp of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T16:10:10.19126Z",
+          "time": 0.016,
+          "user_name": "Aiyiyi",
+          "source_sha256": "cb4cae66c04f39a5da7cbbd8ddc27c1673111f14c049b5489687e066f2502dbb",
+          "url": "https://judge.yosupo.jp/submission/409661"
+        },
+        {
+          "id": 409402,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 17342464,
+          "problem_name": "exp_of_formal_power_series",
+          "problem_title": "Exp of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T03:25:57.30805Z",
+          "time": 0.016,
+          "user_name": "Aiyiyi",
+          "source_sha256": "2e74ea07bdde0882b024f6c74c8ec8c7561aa2b407d02ebc7de48737f1589b47",
+          "url": "https://judge.yosupo.jp/submission/409402"
+        }
+      ]
+    },
+    "pow_of_formal_power_series": {
+      "listing": {
+        "count": 1305,
+        "submissions": [
+          {
+            "id": 409718,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 18366464,
+            "problem_name": "pow_of_formal_power_series",
+            "problem_title": "Pow of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T23:36:25.180715Z",
+            "time": 0.023,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409358,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 20316160,
+            "problem_name": "pow_of_formal_power_series",
+            "problem_title": "Pow of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T01:58:15.719582Z",
+            "time": 0.026,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409715,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 18255872,
+            "problem_name": "pow_of_formal_power_series",
+            "problem_title": "Pow of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T23:33:25.409221Z",
+            "time": 0.028,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409718,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 18366464,
+          "problem_name": "pow_of_formal_power_series",
+          "problem_title": "Pow of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T23:36:25.180715Z",
+          "time": 0.023,
+          "user_name": "Aiyiyi",
+          "source_sha256": "c11e38eb1639af2738f64482ce505c823801b6f2dadcbd72f4ded9a3c4199757",
+          "url": "https://judge.yosupo.jp/submission/409718"
+        },
+        {
+          "id": 409358,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 20316160,
+          "problem_name": "pow_of_formal_power_series",
+          "problem_title": "Pow of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T01:58:15.719582Z",
+          "time": 0.026,
+          "user_name": "Aiyiyi",
+          "source_sha256": "2bece2504e58724ae452f442897979b40520a9376b0e67115eba490045333fa5",
+          "url": "https://judge.yosupo.jp/submission/409358"
+        },
+        {
+          "id": 409715,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 18255872,
+          "problem_name": "pow_of_formal_power_series",
+          "problem_title": "Pow of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T23:33:25.409221Z",
+          "time": 0.028,
+          "user_name": "Aiyiyi",
+          "source_sha256": "c11e38eb1639af2738f64482ce505c823801b6f2dadcbd72f4ded9a3c4199757",
+          "url": "https://judge.yosupo.jp/submission/409715"
+        }
+      ]
+    },
+    "sqrt_of_formal_power_series": {
+      "listing": {
+        "count": 739,
+        "submissions": [
+          {
+            "id": 409728,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 11845632,
+            "problem_name": "sqrt_of_formal_power_series",
+            "problem_title": "Sqrt of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-11T01:18:40.045704Z",
+            "time": 0.012,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409316,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 14209024,
+            "problem_name": "sqrt_of_formal_power_series",
+            "problem_title": "Sqrt of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-09T23:24:24.444133Z",
+            "time": 0.016,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409361,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 13914112,
+            "problem_name": "sqrt_of_formal_power_series",
+            "problem_title": "Sqrt of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T01:58:47.879935Z",
+            "time": 0.02,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409728,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 11845632,
+          "problem_name": "sqrt_of_formal_power_series",
+          "problem_title": "Sqrt of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-11T01:18:40.045704Z",
+          "time": 0.012,
+          "user_name": "Aiyiyi",
+          "source_sha256": "aa66b9de0c8361c9e9b46024c39231d50419f95335cfcce59cef7491e014dfbc",
+          "url": "https://judge.yosupo.jp/submission/409728"
+        },
+        {
+          "id": 409316,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 14209024,
+          "problem_name": "sqrt_of_formal_power_series",
+          "problem_title": "Sqrt of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-09T23:24:24.444133Z",
+          "time": 0.016,
+          "user_name": "Aiyiyi",
+          "source_sha256": "08973f6384e058dc528b760343aca9b32d4eae6b611023402cb7dbcffd19c6f4",
+          "url": "https://judge.yosupo.jp/submission/409316"
+        },
+        {
+          "id": 409361,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 13914112,
+          "problem_name": "sqrt_of_formal_power_series",
+          "problem_title": "Sqrt of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T01:58:47.879935Z",
+          "time": 0.02,
+          "user_name": "Aiyiyi",
+          "source_sha256": "9dd59abfd7d817d2624860f8f28034a1aeb8ed5de7592c4d1bab59be16528ebd",
+          "url": "https://judge.yosupo.jp/submission/409361"
+        }
+      ]
+    },
+    "division_of_polynomials": {
+      "listing": {
+        "count": 689,
+        "submissions": [
+          {
+            "id": 409561,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 16412672,
+            "problem_name": "division_of_polynomials",
+            "problem_title": "Division of Polynomials",
+            "status": "AC",
+            "submission_time": "2026-10-10T11:24:52.544273Z",
+            "time": 0.012,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 285073,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 14127104,
+            "problem_name": "division_of_polynomials",
+            "problem_title": "Division of Polynomials",
+            "status": "AC",
+            "submission_time": "2025-05-13T14:11:38.612889Z",
+            "time": 0.03
+          },
+          {
+            "id": 405999,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 14159872,
+            "problem_name": "division_of_polynomials",
+            "problem_title": "Division of Polynomials",
+            "status": "AC",
+            "submission_time": "2026-09-25T06:00:58.350646Z",
+            "time": 0.032,
+            "user_name": "Rohan_Kapri"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409561,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 16412672,
+          "problem_name": "division_of_polynomials",
+          "problem_title": "Division of Polynomials",
+          "status": "AC",
+          "submission_time": "2026-10-10T11:24:52.544273Z",
+          "time": 0.012,
+          "user_name": "Aiyiyi",
+          "source_sha256": "fd06ec63bfe326a8f8c2b25292ecf38d77c4fd0114fbaa2565e4c667b8b4eeb1",
+          "url": "https://judge.yosupo.jp/submission/409561"
+        },
+        {
+          "id": 285073,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 14127104,
+          "problem_name": "division_of_polynomials",
+          "problem_title": "Division of Polynomials",
+          "status": "AC",
+          "submission_time": "2025-05-13T14:11:38.612889Z",
+          "time": 0.03,
+          "source_sha256": "bc894ac1812d889db9b808b480fcdeb5d659d0f0ded9248797edfeebbc2aded7",
+          "url": "https://judge.yosupo.jp/submission/285073"
+        },
+        {
+          "id": 405999,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 14159872,
+          "problem_name": "division_of_polynomials",
+          "problem_title": "Division of Polynomials",
+          "status": "AC",
+          "submission_time": "2026-09-25T06:00:58.350646Z",
+          "time": 0.032,
+          "user_name": "Rohan_Kapri",
+          "source_sha256": "5ba31ba325a0aae9416d9041144d34c5892972f7f379f9a5ecd9500bfe778246",
+          "url": "https://judge.yosupo.jp/submission/405999"
+        }
+      ]
+    },
+    "kth_term_of_linearly_recurrent_sequence": {
+      "listing": {
+        "count": 962,
+        "submissions": [
+          {
+            "id": 405848,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 9007104,
+            "problem_name": "kth_term_of_linearly_recurrent_sequence",
+            "problem_title": "Kth term of Linearly Recurrent Sequence",
+            "status": "AC",
+            "submission_time": "2026-09-24T15:43:47.24864Z",
+            "time": 0.068,
+            "user_name": "Rohan_Kapri"
+          },
+          {
+            "id": 400681,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 8974336,
+            "problem_name": "kth_term_of_linearly_recurrent_sequence",
+            "problem_title": "Kth term of Linearly Recurrent Sequence",
+            "status": "AC",
+            "submission_time": "2026-09-08T02:50:46.002795Z",
+            "time": 0.069,
+            "user_name": "QgQ"
+          },
+          {
+            "id": 400526,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 8957952,
+            "problem_name": "kth_term_of_linearly_recurrent_sequence",
+            "problem_title": "Kth term of Linearly Recurrent Sequence",
+            "status": "AC",
+            "submission_time": "2026-09-07T16:50:31.499751Z",
+            "time": 0.071,
+            "user_name": "QgQ"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 405848,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 9007104,
+          "problem_name": "kth_term_of_linearly_recurrent_sequence",
+          "problem_title": "Kth term of Linearly Recurrent Sequence",
+          "status": "AC",
+          "submission_time": "2026-09-24T15:43:47.24864Z",
+          "time": 0.068,
+          "user_name": "Rohan_Kapri",
+          "source_sha256": "f6d088ba82caad15a517bffc2396f4a1d81dd75ea98ed0992226c4fa0b847ff2",
+          "url": "https://judge.yosupo.jp/submission/405848"
+        },
+        {
+          "id": 400681,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 8974336,
+          "problem_name": "kth_term_of_linearly_recurrent_sequence",
+          "problem_title": "Kth term of Linearly Recurrent Sequence",
+          "status": "AC",
+          "submission_time": "2026-09-08T02:50:46.002795Z",
+          "time": 0.069,
+          "user_name": "QgQ",
+          "source_sha256": "f6d088ba82caad15a517bffc2396f4a1d81dd75ea98ed0992226c4fa0b847ff2",
+          "url": "https://judge.yosupo.jp/submission/400681"
+        },
+        {
+          "id": 400526,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 8957952,
+          "problem_name": "kth_term_of_linearly_recurrent_sequence",
+          "problem_title": "Kth term of Linearly Recurrent Sequence",
+          "status": "AC",
+          "submission_time": "2026-09-07T16:50:31.499751Z",
+          "time": 0.071,
+          "user_name": "QgQ",
+          "source_sha256": "5d41a5220aaaba52fbafebea6f778dd81bc86d352941d076cdcb9dda9c5c2312",
+          "url": "https://judge.yosupo.jp/submission/400526"
+        }
+      ]
+    },
+    "composition_of_formal_power_series": {
+      "listing": {
+        "count": 354,
+        "submissions": [
+          {
+            "id": 409336,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 5021696,
+            "problem_name": "composition_of_formal_power_series",
+            "problem_title": "Composition of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T01:24:33.404041Z",
+            "time": 0.003,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 408165,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 2936832,
+            "problem_name": "composition_of_formal_power_series",
+            "problem_title": "Composition of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-05T19:45:34.327945Z",
+            "time": 0.009,
+            "user_name": "sounansya"
+          },
+          {
+            "id": 409332,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 5046272,
+            "problem_name": "composition_of_formal_power_series",
+            "problem_title": "Composition of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T01:03:53.206506Z",
+            "time": 0.011,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409336,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 5021696,
+          "problem_name": "composition_of_formal_power_series",
+          "problem_title": "Composition of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T01:24:33.404041Z",
+          "time": 0.003,
+          "user_name": "Aiyiyi",
+          "source_sha256": "766d2101d5e2c619f9fa3d73e57099871f112b91345f463fa2e17fb6c6bb6188",
+          "url": "https://judge.yosupo.jp/submission/409336"
+        },
+        {
+          "id": 408165,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 2936832,
+          "problem_name": "composition_of_formal_power_series",
+          "problem_title": "Composition of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-05T19:45:34.327945Z",
+          "time": 0.009,
+          "user_name": "sounansya",
+          "source_sha256": "3065716bae92b081695781db6f08f680aaae15d2dc325f209cd83827bd011d8c",
+          "url": "https://judge.yosupo.jp/submission/408165"
+        },
+        {
+          "id": 409332,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 5046272,
+          "problem_name": "composition_of_formal_power_series",
+          "problem_title": "Composition of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T01:03:53.206506Z",
+          "time": 0.011,
+          "user_name": "Aiyiyi",
+          "source_sha256": "766d2101d5e2c619f9fa3d73e57099871f112b91345f463fa2e17fb6c6bb6188",
+          "url": "https://judge.yosupo.jp/submission/409332"
+        }
+      ]
+    },
+    "composition_of_formal_power_series_large": {
+      "listing": {
+        "count": 268,
+        "submissions": [
+          {
+            "id": 409535,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 41984000,
+            "problem_name": "composition_of_formal_power_series_large",
+            "problem_title": "Composition of Formal Power Series (Large)",
+            "status": "AC",
+            "submission_time": "2026-10-10T08:44:51.058085Z",
+            "time": 0.035,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409504,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 46010368,
+            "problem_name": "composition_of_formal_power_series_large",
+            "problem_title": "Composition of Formal Power Series (Large)",
+            "status": "AC",
+            "submission_time": "2026-10-10T07:21:16.085611Z",
+            "time": 0.039,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409517,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 46145536,
+            "problem_name": "composition_of_formal_power_series_large",
+            "problem_title": "Composition of Formal Power Series (Large)",
+            "status": "AC",
+            "submission_time": "2026-10-10T07:59:26.591849Z",
+            "time": 0.043,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409535,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 41984000,
+          "problem_name": "composition_of_formal_power_series_large",
+          "problem_title": "Composition of Formal Power Series (Large)",
+          "status": "AC",
+          "submission_time": "2026-10-10T08:44:51.058085Z",
+          "time": 0.035,
+          "user_name": "Aiyiyi",
+          "source_sha256": "1829103fcfeb5f979b111354a58a95caeedb5b44615eb24197e111fc10b126c9",
+          "url": "https://judge.yosupo.jp/submission/409535"
+        },
+        {
+          "id": 409504,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 46010368,
+          "problem_name": "composition_of_formal_power_series_large",
+          "problem_title": "Composition of Formal Power Series (Large)",
+          "status": "AC",
+          "submission_time": "2026-10-10T07:21:16.085611Z",
+          "time": 0.039,
+          "user_name": "Aiyiyi",
+          "source_sha256": "2793f73865ea524e020b09dd51c0c6100e04773b17a301129b8161ad49c45ac9",
+          "url": "https://judge.yosupo.jp/submission/409504"
+        },
+        {
+          "id": 409517,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 46145536,
+          "problem_name": "composition_of_formal_power_series_large",
+          "problem_title": "Composition of Formal Power Series (Large)",
+          "status": "AC",
+          "submission_time": "2026-10-10T07:59:26.591849Z",
+          "time": 0.043,
+          "user_name": "Aiyiyi",
+          "source_sha256": "1eaaeaaec575ede001f067db0e2420fc5a400e3366b2e70e9555fff256c8e8f9",
+          "url": "https://judge.yosupo.jp/submission/409517"
+        }
+      ]
+    },
+    "compositional_inverse_of_formal_power_series": {
+      "listing": {
+        "count": 135,
+        "submissions": [
+          {
+            "id": 409399,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 2973696,
+            "problem_name": "compositional_inverse_of_formal_power_series",
+            "problem_title": "Compositional Inverse of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T03:19:35.943433Z",
+            "time": 0.003,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409398,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 2940928,
+            "problem_name": "compositional_inverse_of_formal_power_series",
+            "problem_title": "Compositional Inverse of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T03:19:08.031157Z",
+            "time": 0.009,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409373,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 2936832,
+            "problem_name": "compositional_inverse_of_formal_power_series",
+            "problem_title": "Compositional Inverse of Formal Power Series",
+            "status": "AC",
+            "submission_time": "2026-10-10T02:20:04.197773Z",
+            "time": 0.009,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409399,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 2973696,
+          "problem_name": "compositional_inverse_of_formal_power_series",
+          "problem_title": "Compositional Inverse of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T03:19:35.943433Z",
+          "time": 0.003,
+          "user_name": "Aiyiyi",
+          "source_sha256": "51f5819987ba31df921f041d640216b404593ad5b293732aa519ecf9e9b19145",
+          "url": "https://judge.yosupo.jp/submission/409399"
+        },
+        {
+          "id": 409398,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 2940928,
+          "problem_name": "compositional_inverse_of_formal_power_series",
+          "problem_title": "Compositional Inverse of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T03:19:08.031157Z",
+          "time": 0.009,
+          "user_name": "Aiyiyi",
+          "source_sha256": "51f5819987ba31df921f041d640216b404593ad5b293732aa519ecf9e9b19145",
+          "url": "https://judge.yosupo.jp/submission/409398"
+        },
+        {
+          "id": 409373,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 2936832,
+          "problem_name": "compositional_inverse_of_formal_power_series",
+          "problem_title": "Compositional Inverse of Formal Power Series",
+          "status": "AC",
+          "submission_time": "2026-10-10T02:20:04.197773Z",
+          "time": 0.009,
+          "user_name": "Aiyiyi",
+          "source_sha256": "51f5819987ba31df921f041d640216b404593ad5b293732aa519ecf9e9b19145",
+          "url": "https://judge.yosupo.jp/submission/409373"
+        }
+      ]
+    },
+    "compositional_inverse_of_formal_power_series_large": {
+      "listing": {
+        "count": 323,
+        "submissions": [
+          {
+            "id": 409549,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 10526720,
+            "problem_name": "compositional_inverse_of_formal_power_series_large",
+            "problem_title": "Compositional Inverse of Formal Power Series (Large)",
+            "status": "AC",
+            "submission_time": "2026-10-10T10:06:14.152816Z",
+            "time": 0.033,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409548,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 10371072,
+            "problem_name": "compositional_inverse_of_formal_power_series_large",
+            "problem_title": "Compositional Inverse of Formal Power Series (Large)",
+            "status": "AC",
+            "submission_time": "2026-10-10T10:05:31.759308Z",
+            "time": 0.042,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409541,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 10366976,
+            "problem_name": "compositional_inverse_of_formal_power_series_large",
+            "problem_title": "Compositional Inverse of Formal Power Series (Large)",
+            "status": "AC",
+            "submission_time": "2026-10-10T09:21:25.392255Z",
+            "time": 0.047,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409549,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 10526720,
+          "problem_name": "compositional_inverse_of_formal_power_series_large",
+          "problem_title": "Compositional Inverse of Formal Power Series (Large)",
+          "status": "AC",
+          "submission_time": "2026-10-10T10:06:14.152816Z",
+          "time": 0.033,
+          "user_name": "Aiyiyi",
+          "source_sha256": "266ebfa429c5413f815d504684bb4ec69fcbf8bf743a777873b76486f82f5edf",
+          "url": "https://judge.yosupo.jp/submission/409549"
+        },
+        {
+          "id": 409548,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 10371072,
+          "problem_name": "compositional_inverse_of_formal_power_series_large",
+          "problem_title": "Compositional Inverse of Formal Power Series (Large)",
+          "status": "AC",
+          "submission_time": "2026-10-10T10:05:31.759308Z",
+          "time": 0.042,
+          "user_name": "Aiyiyi",
+          "source_sha256": "266ebfa429c5413f815d504684bb4ec69fcbf8bf743a777873b76486f82f5edf",
+          "url": "https://judge.yosupo.jp/submission/409548"
+        },
+        {
+          "id": 409541,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 10366976,
+          "problem_name": "compositional_inverse_of_formal_power_series_large",
+          "problem_title": "Compositional Inverse of Formal Power Series (Large)",
+          "status": "AC",
+          "submission_time": "2026-10-10T09:21:25.392255Z",
+          "time": 0.047,
+          "user_name": "Aiyiyi",
+          "source_sha256": "03396c65b081b528dfc70260e1fb67950a03818b783d05cc21498b972b8205f7",
+          "url": "https://judge.yosupo.jp/submission/409541"
+        }
+      ]
+    },
+    "multipoint_evaluation": {
+      "listing": {
+        "count": 1547,
+        "submissions": [
+          {
+            "id": 409516,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 30167040,
+            "problem_name": "multipoint_evaluation",
+            "problem_title": "Multipoint Evaluation",
+            "status": "AC",
+            "submission_time": "2026-10-10T07:58:23.421112Z",
+            "time": 0.015,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 340010,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 23339008,
+            "problem_name": "multipoint_evaluation",
+            "problem_title": "Multipoint Evaluation",
+            "status": "AC",
+            "submission_time": "2025-12-24T11:38:29.263539Z",
+            "time": 0.039
+          },
+          {
+            "id": 261772,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 23416832,
+            "problem_name": "multipoint_evaluation",
+            "problem_title": "Multipoint Evaluation",
+            "status": "AC",
+            "submission_time": "2025-01-15T15:15:59.093431Z",
+            "time": 0.04
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409516,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 30167040,
+          "problem_name": "multipoint_evaluation",
+          "problem_title": "Multipoint Evaluation",
+          "status": "AC",
+          "submission_time": "2026-10-10T07:58:23.421112Z",
+          "time": 0.015,
+          "user_name": "Aiyiyi",
+          "source_sha256": "bcba5d9515f79dda9970e8d324aa38cb496466fc86f6be9a81c7b2427cd3c165",
+          "url": "https://judge.yosupo.jp/submission/409516"
+        },
+        {
+          "id": 340010,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 23339008,
+          "problem_name": "multipoint_evaluation",
+          "problem_title": "Multipoint Evaluation",
+          "status": "AC",
+          "submission_time": "2025-12-24T11:38:29.263539Z",
+          "time": 0.039,
+          "source_sha256": "e6e44cdf0ca2122edce462e68b1779f402364e21ab997f5b72dd342ea929f240",
+          "url": "https://judge.yosupo.jp/submission/340010"
+        },
+        {
+          "id": 261772,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 23416832,
+          "problem_name": "multipoint_evaluation",
+          "problem_title": "Multipoint Evaluation",
+          "status": "AC",
+          "submission_time": "2025-01-15T15:15:59.093431Z",
+          "time": 0.04,
+          "source_sha256": "e6e44cdf0ca2122edce462e68b1779f402364e21ab997f5b72dd342ea929f240",
+          "url": "https://judge.yosupo.jp/submission/261772"
+        }
+      ]
+    },
+    "polynomial_interpolation": {
+      "listing": {
+        "count": 753,
+        "submissions": [
+          {
+            "id": 409545,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 28884992,
+            "problem_name": "polynomial_interpolation",
+            "problem_title": "Polynomial Interpolation",
+            "status": "AC",
+            "submission_time": "2026-10-10T09:35:56.43968Z",
+            "time": 0.02,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409544,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 29405184,
+            "problem_name": "polynomial_interpolation",
+            "problem_title": "Polynomial Interpolation",
+            "status": "AC",
+            "submission_time": "2026-10-10T09:35:08.007537Z",
+            "time": 0.028,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 261773,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 23875584,
+            "problem_name": "polynomial_interpolation",
+            "problem_title": "Polynomial Interpolation",
+            "status": "AC",
+            "submission_time": "2025-01-15T15:27:51.964108Z",
+            "time": 0.055
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409545,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 28884992,
+          "problem_name": "polynomial_interpolation",
+          "problem_title": "Polynomial Interpolation",
+          "status": "AC",
+          "submission_time": "2026-10-10T09:35:56.43968Z",
+          "time": 0.02,
+          "user_name": "Aiyiyi",
+          "source_sha256": "5f74824b262ffc33fd8aa4dfb9744a476d08ed922f7dd9d9351088f084253de9",
+          "url": "https://judge.yosupo.jp/submission/409545"
+        },
+        {
+          "id": 409544,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 29405184,
+          "problem_name": "polynomial_interpolation",
+          "problem_title": "Polynomial Interpolation",
+          "status": "AC",
+          "submission_time": "2026-10-10T09:35:08.007537Z",
+          "time": 0.028,
+          "user_name": "Aiyiyi",
+          "source_sha256": "5f74824b262ffc33fd8aa4dfb9744a476d08ed922f7dd9d9351088f084253de9",
+          "url": "https://judge.yosupo.jp/submission/409544"
+        },
+        {
+          "id": 261773,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 23875584,
+          "problem_name": "polynomial_interpolation",
+          "problem_title": "Polynomial Interpolation",
+          "status": "AC",
+          "submission_time": "2025-01-15T15:27:51.964108Z",
+          "time": 0.055,
+          "source_sha256": "ab00bd5c679de9e71f467143c4978275fca221f07886e1d54d97efd46ab290db",
+          "url": "https://judge.yosupo.jp/submission/261773"
+        }
+      ]
+    },
+    "polynomial_taylor_shift": {
+      "listing": {
+        "count": 567,
+        "submissions": [
+          {
+            "id": 409534,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 16683008,
+            "problem_name": "polynomial_taylor_shift",
+            "problem_title": "Polynomial Taylor Shift",
+            "status": "AC",
+            "submission_time": "2026-10-10T08:38:48.817344Z",
+            "time": 0.01,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409734,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 16564224,
+            "problem_name": "polynomial_taylor_shift",
+            "problem_title": "Polynomial Taylor Shift",
+            "status": "AC",
+            "submission_time": "2026-10-11T02:01:35.789615Z",
+            "time": 0.018,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409733,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 16683008,
+            "problem_name": "polynomial_taylor_shift",
+            "problem_title": "Polynomial Taylor Shift",
+            "status": "AC",
+            "submission_time": "2026-10-11T02:00:26.605199Z",
+            "time": 0.018,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409534,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 16683008,
+          "problem_name": "polynomial_taylor_shift",
+          "problem_title": "Polynomial Taylor Shift",
+          "status": "AC",
+          "submission_time": "2026-10-10T08:38:48.817344Z",
+          "time": 0.01,
+          "user_name": "Aiyiyi",
+          "source_sha256": "5252bec9266ab7a0475526d06b587c54c2431d133842337317f01aa729ffb58b",
+          "url": "https://judge.yosupo.jp/submission/409534"
+        },
+        {
+          "id": 409734,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 16564224,
+          "problem_name": "polynomial_taylor_shift",
+          "problem_title": "Polynomial Taylor Shift",
+          "status": "AC",
+          "submission_time": "2026-10-11T02:01:35.789615Z",
+          "time": 0.018,
+          "user_name": "Aiyiyi",
+          "source_sha256": "fa313b68cc8aff09267a1521509e0cfefcaaf08d7c76972ef3635ddabd43bc80",
+          "url": "https://judge.yosupo.jp/submission/409734"
+        },
+        {
+          "id": 409733,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 16683008,
+          "problem_name": "polynomial_taylor_shift",
+          "problem_title": "Polynomial Taylor Shift",
+          "status": "AC",
+          "submission_time": "2026-10-11T02:00:26.605199Z",
+          "time": 0.018,
+          "user_name": "Aiyiyi",
+          "source_sha256": "fa313b68cc8aff09267a1521509e0cfefcaaf08d7c76972ef3635ddabd43bc80",
+          "url": "https://judge.yosupo.jp/submission/409733"
+        }
+      ]
+    },
+    "gcd_of_polynomials": {
+      "listing": {
+        "count": 0,
+        "submissions": []
+      },
+      "references": []
+    },
+    "inv_of_polynomials": {
+      "listing": {
+        "count": 207,
+        "submissions": [
+          {
+            "id": 409589,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 11862016,
+            "problem_name": "inv_of_polynomials",
+            "problem_title": "Inv of Polynomials",
+            "status": "AC",
+            "submission_time": "2026-10-10T12:56:52.628371Z",
+            "time": 0.015,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409587,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 11538432,
+            "problem_name": "inv_of_polynomials",
+            "problem_title": "Inv of Polynomials",
+            "status": "AC",
+            "submission_time": "2026-10-10T12:56:06.129828Z",
+            "time": 0.023,
+            "user_name": "Aiyiyi"
+          },
+          {
+            "id": 409586,
+            "is_latest": true,
+            "lang": "cpp",
+            "memory": 11395072,
+            "problem_name": "inv_of_polynomials",
+            "problem_title": "Inv of Polynomials",
+            "status": "AC",
+            "submission_time": "2026-10-10T12:55:14.656014Z",
+            "time": 0.024,
+            "user_name": "Aiyiyi"
+          }
+        ]
+      },
+      "references": [
+        {
+          "id": 409589,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 11862016,
+          "problem_name": "inv_of_polynomials",
+          "problem_title": "Inv of Polynomials",
+          "status": "AC",
+          "submission_time": "2026-10-10T12:56:52.628371Z",
+          "time": 0.015,
+          "user_name": "Aiyiyi",
+          "source_sha256": "274d6c6107676bf6043aa5984e4b5788617ae7c8ff0ae1f157b6b0954e895306",
+          "url": "https://judge.yosupo.jp/submission/409589"
+        },
+        {
+          "id": 409587,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 11538432,
+          "problem_name": "inv_of_polynomials",
+          "problem_title": "Inv of Polynomials",
+          "status": "AC",
+          "submission_time": "2026-10-10T12:56:06.129828Z",
+          "time": 0.023,
+          "user_name": "Aiyiyi",
+          "source_sha256": "274d6c6107676bf6043aa5984e4b5788617ae7c8ff0ae1f157b6b0954e895306",
+          "url": "https://judge.yosupo.jp/submission/409587"
+        },
+        {
+          "id": 409586,
+          "is_latest": true,
+          "lang": "cpp",
+          "memory": 11395072,
+          "problem_name": "inv_of_polynomials",
+          "problem_title": "Inv of Polynomials",
+          "status": "AC",
+          "submission_time": "2026-10-10T12:55:14.656014Z",
+          "time": 0.024,
+          "user_name": "Aiyiyi",
+          "source_sha256": "274d6c6107676bf6043aa5984e4b5788617ae7c8ff0ae1f157b6b0954e895306",
+          "url": "https://judge.yosupo.jp/submission/409586"
+        }
+      ]
+    }
+  }
+}

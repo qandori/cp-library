@@ -1,0 +1,75 @@
+built before
+built current
+kernel inv 32768 {'before': 0.604201, 'current': 0.5448919999999999}
+kernel log 32768 {'before': 1.203995, 'current': 1.177605}
+kernel exp 32768 {'before': 1.231225, 'current': 1.227099}
+kernel sqrt 32768 {'before': 0.767725, 'current': 0.7257319999999999}
+kernel pow 32768 {'before': 2.371005, 'current': 2.349192}
+kernel div_series 32768 {'before': 1.008022, 'current': 1.011007}
+kernel divmod 32768 {'before': 0.959961, 'current': 0.958319}
+kernel square 32768 {'before': 0.551512, 'current': 0.565213}
+kernel multiply 32768 {'before': 0.661156, 'current': 0.6529539999999999}
+kernel inv:1:1 32768 {'before': 0.318324, 'current': 0.129083}
+kernel inv:12:1 32768 {'before': 1.767795, 'current': 0.585353}
+kernel inv:32:1 32768 {'before': 3.901226, 'current': 0.578542}
+kernel exp:1:1 32768 {'before': 0.435489, 'current': 0.260148}
+kernel exp:24:1 32768 {'before': 3.2134300000000002, 'current': 1.1899739999999999}
+kernel exp:64:1 32768 {'before': 8.011663, 'current': 1.2767430000000002}
+kernel inv:32:1024 32768 {'before': 1.425595, 'current': 0.104866}
+kernel exp:64:1024 32768 {'before': 1.6746969999999999, 'current': 0.106289}
+kernel inv 131073 {'before': 2.567398, 'current': 2.311996}
+kernel log 131073 {'before': 4.76262, 'current': 4.659776}
+kernel exp 131073 {'before': 5.331568, 'current': 5.292199}
+kernel sqrt 131073 {'before': 3.114432, 'current': 3.0592409999999997}
+kernel pow 131073 {'before': 10.013055999999999, 'current': 9.852316}
+kernel div_series 131073 {'before': 4.01853, 'current': 3.949487}
+kernel divmod 131073 {'before': 3.969096, 'current': 3.89746}
+kernel square 131073 {'before': 4.607398000000001, 'current': 4.5995669999999995}
+kernel multiply 131073 {'before': 5.60163, 'current': 5.483624000000001}
+kernel inv:1:1 131073 {'before': 1.265206, 'current': 0.5144369999999999}
+kernel inv:12:1 131073 {'before': 7.020425, 'current': 2.317104}
+kernel inv:32:1 131073 {'before': 15.103168, 'current': 2.468779}
+kernel exp:1:1 131073 {'before': 1.656088, 'current': 1.034432}
+kernel exp:24:1 131073 {'before': 12.716461, 'current': 4.744592}
+kernel exp:64:1 131073 {'before': 32.025848, 'current': 5.572095}
+kernel inv:32:1024 131073 {'before': 12.197208, 'current': 0.419324}
+kernel exp:64:1024 131073 {'before': 23.669795, 'current': 0.445825}
+kernel inv 500000 {'before': 11.220592, 'current': 10.338686999999998}
+kernel log 500000 {'before': 20.287098999999998, 'current': 19.376846999999998}
+kernel exp 500000 {'before': 22.544708, 'current': 22.624558}
+kernel sqrt 500000 {'before': 13.112902, 'current': 13.184658}
+kernel pow 500000 {'before': 43.384677, 'current': 43.823371}
+kernel div_series 500000 {'before': 17.475916, 'current': 16.762202000000002}
+kernel divmod 500000 {'before': 14.045271, 'current': 13.730191}
+kernel square 500000 {'before': 10.828746, 'current': 10.599103}
+kernel multiply 500000 {'before': 11.900033, 'current': 11.935105}
+kernel inv:1:1 500000 {'before': 5.024802, 'current': 1.9454909999999999}
+kernel inv:12:1 500000 {'before': 28.063344999999998, 'current': 9.119772}
+kernel inv:32:1 500000 {'before': 60.07882, 'current': 10.930792}
+kernel exp:1:1 500000 {'before': 6.267692, 'current': 3.961725}
+kernel exp:24:1 500000 {'before': 48.327136, 'current': 17.959687}
+kernel exp:64:1 500000 {'before': 123.592731, 'current': 22.676446}
+kernel inv:32:1024 500000 {'before': 53.539731, 'current': 1.649929}
+kernel exp:64:1024 500000 {'before': 117.86475, 'current': 1.804089}
+kernel inv 524288 {'before': 11.348086, 'current': 10.268767}
+kernel log 524288 {'before': 20.255635, 'current': 20.079082000000003}
+kernel exp 524288 {'before': 22.471258000000002, 'current': 22.262696}
+kernel sqrt 524288 {'before': 13.227979000000001, 'current': 13.138545}
+kernel pow 524288 {'before': 43.418844, 'current': 43.146398000000005}
+kernel div_series 524288 {'before': 16.883715000000002, 'current': 16.92749}
+kernel divmod 524288 {'before': 17.501756, 'current': 17.411821}
+kernel square 524288 {'before': 10.433110000000001, 'current': 10.156178}
+kernel multiply 524288 {'before': 11.84907, 'current': 11.604456}
+kernel inv:1:1 524288 {'before': 5.1383280000000005, 'current': 2.030806}
+kernel inv:12:1 524288 {'before': 28.281693, 'current': 9.280432}
+kernel inv:32:1 524288 {'before': 61.258281999999994, 'current': 11.098742}
+kernel exp:1:1 524288 {'before': 6.6140870000000005, 'current': 4.191407}
+kernel exp:24:1 524288 {'before': 51.153191, 'current': 18.989463}
+kernel exp:64:1 524288 {'before': 128.84435399999998, 'current': 23.307578999999997}
+kernel inv:32:1024 524288 {'before': 55.162496, 'current': 1.729618}
+kernel exp:64:1024 524288 {'before': 121.934405, 'current': 1.848895}
+judge inv max_random_00.in {'before': 24.234545999206603, 'current_old_io': 23.92585100096767, 'current': 19.294678000733256, 'reference_409370': 10.579318000964122, 'reference_409242': 11.767318999773124}
+judge exp max_random_00.in {'before': 35.93151799941552, 'current_old_io': 35.37572599816485, 'current': 31.570825001836056, 'reference_409662': 15.52342899958603, 'reference_409661': 15.631455997208832}
+judge log max_random_00.in {'before': 33.05586900023627, 'current_old_io': 32.825656002387404, 'current': 28.084208999644034, 'reference_409452': 12.845686000218848, 'reference_409363': 13.48788399991463}
+judge sqrt max_random_01.in {'before': 27.30381899891654, 'current_old_io': 27.560040998650948, 'current': 22.719466000125976, 'reference_409728': 10.908429998380598, 'reference_409316': 11.70017999902484}
+judge pow binary_exp_max_00.in {'before': 54.68339999788441, 'current_old_io': 54.443893997813575, 'current': 50.57516799934092, 'reference_409718': 22.84786800009897, 'reference_409358': 24.983430997963296}

@@ -1,0 +1,2 @@
+Forced scalar FPS checks: passed (exit 0)
+Compiler: g++ -std=c++23 -O2 -Wall -Wextra

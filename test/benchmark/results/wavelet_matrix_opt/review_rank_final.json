@@ -1,0 +1,27 @@
+{
+  "kind": "independent final source review",
+  "reviewed_at": "2026-10-18T17:07:20.1670221Z",
+  "findings": [],
+  "sources": {
+    "data_structure/wavelet_matrix.hpp": "3e0643bb64c038b28d5452ab2608b444d1fce1762d2be84aff2290f2db0aed39",
+    "components/oct_bit_vector.hpp": "c2d9656bd12c0a60e05c905b6484c284df1dfbff82bf48cf9d0d56a32c467435",
+    "components/quad_bit_vector.hpp": "1c79494ff1040fd8cb0cea1a8e7367d8cb478c65a4b6bc4b7a86cb911e3a03b2",
+    "components/splitmix64.hpp": "f74be6033b41f893dfa0550b99dca38b3da7eb565baeb2813c94cb7b5db3e566",
+    "test/unit/wavelet_matrix_opt.cpp": "ff21340a3a9d81be52122d97bf1553b2ae3ad026dec9d158a2676b9cbf00c77b"
+  },
+  "examined": [
+    "Stable packed radix compression and original-position order reuse",
+    "Optional integral prepared hash count and select, load factor, signed and unsigned keys, rebuild invalidation and copies",
+    "Independent Quad sum hierarchy, eager construction without Oct allocation, and lazy cache transition after complete prefix construction",
+    "All ordinary query paths after lazy or eager sums, ordered and constant shortcuts",
+    "Oct cumulative masks and sentinel endpoints, AVX2 target dispatch and scalar fallback"
+  ],
+  "performance_review": {
+    "index_bytes_at_n_1000000_sigma_1000000": {
+      "before_quad": 5000320,
+      "current_oct": 14000448
+    },
+    "interpretation": "Larger Oct index can increase memory pressure for large arrays. This is a structural inference, not measured cache-miss evidence. Similar index sizes for wide and full64 distributions mean footprint alone does not establish the cause of a distribution-specific timing regression. Preserve all observed medians and ranges."
+  },
+  "archive_audit": "test/benchmark/results/wavelet_matrix_opt/explorations_manifest.json"
+}

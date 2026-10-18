@@ -60,11 +60,13 @@ def main():
         fcntl.flock(lock, fcntl.LOCK_EX)
         work = Path(temp)
         before, current = work / 'before', work / 'current'
-        data = subprocess.check_output(['git', 'archive', baseline, 'fps', 'components', 'math', 'convolution'], cwd=ROOT)
+        data = subprocess.check_output(['git', 'archive', baseline, 'fps', 'components', 'math', 'convolution', 'test/fps_io.hpp'], cwd=ROOT)
         with tarfile.open(fileobj=io.BytesIO(data)) as archive:
             archive.extractall(before, filter='data')
         for folder in ['fps', 'components', 'math', 'convolution']:
             shutil.copytree(ROOT / folder, current / folder)
+        (current / 'test').mkdir()
+        shutil.copy2(ROOT / 'test/fps_io.hpp', current / 'test/fps_io.hpp')
         trees = dict(before=before, current=current)
         if args.log_candidates:
             for name in ['log_separate_integral', 'log_without_toeplitz', 'log_half_inverse', 'log_blocks2', 'log_blocks8']:
@@ -72,6 +74,7 @@ def main():
                 shutil.copytree(current, tree)
                 header = tree / 'fps/fps.hpp'
                 s = header.read_text()
+                s = s.replace('if (deg >= 256 && deg <= (1 << 24)', 'if (false && deg >= 256 && deg <= (1 << 24)', 1)
                 if name == 'log_separate_integral':
                     s = s.replace('return log_derivative(deg, true);', '''F r = log_derivative(deg);
         const auto &iv = inverses(deg - 1);
@@ -108,6 +111,9 @@ def main():
                     header = tree / 'fps/fps.hpp'
                     s = header.read_text().replace('pitch = length + 16', 'pitch = length')
                 header.write_text(s)
+                if name == 'pages_only' and (tree / 'components/fps_blocked.hpp').exists():
+                    header = tree / 'components/fps_blocked.hpp'
+                    header.write_text(header.read_text().replace('return (n + 7) / 8 * 8 + 16;', 'return (n + 7) / 8 * 8;'))
                 trees[name] = tree
         if args.candidates:
             for count in [1, 2, 4]:
@@ -157,6 +163,7 @@ def main():
             old_io = work / 'current_old_io'
             shutil.copytree(current, old_io)
             shutil.copy2(before / 'components/fast_io.hpp', old_io / 'components/fast_io.hpp')
+            shutil.copy2(before / 'test/fps_io.hpp', old_io / 'test/fps_io.hpp')
             result['sources']['current_old_io'] = {p.relative_to(old_io).as_posix(): sha(p) for p in old_io.rglob('*.hpp')}
             result['environment']['official_commit'] = subprocess.check_output(['git', '-C', str(official), 'rev-parse', 'HEAD'], text=True).strip()
             for op, problem in PROBLEMS.items():
@@ -173,7 +180,7 @@ def main():
                 drivers = {}
                 for name, tree in [('before', before), ('current_old_io', old_io), ('current', current)]:
                     (tree / 'test').mkdir(exist_ok=True)
-                    for f in [f'fps_{op}.test.cpp', 'fps_io.hpp']:
+                    for f in [f'fps_{op}.test.cpp']:
                         shutil.copy2(ROOT / 'test' / f, tree / 'test' / f)
                     binary = work / f'judge_{name}_{op}'
                     subprocess.run(['g++', *flags, '-I', str(tree), str(tree / f'test/fps_{op}.test.cpp'), '-o', str(binary)], check=True)
@@ -202,6 +209,8 @@ def main():
                         if trial:
                             samples[name].append(elapsed)
                 row = dict(operation=op, input=inp.name, input_sha256=sha(inp), samples_ms=samples,
+                           driver_sha256=sha(ROOT / f'test/fps_{op}.test.cpp'),
+                           binary_sha256={name: sha(binary) for name, binary in drivers.items()},
                            median_ms={name: statistics.median(values) for name, values in samples.items()})
                 result['judge'].append(row)
                 print('judge', op, inp.name, row['median_ms'], flush=True)

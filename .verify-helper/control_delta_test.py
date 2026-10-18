@@ -81,6 +81,52 @@ class ReceiptInputTests(unittest.TestCase):
                 control.inputs(input_tree(value=value))
 
 
+class UpstreamControlReviewTests(unittest.TestCase):
+    path = ".verify-helper/ci_test.py"
+    before, after = control.REVIEWED_UPSTREAM_TEST[path]
+
+    def changes(self, old_entry=None, *, original_entry=None, other=False):
+        original = {self.path: self.before if original_entry is None else original_entry,
+                    ".verify-helper/ci.py": ("100644", "blob", "a" * 40)}
+        upstream = {**original, self.path: self.after if old_entry is None else old_entry}
+        if other:
+            upstream[".verify-helper/ci.py"] = ("100644", "blob", "b" * 40)
+        current = {**upstream, control.INPUT: ("100644", "blob", "c" * 40)}
+        trees = [SimpleNamespace(entries=entries, content=lambda path: b"reviewed workflow")
+                 for entries in (original, upstream, current)]
+        with (patch.object(control, "SourceTree", side_effect=trees),
+              patch.object(control, "git") as git,
+              patch.object(control.control_full, "expected_workflow", return_value="reviewed workflow") as expected):
+            result = control.changes("root", "base", "head")
+        self.assertIs(result, trees[-1])
+        git.assert_called_once_with("root", "merge-base", "--is-ancestor", control.ANCHOR_BASE, "base")
+        self.assertEqual(expected.call_count, 2)
+
+    def test_exact_reviewed_test_blob_pair_is_accepted(self):
+        self.changes()
+
+    def test_unchanged_historical_test_is_still_accepted(self):
+        self.changes(self.before)
+
+    def test_near_match_and_unreviewed_original_test_are_rejected(self):
+        for entry in (("100644", "blob", self.after[2][:-1] + "0"),
+                      ("100644", "blob", "f" * 40)):
+            with self.subTest(entry=entry), self.assertRaisesRegex(ValueError, "renewed review"):
+                self.changes(entry)
+        with self.assertRaisesRegex(ValueError, "renewed review"):
+            self.changes(original_entry=("100644", "blob", "f" * 40))
+
+    def test_mode_or_object_kind_changes_are_rejected(self):
+        for entry in (("100755", "blob", self.after[2]), ("120000", "blob", self.after[2]),
+                      ("160000", "commit", self.after[2])):
+            with self.subTest(entry=entry), self.assertRaisesRegex(ValueError, "renewed review"):
+                self.changes(entry)
+
+    def test_other_upstream_helper_change_remains_blocked(self):
+        with self.assertRaisesRegex(ValueError, "renewed review"):
+            self.changes(other=True)
+
+
 class RuntimeSchemaTests(unittest.TestCase):
     def test_current_collected_profiles_are_valid_for_both_platforms(self):
         for system in ("Linux", "Darwin"):
@@ -295,10 +341,14 @@ class DirectReceiptTests(unittest.TestCase):
 
     def test_check_implementation_change_invalidates_all_direct_coverage(self):
         donor = self.donor()
-        self.write(".verify-helper/ci.py", "# Changed check dispatcher.\n")
-        changed = self.commit("changed check implementation", bind=False)
-        plan = self.plan([donor], head=changed)
-        self.assertEqual({group: plan[group] for group in GROUPS}, plan["inventory"])
+        for path in (".verify-helper/control_delta.py", ".verify-helper/ci.py"):
+            with self.subTest(path=path):
+                self.write(path, "# Changed check implementation, including gate-only edits.\n")
+                changed = self.commit("changed check implementation", bind=False)
+                plan = self.plan([donor], head=changed)
+                self.assertEqual({group: plan[group] for group in GROUPS}, plan["inventory"])
+                self.assertTrue(all(plan["checks"][group] != donor["checks"][group] for group in GROUPS))
+                self.assertTrue(all(not inherited for inherited in plan["inherited"].values()))
 
     def test_uncertain_includes_are_fresh_even_with_matching_source_receipt(self):
         self.write("math/unrelated.hpp", '#pragma once\n#include UNKNOWN_HEADER\n')

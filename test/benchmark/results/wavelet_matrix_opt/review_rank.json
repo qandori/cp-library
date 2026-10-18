@@ -1,0 +1,24 @@
+{
+  "kind": "independent source review",
+  "reviewed_at": "2026-10-18T16:33:27.3531525Z",
+  "findings": [],
+  "sources": {
+    "data_structure/wavelet_matrix.hpp": "28d609fa704b38d9f028ae9f81f28de462452568cb77c27cf7b795bb642e71b4",
+    "components/oct_bit_vector.hpp": "c2d9656bd12c0a60e05c905b6484c284df1dfbff82bf48cf9d0d56a32c467435"
+  },
+  "examined": [
+    "Oct rank and selection cumulative masks, 32-position sentinels, top shift 30, AVX2 dispatch and scalar fallback",
+    "Independent 2-bit sum_levels, sum_bits, sum_middle and 3-row prefix sums",
+    "Eager and lazy sum preparation, repeated build, copy and ordered or constant arrays",
+    "Stable radix compression, packed items, shifted keys and indexed positions reuse",
+    "Paired branchless lower bounds over sorted occurrence positions",
+    "Rejected 7-row sum, ternary routing, cumulative-prefix and SIMD permutation experiments absent from production"
+  ],
+  "archive": {
+    "path": "test/benchmark/results/wavelet_matrix_opt/explorations_rank.json",
+    "sha256": "71515c150df7e3fe999a6b7cbccc12b61ba8a70e2ce8f42865a5dc4f6ea31d1d",
+    "baseline": "523956f",
+    "initial_oct_component_sha256": "9a98addeddfc6658fbe76dacc3fa9649e6db254ca7aecde218e57bb667fb687b",
+    "note": "Historical exploration sources and measurements; these are not final production benchmark results."
+  }
+}

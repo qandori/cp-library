@@ -1,0 +1,85 @@
+{
+  "checked_at": "2026-10-18T16:21:29.531897+00:00",
+  "sources": {
+    ".verify-helper/cache/wm_rank_candidate.hpp": "f6349f3b124fa4d0f666ab0ee1eea8b17ea13bd8caeea3a098777bc5ae3ce5ab",
+    "components/oct_bit_vector.hpp": "9a98addeddfc6658fbe76dacc3fa9649e6db254ca7aecde218e57bb667fb687b",
+    "test/unit/wavelet_matrix_opt.cpp": "4270a91713032a652129d77f76d66360ccde113a75ce6016aa189e87e7ffcd9b"
+  },
+  "results": [
+    {
+      "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0",
+      "flags": [
+        "-std=gnu++23",
+        "-I.",
+        "-include",
+        "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt/review_wm_avx.hpp",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-unused-parameter",
+        "-O2",
+        "-DNDEBUG"
+      ],
+      "mode": "avx",
+      "passed": true
+    },
+    {
+      "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0",
+      "flags": [
+        "-std=gnu++23",
+        "-I.",
+        "-include",
+        "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt/review_wm_scalar.hpp",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-unused-parameter",
+        "-O2",
+        "-DNDEBUG"
+      ],
+      "mode": "scalar",
+      "passed": true
+    },
+    {
+      "compiler": "clang version 21.1.8 (https://github.com/conda-forge/clangdev-feedstock 0586bae95bd818412431982353f925478061d031)",
+      "flags": [
+        "-std=gnu++23",
+        "-I.",
+        "-include",
+        "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt/review_wm_avx.hpp",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-unused-parameter",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-fno-omit-frame-pointer"
+      ],
+      "mode": "avx",
+      "passed": true
+    },
+    {
+      "compiler": "clang version 21.1.8 (https://github.com/conda-forge/clangdev-feedstock 0586bae95bd818412431982353f925478061d031)",
+      "flags": [
+        "-std=gnu++23",
+        "-I.",
+        "-include",
+        "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt/review_wm_scalar.hpp",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-unused-parameter",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-fno-omit-frame-pointer"
+      ],
+      "mode": "scalar",
+      "passed": true
+    }
+  ],
+  "scalar_override": "Only CPU detection was forced false in a benchmark snapshot; production sources unchanged."
+}

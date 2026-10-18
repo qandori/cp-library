@@ -1,0 +1,58 @@
+{
+  "commands": [
+    [
+      "python3",
+      ".verify-helper/ci.py",
+      "docs",
+      "--selection",
+      "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt-selection.json"
+    ],
+    [
+      "python3",
+      ".verify-helper/check-docs.py",
+      "--selection",
+      "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt-selection.json"
+    ],
+    [
+      "python3",
+      ".verify-helper/cache/audit_api_tables.py",
+      "components/oct_bit_vector.hpp",
+      "data_structure/wavelet_matrix.hpp"
+    ],
+    [
+      "python3",
+      ".verify-helper/ci_test.py",
+      "IncrementalVerification.test_repository_wavelet_dependencies"
+    ],
+    [
+      "python3",
+      ".verify-helper/cache/wm_render_doc_revision.py"
+    ],
+    [
+      "python3",
+      ".verify-helper/cache/audit_api_tables.py",
+      "data_structure/wavelet_matrix.hpp"
+    ]
+  ],
+  "source_sha256": {
+    "components/oct_bit_vector.hpp": "c2d9656bd12c0a60e05c905b6484c284df1dfbff82bf48cf9d0d56a32c467435",
+    "data_structure/wavelet_matrix.hpp": "3e0643bb64c038b28d5452ab2608b444d1fce1762d2be84aff2290f2db0aed39",
+    "docs/oct_bit_vector.md": "ebd3cea8c4acaa8ea4dfb2deb990545e15635dc110c0f68099be518d6b328bf0",
+    "docs/wavelet_matrix.md": "648ebbefb25d9f1ad765d86d0fa560ed6003028032f5b47a8d032e6423b4f773",
+    ".verify-helper/ci_test.py": "afefa577d43aca44c49e313c4e03fa7474b6a2127188d64efb57561de735927f"
+  },
+  "selection_sha256": "dbf28142c5b1da3d561a0aa3ac529765457adb6a38f74691e3e6a03db9535792",
+  "result": "passed",
+  "documentation_revision": {
+    "path": "docs/wavelet_matrix.md",
+    "before_sha256": "6ffabc019c60087557004950c50305ed6c056e2aeda42811fdca6f36ca01fd5b",
+    "after_sha256": "648ebbefb25d9f1ad765d86d0fa560ed6003028032f5b47a8d032e6423b4f773",
+    "bundle_sha256": "b023004bdc9cc931d3820f4cdbc75fe481eb10e94018c89bacd4701152c2a163",
+    "render": "official front_matter.merge_front_matter, using previously validated metadata and identical compiled code",
+    "reused_checks": [
+      "2 affected bundles compile",
+      "OctBitVector API audit",
+      "IncrementalVerification.test_repository_wavelet_dependencies"
+    ]
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "checked_at": "2026-10-18T16:14:39.406858+00:00",
+  "flags": [
+    "-std=gnu++23",
+    "-O2",
+    "-march=native",
+    "-I."
+  ],
+  "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0",
+  "adapter_sha256": "4b8ccc6564bc6d23e63baf6769a9cf8bc98c226d84d63bece857db9018583207",
+  "kernel_sha256": "e786e1a59c8803c5f642d14e62a6eafa80ec57a20d2153dd794f05b6fd67e424",
+  "results": [
+    {
+      "case": "all_zero_00",
+      "answers": 693,
+      "input_sha256": "7fb455624b4b8cb40e3416c8921a1b6831b106dc94429e0a2f7b53ef77be9b93"
+    },
+    {
+      "case": "dense_large_a_00",
+      "answers": 198485,
+      "input_sha256": "943154a15d705182ef72ffd36afdcfb7f5ec14b1a35c5206910fec01766d1284"
+    },
+    {
+      "case": "dense_small_a_00",
+      "answers": 198485,
+      "input_sha256": "403600e78d6b516131ea844c14a36fc3b81ee0cf71e12386dfaf8b88f9b1cf3a"
+    },
+    {
+      "case": "example_00",
+      "answers": 3,
+      "input_sha256": "791c9f4bc0d0bb5ae4ba7fbf3a0fe4d8091f074336cba808d96d2c3ca5b9e3bd"
+    },
+    {
+      "case": "max_random_00",
+      "answers": 200000,
+      "input_sha256": "a824003cf882c55ab6750eecc1f0ce64d61cca732bb1dffc73faa0d8887fa977"
+    },
+    {
+      "case": "max_random_01",
+      "answers": 200000,
+      "input_sha256": "005798f346aca2141419b2c9988fa7696be35433e0f555b8f46eba060379cf33"
+    },
+    {
+      "case": "max_random_02",
+      "answers": 200000,
+      "input_sha256": "52baf451f3302f34c913f9c6b6806c4dc4beea6083624409870ea895b3bb3367"
+    },
+    {
+      "case": "max_random_03",
+      "answers": 200000,
+      "input_sha256": "035517888748668ff65ba45525fbf5ac0d518ae9a5a40f6684e50b0efff3011f"
+    },
+    {
+      "case": "max_random_04",
+      "answers": 200000,
+      "input_sha256": "a8772e00d014906d541cd9e7104affb72c31b719e1cff3a949753bcd07483bdb"
+    },
+    {
+      "case": "random_00",
+      "answers": 148779,
+      "input_sha256": "44b3e4be1825d52b59ac9b1bc6d564488e6bdc25a68d290354c1a44c055170c7"
+    },
+    {
+      "case": "random_01",
+      "answers": 148757,
+      "input_sha256": "43af4893e2c348e5433b1d38ed14957a08ec71d21f4eb92124cd0cb87e71236b"
+    },
+    {
+      "case": "random_02",
+      "answers": 120203,
+      "input_sha256": "f91c684af54cd7393ffcfdac476f03982abbb13dcb2d614cc8ff80fd5b7dcb48"
+    },
+    {
+      "case": "random_03",
+      "answers": 25839,
+      "input_sha256": "07f411f97e6fc468af40d8a1500a57a752bc870b3ddc0d5f8826efb07af4de05"
+    },
+    {
+      "case": "random_04",
+      "answers": 99117,
+      "input_sha256": "4ab611ca78880f29876c2363765b17f1b5051179f9262f5d8a21b2ce298b42df"
+    },
+    {
+      "case": "small_00",
+      "answers": 299,
+      "input_sha256": "c1ec6697d4d029163cdad38dcde465728439dca1db3c7607f1107ded9c4f7168"
+    },
+    {
+      "case": "small_01",
+      "answers": 235,
+      "input_sha256": "f56c92dbb6cb27ca70ea8d4dcdf854626bf3398669f4689956a18e7408226aa3"
+    },
+    {
+      "case": "small_02",
+      "answers": 395,
+      "input_sha256": "1970fe8b1af5d932c21ddacc0bf348f289737b43443aa6b9b318dbf51ca194c6"
+    },
+    {
+      "case": "small_03",
+      "answers": 239,
+      "input_sha256": "9d41d58db6a853fbab6656e8dbc1f7af8c255fb8709ad559e43807c0a8814fc2"
+    },
+    {
+      "case": "small_04",
+      "answers": 813,
+      "input_sha256": "3f9c32f2d99257f533dc7092ac635416ad034822c8abc91e87049dc0acd8888a"
+    },
+    {
+      "case": "small_05",
+      "answers": 221,
+      "input_sha256": "c0a930b6a49a6b76216cd335c41bdee14749a2fc63bd13626d9e2cd932638946"
+    },
+    {
+      "case": "small_06",
+      "answers": 252,
+      "input_sha256": "32bb42a607bf77f98bc10aa2cdb9258adaf11ee8d21f30879b2f9cb5d1eadf90"
+    },
+    {
+      "case": "small_07",
+      "answers": 211,
+      "input_sha256": "2b7adf80ef924317c72edc1bb9c435211c4f091e3d830232af1953a5d026b42b"
+    },
+    {
+      "case": "small_08",
+      "answers": 303,
+      "input_sha256": "8e04714d0409c34b24f03a5691e2a95d4a4a113cae354d598e3d3b5e19512fe8"
+    },
+    {
+      "case": "small_09",
+      "answers": 792,
+      "input_sha256": "8dae2b4a7b0e15aa4a2f7cda65c048bc4cd551cff5723c0fb677e95491d7532d"
+    }
+  ]
+}

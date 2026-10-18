@@ -1,0 +1,53 @@
+{
+  "benchmarks": {
+    "native": {
+      "rows": 118,
+      "completed": true,
+      "source_hashes_match": true
+    },
+    "generic": {
+      "rows": 32,
+      "completed": true,
+      "source_hashes_match": true
+    },
+    "official": {
+      "rows": 69,
+      "completed": true,
+      "source_hashes_match": true
+    }
+  },
+  "validation": {
+    "validation.json": {
+      "source_hashes_match": true,
+      "sha256": "4eee4a7e06533e6b3c47a559c655b8c5836c28f263b22444c1f8d6ef80f6fd8d"
+    },
+    "validation_clang.json": {
+      "source_hashes_match": true,
+      "sha256": "b5fc4bfe0db50194b7e4a86018f6ea21517e72c803f985f3822a534fb043fa82"
+    },
+    "validation_count.json": {
+      "source_hashes_match": true,
+      "sha256": "4aa84735c3eff01b7338c49c233a0cab56dd693e6f84521ab9cfbdb6596abf07"
+    },
+    "validation_docs.json": {
+      "sha256": "8a019f7d120877bf2f59b6796b9185282f8d460a49688019dbec2f47ab25dc1c"
+    },
+    "review_rank_final.json": {
+      "sha256": "1179d07232a0a49aab57441b6d7f0979b3bcbaf97362279af3df5074574b2011"
+    },
+    "recheck_large.json": {
+      "sha256": "ce20c47d00ade63492c4705e8fffd074bb3e42db5dbf56dd9fe0e149c34dff66"
+    }
+  },
+  "benchmark_document_links_exist": true,
+  "final_header_sha256": "3e0643bb64c038b28d5452ab2608b444d1fce1762d2be84aff2290f2db0aed39",
+  "official_cases": {
+    "range_kth_smallest": 24,
+    "static_range_frequency": 11,
+    "static_range_sum_with_upper_bound": 10
+  },
+  "official_compilers": [
+    "GCC 15.2",
+    "Clang 21.1.8"
+  ]
+}

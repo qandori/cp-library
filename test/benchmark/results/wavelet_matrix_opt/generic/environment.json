@@ -1,0 +1,38 @@
+{
+  "measured_at": "2026-10-18T17:02:18.547933+00:00",
+  "baseline": "523956fbb612ed975d73d1fcac414238f8ec2d16",
+  "flags": [
+    "-std=gnu++23",
+    "-O2",
+    "-ftrivial-auto-var-init=zero",
+    "-DATCODER",
+    "-DONLINE_JUDGE"
+  ],
+  "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           39 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  24\nOn-line CPU(s) list:                     0-23\nVendor ID:                               GenuineIntel\nModel name:                              13th Gen Intel(R) Core(TM) i7-13700F\nCPU family:                              6\nModel:                                   183\nThread(s) per core:                      2\nCore(s) per socket:                      12\nSocket(s):                               1\nStepping:                                1\nBogoMIPS:                                4223.99\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni vnmi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt flush_l1d arch_capabilities\nVirtualization:                          VT-x\nHypervisor vendor:                       Microsoft\nVirtualization type:                     full\nL1d cache:                               576 KiB (12 instances)\nL1i cache:                               384 KiB (12 instances)\nL2 cache:                                24 MiB (12 instances)\nL3 cache:                                30 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-23\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Mitigation; Enhanced IBRS\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI BHI_DIS_S\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+  "kernel": "Linux qand-PC 6.18.40.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Fri Jul 31 22:12:15 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n",
+  "affinity": [
+    2
+  ],
+  "trials": 9,
+  "warmup": 1,
+  "order_seed": 20261019,
+  "suite": "synthetic",
+  "quick": true,
+  "sha256": {
+    "data_structure/wavelet_matrix.hpp": "3e0643bb64c038b28d5452ab2608b444d1fce1762d2be84aff2290f2db0aed39",
+    "components/quad_bit_vector.hpp": "1c79494ff1040fd8cb0cea1a8e7367d8cb478c65a4b6bc4b7a86cb911e3a03b2",
+    "components/oct_bit_vector.hpp": "c2d9656bd12c0a60e05c905b6484c284df1dfbff82bf48cf9d0d56a32c467435",
+    "components/fast_io.hpp": "49d8c24846ede802ebb14c4d840faea760b207590fd3d1519540934d3a67d10c",
+    "components/splitmix64.hpp": "f74be6033b41f893dfa0550b99dca38b3da7eb565baeb2813c94cb7b5db3e566",
+    "test/benchmark/wavelet_matrix_opt.cpp": "e57870e20c16566d2a05198093cce7dc8850dba05269efea7fc4b4655e03fb7c",
+    "test/benchmark/wavelet_matrix_opt.py": "36551f7a2c4985b20561f3ff6db4774fd96c4aa1f4bc49fb00bc11da26c7b305",
+    "test/benchmark/wavelet_matrix_opt_reference.cpp": "4b8ccc6564bc6d23e63baf6769a9cf8bc98c226d84d63bece857db9018583207",
+    "test/wavelet_matrix_kth.test.cpp": "a23af23fef59add83a616a01a4af29d3b8f5e520fb133490e1495bdd6189216c",
+    "test/wavelet_matrix_freq.test.cpp": "634242eb8c1157c8d06bee0639ac06745c45053046314eabb50bac9e0ad02c59",
+    "test/wavelet_matrix_sum.test.cpp": "8d84bee591086cd14ce2cbe53338f44c26451c7c97b0be6cc1db9eaa77f80c31"
+  },
+  "reference_sha256": {},
+  "completed": true,
+  "completed_at": "2026-10-18T17:02:37.459272+00:00"
+}

@@ -5,6 +5,7 @@
 #include "../components/fps_factorials.hpp"
 #include "../components/fps_workspace.hpp"
 #include "../components/fps_log.hpp"
+#include "../components/fps_blocked.hpp"
 #include <algorithm>
 #include <cassert>
 #include <cstddef>
@@ -632,6 +633,15 @@ struct FormalPowerSeries : std::vector<T>, private fps_detail::Operations<T> {
 	using Word = typename O::Word;
 
 	F log_derivative(int deg, bool integrate = false) const {
+#if defined(__linux__) && defined(__x86_64__) && defined(__GNUC__) && !defined(__clang__)
+		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
+			if (deg >= 256 && deg <= (1 << 24) && this->size() >= 64 && fps_detail::NTT::vectorized()) {
+				F r;
+				fps_detail::blocked_poly::native_log(this->data(), this->size(), r, deg, integrate);
+				return r;
+			}
+		}
+#endif
 #if defined(__x86_64__) || defined(__i386__)
 		if constexpr (std::is_same_v<T, fps_detail::Mint>) {
 			if (deg >= 256 && deg <= (1 << 24) && this->size() >= 64 && fps_detail::NTT::vectorized()) {

@@ -1,8 +1,8 @@
-# Fast Set
+# Predecessor Set（64 分木）
 
 ## 実装
 
-`data_structure/fast_set.hpp` の `FastSet` は、`components/predecessor_set.hpp` の `PredecessorSet` と同じ型です。既存の区間ソート木も同じ部品を使います。
+整数集合は `components/predecessor_set.hpp` の `PredecessorSet` に統一しました。区間ソート木も同じ部品を使います。以下は旧称 Fast Set で行った測定記録で、保存済みのソースハッシュと結果は変更していません。
 
 - 64 bit 語を階層化し、全階層を 1 本の配列に配置。
 - 挿入・削除では語の空／非空が変化した部分だけ上へ反映。

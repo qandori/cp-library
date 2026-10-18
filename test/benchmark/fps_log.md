@@ -2,6 +2,8 @@
 
 比較元は `7fb5f2897349aa0a11c18e3ab56f3e4815319017`。2026-10-18 UTC に測定した。公開 FPS API を維持する。
 
+専用バックエンドの移植と一括入出力による追加の改善は [次の測定](fps_blocked.md) にある。
+
 ## 上位提出との比較
 
 [409452](https://judge.yosupo.jp/submission/409452)・[409363](https://judge.yosupo.jp/submission/409363)・[409264](https://judge.yosupo.jp/submission/409264) の対数を確認した。今回再取得した順位・時刻・ソース SHA-256 は [参照一覧](results/fps_log_reference.json) にある。掲載時間はそれぞれ 13・14・15 ms だった。最終測定は上位 2 提出のソースを変更せず、同じ入力・コンパイラ・フラグで比較する。

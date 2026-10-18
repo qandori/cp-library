@@ -1,0 +1,17 @@
+g++: standalone components/oct_bit_vector.hpp
+g++: standalone data_structure/wavelet_matrix.hpp
+g++: wavelet_matrix.cpp
+g++: wavelet_matrix_opt.cpp
+Wavelet Matrix boundaries OK
+g++: dynamic_wavelet_matrix.cpp
+g++: standalone.cpp
+Verification passed
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: standalone components/oct_bit_vector.hpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: standalone data_structure/wavelet_matrix.hpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: wavelet_matrix.cpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: wavelet_matrix_opt.cpp
+Wavelet Matrix boundaries OK
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: dynamic_wavelet_matrix.cpp
+/var/tmp/cp-matrix-gcc13/bin/x86_64-conda-linux-gnu-g++: standalone.cpp
+Verification passed
+All GCC checks passed

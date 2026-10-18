@@ -1,0 +1,6 @@
+taskset -c 2 g++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O2 -DNDEBUG /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp -o /tmp/wm-count-integration-0o_vjteh/g++
+taskset -c 2 /tmp/wm-count-integration-0o_vjteh/g++
+Wavelet Matrix boundaries OK
+taskset -c 2 clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O1 -g -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp -o /tmp/wm-count-integration-0o_vjteh/clang++
+taskset -c 2 /tmp/wm-count-integration-0o_vjteh/clang++
+Wavelet Matrix boundaries OK

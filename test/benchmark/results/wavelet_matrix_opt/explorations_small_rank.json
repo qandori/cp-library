@@ -1,0 +1,1193 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-18T17:02:10.932307+00:00",
+  "decision": "All candidates rejected; production and production components were never edited by this experiment.",
+  "scope": "Small-alphabet Oct rank and one-level count exploration before the final sum-focused/hash integration.",
+  "conditions": {
+    "cpu": "Intel Core i7-13700F",
+    "platform": "WSL Linux x86_64",
+    "affinity": 2,
+    "serialization": "fcntl.flock /tmp/cp-wm-opt.lock",
+    "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0",
+    "flags": [
+      "-std=c++23",
+      "-O2",
+      "-march=native",
+      "-ftrivial-auto-var-init=zero",
+      "-DATCODER",
+      "-DONLINE_JUDGE"
+    ],
+    "warmups": 1,
+    "trials": 3,
+    "order_seed": 20261019,
+    "input_seeds": [
+      713,
+      750,
+      787,
+      824
+    ],
+    "input_type": "int32",
+    "component_q": 200000,
+    "interval_q": 500000,
+    "modes": {
+      "6": "2 values",
+      "1": "256 values",
+      "9": "512 values",
+      "0": "uniform [0,1e9)"
+    },
+    "timed": "Queries only; input generation, construction and I/O excluded.",
+    "bounds": "Component benchmark uses the main benchmark min(x,y) convention; interval benchmark uses uniform x and swaps only for between queries."
+  },
+  "candidates": {
+    "small_exact": "An extra bool fits existing padding (sizeof OctBitVector remains 32). When all digits are below 4, cumulative lanes 0..3 are kept and unused lanes 4..7 become exact digit counts/masks. AVX route/select uses active-mask 15 or 255. Scalar/AVX2 builds set and reset the flag.",
+    "binary_rank": "An extra bool fits padding. For at most two digits, rank uses below(r,1) for digit0 and its complement for digit1. Cumulative lanes and route/select remain unchanged.",
+    "interval_one": "Only WaveletMatrix interval_scalar/interval_avx2 change. Single-level matrices take a direct rank path; two distinct values use below(l/r,1) and its complement. The component is unchanged."
+  },
+  "findings": [
+    "small_exact improves one sigma256 count case (3.620 to 3.198 ms) but regresses sigma256 kth (4.887 to 5.473 ms), sigma512 kth, and broad-range freq (n500k: 32.828 to 36.775 ms). It does not consistently improve sigma2 count.",
+    "binary_rank does not improve sigma2 count consistently and adds regressions to other distributions.",
+    "interval_one changes sigma2 count q500k from 4.163 to 4.166 ms at n200k, and 4.640 to 4.562 ms at n500k. Old quad is 3.919 and 4.102 ms in the same runs. This is insufficient evidence to adopt more code.",
+    "A likely limitation is rank working-set size: Oct stores 64 bytes per 32 input elements, while old Quad stores 32 bytes per 64. At sigma2 both have one level, so the Oct rank working set is four times larger. This is an inference, not a measured cache-miss count. Exact spare lanes do not reduce this footprint."
+  ],
+  "validation": {
+    "components": "All 3 variants pass direct scalar/AVX2 rank/below/ranks/route/select checks; n=0,1,31,32,33,63,64,65,127; sigma1..8; shifts0,3,30; rebuilding and sizeof32 checks. Every measured variant matches per-trial checksums.",
+    "interval": "Full existing test/unit/wavelet_matrix.cpp passes GCC15 for interval_one. Every measured current/candidate/old_quad checksum matches.",
+    "additional_tests": "No sanitizer runs were added for these rejected candidates."
+  },
+  "raw": {
+    "component": {
+      "flags": [
+        "-std=c++23",
+        "-O2",
+        "-march=native",
+        "-ftrivial-auto-var-init=zero",
+        "-DATCODER",
+        "-DONLINE_JUDGE"
+      ],
+      "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0",
+      "cpu": 2,
+      "trials": 3,
+      "warmups": 1,
+      "nqueries": 200000,
+      "component_sha256": {
+        "current": "c2d9656bd12c0a60e05c905b6484c284df1dfbff82bf48cf9d0d56a32c467435",
+        "small_exact": "24fa78908e50aa6412a76f8c6506c541f8846b15e5a826934bf508cc592ac9fe",
+        "binary_rank": "dccee417441cb7dfb9f3c401508523b6a920380d44a4c14ca26c0d71630a25a4"
+      },
+      "header_sha256": "28d609fa704b38d9f028ae9f81f28de462452568cb77c27cf7b795bb642e71b4",
+      "quad_sha256": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+      "bench_sha256": "64db58fce9b45651e10c561b112d629f1cfa92d158a2def92f58815ae46d8ebb",
+      "checks": "All scalar/AVX2 rank/below/route/select checks, sentinel boundaries, shift30, size32 and rebuilding passed.",
+      "cases": {
+        "200000/6/count": {
+          "samples_ms": {
+            "current": [
+              1.459729,
+              1.311523,
+              1.383604
+            ],
+            "small_exact": [
+              1.445026,
+              1.359452,
+              1.356007
+            ],
+            "binary_rank": [
+              1.405046,
+              1.372395,
+              1.34608
+            ]
+          },
+          "median_ms": {
+            "current": 1.383604,
+            "small_exact": 1.359452,
+            "binary_rank": 1.372395
+          },
+          "checksums": [
+            "3619090043409290226",
+            "9567065420667949546",
+            "10085179514650521589",
+            "4402136282094713228"
+          ]
+        },
+        "200000/6/kth": {
+          "samples_ms": {
+            "current": [
+              1.010356,
+              0.997289,
+              0.998535
+            ],
+            "small_exact": [
+              1.085223,
+              1.418656,
+              1.162635
+            ],
+            "binary_rank": [
+              1.005688,
+              0.983534,
+              0.989488
+            ]
+          },
+          "median_ms": {
+            "current": 0.998535,
+            "small_exact": 1.162635,
+            "binary_rank": 0.989488
+          },
+          "checksums": [
+            "17435460812442548500",
+            "11155750858037766828",
+            "14068435287609058364",
+            "8388224058424175177"
+          ]
+        },
+        "200000/6/freq": {
+          "samples_ms": {
+            "current": [
+              0.951187,
+              0.948701,
+              0.949977
+            ],
+            "small_exact": [
+              0.972312,
+              0.946031,
+              0.966394
+            ],
+            "binary_rank": [
+              0.967212,
+              0.986356,
+              1.003594
+            ]
+          },
+          "median_ms": {
+            "current": 0.949977,
+            "small_exact": 0.966394,
+            "binary_rank": 0.986356
+          },
+          "checksums": [
+            "2988182947726653255",
+            "528021156006504529",
+            "4599738094620410491",
+            "11077006871835991540"
+          ]
+        },
+        "200000/1/count": {
+          "samples_ms": {
+            "current": [
+              3.619955,
+              3.515158,
+              3.658495
+            ],
+            "small_exact": [
+              3.19169,
+              3.198172,
+              3.474647
+            ],
+            "binary_rank": [
+              3.798696,
+              3.816642,
+              3.63393
+            ]
+          },
+          "median_ms": {
+            "current": 3.619955,
+            "small_exact": 3.198172,
+            "binary_rank": 3.798696
+          },
+          "checksums": [
+            "13139175792642909698",
+            "8863676393290238296",
+            "5476196529072895871",
+            "4387445732357194780"
+          ]
+        },
+        "200000/1/kth": {
+          "samples_ms": {
+            "current": [
+              4.878138,
+              5.301292,
+              4.886861
+            ],
+            "small_exact": [
+              5.391549,
+              5.507243,
+              5.472505
+            ],
+            "binary_rank": [
+              4.936088,
+              5.419035,
+              5.442461
+            ]
+          },
+          "median_ms": {
+            "current": 4.886861,
+            "small_exact": 5.472505,
+            "binary_rank": 5.419035
+          },
+          "checksums": [
+            "8029512604877446723",
+            "13822047640061311958",
+            "3001318162890725312",
+            "4677239545293982431"
+          ]
+        },
+        "200000/1/freq": {
+          "samples_ms": {
+            "current": [
+              4.026933,
+              3.545766,
+              3.585856
+            ],
+            "small_exact": [
+              4.111582,
+              3.681034,
+              3.844665
+            ],
+            "binary_rank": [
+              4.108955,
+              3.794786,
+              3.831412
+            ]
+          },
+          "median_ms": {
+            "current": 3.585856,
+            "small_exact": 3.844665,
+            "binary_rank": 3.831412
+          },
+          "checksums": [
+            "17320591009563887809",
+            "12641024828507963088",
+            "3417604766648912575",
+            "14790218529557675909"
+          ]
+        },
+        "200000/9/count": {
+          "samples_ms": {
+            "current": [
+              3.462967,
+              3.428837,
+              3.387234
+            ],
+            "small_exact": [
+              3.613489,
+              3.486995,
+              3.966838
+            ],
+            "binary_rank": [
+              3.517294,
+              3.55071,
+              3.939844
+            ]
+          },
+          "median_ms": {
+            "current": 3.428837,
+            "small_exact": 3.613489,
+            "binary_rank": 3.55071
+          },
+          "checksums": [
+            "10892121799562744496",
+            "5436012835477896516",
+            "13809396283997070996",
+            "9869333128509534914"
+          ]
+        },
+        "200000/9/kth": {
+          "samples_ms": {
+            "current": [
+              4.967458,
+              5.471649,
+              5.2358
+            ],
+            "small_exact": [
+              5.559529,
+              5.730918,
+              5.653589
+            ],
+            "binary_rank": [
+              4.9434,
+              5.331185,
+              5.280945
+            ]
+          },
+          "median_ms": {
+            "current": 5.2358,
+            "small_exact": 5.653589,
+            "binary_rank": 5.280945
+          },
+          "checksums": [
+            "18319417866490293296",
+            "1461904132654066413",
+            "11038925088619864054",
+            "3080242515877429522"
+          ]
+        },
+        "200000/9/freq": {
+          "samples_ms": {
+            "current": [
+              3.48514,
+              3.47505,
+              3.670175
+            ],
+            "small_exact": [
+              3.609645,
+              3.848192,
+              3.597861
+            ],
+            "binary_rank": [
+              4.085328,
+              3.701402,
+              3.622567
+            ]
+          },
+          "median_ms": {
+            "current": 3.48514,
+            "small_exact": 3.609645,
+            "binary_rank": 3.701402
+          },
+          "checksums": [
+            "3112371397661762829",
+            "18332474047108966310",
+            "9157848232566269803",
+            "15148861971233136047"
+          ]
+        },
+        "200000/0/count": {
+          "samples_ms": {
+            "current": [
+              8.36004,
+              7.935633,
+              8.9691
+            ],
+            "small_exact": [
+              8.663753,
+              8.467308,
+              8.495046
+            ],
+            "binary_rank": [
+              8.643588,
+              8.437182,
+              9.134681
+            ]
+          },
+          "median_ms": {
+            "current": 8.36004,
+            "small_exact": 8.495046,
+            "binary_rank": 8.643588
+          },
+          "checksums": [
+            "235240514113785843",
+            "8043115033673394514",
+            "13780900469663440183",
+            "13788763059868475492"
+          ]
+        },
+        "200000/0/kth": {
+          "samples_ms": {
+            "current": [
+              17.098994,
+              16.959227,
+              17.604376
+            ],
+            "small_exact": [
+              17.457647,
+              17.25123,
+              17.120573
+            ],
+            "binary_rank": [
+              16.968787,
+              17.482668,
+              17.21696
+            ]
+          },
+          "median_ms": {
+            "current": 17.098994,
+            "small_exact": 17.25123,
+            "binary_rank": 17.21696
+          },
+          "checksums": [
+            "11657504049753694028",
+            "3753692817022520669",
+            "15602776743094883939",
+            "13391848671756634591"
+          ]
+        },
+        "200000/0/freq": {
+          "samples_ms": {
+            "current": [
+              21.753237,
+              21.816849,
+              21.331132
+            ],
+            "small_exact": [
+              22.470495,
+              22.488006,
+              21.528246
+            ],
+            "binary_rank": [
+              22.262025,
+              22.109235,
+              21.780131
+            ]
+          },
+          "median_ms": {
+            "current": 21.753237,
+            "small_exact": 22.470495,
+            "binary_rank": 22.109235
+          },
+          "checksums": [
+            "13130912290162470171",
+            "2903150360236655021",
+            "14270081037422165401",
+            "9105964392043687931"
+          ]
+        },
+        "500000/6/count": {
+          "samples_ms": {
+            "current": [
+              1.426993,
+              1.331388,
+              1.397064
+            ],
+            "small_exact": [
+              1.476444,
+              1.385975,
+              1.471784
+            ],
+            "binary_rank": [
+              1.36266,
+              1.484292,
+              1.628999
+            ]
+          },
+          "median_ms": {
+            "current": 1.397064,
+            "small_exact": 1.471784,
+            "binary_rank": 1.484292
+          },
+          "checksums": [
+            "15962833021141381592",
+            "11500092161129343449",
+            "6600308089540149217",
+            "12322723919635006977"
+          ]
+        },
+        "500000/6/kth": {
+          "samples_ms": {
+            "current": [
+              1.139154,
+              1.207725,
+              1.125824
+            ],
+            "small_exact": [
+              1.225254,
+              1.370368,
+              1.205373
+            ],
+            "binary_rank": [
+              1.118161,
+              1.178436,
+              1.26074
+            ]
+          },
+          "median_ms": {
+            "current": 1.139154,
+            "small_exact": 1.225254,
+            "binary_rank": 1.178436
+          },
+          "checksums": [
+            "15371133970598329752",
+            "13428731264886316621",
+            "16955668494623617997",
+            "10545012567541271024"
+          ]
+        },
+        "500000/6/freq": {
+          "samples_ms": {
+            "current": [
+              1.048059,
+              1.15818,
+              0.964599
+            ],
+            "small_exact": [
+              0.966884,
+              1.20407,
+              0.950659
+            ],
+            "binary_rank": [
+              1.064704,
+              1.49055,
+              0.968457
+            ]
+          },
+          "median_ms": {
+            "current": 1.048059,
+            "small_exact": 0.966884,
+            "binary_rank": 1.064704
+          },
+          "checksums": [
+            "17750441475239969681",
+            "5490053546916793057",
+            "10969564273013424948",
+            "5528431355009939709"
+          ]
+        },
+        "500000/1/count": {
+          "samples_ms": {
+            "current": [
+              4.641598,
+              5.04385,
+              4.666114
+            ],
+            "small_exact": [
+              4.611862,
+              5.088986,
+              4.879075
+            ],
+            "binary_rank": [
+              5.046595,
+              4.800832,
+              5.370126
+            ]
+          },
+          "median_ms": {
+            "current": 4.666114,
+            "small_exact": 4.879075,
+            "binary_rank": 5.046595
+          },
+          "checksums": [
+            "14132680001242888117",
+            "3162147856155681877",
+            "7167961282698689913",
+            "4761517689384203282"
+          ]
+        },
+        "500000/1/kth": {
+          "samples_ms": {
+            "current": [
+              6.720054,
+              6.791124,
+              6.372807
+            ],
+            "small_exact": [
+              6.623958,
+              7.010417,
+              7.054409
+            ],
+            "binary_rank": [
+              6.80634,
+              7.864516,
+              6.666856
+            ]
+          },
+          "median_ms": {
+            "current": 6.720054,
+            "small_exact": 7.010417,
+            "binary_rank": 6.80634
+          },
+          "checksums": [
+            "3211046512985347427",
+            "15780613687399678066",
+            "13647836535780383641",
+            "5850043852106132615"
+          ]
+        },
+        "500000/1/freq": {
+          "samples_ms": {
+            "current": [
+              4.730539,
+              4.819673,
+              4.751433
+            ],
+            "small_exact": [
+              4.918687,
+              4.90311,
+              5.880523
+            ],
+            "binary_rank": [
+              5.063057,
+              5.498605,
+              5.621741
+            ]
+          },
+          "median_ms": {
+            "current": 4.751433,
+            "small_exact": 4.918687,
+            "binary_rank": 5.498605
+          },
+          "checksums": [
+            "14841656678224708944",
+            "5736359967716943058",
+            "3597164492424990040",
+            "5065153804659244477"
+          ]
+        },
+        "500000/9/count": {
+          "samples_ms": {
+            "current": [
+              4.720235,
+              4.741802,
+              4.767394
+            ],
+            "small_exact": [
+              4.887811,
+              4.597248,
+              5.666935
+            ],
+            "binary_rank": [
+              4.719679,
+              4.870822,
+              5.148258
+            ]
+          },
+          "median_ms": {
+            "current": 4.741802,
+            "small_exact": 4.887811,
+            "binary_rank": 4.870822
+          },
+          "checksums": [
+            "7599444891788994466",
+            "9248713980733419487",
+            "1811099764538903292",
+            "10165373350591562428"
+          ]
+        },
+        "500000/9/kth": {
+          "samples_ms": {
+            "current": [
+              6.798432,
+              6.490107,
+              6.782702
+            ],
+            "small_exact": [
+              6.829481,
+              7.49008,
+              7.502408
+            ],
+            "binary_rank": [
+              6.806334,
+              7.02429,
+              6.822569
+            ]
+          },
+          "median_ms": {
+            "current": 6.782702,
+            "small_exact": 7.49008,
+            "binary_rank": 6.822569
+          },
+          "checksums": [
+            "4706085937598843452",
+            "2717061573067307422",
+            "7542480505535265725",
+            "1921940377903004776"
+          ]
+        },
+        "500000/9/freq": {
+          "samples_ms": {
+            "current": [
+              4.914618,
+              4.962588,
+              4.887117
+            ],
+            "small_exact": [
+              5.001409,
+              4.836876,
+              5.063542
+            ],
+            "binary_rank": [
+              5.734153,
+              4.868239,
+              5.326094
+            ]
+          },
+          "median_ms": {
+            "current": 4.914618,
+            "small_exact": 5.001409,
+            "binary_rank": 5.326094
+          },
+          "checksums": [
+            "16205386323312424488",
+            "15872871892371359756",
+            "4244415652043956130",
+            "14605292127174703439"
+          ]
+        },
+        "500000/0/count": {
+          "samples_ms": {
+            "current": [
+              12.659897,
+              12.838831,
+              12.763944
+            ],
+            "small_exact": [
+              12.751568,
+              12.772433,
+              12.892342
+            ],
+            "binary_rank": [
+              12.442172,
+              12.503908,
+              12.762024
+            ]
+          },
+          "median_ms": {
+            "current": 12.763944,
+            "small_exact": 12.772433,
+            "binary_rank": 12.503908
+          },
+          "checksums": [
+            "17118414010895082883",
+            "13030503716823873619",
+            "5535031136831112685",
+            "12896383771496112348"
+          ]
+        },
+        "500000/0/kth": {
+          "samples_ms": {
+            "current": [
+              40.272223,
+              29.212597,
+              28.621998
+            ],
+            "small_exact": [
+              29.805647,
+              28.147617,
+              29.119535
+            ],
+            "binary_rank": [
+              30.030318,
+              28.796746,
+              28.700537
+            ]
+          },
+          "median_ms": {
+            "current": 29.212597,
+            "small_exact": 29.119535,
+            "binary_rank": 28.796746
+          },
+          "checksums": [
+            "17275323727619484213",
+            "9473526643538142505",
+            "4178155461575802586",
+            "10752783890637815927"
+          ]
+        },
+        "500000/0/freq": {
+          "samples_ms": {
+            "current": [
+              35.236145,
+              32.732755,
+              32.827745
+            ],
+            "small_exact": [
+              40.028199,
+              36.729255,
+              36.77513
+            ],
+            "binary_rank": [
+              33.935015,
+              33.119052,
+              34.067182
+            ]
+          },
+          "median_ms": {
+            "current": 32.827745,
+            "small_exact": 36.77513,
+            "binary_rank": 33.935015
+          },
+          "checksums": [
+            "6143167443468288835",
+            "12032020662339879869",
+            "15290775081815857357",
+            "2662787633330270874"
+          ]
+        }
+      }
+    },
+    "interval": {
+      "flags": [
+        "-std=c++23",
+        "-O2",
+        "-march=native",
+        "-ftrivial-auto-var-init=zero",
+        "-DATCODER",
+        "-DONLINE_JUDGE"
+      ],
+      "cpu": 2,
+      "trials": 3,
+      "warmups": 1,
+      "q": 500000,
+      "x_bounds": "Uniform input values; only between swaps x/y unlike the main benchmark.",
+      "header_sha256": {
+        "current": "28d609fa704b38d9f028ae9f81f28de462452568cb77c27cf7b795bb642e71b4",
+        "interval_one": "408083fc2c16b8a845139a9ffb4742f6d9a2a2b9a13f5e305610d5e326fea421",
+        "old_quad": "17759549150c7c635e481be3857d92c4622a61c47add9824675a9ca49a7c4993"
+      },
+      "component_sha256": "c2d9656bd12c0a60e05c905b6484c284df1dfbff82bf48cf9d0d56a32c467435",
+      "quad_sha256": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+      "bench_sha256": "91e24d2dffcb5b01b7486464ef2f1765e3979743f282346fc93bfe4ac31a3e6c",
+      "checks": "Candidate full existing unit passed GCC15; all baseline/candidate/old_quad checksums agree.",
+      "cases": {
+        "200000/6/count": {
+          "samples_ms": {
+            "current": [
+              4.181992,
+              4.162683,
+              4.146794
+            ],
+            "interval_one": [
+              4.284679,
+              3.997979,
+              4.165992
+            ],
+            "old_quad": [
+              3.76009,
+              3.95971,
+              3.919279
+            ]
+          },
+          "median_ms": {
+            "current": 4.162683,
+            "interval_one": 4.165992,
+            "old_quad": 3.919279
+          },
+          "checksums": [
+            "16843091657813963507",
+            "7277015760906456512",
+            "3153522873217152782",
+            "9704454017241837371"
+          ]
+        },
+        "200000/1/count": {
+          "samples_ms": {
+            "current": [
+              8.59976,
+              8.689172,
+              8.979967
+            ],
+            "interval_one": [
+              7.831142,
+              8.235707,
+              7.799195
+            ],
+            "old_quad": [
+              8.786893,
+              9.160845,
+              8.940792
+            ]
+          },
+          "median_ms": {
+            "current": 8.689172,
+            "interval_one": 7.831142,
+            "old_quad": 8.940792
+          },
+          "checksums": [
+            "1691801736915647767",
+            "16665651013397835455",
+            "10616254482776210834",
+            "6580926334909888881"
+          ]
+        },
+        "200000/9/count": {
+          "samples_ms": {
+            "current": [
+              8.388985,
+              8.059978,
+              8.27708
+            ],
+            "interval_one": [
+              7.778579,
+              7.690937,
+              7.859257
+            ],
+            "old_quad": [
+              12.021098,
+              12.040813,
+              12.07579
+            ]
+          },
+          "median_ms": {
+            "current": 8.27708,
+            "interval_one": 7.778579,
+            "old_quad": 12.040813
+          },
+          "checksums": [
+            "8336828788412146101",
+            "926660922524938645",
+            "5909369391663897950",
+            "6153829519681424622"
+          ]
+        },
+        "200000/0/count": {
+          "samples_ms": {
+            "current": [
+              20.855467,
+              21.512716,
+              21.904955
+            ],
+            "interval_one": [
+              21.350433,
+              21.420375,
+              21.843476
+            ],
+            "old_quad": [
+              21.296942,
+              21.109919,
+              22.394151
+            ]
+          },
+          "median_ms": {
+            "current": 21.512716,
+            "interval_one": 21.420375,
+            "old_quad": 21.296942
+          },
+          "checksums": [
+            "17247643958276570741",
+            "18256765724246810123",
+            "11421071209363343035",
+            "8088021432101388721"
+          ]
+        },
+        "500000/6/count": {
+          "samples_ms": {
+            "current": [
+              4.699685,
+              4.567328,
+              4.639948
+            ],
+            "interval_one": [
+              4.592321,
+              4.562351,
+              4.111435
+            ],
+            "old_quad": [
+              4.101812,
+              3.864296,
+              4.265616
+            ]
+          },
+          "median_ms": {
+            "current": 4.639948,
+            "interval_one": 4.562351,
+            "old_quad": 4.101812
+          },
+          "checksums": [
+            "8274875512529295083",
+            "6725437704816190185",
+            "9739930076406159758",
+            "3890836301798739838"
+          ]
+        },
+        "500000/1/count": {
+          "samples_ms": {
+            "current": [
+              12.259235,
+              12.557859,
+              12.867205
+            ],
+            "interval_one": [
+              12.13199,
+              12.548403,
+              11.977445
+            ],
+            "old_quad": [
+              9.937153,
+              10.288947,
+              10.333209
+            ]
+          },
+          "median_ms": {
+            "current": 12.557859,
+            "interval_one": 12.13199,
+            "old_quad": 10.288947
+          },
+          "checksums": [
+            "13421383039177393427",
+            "15589010719975279236",
+            "12773268671213637216",
+            "4214302318701508508"
+          ]
+        },
+        "500000/9/count": {
+          "samples_ms": {
+            "current": [
+              12.263388,
+              13.408384,
+              12.768929
+            ],
+            "interval_one": [
+              11.930954,
+              11.650304,
+              15.502157
+            ],
+            "old_quad": [
+              13.573458,
+              13.717576,
+              13.405102
+            ]
+          },
+          "median_ms": {
+            "current": 12.768929,
+            "interval_one": 11.930954,
+            "old_quad": 13.573458
+          },
+          "checksums": [
+            "12156364817352151906",
+            "11511141473002989845",
+            "14561775347310431249",
+            "13407287688254027953"
+          ]
+        },
+        "500000/0/count": {
+          "samples_ms": {
+            "current": [
+              31.104369,
+              30.712323,
+              30.484826
+            ],
+            "interval_one": [
+              30.088853,
+              29.607725,
+              31.408496
+            ],
+            "old_quad": [
+              29.636483,
+              28.90992,
+              31.072606
+            ]
+          },
+          "median_ms": {
+            "current": 30.712323,
+            "interval_one": 30.088853,
+            "old_quad": 29.636483
+          },
+          "checksums": [
+            "17020150287864229106",
+            "4073500432848963710",
+            "4011748780020606762",
+            "18115806584050706990"
+          ]
+        },
+        "500000/0/kth": {
+          "samples_ms": {
+            "current": [
+              69.162804,
+              68.107478,
+              69.092927
+            ],
+            "interval_one": [
+              67.118163,
+              66.159431,
+              68.455688
+            ],
+            "old_quad": [
+              74.934995,
+              74.892414,
+              75.613646
+            ]
+          },
+          "median_ms": {
+            "current": 69.092927,
+            "interval_one": 67.118163,
+            "old_quad": 74.934995
+          },
+          "checksums": [
+            "18176604754056774951",
+            "10189476315064142255",
+            "8422377075138852351",
+            "6329336077966288745"
+          ]
+        },
+        "500000/0/freq": {
+          "samples_ms": {
+            "current": [
+              77.843856,
+              76.342194,
+              78.328842
+            ],
+            "interval_one": [
+              78.110156,
+              78.917512,
+              80.09546
+            ],
+            "old_quad": [
+              88.749338,
+              85.682315,
+              86.43832
+            ]
+          },
+          "median_ms": {
+            "current": 77.843856,
+            "interval_one": 78.917512,
+            "old_quad": 86.43832
+          },
+          "checksums": [
+            "10304479328701730608",
+            "8709439263064364573",
+            "17198816862030484047",
+            "14967009564802179250"
+          ]
+        }
+      }
+    }
+  },
+  "scripts": {
+    "wm_small_rank_probe.py": {
+      "name": "wm_small_rank_probe.py",
+      "sha256": "30c7f6957c5484d4869e41ccc90b0999b96d1b5c461fbb84c4266a0f3db69672",
+      "text": "import fcntl\nimport hashlib\nimport json\nimport pathlib\nimport random\nimport statistics\nimport subprocess\n\nroot = pathlib.Path(__file__).resolve().parents[2]\nfolder = root / '.verify-helper/cache/wm_small_rank'\nfolder.mkdir(parents=True,exist_ok=True)\nheader = (root/'data_structure/wavelet_matrix.hpp').read_text()\nquad = (root/'components/quad_bit_vector.hpp').read_text()\ncomponent = (root/'components/oct_bit_vector.hpp').read_text()\nbench = (root/'test/benchmark/wavelet_matrix_opt.cpp').read_text()\n(folder/'source.hpp').write_text(header)\n(folder/'component.hpp').write_text(component)\n(folder/'quad.hpp').write_text(quad)\n(folder/'bench.cpp').write_text(bench)\n\ndef finish_calls(s):\n    end_scalar = '\\t\\t}\\n\\t}\\n#if defined(__x86_64__) || defined(__i386__)\\n\\t__attribute__((target(\"avx2,popcnt\"), always_inline)) static __m256i popcounts'\n    assert end_scalar in s\n    s = s.replace(end_scalar,end_scalar.replace('\\n\\t}\\n#if','\\n\\t\\tfinish(total);\\n\\t}\\n#if'),1)\n    end_vector = '\\t\\t}\\n\\t}\\n\\t__attribute__((target(\"avx2,popcnt\"), always_inline)) Route route_avx2'\n    assert end_vector in s\n    return s.replace(end_vector,end_vector.replace('\\n\\t}\\n\\t__attribute__','\\n\\t\\tfinish(total);\\n\\t}\\n\\t__attribute__'),1)\n\nsmall = component.replace('\\tint n;','\\tint n;\\n\\tbool small = false;')\nfinish = '''\\tvoid finish(const std::array<std::uint32_t, 8> &total) {\n\\t\\tsmall = total[3] == std::uint32_t(n);\n\\t\\tif (!small) return;\n\\t\\tfor (auto &b : blocks)\n\\t\\t\\tfor (int i = 0; i < 4; ++i) {\n\\t\\t\\t\\tb.masks[4 + i] = b.masks[i] ^ (i ? b.masks[i - 1] : 0);\n\\t\\t\\t\\tb.prefix[4 + i] = b.prefix[i] - (i ? b.prefix[i - 1] : 0);\n\\t\\t\\t}\n\\t}\n'''\nsmall = small.replace('\\texplicit OctBitVector(',finish+'\\texplicit OctBitVector(')\nsmall = finish_calls(small)\nsmall = small.replace('unsigned(_mm256_movemask_ps(_mm256_castsi256_ps(passed)))','(unsigned(_mm256_movemask_ps(_mm256_castsi256_ps(passed))) & (small ? 15u : 255u))')\nsmall = small.replace('\\t\\tif (!digit) return 0;\\n\\t\\tconst auto &b', '\\t\\tif (!digit) return 0;\\n\\t\\tif (small && digit >= 4) return r;\\n\\t\\tconst auto &b')\nsmall = small.replace('\\tint rank(int r, int digit) const {\\n\\t\\tconst auto &b = blocks[r >> 5];','\\tint rank(int r, int digit) const {\\n\\t\\tconst auto &b = blocks[r >> 5];\\n\\t\\tif (small) return digit < 4 ? b.prefix[4 + digit] + std::popcount(b.masks[4 + digit] & mask(r)) : 0;')\n\nbinary = component.replace('\\tint n;', '\\tint n;\\n\\tbool binary = false;')\nbinary = binary.replace('\\texplicit OctBitVector(', '\\tvoid finish(const std::array<std::uint32_t, 8> &total) { binary = total[1] == std::uint32_t(n); }\\n\\texplicit OctBitVector(')\nbinary = finish_calls(binary)\nbinary = binary.replace('\\tint rank(int r, int digit) const {', '\\tint rank(int r, int digit) const {\\n\\t\\tif (binary) {\\n\\t\\t\\tint zero = below(r, 1);\\n\\t\\t\\treturn digit == 0 ? zero : digit == 1 ? r - zero : 0;\\n\\t\\t}')\n\nvariants = {'current':component,'small_exact':small,'binary_rank':binary}\ntest = r'''#include \"components/oct_bit_vector.hpp\"\n#include <iostream>\n#include <random>\nint main() {\n    if (sizeof(OctBitVector) != 32) return 11;\n    std::mt19937 random(713);\n    for (int n : {0,1,31,32,33,63,64,65,127}) for (int sigma=1; sigma<=8; ++sigma) for (int shift : {0,3,30}) {\n        std::vector<std::uint32_t> a(n);\n        for (auto &x:a) x = (random()%sigma) << shift;\n        OctBitVector b(n), c(n);\n        b.build_scalar(a,shift);\n        c.build(a,shift);\n        for (int r=0; r<=n; ++r) {\n            std::array<int,8> count{};\n            for (int i=0;i<r;++i) ++count[(a[i]>>shift)&7];\n            auto br = b.ranks(r), cr = c.ranks(r);\n            for (int digit=0;digit<8;++digit) {\n                int below = 0;\n                for (int i=0;i<digit;++i) below += count[i];\n                if (b.rank(r,digit)!=count[digit] || c.rank(r,digit)!=count[digit] || br[digit]!=count[digit] || cr[digit]!=count[digit]) return 12;\n                if (b.below(r,digit)!=below || c.below(r,digit)!=below) return 13;\n            }\n        }\n        if (!n) continue;\n        for (int trial=0;trial<30;++trial) {\n            int l=random()%n,r=random()%n;\n            if(l>r)std::swap(l,r);\n            ++r;\n            int k=random()%(r-l);\n            std::array<int,8> counts{};\n            for (int i=l;i<r;++i)++counts[(a[i]>>shift)&7];\n            int d=0,before=0;\n            while (before+counts[d]<=k) before += counts[d++];\n            auto x=b.route_scalar(l,r,k),y=c.route_scalar(l,r,k);\n            if(x.digit!=d || y.digit!=d || x.b-x.a!=counts[d] || y.b-y.a!=counts[d] || x.k!=k-before || y.k!=k-before) return 14;\n#if defined(__x86_64__) || defined(__i386__)\n            if (OctBitVector::has_avx2()) {\n                auto z=c.route_avx2(l,r,k);\n                if(z.digit!=d || z.b-z.a!=counts[d] || z.k!=k-before || c.select_avx2(l,r,k)!=d) return 15;\n            }\n#endif\n        }\n        std::fill(a.begin(),a.end(),0);\n        c.build(a,shift);\n        if(c.rank(n,0)!=n || c.rank(n,1)!=0) return 16;\n    }\n    std::cout << \"passed \" << sizeof(OctBitVector) << '\\n';\n}\n'''\n\nflags = ['-std=c++23','-O2','-march=native','-ftrivial-auto-var-init=zero','-DATCODER','-DONLINE_JUDGE']\nwith open('/tmp/cp-wm-opt.lock','w') as lock:\n    fcntl.flock(lock,fcntl.LOCK_EX)\n    for name, octet in variants.items():\n        work = folder / name\n        (work/'data_structure').mkdir(parents=True,exist_ok=True)\n        (work/'components').mkdir(exist_ok=True)\n        (work/'data_structure/wavelet_matrix.hpp').write_text(header)\n        (work/'components/oct_bit_vector.hpp').write_text(octet)\n        (work/'components/quad_bit_vector.hpp').write_text(quad)\n        (work/'bench.cpp').write_text(bench)\n        (work/'check.cpp').write_text(test)\n        subprocess.run(['g++',*flags,'-I'+str(work),str(work/'check.cpp'),'-o',str(work/'check')],check=True)\n        subprocess.run(['taskset','-c','2',str(work/'check')],check=True)\n        subprocess.run(['g++',*flags,'-I'+str(work),str(work/'bench.cpp'),'-o',str(work/'bench')],check=True)\n    rng = random.Random(20261019)\n    raw = {}\n    for n in (200000,500000):\n        for mode in (6,1,9,0):\n            for op in ('count','kth','freq'):\n                samples={v:[] for v in variants}\n                checks=[]\n                for trial in range(4):\n                    order=list(variants)\n                    rng.shuffle(order)\n                    checksum=None\n                    for name in order:\n                        result=json.loads(subprocess.check_output(['taskset','-c','2',str(folder/name/'bench'),str(n),'200000',str(mode),'0',op,'32',str(713+trial*37)],text=True))\n                        if checksum is None:checksum=result['checksum']\n                        assert result['checksum']==checksum,(n,mode,op,name)\n                        if trial:samples[name].append(result['ms'])\n                    checks.append(checksum)\n                key=f'{n}/{mode}/{op}'\n                raw[key]={'samples_ms':samples,'median_ms':{v:statistics.median(s) for v,s in samples.items()},'checksums':checks}\n                print(key,raw[key]['median_ms'],flush=True)\n                (folder/'results.json').write_text(json.dumps({'flags':flags,'compiler':subprocess.check_output(['g++','--version'],text=True).splitlines()[0],'cpu':2,'trials':3,'warmups':1,'nqueries':200000,'component_sha256':{v:hashlib.sha256(s.encode()).hexdigest() for v,s in variants.items()},'header_sha256':hashlib.sha256(header.encode()).hexdigest(),'quad_sha256':hashlib.sha256(quad.encode()).hexdigest(),'bench_sha256':hashlib.sha256(bench.encode()).hexdigest(),'checks':'All scalar/AVX2 rank/below/route/select checks, sentinel boundaries, shift30, size32 and rebuilding passed.','cases':raw},indent=2))\n"
+    },
+    "wm_small_rank_interval.py": {
+      "name": "wm_small_rank_interval.py",
+      "sha256": "c9fbb2859bf7abca84ad788e3e043a3a6c20903784b36aab24bf41937ea882af",
+      "text": "import fcntl\nimport hashlib\nimport json\nimport pathlib\nimport random\nimport statistics\nimport subprocess\n\nroot=pathlib.Path(__file__).resolve().parents[2]\nfolder=root/'.verify-helper/cache/wm_small_rank'\nheader=(folder/'source.hpp').read_text()\ncomponent=(folder/'component.hpp').read_text()\nquad=(folder/'quad.hpp').read_text()\nbench=(folder/'bench.cpp').read_text().replace('if (z.x > z.y) std::swap(z.x, z.y);','if (op == \"between\" && z.x > z.y) std::swap(z.x, z.y);')\nfast=header\nbody='''\n\\t\\tif (levels == 1) {\n\\t\\t\\tif (values.size() == 2) {\n\\t\\t\\t\\tint a = bits[0].below(l, 1), b = bits[0].below(r, 1);\n\\t\\t\\t\\tif (!x) return {a, b};\n\\t\\t\\t\\treturn {middle[0][1] + l - a, middle[0][1] + r - b};\n\\t\\t\\t}\n\\t\\t\\treturn {middle[0][x] + bits[0].rank(l, x), middle[0][x] + bits[0].rank(r, x)};\n\\t\\t}'''\nfor method in ['interval_scalar','interval_avx2']:\n    signature=method+'(int l, int r, std::uint32_t x) const {'\n    assert signature in fast\n    fast=fast.replace(signature,signature+body)\nvariants={'current':(header,component),'interval_one':(fast,component),\n          'old_quad':(subprocess.check_output(['git','show','523956f:data_structure/wavelet_matrix.hpp'],cwd=root,text=True),component)}\nflags=['-std=c++23','-O2','-march=native','-ftrivial-auto-var-init=zero','-DATCODER','-DONLINE_JUDGE']\nwith open('/tmp/cp-wm-opt.lock','w') as lock:\n    fcntl.flock(lock,fcntl.LOCK_EX)\n    for name,(wm,octet) in variants.items():\n        work=folder/('interval_'+name)\n        (work/'data_structure').mkdir(parents=True,exist_ok=True)\n        (work/'components').mkdir(exist_ok=True)\n        (work/'data_structure/wavelet_matrix.hpp').write_text(wm)\n        (work/'components/oct_bit_vector.hpp').write_text(octet)\n        (work/'components/quad_bit_vector.hpp').write_text(quad)\n        (work/'bench.cpp').write_text(bench)\n        subprocess.run(['g++',*flags,'-I'+str(work),str(work/'bench.cpp'),'-o',str(work/'bench')],check=True)\n    work=folder/'interval_interval_one'\n    subprocess.run(['g++',*flags,'-I'+str(work),'-I'+str(root),str(root/'test/unit/wavelet_matrix.cpp'),'-o',str(work/'unit')],check=True)\n    subprocess.run(['taskset','-c','2',str(work/'unit')],check=True)\n    cases=[(n,m,'count') for n in (200000,500000) for m in (6,1,9,0)]+[(500000,0,o) for o in ('kth','freq')]\n    rng=random.Random(20261019)\n    raw={}\n    for n,mode,op in cases:\n        samples={v:[] for v in variants}\n        checks=[]\n        for trial in range(4):\n            order=list(variants)\n            rng.shuffle(order)\n            checksum=None\n            for name in order:\n                result=json.loads(subprocess.check_output(['taskset','-c','2',str(folder/('interval_'+name)/'bench'),str(n),'500000',str(mode),'0',op,'32',str(713+37*trial)],text=True))\n                if checksum is None:checksum=result['checksum']\n                assert checksum==result['checksum'],(name,n,mode,op)\n                if trial:samples[name].append(result['ms'])\n            checks.append(checksum)\n        key=f'{n}/{mode}/{op}'\n        raw[key]={'samples_ms':samples,'median_ms':{v:statistics.median(s) for v,s in samples.items()},'checksums':checks}\n        print(key,raw[key]['median_ms'],flush=True)\n        (folder/'interval_results.json').write_text(json.dumps({'flags':flags,'cpu':2,'trials':3,'warmups':1,'q':500000,'x_bounds':'Uniform input values; only between swaps x/y unlike the main benchmark.', 'header_sha256':{v:hashlib.sha256(w.encode()).hexdigest() for v,(w,c) in variants.items()}, 'component_sha256':hashlib.sha256(component.encode()).hexdigest(),'quad_sha256':hashlib.sha256(quad.encode()).hexdigest(),'bench_sha256':hashlib.sha256(bench.encode()).hexdigest(),'checks':'Candidate full existing unit passed GCC15; all baseline/candidate/old_quad checksums agree.','cases':raw},indent=2))\n"
+    },
+    "wm_small_rank_archive.py": {
+      "name": "wm_small_rank_archive.py",
+      "sha256": "6e5fd4ff0ad3a92a76046a2cf67eb6aa2211213e8ab6a5560361bee01a28dfeb",
+      "text": "import datetime\nimport hashlib\nimport json\nimport pathlib\nimport subprocess\n\nroot=pathlib.Path(__file__).resolve().parents[2]\ncache=root/'.verify-helper/cache'\nfolder=cache/'wm_small_rank'\ndestination=root/'test/benchmark/results/wavelet_matrix_opt/explorations_small_rank.json'\ndestination.parent.mkdir(parents=True,exist_ok=True)\nsha=lambda s:hashlib.sha256(s.encode()).hexdigest()\nsnapshot=lambda name,text:{'name':name,'sha256':sha(text),'text':text}\nscripts={name:snapshot(name,(cache/name).read_text()) for name in ['wm_small_rank_probe.py','wm_small_rank_interval.py','wm_small_rank_archive.py']}\nsnapshots={name:snapshot(path,(folder/path).read_text()) for name,path in {\n    'header':'source.hpp','oct_component':'component.hpp','quad_component':'quad.hpp','benchmark':'bench.cpp',\n    'unbiased_benchmark':'interval_current/bench.cpp','component_check':'current/check.cpp'}.items()}\nsnapshots['old_quad_header']=snapshot('523956f:data_structure/wavelet_matrix.hpp',subprocess.check_output(['git','show','523956f:data_structure/wavelet_matrix.hpp'],cwd=root,text=True))\nraw={'component':json.loads((folder/'results.json').read_text()),'interval':json.loads((folder/'interval_results.json').read_text())}\n\nreproduce='''import argparse\nimport hashlib\nimport json\nimport pathlib\n\nparser=argparse.ArgumentParser()\nparser.add_argument('archive')\nparser.add_argument('--output')\nargs=parser.parse_args()\na=json.loads(pathlib.Path(args.archive).read_text())\nsha=lambda s:hashlib.sha256(s.encode()).hexdigest()\nfor s in [*a['snapshots'].values(),*a['scripts'].values()]:\n    assert sha(s['text'])==s['sha256'],s['name']\nscripts={k:v['text'] for k,v in a['scripts'].items()}\nns={'component':a['snapshots']['oct_component']['text']}\none=scripts['wm_small_rank_probe.py']\nexec(one[one.index('def finish_calls('):one.index(\"test = r\")],ns)\ncomponents=dict(ns['variants'])\nfor name,expected in a['raw']['component']['component_sha256'].items():\n    assert sha(components[name])==expected,name\nns={'header':a['snapshots']['header']['text']}\ntwo=scripts['wm_small_rank_interval.py']\nexec(two[two.index('fast=header'):two.index('variants={')],ns)\nheaders={'current':ns['header'],'interval_one':ns['fast'],'old_quad':a['snapshots']['old_quad_header']['text']}\nfor name,expected in a['raw']['interval']['header_sha256'].items():\n    assert sha(headers[name])==expected,name\nassert sha(a['snapshots']['header']['text'])==a['raw']['component']['header_sha256']\nfor record in a['raw'].values():\n    assert sha(a['snapshots']['quad_component']['text'])==record['quad_sha256']\nassert sha(a['snapshots']['benchmark']['text'])==a['raw']['component']['bench_sha256']\nassert sha(a['snapshots']['unbiased_benchmark']['text'])==a['raw']['interval']['bench_sha256']\nif args.output:\n    for name,component in components.items():\n        folder=pathlib.Path(args.output)/'component'/name\n        (folder/'data_structure').mkdir(parents=True,exist_ok=True)\n        (folder/'components').mkdir(exist_ok=True)\n        (folder/'data_structure/wavelet_matrix.hpp').write_text(a['snapshots']['header']['text'])\n        (folder/'components/oct_bit_vector.hpp').write_text(component)\n        (folder/'components/quad_bit_vector.hpp').write_text(a['snapshots']['quad_component']['text'])\n        (folder/'bench.cpp').write_text(a['snapshots']['benchmark']['text'])\n        (folder/'check.cpp').write_text(a['snapshots']['component_check']['text'])\n    for name,header in headers.items():\n        folder=pathlib.Path(args.output)/'interval'/name\n        (folder/'data_structure').mkdir(parents=True,exist_ok=True)\n        (folder/'components').mkdir(exist_ok=True)\n        (folder/'data_structure/wavelet_matrix.hpp').write_text(header)\n        (folder/'components/oct_bit_vector.hpp').write_text(a['snapshots']['oct_component']['text'])\n        (folder/'components/quad_bit_vector.hpp').write_text(a['snapshots']['quad_component']['text'])\n        (folder/'bench.cpp').write_text(a['snapshots']['unbiased_benchmark']['text'])\nprint('Verified 3 component variants, 3 header variants and benchmark/source bindings.')\n'''\n\narchive={'schema':1,'created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),\n         'decision':'All candidates rejected; production and production components were never edited by this experiment.',\n         'scope':'Small-alphabet Oct rank and one-level count exploration before the final sum-focused/hash integration.',\n         'conditions':{'cpu':'Intel Core i7-13700F','platform':'WSL Linux x86_64','affinity':2,\n                       'serialization':'fcntl.flock /tmp/cp-wm-opt.lock','compiler':raw['component']['compiler'],\n                       'flags':raw['component']['flags'],'warmups':1,'trials':3,'order_seed':20261019,\n                       'input_seeds':[713+37*i for i in range(4)],'input_type':'int32',\n                       'component_q':200000,'interval_q':500000,\n                       'modes':{'6':'2 values','1':'256 values','9':'512 values','0':'uniform [0,1e9)'},\n                       'timed':'Queries only; input generation, construction and I/O excluded.',\n                       'bounds':'Component benchmark uses the main benchmark min(x,y) convention; interval benchmark uses uniform x and swaps only for between queries.'},\n         'candidates':{'small_exact':'An extra bool fits existing padding (sizeof OctBitVector remains 32). When all digits are below 4, cumulative lanes 0..3 are kept and unused lanes 4..7 become exact digit counts/masks. AVX route/select uses active-mask 15 or 255. Scalar/AVX2 builds set and reset the flag.',\n                       'binary_rank':'An extra bool fits padding. For at most two digits, rank uses below(r,1) for digit0 and its complement for digit1. Cumulative lanes and route/select remain unchanged.',\n                       'interval_one':'Only WaveletMatrix interval_scalar/interval_avx2 change. Single-level matrices take a direct rank path; two distinct values use below(l/r,1) and its complement. The component is unchanged.'},\n         'findings':['small_exact improves one sigma256 count case (3.620 to 3.198 ms) but regresses sigma256 kth (4.887 to 5.473 ms), sigma512 kth, and broad-range freq (n500k: 32.828 to 36.775 ms). It does not consistently improve sigma2 count.',\n                     'binary_rank does not improve sigma2 count consistently and adds regressions to other distributions.',\n                     'interval_one changes sigma2 count q500k from 4.163 to 4.166 ms at n200k, and 4.640 to 4.562 ms at n500k. Old quad is 3.919 and 4.102 ms in the same runs. This is insufficient evidence to adopt more code.',\n                     'A likely limitation is rank working-set size: Oct stores 64 bytes per 32 input elements, while old Quad stores 32 bytes per 64. At sigma2 both have one level, so the Oct rank working set is four times larger. This is an inference, not a measured cache-miss count. Exact spare lanes do not reduce this footprint.'],\n         'validation':{'components':'All 3 variants pass direct scalar/AVX2 rank/below/ranks/route/select checks; n=0,1,31,32,33,63,64,65,127; sigma1..8; shifts0,3,30; rebuilding and sizeof32 checks. Every measured variant matches per-trial checksums.',\n                       'interval':'Full existing test/unit/wavelet_matrix.cpp passes GCC15 for interval_one. Every measured current/candidate/old_quad checksum matches.',\n                       'additional_tests':'No sanitizer runs were added for these rejected candidates.'},\n         'raw':raw,'scripts':scripts,'snapshots':snapshots,\n         'logs':{'component':(cache/'wm_small_rank_probe.log').read_text(),'interval':(cache/'wm_small_rank_interval.log').read_text()},\n         'reproduce_sources':{'script':reproduce,'usage':'Extract to reproduce.py and run python3 reproduce.py explorations_small_rank.json [--output DIRECTORY]; no git, network, or compilation is required for source-hash verification.'}}\ndestination.write_text(json.dumps(archive,ensure_ascii=False,indent=2)+'\\n')\nscript=cache/'wm_small_rank_reproduce.py'\nscript.write_text(reproduce)\nsubprocess.run(['python3',str(script),str(destination)],check=True)\nprint(destination,destination.stat().st_size,hashlib.sha256(destination.read_bytes()).hexdigest())\n"
+    }
+  },
+  "snapshots": {
+    "header": {
+      "name": "source.hpp",
+      "sha256": "28d609fa704b38d9f028ae9f81f28de462452568cb77c27cf7b795bb642e71b4",
+      "text": "#ifndef WAVELET_MATRIX_HPP\n#define WAVELET_MATRIX_HPP\n\n#include <algorithm>\n#include <array>\n#include <bit>\n#include <cassert>\n#include <cstddef>\n#include <cstdint>\n#include <limits>\n#include <optional>\n#include <type_traits>\n#include <utility>\n#include <vector>\n#include \"../components/oct_bit_vector.hpp\"\n#include \"../components/quad_bit_vector.hpp\"\n\ntemplate <class T = std::int64_t, class Sum = std::conditional_t<std::is_integral_v<T>, std::conditional_t<(sizeof(T) < 8), std::int64_t, __int128_t>, T>>\nclass WaveletMatrix {\n\tusing BitVector = OctBitVector;\n\tint n = 0, levels = 0, ordered = 0;\n\tstd::vector<T> values;\n\tstd::vector<std::uint32_t> original;\n\tstd::vector<int> positions, offsets;\n\tbool dense = false;\n\tstd::vector<BitVector> bits;\n\tstd::vector<std::array<int, 8>> middle;\n\tbool vectorized = BitVector::has_avx2();\n\tmutable int sum_levels = 0;\n\tmutable std::vector<QuadBitVector> sum_bits;\n\tmutable std::vector<std::array<int, 4>> sum_middle;\n\tstatic constexpr bool can_narrow = std::is_integral_v<T> && sizeof(T) <= 8 && std::is_same_v<Sum, __int128_t>;\n\tusing CompactSum = std::conditional_t<can_narrow, std::int64_t, Sum>;\n\tmutable std::vector<std::vector<Sum>> sum_prefix;\n\tmutable std::vector<std::vector<CompactSum>> compact_prefix;\n\tmutable bool sum_ready = false, narrow_sums = false;\n\tstatic constexpr bool supports_sum = requires(const T &x, Sum s) { Sum(x); s + s; s - s; s * 1; };\n\tstd::array<std::uint32_t, 8> small_codes(int l, int r) const {\n\t\tstd::array<std::uint32_t, 8> a;\n\t\ta.fill(std::numeric_limits<std::uint32_t>::max());\n\t\tfor (int i = 0; i < r - l; ++i) a[i] = original[l + i];\n\t\tauto swap = [&](int i, int j) {\n\t\t\tauto lo = std::min(a[i], a[j]), hi = std::max(a[i], a[j]);\n\t\t\ta[i] = lo;\n\t\t\ta[j] = hi;\n\t\t};\n\t\tswap(0, 1), swap(2, 3);\n\t\tif (r - l <= 4) {\n\t\t\tswap(0, 2), swap(1, 3), swap(1, 2);\n\t\t} else {\n\t\t\tswap(4, 5), swap(6, 7);\n\t\t\tswap(0, 2), swap(1, 3), swap(4, 6), swap(5, 7);\n\t\t\tswap(1, 2), swap(5, 6), swap(0, 4), swap(3, 7);\n\t\t\tswap(1, 5), swap(2, 6);\n\t\t\tswap(1, 4), swap(3, 6);\n\t\t\tswap(2, 4), swap(3, 5);\n\t\t\tswap(3, 4);\n\t\t}\n\t\treturn a;\n\t}\n\tvoid check([[maybe_unused]] int l, [[maybe_unused]] int r) const { assert(0 <= l && l <= r && r <= n); }\n\tstd::uint32_t code(const T &x) const {\n\t\tif (values.empty()) return 0;\n\t\tif constexpr (std::is_integral_v<T> && sizeof(T) <= 8)\n\t\t\tif (dense) {\n\t\t\t\tif (x <= values.front()) return 0;\n\t\t\t\tif (values.back() < x) return static_cast<int>(values.size());\n\t\t\t\treturn std::uint64_t(x) - std::uint64_t(values.front());\n\t\t\t}\n\t\tint p = 0, length = static_cast<int>(values.size());\n\t\twhile (length > 1) {\n\t\t\tint half = length / 2;\n\t\t\tp += (values[p + half] < x) * half;\n\t\t\tlength -= half;\n\t\t}\n\t\treturn p + (values[p] < x);\n\t}\n\tstd::pair<int, int> interval_scalar(int l, int r, std::uint32_t x) const {\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tint digit = (x >> (3 * (levels - 1 - d))) & 7;\n\t\t\tl = middle[d][digit] + bits[d].rank(l, digit);\n\t\t\tr = middle[d][digit] + bits[d].rank(r, digit);\n\t\t}\n\t\treturn {l, r};\n\t}\n#if defined(__x86_64__) || defined(__i386__)\n\t__attribute__((target(\"avx2,popcnt\"))) std::pair<int, int> interval_avx2(int l, int r, std::uint32_t x) const {\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tint digit = (x >> (3 * (levels - 1 - d))) & 7;\n\t\t\tl = middle[d][digit] + bits[d].rank(l, digit);\n\t\t\tr = middle[d][digit] + bits[d].rank(r, digit);\n\t\t}\n\t\treturn {l, r};\n\t}\n#endif\n\tstd::pair<int, int> interval(int l, int r, std::uint32_t x) const {\n#if defined(__x86_64__) || defined(__i386__)\n\t\tif (vectorized) return interval_avx2(l, r, x);\n#endif\n\t\treturn interval_scalar(l, r, x);\n\t}\n\tint less_than_scalar(int l, int r, std::uint32_t x) const {\n\t\tif (!x || l == r) return 0;\n\t\tif (x >= values.size()) return r - l;\n\t\tif (ordered) return std::clamp(ordered > 0 ? offsets[x] - l : r - n + offsets[x], 0, r - l);\n\t\tint answer = 0;\n\t\tif (r - l <= 8) {\n\t\t\tfor (int i = l; i < r; ++i) answer += original[i] < x;\n\t\t\treturn answer;\n\t\t}\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tint digit = (x >> (3 * (levels - 1 - d))) & 7;\n\t\t\tint a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);\n\t\t\tif (digit == 7) answer += r - l - b + a;\n\t\t\telse answer += bits[d].below(r, digit) - bits[d].below(l, digit);\n\t\t\tl = middle[d][digit] + a;\n\t\t\tr = middle[d][digit] + b;\n\t\t}\n\t\treturn answer;\n\t}\n#if defined(__x86_64__) || defined(__i386__)\n\t__attribute__((target(\"avx2,popcnt\"))) int less_than_avx2(int l, int r, std::uint32_t x) const {\n\t\tif (!x || l == r) return 0;\n\t\tif (x >= values.size()) return r - l;\n\t\tif (ordered) return std::clamp(ordered > 0 ? offsets[x] - l : r - n + offsets[x], 0, r - l);\n\t\tint answer = 0;\n\t\tif (r - l <= 8) {\n\t\t\tfor (int i = l; i < r; ++i) answer += original[i] < x;\n\t\t\treturn answer;\n\t\t}\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tint digit = (x >> (3 * (levels - 1 - d))) & 7;\n\t\t\tint a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);\n\t\t\tif (digit == 7) answer += r - l - b + a;\n\t\t\telse answer += bits[d].below(r, digit) - bits[d].below(l, digit);\n\t\t\tl = middle[d][digit] + a;\n\t\t\tr = middle[d][digit] + b;\n\t\t}\n\t\treturn answer;\n\t}\n#endif\n\tint less_than(int l, int r, std::uint32_t x) const {\n#if defined(__x86_64__) || defined(__i386__)\n\t\tif (vectorized) return less_than_avx2(l, r, x);\n#endif\n\t\treturn less_than_scalar(l, r, x);\n\t}\n\ttemplate <bool Previous>\n\tstd::optional<T> neighbor_scalar(int l, int r, std::uint32_t x) const {\n\t\tif (r - l <= 8) {\n\t\t\tstd::uint32_t best = Previous ? 0 : static_cast<std::uint32_t>(values.size());\n\t\t\tfor (int i = l; i < r; ++i) {\n\t\t\t\tstd::uint32_t c = original[i];\n\t\t\t\tif constexpr (Previous) {\n\t\t\t\t\tif (c <= x) best = std::max(best, c + 1);\n\t\t\t\t} else if (c >= x) best = std::min(best, c);\n\t\t\t}\n\t\t\tif constexpr (Previous) return best ? std::optional<T>(values[best - 1]) : std::nullopt;\n\t\t\telse return best < values.size() ? std::optional<T>(values[best]) : std::nullopt;\n\t\t}\n\t\tstd::array<std::pair<int, int>, 11> path;\n\t\tint d = 0;\n\t\tfor (; d < levels; ++d) {\n\t\t\tpath[d] = {l, r};\n\t\t\tint digit = (x >> (3 * (levels - 1 - d))) & 7;\n\t\t\tint a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);\n\t\t\tif (a == b) break;\n\t\t\tl = middle[d][digit] + a;\n\t\t\tr = middle[d][digit] + b;\n\t\t}\n\t\tif (d == levels) return values[x];\n\t\tfor (; d >= 0; --d) {\n\t\t\tl = path[d].first;\n\t\t\tr = path[d].second;\n\t\t\tint shift = 3 * (levels - 1 - d), digit = (x >> shift) & 7;\n\t\t\tfor (digit += Previous ? -1 : 1; 0 <= digit && digit < 8; digit += Previous ? -1 : 1) {\n\t\t\t\tint a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);\n\t\t\t\tif (a == b) continue;\n\t\t\t\tx = ((x >> shift) & ~std::uint32_t(7)) | digit;\n\t\t\t\tl = middle[d][digit] + a;\n\t\t\t\tr = middle[d][digit] + b;\n\t\t\t\tfor (++d; d < levels; ++d) {\n\t\t\t\t\tauto step = route_scalar(l, r, Previous ? r - l - 1 : 0, d);\n\t\t\t\t\tx = (x << 3) | step.digit;\n\t\t\t\t\tl = middle[d][step.digit] + step.a;\n\t\t\t\t\tr = middle[d][step.digit] + step.b;\n\t\t\t\t}\n\t\t\t\treturn values[x];\n\t\t\t}\n\t\t}\n\t\treturn std::nullopt;\n\t}\n#if defined(__x86_64__) || defined(__i386__)\n\ttemplate <bool Previous>\n\t__attribute__((target(\"avx2,popcnt\"))) std::optional<T> neighbor_avx2(int l, int r, std::uint32_t x) const {\n\t\tif (r - l <= 8) {\n\t\t\tstd::uint32_t best = Previous ? 0 : static_cast<std::uint32_t>(values.size());\n\t\t\tfor (int i = l; i < r; ++i) {\n\t\t\t\tstd::uint32_t c = original[i];\n\t\t\t\tif constexpr (Previous) {\n\t\t\t\t\tif (c <= x) best = std::max(best, c + 1);\n\t\t\t\t} else if (c >= x) best = std::min(best, c);\n\t\t\t}\n\t\t\tif constexpr (Previous) return best ? std::optional<T>(values[best - 1]) : std::nullopt;\n\t\t\telse return best < values.size() ? std::optional<T>(values[best]) : std::nullopt;\n\t\t}\n\t\tstd::array<std::pair<int, int>, 11> path;\n\t\tint d = 0;\n\t\tfor (; d < levels; ++d) {\n\t\t\tpath[d] = {l, r};\n\t\t\tint digit = (x >> (3 * (levels - 1 - d))) & 7;\n\t\t\tint a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);\n\t\t\tif (a == b) break;\n\t\t\tl = middle[d][digit] + a;\n\t\t\tr = middle[d][digit] + b;\n\t\t}\n\t\tif (d == levels) return values[x];\n\t\tfor (; d >= 0; --d) {\n\t\t\tl = path[d].first;\n\t\t\tr = path[d].second;\n\t\t\tint shift = 3 * (levels - 1 - d), digit = (x >> shift) & 7;\n\t\t\tfor (digit += Previous ? -1 : 1; 0 <= digit && digit < 8; digit += Previous ? -1 : 1) {\n\t\t\t\tint a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);\n\t\t\t\tif (a == b) continue;\n\t\t\t\tx = ((x >> shift) & ~std::uint32_t(7)) | digit;\n\t\t\t\tl = middle[d][digit] + a;\n\t\t\t\tr = middle[d][digit] + b;\n\t\t\t\tfor (++d; d < levels; ++d) {\n\t\t\t\t\tauto step = route_avx2(l, r, Previous ? r - l - 1 : 0, d);\n\t\t\t\t\tx = (x << 3) | step.digit;\n\t\t\t\t\tl = middle[d][step.digit] + step.a;\n\t\t\t\t\tr = middle[d][step.digit] + step.b;\n\t\t\t\t}\n\t\t\t\treturn values[x];\n\t\t\t}\n\t\t}\n\t\treturn std::nullopt;\n\t}\n#endif\n\ttemplate <bool Previous>\n\tstd::optional<T> neighbor(int l, int r, std::uint32_t x) const {\n#if defined(__x86_64__) || defined(__i386__)\n\t\tif (vectorized) return neighbor_avx2<Previous>(l, r, x);\n#endif\n\t\treturn neighbor_scalar<Previous>(l, r, x);\n\t}\n\tstd::vector<std::uint32_t> compress(const std::vector<T> &a) {\n\t\tstd::vector<std::uint32_t> current(n);\n\t\tbool ascending = std::is_sorted(a.begin(), a.end());\n\t\tif (ascending || std::is_sorted(a.rbegin(), a.rend())) {\n\t\t\tordered = ascending ? 1 : -1;\n\t\t\tvalues.clear();\n\t\t\tvalues.reserve(n);\n\t\t\tfor (int i = 0; i < n; ++i) {\n\t\t\t\tint j = ascending ? i : n - 1 - i;\n\t\t\t\tif (values.empty() || values.back() != a[j]) values.push_back(a[j]);\n\t\t\t\tcurrent[j] = static_cast<int>(values.size()) - 1;\n\t\t\t}\n\t\t\tif (values.capacity() > 2 * values.size()) values.shrink_to_fit();\n\t\t\treturn current;\n\t\t}\n\t\tif constexpr (std::is_integral_v<T> && !std::is_same_v<T, bool> && sizeof(T) <= 8) {\n\t\t\tif (n >= 1024) {\n\t\t\t\tusing U = std::make_unsigned_t<T>;\n\t\t\t\tstruct [[gnu::packed]] Item {\n\t\t\t\t\tU key;\n\t\t\t\t\tstd::uint32_t index;\n\t\t\t\t};\n\t\t\t\tstd::vector<Item> order(n);\n\t\t\t\tU lo = std::numeric_limits<U>::max(), hi = 0;\n\t\t\t\tconstexpr U sign = std::is_signed_v<T> ? U(1) << (sizeof(T) * 8 - 1) : U(0);\n\t\t\t\tfor (int i = 0; i < n; ++i) {\n\t\t\t\t\tU key = U(a[i]) ^ sign;\n\t\t\t\t\torder[i] = {key, std::uint32_t(i)};\n\t\t\t\t\tlo = std::min(lo, key);\n\t\t\t\t\thi = std::max(hi, key);\n\t\t\t\t}\n\t\t\t\tif (hi - lo < 65536 && std::uint64_t(hi - lo) < unsigned(n)) {\n\t\t\t\t\tstd::vector<int> codes(std::size_t(hi - lo) + 1, -1);\n\t\t\t\t\tfor (const auto &v : order) codes[v.key - lo] = 0;\n\t\t\t\t\tvalues.clear();\n\t\t\t\t\tvalues.reserve(codes.size());\n\t\t\t\t\tfor (std::size_t i = 0; i < codes.size(); ++i)\n\t\t\t\t\t\tif (codes[i] == 0) {\n\t\t\t\t\t\t\tcodes[i] = static_cast<int>(values.size());\n\t\t\t\t\t\t\tvalues.push_back(T(U(lo + U(i)) ^ sign));\n\t\t\t\t\t\t}\n\t\t\t\t\tfor (const auto &v : order) current[v.index] = codes[v.key - lo];\n\t\t\t\t\tif (values.capacity() > 2 * values.size()) values.shrink_to_fit();\n\t\t\t\t\treturn current;\n\t\t\t\t}\n\t\t\t\tstd::vector<Item> next(n);\n\t\t\t\tint width = std::bit_width(U(lo ^ hi)), span_width = std::bit_width(U(hi - lo));\n\t\t\t\tif ((width + 10) / 11 > (span_width + 10) / 11) {\n\t\t\t\t\tfor (auto &v : order) v.key -= lo;\n\t\t\t\t\twidth = span_width;\n\t\t\t\t}\n\t\t\t\tfor (int shift = 0; shift < width; shift += 11) {\n\t\t\t\t\tstd::array<int, 2048> offsets{};\n\t\t\t\t\tfor (const auto &v : order) ++offsets[(v.key >> shift) & 2047];\n\t\t\t\t\tint total = 0;\n\t\t\t\t\tfor (int &c : offsets) {\n\t\t\t\t\t\tint t = c;\n\t\t\t\t\t\tc = total;\n\t\t\t\t\t\ttotal += t;\n\t\t\t\t\t}\n\t\t\t\t\tfor (const auto &v : order) next[offsets[(v.key >> shift) & 2047]++] = v;\n\t\t\t\t\torder.swap(next);\n\t\t\t\t}\n\t\t\t\tvalues.clear();\n\t\t\t\tvalues.reserve(n);\n\t\t\t\tU previous = 0;\n\t\t\t\tpositions.resize(n);\n\t\t\t\toffsets.clear();\n\t\t\t\toffsets.reserve(std::size_t(n) + 1);\n\t\t\t\tfor (int j = 0; j < n; ++j) {\n\t\t\t\t\tconst auto &v = order[j];\n\t\t\t\t\tif (values.empty() || v.key != previous) {\n\t\t\t\t\t\tvalues.push_back(a[v.index]);\n\t\t\t\t\t\toffsets.push_back(j);\n\t\t\t\t\t}\n\t\t\t\t\tprevious = v.key;\n\t\t\t\t\tcurrent[v.index] = static_cast<int>(values.size()) - 1;\n\t\t\t\t\tpositions[j] = v.index;\n\t\t\t\t}\n\t\t\t\toffsets.push_back(n);\n\t\t\t\tif (values.capacity() > 2 * values.size()) values.shrink_to_fit();\n\t\t\t\treturn current;\n\t\t\t}\n\t\t}\n\t\tvalues = a;\n\t\tstd::sort(values.begin(), values.end());\n\t\tvalues.erase(std::unique(values.begin(), values.end()), values.end());\n\t\tif (values.capacity() > 2 * values.size()) values.shrink_to_fit();\n\t\tfor (int i = 0; i < n; ++i) current[i] = code(a[i]);\n\t\treturn current;\n\t}\n\tvoid partition(std::vector<std::uint32_t> &current, std::vector<std::uint32_t> &next, int d) const {\n\t\tauto offset = middle[d];\n\t\tint shift = 3 * (levels - 1 - d);\n\t\tfor (int i = 0; i < n; ++i) next[offset[(current[i] >> shift) & 7]++] = current[i];\n\t\tcurrent.swap(next);\n\t}\n\ttemplate <class S>\n\tvoid prefix_sum(std::vector<S> &prefix, const std::vector<std::uint32_t> &current, int l, int r) const\n\t\trequires supports_sum\n\t{\n\t\tprefix.resize(std::size_t(r - l) + 1);\n\t\tfor (int i = 0; i < r - l; ++i) prefix[i + 1] = prefix[i] + S(values[current[l + i]]);\n\t}\n\tvoid partition_for_sum(std::vector<std::uint32_t> &current, std::vector<std::uint32_t> &next, int d) const {\n\t\tauto offset = sum_middle[d];\n\t\tint shift = 2 * (sum_levels - 1 - d);\n\t\tfor (int i = 0; i < n; ++i) next[offset[(current[i] >> shift) & 3]++] = current[i];\n\t\tcurrent.swap(next);\n\t}\n\ttemplate <class S>\n\tvoid partition_sum(std::vector<std::vector<S>> &prefix, std::vector<std::uint32_t> &current, std::vector<std::uint32_t> &next, int d) const\n\t\trequires supports_sum\n\t{\n\t\tint zero = 0, one = sum_middle[d][2], shift = 2 * (sum_levels - 1 - d);\n\t\tfor (std::uint32_t x : current) {\n\t\t\tbool high = (x >> (shift + 1)) & 1;\n\t\t\tint p = high ? one : zero;\n\t\t\tone += high;\n\t\t\tzero += !high;\n\t\t\tnext[p] = x;\n\t\t}\n\t\tint base = 3 * d + 1;\n\t\tprefix_sum(prefix[base], next, 0, sum_middle[d][2]);\n\t\tcurrent.swap(next);\n\t\tpartition_for_sum(current, next, d);\n\t\tprefix_sum(prefix[base + 1], current, 0, sum_middle[d][1]);\n\t\tprefix_sum(prefix[base + 2], current, sum_middle[d][2], sum_middle[d][3]);\n\t}\n\tstruct SumRoute {\n\t\tint digit, a, b, k, high_l, high_r, zero_l, zero_r;\n\t};\n\t[[gnu::always_inline]] SumRoute sum_route(int l, int r, int k, int d) const {\n\t\tconst auto &left = sum_bits[d].blocks[l >> 6], &right = sum_bits[d].blocks[r >> 6];\n\t\tstd::uint64_t lm = (std::uint64_t(1) << (l & 63)) - 1, rm = (std::uint64_t(1) << (r & 63)) - 1;\n\t\tstd::uint64_t lh = left.high & lm, rh = right.high & rm;\n\t\tint ha = left.prefix[2] + left.prefix[3] + std::popcount(lh);\n\t\tint hb = right.prefix[2] + right.prefix[3] + std::popcount(rh);\n\t\tint high_l = l - ha, high_r = r - hb;\n\t\tbool high = k >= high_r - high_l;\n\t\tk -= high ? high_r - high_l : 0;\n\t\tint a = left.prefix[2 * high] + std::popcount(~left.low & (high ? lh : lm ^ lh));\n\t\tint b = right.prefix[2 * high] + std::popcount(~right.low & (high ? rh : rm ^ rh));\n\t\tbool low = k >= b - a;\n\t\tk -= low ? b - a : 0;\n\t\treturn {2 * high + low, low ? (high ? ha : high_l) - a : a,\n\t\t\t\tlow ? (high ? hb : high_r) - b : b, k, high_l, high_r, a, b};\n\t}\n\tusing Route = typename BitVector::Route;\n\t[[gnu::always_inline]] Route route_scalar(int l, int r, int k, int d) const {\n\t\treturn bits[d].route_scalar(l, r, k);\n\t}\n#if defined(__x86_64__) || defined(__i386__)\n\t__attribute__((target(\"avx2,popcnt\"), always_inline)) Route route_avx2(int l, int r, int k, int d) const {\n\t\treturn bits[d].route_avx2(l, r, k);\n\t}\n#endif\n\tvoid init_sum() const\n\t\trequires supports_sum\n\t{\n\t\tsum_levels = (std::bit_width(unsigned(static_cast<int>(values.size()) - 1)) + 1) / 2;\n\t\tif constexpr (can_narrow) {\n\t\t\tSum positive = 0, negative = 0;\n\t\t\tfor (int i = 0; i < static_cast<int>(values.size()); ++i) {\n\t\t\t\tSum v = Sum(values[i]) * (offsets[i + 1] - offsets[i]);\n\t\t\t\tif (v > 0) positive += v;\n\t\t\t\telse negative += v;\n\t\t\t}\n\t\t\tnarrow_sums = positive <= std::numeric_limits<std::int64_t>::max() && negative >= std::numeric_limits<std::int64_t>::min();\n\t\t}\n\t\tif (narrow_sums) {\n\t\t\tcompact_prefix.resize(ordered ? 1 : 3 * sum_levels + 1);\n\t\t\tprefix_sum(compact_prefix[0], original, 0, n);\n\t\t} else {\n\t\t\tsum_prefix.resize(ordered ? 1 : 3 * sum_levels + 1);\n\t\t\tprefix_sum(sum_prefix[0], original, 0, n);\n\t\t}\n\t}\n\tvoid construct(const std::vector<T> &a, bool with_sum) {\n\t\tassert(a.size() <= std::size_t(std::numeric_limits<int>::max()));\n\t\tsum_bits.clear();\n\t\tsum_middle.clear();\n\t\tsum_levels = 0;\n\t\tsum_prefix.clear();\n\t\tcompact_prefix.clear();\n\t\tsum_ready = narrow_sums = false;\n\t\tn = static_cast<int>(a.size());\n\t\tdense = false;\n\t\tordered = 0;\n\t\tif (!n || std::all_of(a.begin() + 1, a.end(), [&](const T &x) { return x == a.front(); })) {\n\t\t\tvalues.clear();\n\t\t\tif (n) values.push_back(a.front());\n\t\t\tif (values.capacity() > 2 * values.size()) values.shrink_to_fit();\n\t\t\toriginal.clear();\n\t\t\tpositions.clear();\n\t\t\toffsets = {0, n};\n\t\t\tlevels = 0;\n\t\t\tbits.clear();\n\t\t\tmiddle.clear();\n\t\t\tsum_ready = with_sum;\n\t\t\treturn;\n\t\t}\n\t\toffsets.clear();\n\t\toriginal = compress(a);\n\t\tbool indexed = !offsets.empty();\n\t\tif constexpr (std::is_integral_v<T> && sizeof(T) <= 8)\n\t\t\tdense = std::uint64_t(values.back()) - std::uint64_t(values.front()) == values.size() - 1;\n\t\tif (!indexed) offsets.assign(values.size() + 1, 0);\n\t\tlevels = (std::bit_width(unsigned(static_cast<int>(values.size()) - 1)) + 2) / 3;\n\t\tif (!indexed) {\n\t\t\tfor (std::uint32_t x : original) ++offsets[x + 1];\n\t\t\tfor (int i = 0; i < static_cast<int>(values.size()); ++i) offsets[i + 1] += offsets[i];\n\t\t}\n\t\tif (ordered) {\n\t\t\tpositions.clear();\n\t\t\tbits.clear();\n\t\t\tmiddle.clear();\n\t\t\tif constexpr (supports_sum)\n\t\t\t\tif (with_sum) init_sum();\n\t\t\tsum_ready = with_sum;\n\t\t\treturn;\n\t\t}\n\t\tif (!indexed) {\n\t\t\tpositions.resize(n);\n\t\t\tauto cursor = offsets;\n\t\t\tfor (int i = 0; i < n; ++i) positions[cursor[original[i]]++] = i;\n\t\t}\n\t\tauto current = original;\n\t\tbits.clear();\n\t\tbits.reserve(levels);\n\t\tmiddle.resize(levels);\n\t\tstd::vector<std::uint32_t> next(n);\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tbits.emplace_back(n);\n\t\t\tbits.back().build(current, 3 * (levels - 1 - d));\n\t\t\tauto totals = bits.back().ranks(n);\n\t\t\tmiddle[d][0] = 0;\n\t\t\tfor (int i = 1; i < 8; ++i) middle[d][i] = middle[d][i - 1] + totals[i - 1];\n\t\t\tif (d + 1 < levels) partition(current, next, d);\n\t\t}\n\t\tif constexpr (supports_sum)\n\t\t\tif (with_sum) prepare_sum();\n\t}\n\ttemplate <class S>\n\tS sum_smallest_impl_scalar(const std::vector<std::vector<S>> &prefix, int l, int r, int k) const\n\t\trequires supports_sum\n\t{\n\t\tS answer = 0;\n\t\tstd::uint32_t x = 0;\n\t\tfor (int d = 0; d < sum_levels; ++d) {\n\t\t\tauto step = sum_route(l, r, k, d);\n\t\t\tint base = 3 * d + 1;\n\t\t\tif (step.digit & 2) answer += prefix[base][step.high_r] - prefix[base][step.high_l];\n\t\t\tif (step.digit & 1) {\n\t\t\t\tconst auto &row = prefix[base + 1 + (step.digit >> 1)];\n\t\t\t\tanswer += row[step.zero_r] - row[step.zero_l];\n\t\t\t}\n\t\t\tk = step.k;\n\t\t\tif (!k) return answer;\n\t\t\tx = (x << 2) | step.digit;\n\t\t\tl = sum_middle[d][step.digit] + step.a;\n\t\t\tr = sum_middle[d][step.digit] + step.b;\n\t\t}\n\t\treturn answer + S(values[x]) * k;\n\t}\n#if defined(__x86_64__) || defined(__i386__)\n\ttemplate <class S>\n\t__attribute__((target(\"avx2,popcnt\"))) S sum_smallest_impl_avx2(const std::vector<std::vector<S>> &prefix, int l, int r, int k) const\n\t\trequires supports_sum\n\t{\n\t\tS answer = 0;\n\t\tstd::uint32_t x = 0;\n\t\tfor (int d = 0; d < sum_levels; ++d) {\n\t\t\tauto step = sum_route(l, r, k, d);\n\t\t\tint base = 3 * d + 1;\n\t\t\tif (step.digit & 2) answer += prefix[base][step.high_r] - prefix[base][step.high_l];\n\t\t\tif (step.digit & 1) {\n\t\t\t\tconst auto &row = prefix[base + 1 + (step.digit >> 1)];\n\t\t\t\tanswer += row[step.zero_r] - row[step.zero_l];\n\t\t\t}\n\t\t\tk = step.k;\n\t\t\tif (!k) return answer;\n\t\t\tx = (x << 2) | step.digit;\n\t\t\tl = sum_middle[d][step.digit] + step.a;\n\t\t\tr = sum_middle[d][step.digit] + step.b;\n\t\t}\n\t\treturn answer + S(values[x]) * k;\n\t}\n#endif\n\ttemplate <class S>\n\tS sum_smallest_impl(const std::vector<std::vector<S>> &prefix, int l, int r, int k) const\n\t\trequires supports_sum\n\t{\n#if defined(__x86_64__) || defined(__i386__)\n\t\tif (vectorized) return sum_smallest_impl_avx2(prefix, l, r, k);\n#endif\n\t\treturn sum_smallest_impl_scalar(prefix, l, r, k);\n\t}\n\n\tT kth_scalar(int l, int r, int k) const {\n\t\tstd::uint32_t x = 0;\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tauto step = route_scalar(l, r, k, d);\n\t\t\tx = (x << 3) | step.digit;\n\t\t\tk = step.k;\n\t\t\tl = middle[d][step.digit] + step.a;\n\t\t\tr = middle[d][step.digit] + step.b;\n\t\t}\n\t\treturn values[x];\n\t}\n#if defined(__x86_64__) || defined(__i386__)\n\t__attribute__((target(\"avx2,popcnt\"))) T kth_avx2(int l, int r, int k) const {\n\t\tstd::uint32_t x = 0;\n\t\tfor (int d = 0; d + 1 < levels; ++d) {\n\t\t\tauto step = route_avx2(l, r, k, d);\n\t\t\tx = (x << 3) | step.digit;\n\t\t\tk = step.k;\n\t\t\tl = middle[d][step.digit] + step.a;\n\t\t\tr = middle[d][step.digit] + step.b;\n\t\t}\n\t\treturn values[(x << 3) | bits.back().select_avx2(l, r, k)];\n\t}\n#endif\n\n  public:\n\tusing sum_type = Sum;\n\tWaveletMatrix() = default;\n\texplicit WaveletMatrix(const std::vector<T> &a) { build(a); }\n\tWaveletMatrix(const std::vector<T> &a, bool with_sum)\n\t\trequires supports_sum\n\t{ construct(a, with_sum); }\n\tvoid build(const std::vector<T> &a) { construct(a, false); }\n\tint size() const { return n; }\n\tbool empty() const { return n == 0; }\n\tT access(int i) const {\n\t\tassert(0 <= i && i < n);\n\t\treturn values[levels ? original[i] : 0];\n\t}\n\tT operator[](int i) const { return access(i); }\n\tint count(int l, int r, const T &x) const {\n\t\tcheck(l, r);\n\t\tif (l == r) return 0;\n\t\tstd::uint32_t c = code(x);\n\t\tif (c == values.size() || values[c] != x) return 0;\n\t\tif (!levels) return r - l;\n\t\tint start = offsets[c], end = offsets[c + 1];\n\t\tif (ordered) {\n\t\t\tint first = ordered > 0 ? start : n - end;\n\t\t\treturn std::max(0, std::min(r, first + (end - start)) - std::max(l, first));\n\t\t}\n\t\tif (l == 0 && r == n) return end - start;\n\t\tif (end - start == 1) return int(l <= positions[start]) & int(positions[start] < r);\n\t\tif (end - start <= 16) {\n\t\t\tint answer = 0;\n\t\t\tfor (int i = start; i < end; ++i) answer += unsigned(positions[i] - l) < unsigned(r - l);\n\t\t\treturn answer;\n\t\t}\n\t\tif (r - l <= 8) {\n\t\t\tint answer = 0;\n\t\t\tfor (int i = l; i < r; ++i) answer += original[i] == c;\n\t\t\treturn answer;\n\t\t}\n\t\tif (values.size() >= 1024 && std::size_t(end - start) <= values.size()) {\n\t\t\tint a = 0, b = 0, length = end - start;\n\t\t\twhile (length > 1) {\n\t\t\t\tint half = length / 2;\n\t\t\t\ta += (positions[start + a + half] < l) * half;\n\t\t\t\tb += (positions[start + b + half] < r) * half;\n\t\t\t\tlength -= half;\n\t\t\t}\n\t\t\treturn b - a + (positions[start + b] < r) - (positions[start + a] < l);\n\t\t}\n\t\tauto [a, b] = interval(l, r, c);\n\t\treturn b - a;\n\t}\n\tint rank(const T &x, int r) const { return count(0, r, x); }\n\tint select(const T &x, int k) const {\n\t\tstd::uint32_t c = code(x);\n\t\tif (k < 0 || c == values.size() || values[c] != x || k >= offsets[c + 1] - offsets[c]) return -1;\n\t\tif (ordered) return (ordered > 0 ? offsets[c] : n - offsets[c + 1]) + k;\n\t\treturn levels ? positions[offsets[c] + k] : k;\n\t}\n\tT kth_smallest(int l, int r, int k) const {\n\t\tcheck(l, r);\n\t\tassert(0 <= k && k < r - l);\n\t\tif (!levels) return values[0];\n\t\tif (ordered) return values[original[ordered > 0 ? l + k : r - 1 - k]];\n\t\tif (r - l <= 8) return values[small_codes(l, r)[k]];\n#if defined(__x86_64__) || defined(__i386__)\n\t\tif (vectorized) return kth_avx2(l, r, k);\n#endif\n\t\treturn kth_scalar(l, r, k);\n\t}\n\tT kth_largest(int l, int r, int k) const {\n\t\tcheck(l, r);\n\t\tassert(0 <= k && k < r - l);\n\t\treturn kth_smallest(l, r, r - l - 1 - k);\n\t}\n\tint range_freq(int l, int r, const T &upper) const {\n\t\tcheck(l, r);\n\t\treturn less_than(l, r, code(upper));\n\t}\n\tint range_freq(int l, int r, const T &lower, const T &upper) const {\n\t\tcheck(l, r);\n\t\tif (!(lower < upper)) return 0;\n\t\treturn less_than(l, r, code(upper)) - less_than(l, r, code(lower));\n\t}\n\tvoid prepare_sum() const\n\t\trequires supports_sum\n\t{\n\t\tif (sum_ready) return;\n\t\tif (!levels) {\n\t\t\tsum_ready = true;\n\t\t\treturn;\n\t\t}\n\t\tinit_sum();\n\t\tif (ordered) {\n\t\t\tsum_ready = true;\n\t\t\treturn;\n\t\t}\n\t\tstd::vector<std::uint32_t> current = original, next(n);\n\t\tsum_bits.reserve(sum_levels);\n\t\tsum_middle.resize(sum_levels);\n\t\tfor (int d = 0; d < sum_levels; ++d) {\n\t\t\tsum_bits.emplace_back(n);\n\t\t\tsum_bits.back().build(current, 2 * (sum_levels - 1 - d));\n\t\t\tauto totals = sum_bits.back().ranks(n);\n\t\t\tsum_middle[d] = {0, totals[0], totals[0] + totals[1], totals[0] + totals[1] + totals[2]};\n\t\t\tif (narrow_sums) partition_sum(compact_prefix, current, next, d);\n\t\t\telse partition_sum(sum_prefix, current, next, d);\n\t\t}\n\t\tsum_ready = true;\n\t}\n\tSum range_sum(int l, int r) const\n\t\trequires supports_sum\n\t{\n\t\tcheck(l, r);\n\t\tif (l == r) return Sum(0);\n\t\tif (!levels) return Sum(values[0]) * (r - l);\n\t\tif (!sum_ready && r - l <= 8) {\n\t\t\tSum answer = 0;\n\t\t\tfor (int i = l; i < r; ++i) answer += Sum(values[original[i]]);\n\t\t\treturn answer;\n\t\t}\n\t\tprepare_sum();\n\t\tif (narrow_sums) return compact_prefix[0][r] - compact_prefix[0][l];\n\t\treturn sum_prefix[0][r] - sum_prefix[0][l];\n\t}\n\tSum sum_smallest(int l, int r, int k) const\n\t\trequires supports_sum\n\t{\n\t\tcheck(l, r);\n\t\tassert(0 <= k && k <= r - l);\n\t\tif (!k) return Sum(0);\n\t\tif (k == r - l) return range_sum(l, r);\n\t\tif (!levels) return Sum(values[0]) * k;\n\t\tif (ordered) return ordered > 0 ? range_sum(l, l + k) : range_sum(r - k, r);\n\t\tif (k == 1) return Sum(kth_smallest(l, r, 0));\n\t\tif (r - l <= 8) {\n\t\t\tauto a = small_codes(l, r);\n\t\t\tSum answer = 0;\n\t\t\tfor (int i = 0; i < k; ++i) answer += Sum(values[a[i]]);\n\t\t\treturn answer;\n\t\t}\n\t\tprepare_sum();\n\t\tif (narrow_sums) return sum_smallest_impl(compact_prefix, l, r, k);\n\t\treturn sum_smallest_impl(sum_prefix, l, r, k);\n\t}\n\tSum sum_largest(int l, int r, int k) const\n\t\trequires supports_sum\n\t{\n\t\tcheck(l, r);\n\t\tassert(0 <= k && k <= r - l);\n\t\tif (!k) return Sum(0);\n\t\tif (!levels) return Sum(values[0]) * k;\n\t\tif (ordered) return ordered > 0 ? range_sum(r - k, r) : range_sum(l, l + k);\n\t\tif (k == 1) return Sum(kth_largest(l, r, 0));\n\t\tif (k == r - l) return range_sum(l, r);\n\t\tif (r - l <= 8) {\n\t\t\tauto a = small_codes(l, r);\n\t\t\tSum answer = 0;\n\t\t\tfor (int i = r - l - k; i < r - l; ++i) answer += Sum(values[a[i]]);\n\t\t\treturn answer;\n\t\t}\n\t\treturn range_sum(l, r) - sum_smallest(l, r, r - l - k);\n\t}\n\tstd::optional<T> prev_value(int l, int r, const T &upper) const {\n\t\tcheck(l, r);\n\t\tif (!levels) return l < r && values[0] < upper ? std::optional<T>(values[0]) : std::nullopt;\n\t\tif (!ordered) {\n\t\t\tauto x = code(upper);\n\t\t\tif (!x) return std::nullopt;\n\t\t\treturn neighbor<true>(l, r, x - 1);\n\t\t}\n\t\tint k = range_freq(l, r, upper);\n\t\tif (!k) return std::nullopt;\n\t\treturn kth_smallest(l, r, k - 1);\n\t}\n\tstd::optional<T> next_value(int l, int r, const T &lower) const {\n\t\tcheck(l, r);\n\t\tif (!levels) return l < r && !(values[0] < lower) ? std::optional<T>(values[0]) : std::nullopt;\n\t\tif (!ordered) {\n\t\t\tauto x = code(lower);\n\t\t\tif (x == values.size()) return std::nullopt;\n\t\t\treturn neighbor<false>(l, r, x);\n\t\t}\n\t\tint k = range_freq(l, r, lower);\n\t\tif (k == r - l) return std::nullopt;\n\t\treturn kth_smallest(l, r, k);\n\t}\n};\n\ntemplate <class T>\nWaveletMatrix(const std::vector<T> &, bool) -> WaveletMatrix<T>;\n\n#endif\n"
+    },
+    "oct_component": {
+      "name": "component.hpp",
+      "sha256": "c2d9656bd12c0a60e05c905b6484c284df1dfbff82bf48cf9d0d56a32c467435",
+      "text": "#ifndef OCT_BIT_VECTOR_HPP\n#define OCT_BIT_VECTOR_HPP\n\n#include <algorithm>\n#include <array>\n#include <bit>\n#include <cassert>\n#include <cstddef>\n#include <cstdint>\n#include <vector>\n#if defined(__x86_64__) || defined(__i386__)\n#include <immintrin.h>\n#endif\n\nstruct OctBitVector {\n\tstruct alignas(64) Block {\n\t\tstd::array<std::uint32_t, 8> masks{}, prefix{};\n\t};\n\tstruct Route {\n\t\tint digit, a, b, k;\n\t};\n\tint n;\n\tstd::vector<Block> blocks;\n\tstatic std::uint32_t mask(int r) { return (std::uint32_t(1) << (r & 31)) - 1; }\n\tstatic bool has_avx2() {\n#if defined(__x86_64__) || defined(__i386__)\n\t\treturn __builtin_cpu_supports(\"avx2\") && __builtin_cpu_supports(\"popcnt\");\n#else\n\t\treturn false;\n#endif\n\t}\n\tstatic std::array<std::uint32_t, 8> cumulative(std::uint32_t low, std::uint32_t mid, std::uint32_t high, std::uint32_t valid) {\n\t\treturn {~(high | mid | low) & valid, ~(high | mid) & valid, ~high & ~(mid & low) & valid,\n\t\t\t\t~high & valid, (~high | ~(mid | low)) & valid, ~(high & mid) & valid, ~(high & mid & low) & valid, valid};\n\t}\n\texplicit OctBitVector(int n = 0) : n(n), blocks((n >> 5) + 1) {}\n\tvoid build_scalar(const std::vector<std::uint32_t> &a, int shift) {\n\t\tstd::array<std::uint32_t, 8> total{};\n\t\tfor (int w = 0; w < static_cast<int>(blocks.size()); ++w) {\n\t\t\tstd::uint32_t low = 0, mid = 0, high = 0;\n\t\t\tint start = 32 * w, length = std::min(32, n - start);\n\t\t\tfor (int j = 0; j < length; ++j) {\n\t\t\t\tauto x = a[start + j] >> shift;\n\t\t\t\tlow |= (x & 1) << j;\n\t\t\t\tmid |= ((x >> 1) & 1) << j;\n\t\t\t\thigh |= ((x >> 2) & 1) << j;\n\t\t\t}\n\t\t\tauto &b = blocks[w];\n\t\t\tb.masks = cumulative(low, mid, high, length == 32 ? ~std::uint32_t(0) : mask(length));\n\t\t\tb.prefix = total;\n\t\t\tfor (int i = 0; i < 8; ++i) total[i] += std::popcount(b.masks[i]);\n\t\t}\n\t}\n#if defined(__x86_64__) || defined(__i386__)\n\t__attribute__((target(\"avx2,popcnt\"), always_inline)) static __m256i popcounts(__m256i x) {\n\t\tconst auto table = _mm256_setr_epi8(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);\n\t\tconst auto nibble = _mm256_set1_epi8(15);\n\t\tauto low = _mm256_shuffle_epi8(table, _mm256_and_si256(x, nibble));\n\t\tauto high = _mm256_shuffle_epi8(table, _mm256_and_si256(_mm256_srli_epi16(x, 4), nibble));\n\t\tauto pairs = _mm256_maddubs_epi16(_mm256_add_epi8(low, high), _mm256_set1_epi8(1));\n\t\treturn _mm256_madd_epi16(pairs, _mm256_set1_epi16(1));\n\t}\n\t__attribute__((target(\"avx2,popcnt\"), always_inline)) static __m256i prefix_counts(const Block &b, int r) {\n\t\tauto masked = _mm256_and_si256(_mm256_load_si256(reinterpret_cast<const __m256i *>(b.masks.data())), _mm256_set1_epi32(mask(r)));\n\t\treturn _mm256_add_epi32(popcounts(masked), _mm256_load_si256(reinterpret_cast<const __m256i *>(b.prefix.data())));\n\t}\n\t__attribute__((target(\"avx2,popcnt\"))) void build_avx2(const std::vector<std::uint32_t> &a, int shift) {\n\t\tstd::array<std::uint32_t, 8> total{};\n\t\tauto low_shift = _mm_cvtsi32_si128(31 - shift), mid_shift = _mm_cvtsi32_si128(30 - shift), high_shift = _mm_cvtsi32_si128(29 - shift);\n\t\tfor (int w = 0; w < static_cast<int>(blocks.size()); ++w) {\n\t\t\tstd::uint32_t low = 0, mid = 0, high = 0;\n\t\t\tint start = 32 * w, length = std::min(32, n - start), j = 0;\n\t\t\tfor (; j + 8 <= length; j += 8) {\n\t\t\t\tauto x = _mm256_loadu_si256(reinterpret_cast<const __m256i *>(a.data() + start + j));\n\t\t\t\tlow |= std::uint32_t(_mm256_movemask_ps(_mm256_castsi256_ps(_mm256_sll_epi32(x, low_shift)))) << j;\n\t\t\t\tmid |= std::uint32_t(_mm256_movemask_ps(_mm256_castsi256_ps(_mm256_sll_epi32(x, mid_shift)))) << j;\n\t\t\t\thigh |= std::uint32_t(_mm256_movemask_ps(_mm256_castsi256_ps(_mm256_sll_epi32(x, high_shift)))) << j;\n\t\t\t}\n\t\t\tfor (; j < length; ++j) {\n\t\t\t\tauto x = a[start + j] >> shift;\n\t\t\t\tlow |= (x & 1) << j;\n\t\t\t\tmid |= ((x >> 1) & 1) << j;\n\t\t\t\thigh |= ((x >> 2) & 1) << j;\n\t\t\t}\n\t\t\tauto &b = blocks[w];\n\t\t\tb.masks = cumulative(low, mid, high, length == 32 ? ~std::uint32_t(0) : mask(length));\n\t\t\tb.prefix = total;\n\t\t\tauto counts = popcounts(_mm256_load_si256(reinterpret_cast<const __m256i *>(b.masks.data())));\n\t\t\tauto updated = _mm256_add_epi32(counts, _mm256_loadu_si256(reinterpret_cast<const __m256i *>(total.data())));\n\t\t\t_mm256_storeu_si256(reinterpret_cast<__m256i *>(total.data()), updated);\n\t\t}\n\t}\n\t__attribute__((target(\"avx2,popcnt\"), always_inline)) Route route_avx2(int l, int r, int k) const {\n\t\tauto left = prefix_counts(blocks[l >> 5], l), right = prefix_counts(blocks[r >> 5], r);\n\t\tauto passed = _mm256_cmpgt_epi32(_mm256_set1_epi32(k + 1), _mm256_sub_epi32(right, left));\n\t\tint digit = std::popcount(unsigned(_mm256_movemask_ps(_mm256_castsi256_ps(passed))));\n\t\tstd::array<int, 9> a{}, b{};\n\t\t_mm256_storeu_si256(reinterpret_cast<__m256i *>(a.data() + 1), left);\n\t\t_mm256_storeu_si256(reinterpret_cast<__m256i *>(b.data() + 1), right);\n\t\treturn {digit, a[digit + 1] - a[digit], b[digit + 1] - b[digit], k - b[digit] + a[digit]};\n\t}\n\t__attribute__((target(\"avx2,popcnt\"), always_inline)) int select_avx2(int l, int r, int k) const {\n\t\t__m256i counts;\n\t\tif ((l >> 5) == (r >> 5)) {\n\t\t\tauto m = _mm256_set1_epi32(mask(l) ^ mask(r));\n\t\t\tcounts = popcounts(_mm256_and_si256(_mm256_load_si256(reinterpret_cast<const __m256i *>(blocks[l >> 5].masks.data())), m));\n\t\t} else counts = _mm256_sub_epi32(prefix_counts(blocks[r >> 5], r), prefix_counts(blocks[l >> 5], l));\n\t\tauto passed = _mm256_cmpgt_epi32(_mm256_set1_epi32(k + 1), counts);\n\t\treturn std::popcount(unsigned(_mm256_movemask_ps(_mm256_castsi256_ps(passed))));\n\t}\n#endif\n\tvoid build(const std::vector<std::uint32_t> &a, int shift) {\n\t\tassert(a.size() == std::size_t(n) && 0 <= shift && shift <= 30);\n#if defined(__x86_64__) || defined(__i386__)\n\t\tif (has_avx2()) { build_avx2(a, shift); return; }\n#endif\n\t\tbuild_scalar(a, shift);\n\t}\n\tint below(int r, int digit) const {\n\t\tif (!digit) return 0;\n\t\tconst auto &b = blocks[r >> 5];\n\t\treturn b.prefix[digit - 1] + std::popcount(b.masks[digit - 1] & mask(r));\n\t}\n\tint rank(int r, int digit) const {\n\t\tconst auto &b = blocks[r >> 5];\n\t\treturn b.prefix[digit] - (digit ? b.prefix[digit - 1] : 0) + std::popcount((b.masks[digit] ^ (digit ? b.masks[digit - 1] : 0)) & mask(r));\n\t}\n\tstd::array<int, 8> ranks(int r) const {\n\t\tstd::array<int, 8> counts;\n\t\tint previous = 0;\n\t\tfor (int i = 0; i < 8; ++i) {\n\t\t\tint current = below(r, i + 1);\n\t\t\tcounts[i] = current - previous;\n\t\t\tprevious = current;\n\t\t}\n\t\treturn counts;\n\t}\n\tRoute route_scalar(int l, int r, int k) const {\n\t\tint low = 0, high = 8, before_l = 0, before_r = 0, after_l = l, after_r = r;\n\t\twhile (high - low > 1) {\n\t\t\tint mid = (low + high) / 2, a = below(l, mid), b = below(r, mid);\n\t\t\tif (b - a <= k) low = mid, before_l = a, before_r = b;\n\t\t\telse high = mid, after_l = a, after_r = b;\n\t\t}\n\t\treturn {low, after_l - before_l, after_r - before_r, k - before_r + before_l};\n\t}\n};\n\n#endif\n"
+    },
+    "quad_component": {
+      "name": "quad.hpp",
+      "sha256": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+      "text": "#ifndef QUAD_BIT_VECTOR_HPP\n#define QUAD_BIT_VECTOR_HPP\n\n#include <algorithm>\n#include <array>\n#include <bit>\n#include <cassert>\n#include <cstddef>\n#include <cstdint>\n#include <vector>\n#if defined(__x86_64__) || defined(__i386__)\n#include <immintrin.h>\n#endif\n\nstruct QuadBitVector {\n\tstruct Block {\n\t\tstd::uint64_t low = 0, high = 0;\n\t\tstd::array<int, 4> prefix{};\n\t};\n\tint n;\n\tstd::vector<Block> blocks;\n\n#if defined(__x86_64__) || defined(__i386__)\n\t__attribute__((target(\"avx2\"))) static void pack_avx2(const std::uint32_t *a, int n, int shift, Block *blocks) {\n\t\tauto low_shift = _mm_cvtsi32_si128(31 - shift), high_shift = _mm_cvtsi32_si128(30 - shift);\n\t\tfor (int w = 0; w < (n >> 6) + bool(n & 63); ++w) {\n\t\t\tint start = w * 64;\n\t\t\tstd::uint64_t low = 0, high = 0;\n\t\t\tint length = std::min(64, n - start), j = 0;\n\t\t\tfor (; j + 8 <= length; j += 8) {\n\t\t\t\tauto x = _mm256_loadu_si256(reinterpret_cast<const __m256i *>(a + start + j));\n\t\t\t\tlow |= std::uint64_t(_mm256_movemask_ps(_mm256_castsi256_ps(_mm256_sll_epi32(x, low_shift)))) << j;\n\t\t\t\thigh |= std::uint64_t(_mm256_movemask_ps(_mm256_castsi256_ps(_mm256_sll_epi32(x, high_shift)))) << j;\n\t\t\t}\n\t\t\tfor (; j < length; ++j) {\n\t\t\t\tlow |= std::uint64_t((a[start + j] >> shift) & 1) << j;\n\t\t\t\thigh |= std::uint64_t((a[start + j] >> (shift + 1)) & 1) << j;\n\t\t\t}\n\t\t\tblocks[w].low = low;\n\t\t\tblocks[w].high = high;\n\t\t}\n\t\tblocks[n >> 6].low = n & 63 ? blocks[n >> 6].low : 0;\n\t\tblocks[n >> 6].high = n & 63 ? blocks[n >> 6].high : 0;\n\t}\n#endif\n\texplicit QuadBitVector(int n = 0) : n(n), blocks((n >> 6) + 1) {}\n\tvoid build(const std::vector<std::uint32_t> &a, int shift) {\n\t\tassert(a.size() == std::size_t(n) && 0 <= shift && shift <= 30);\n\t\t[[maybe_unused]] bool vectorized = false;\n#if defined(__x86_64__) || defined(__i386__)\n\t\tvectorized = n >= 64 && __builtin_cpu_supports(\"avx2\");\n\t\tif (vectorized) pack_avx2(a.data(), n, shift, blocks.data());\n#endif\n\t\tstd::array<int, 4> counts{};\n\t\tfor (int w = 0; w < static_cast<int>(blocks.size()); ++w) {\n\t\t\tstd::uint64_t low = 0, high = 0;\n\t\t\tint start = w * 64, length = std::min(64, n - start);\n\t\t\tif (vectorized) low = blocks[w].low, high = blocks[w].high;\n\t\t\telse\n\t\t\t\tfor (int j = 0; j < length; ++j) {\n\t\t\t\t\tlow |= std::uint64_t((a[start + j] >> shift) & 1) << j;\n\t\t\t\t\thigh |= std::uint64_t((a[start + j] >> (shift + 1)) & 1) << j;\n\t\t\t\t}\n\t\t\tblocks[w] = {low, high, counts};\n\t\t\tint c1 = std::popcount(low & ~high), c2 = std::popcount(~low & high), c3 = std::popcount(low & high);\n\t\t\tcounts[0] += length - c1 - c2 - c3;\n\t\t\tcounts[1] += c1;\n\t\t\tcounts[2] += c2;\n\t\t\tcounts[3] += c3;\n\t\t}\n\t}\n\tstd::uint64_t mask(const Block &b, int digit) const {\n\t\treturn ((digit & 1) ? b.low : ~b.low) & ((digit & 2) ? b.high : ~b.high);\n\t}\n\n\tint rank(int r, int digit) const {\n\t\tconst auto &b = blocks[r >> 6];\n\t\treturn b.prefix[digit] + std::popcount(mask(b, digit) & ((std::uint64_t(1) << (r & 63)) - 1));\n\t}\n\tint below(int r, int digit) const {\n\t\tif (!digit) return 0;\n\t\tif (digit == 1) return rank(r, 0);\n\t\tif (digit == 3) return r - rank(r, 3);\n\t\tconst auto &b = blocks[r >> 6];\n\t\treturn b.prefix[0] + b.prefix[1] + std::popcount(~b.high & ((std::uint64_t(1) << (r & 63)) - 1));\n\t}\n\tstd::array<int, 4> ranks(int r) const {\n\t\tconst auto &b = blocks[r >> 6];\n\t\tstd::uint64_t m = (std::uint64_t(1) << (r & 63)) - 1;\n\t\tstd::array<int, 4> a;\n\t\ta[1] = b.prefix[1] + std::popcount(b.low & ~b.high & m);\n\t\ta[2] = b.prefix[2] + std::popcount(~b.low & b.high & m);\n\t\ta[3] = b.prefix[3] + std::popcount(b.low & b.high & m);\n\t\ta[0] = r - a[1] - a[2] - a[3];\n\t\treturn a;\n\t}\n};\n\n#endif\n"
+    },
+    "benchmark": {
+      "name": "bench.cpp",
+      "sha256": "64db58fce9b45651e10c561b112d629f1cfa92d158a2def92f58815ae46d8ebb",
+      "text": "#ifndef WM_OPT_HEADER\n#define WM_OPT_HEADER \"data_structure/wavelet_matrix.hpp\"\n#endif\n#include WM_OPT_HEADER\n#include <chrono>\n#include <cstdlib>\n#include <cstdint>\n#include <iostream>\n#include <random>\n#include <string>\n\nstruct Query {\n\tint l, r, k;\n\tstd::int64_t x, y;\n};\n\ntemplate <class T>\nvoid run(int n, int q, int mode, int length, const std::string &op, unsigned seed) {\n\tstd::mt19937_64 random(seed);\n\tstd::vector<T> a(n);\n\tfor (auto &x : a) {\n\t\tif (mode == 1) x = T(random() % 256);\n\t\telse if (mode == 2) x = T(random());\n\t\telse if (mode == 5) x = T(7);\n\t\telse if (mode == 6) x = T(random() % 2);\n\t\telse if (mode == 7) x = T(random() % 4096);\n\t\telse if (mode == 8) x = T(2 * (random() % 1000000000));\n\t\telse if (mode >= 9) x = T(random() % (mode == 9 ? 512 : mode == 10 ? 1024 : mode == 11 ? 16384 : 65536));\n\t\telse x = T(random() % 1000000000);\n\t}\n\tif (mode == 3 || mode == 4) std::sort(a.begin(), a.end());\n\tif (mode == 4) std::reverse(a.begin(), a.end());\n\tstd::vector<Query> queries(q);\n\tfor (auto &z : queries) {\n\t\tz.l = random() % n;\n\t\tz.r = random() % n;\n\t\tif (z.l > z.r) std::swap(z.l, z.r);\n\t\t++z.r;\n\t\tif (length) z.r = std::min(n, z.l + 1 + int(random() % length));\n\t\tz.k = random() % (z.r - z.l);\n\t\tz.x = std::int64_t(a[random() % n]);\n\t\tz.y = std::int64_t(a[random() % n]);\n\t\tif (mode == 8 && (random() & 1)) ++z.x;\n\t\tif (z.x > z.y) std::swap(z.x, z.y);\n\t}\n\tstd::uint64_t checksum = 0;\n\tauto add = [&](auto value) {\n\t\t__uint128_t x = __uint128_t(value);\n\t\tchecksum = (checksum ^ std::uint64_t(x) ^ std::uint64_t(x >> 64)) * 0x9e3779b97f4a7c15;\n\t};\n\tstd::optional<WaveletMatrix<T>> wm;\n\tif (op != \"build\" && op != \"eager\") wm.emplace(a);\n\tif (op == \"small\" || op == \"large\" || op == \"sum\") wm->prepare_sum();\n\tauto start = std::chrono::steady_clock::now();\n\tif (op == \"build\" || op == \"eager\") {\n\t\tif (op == \"build\") wm.emplace(a);\n\t\telse wm.emplace(a, true);\n\t\tadd(wm->size());\n\t} else if (op == \"prepare\") wm->prepare_sum(), add(wm->range_sum(0, n));\n\telse if (op == \"kth\") for (auto z : queries) add(wm->kth_smallest(z.l, z.r, z.k));\n\telse if (op == \"freq\") for (auto z : queries) add(wm->range_freq(z.l, z.r, T(z.x)));\n\telse if (op == \"between\") for (auto z : queries) add(wm->range_freq(z.l, z.r, T(z.x), T(z.y)));\n\telse if (op == \"count\") for (auto z : queries) add(wm->count(z.l, z.r, T(z.x)));\n\telse if (op == \"prev\") for (auto z : queries) { auto x = wm->prev_value(z.l, z.r, T(z.x)); add(x ? __int128_t(*x) : -13); }\n\telse if (op == \"next\") for (auto z : queries) { auto x = wm->next_value(z.l, z.r, T(z.x)); add(x ? __int128_t(*x) : -17); }\n\telse if (op == \"small\") for (auto z : queries) add(wm->sum_smallest(z.l, z.r, z.k));\n\telse if (op == \"large\") for (auto z : queries) add(wm->sum_largest(z.l, z.r, z.k));\n\telse if (op == \"sum\") for (auto z : queries) add(wm->range_sum(z.l, z.r));\n\telse if (op == \"select\") for (auto z : queries) add(wm->select(T(z.x), 0));\n\telse if (op == \"access\") for (auto z : queries) add(wm->access(z.l));\n\telse std::exit(2);\n\tdouble ms = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - start).count();\n\tstd::cout.precision(12);\n\tstd::cout << \"{\\\"ms\\\":\" << ms << \",\\\"checksum\\\":\\\"\" << checksum << \"\\\"}\\n\";\n}\n\nint main(int argc, char **argv) {\n\tif (argc != 8) return 2;\n\tint n = std::atoi(argv[1]), q = std::atoi(argv[2]), mode = std::atoi(argv[3]), length = std::atoi(argv[4]);\n\tif (n <= 0 || q <= 0 || mode < 0 || mode > 12 || length < 0) return 2;\n\tunsigned seed = unsigned(std::stoul(argv[7]));\n\tif (std::string(argv[6]) == \"32\") run<std::int32_t>(n, q, mode, length, argv[5], seed);\n\telse run<std::int64_t>(n, q, mode, length, argv[5], seed);\n}\n"
+    },
+    "unbiased_benchmark": {
+      "name": "interval_current/bench.cpp",
+      "sha256": "91e24d2dffcb5b01b7486464ef2f1765e3979743f282346fc93bfe4ac31a3e6c",
+      "text": "#ifndef WM_OPT_HEADER\n#define WM_OPT_HEADER \"data_structure/wavelet_matrix.hpp\"\n#endif\n#include WM_OPT_HEADER\n#include <chrono>\n#include <cstdlib>\n#include <cstdint>\n#include <iostream>\n#include <random>\n#include <string>\n\nstruct Query {\n\tint l, r, k;\n\tstd::int64_t x, y;\n};\n\ntemplate <class T>\nvoid run(int n, int q, int mode, int length, const std::string &op, unsigned seed) {\n\tstd::mt19937_64 random(seed);\n\tstd::vector<T> a(n);\n\tfor (auto &x : a) {\n\t\tif (mode == 1) x = T(random() % 256);\n\t\telse if (mode == 2) x = T(random());\n\t\telse if (mode == 5) x = T(7);\n\t\telse if (mode == 6) x = T(random() % 2);\n\t\telse if (mode == 7) x = T(random() % 4096);\n\t\telse if (mode == 8) x = T(2 * (random() % 1000000000));\n\t\telse if (mode >= 9) x = T(random() % (mode == 9 ? 512 : mode == 10 ? 1024 : mode == 11 ? 16384 : 65536));\n\t\telse x = T(random() % 1000000000);\n\t}\n\tif (mode == 3 || mode == 4) std::sort(a.begin(), a.end());\n\tif (mode == 4) std::reverse(a.begin(), a.end());\n\tstd::vector<Query> queries(q);\n\tfor (auto &z : queries) {\n\t\tz.l = random() % n;\n\t\tz.r = random() % n;\n\t\tif (z.l > z.r) std::swap(z.l, z.r);\n\t\t++z.r;\n\t\tif (length) z.r = std::min(n, z.l + 1 + int(random() % length));\n\t\tz.k = random() % (z.r - z.l);\n\t\tz.x = std::int64_t(a[random() % n]);\n\t\tz.y = std::int64_t(a[random() % n]);\n\t\tif (mode == 8 && (random() & 1)) ++z.x;\n\t\tif (op == \"between\" && z.x > z.y) std::swap(z.x, z.y);\n\t}\n\tstd::uint64_t checksum = 0;\n\tauto add = [&](auto value) {\n\t\t__uint128_t x = __uint128_t(value);\n\t\tchecksum = (checksum ^ std::uint64_t(x) ^ std::uint64_t(x >> 64)) * 0x9e3779b97f4a7c15;\n\t};\n\tstd::optional<WaveletMatrix<T>> wm;\n\tif (op != \"build\" && op != \"eager\") wm.emplace(a);\n\tif (op == \"small\" || op == \"large\" || op == \"sum\") wm->prepare_sum();\n\tauto start = std::chrono::steady_clock::now();\n\tif (op == \"build\" || op == \"eager\") {\n\t\tif (op == \"build\") wm.emplace(a);\n\t\telse wm.emplace(a, true);\n\t\tadd(wm->size());\n\t} else if (op == \"prepare\") wm->prepare_sum(), add(wm->range_sum(0, n));\n\telse if (op == \"kth\") for (auto z : queries) add(wm->kth_smallest(z.l, z.r, z.k));\n\telse if (op == \"freq\") for (auto z : queries) add(wm->range_freq(z.l, z.r, T(z.x)));\n\telse if (op == \"between\") for (auto z : queries) add(wm->range_freq(z.l, z.r, T(z.x), T(z.y)));\n\telse if (op == \"count\") for (auto z : queries) add(wm->count(z.l, z.r, T(z.x)));\n\telse if (op == \"prev\") for (auto z : queries) { auto x = wm->prev_value(z.l, z.r, T(z.x)); add(x ? __int128_t(*x) : -13); }\n\telse if (op == \"next\") for (auto z : queries) { auto x = wm->next_value(z.l, z.r, T(z.x)); add(x ? __int128_t(*x) : -17); }\n\telse if (op == \"small\") for (auto z : queries) add(wm->sum_smallest(z.l, z.r, z.k));\n\telse if (op == \"large\") for (auto z : queries) add(wm->sum_largest(z.l, z.r, z.k));\n\telse if (op == \"sum\") for (auto z : queries) add(wm->range_sum(z.l, z.r));\n\telse if (op == \"select\") for (auto z : queries) add(wm->select(T(z.x), 0));\n\telse if (op == \"access\") for (auto z : queries) add(wm->access(z.l));\n\telse std::exit(2);\n\tdouble ms = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - start).count();\n\tstd::cout.precision(12);\n\tstd::cout << \"{\\\"ms\\\":\" << ms << \",\\\"checksum\\\":\\\"\" << checksum << \"\\\"}\\n\";\n}\n\nint main(int argc, char **argv) {\n\tif (argc != 8) return 2;\n\tint n = std::atoi(argv[1]), q = std::atoi(argv[2]), mode = std::atoi(argv[3]), length = std::atoi(argv[4]);\n\tif (n <= 0 || q <= 0 || mode < 0 || mode > 12 || length < 0) return 2;\n\tunsigned seed = unsigned(std::stoul(argv[7]));\n\tif (std::string(argv[6]) == \"32\") run<std::int32_t>(n, q, mode, length, argv[5], seed);\n\telse run<std::int64_t>(n, q, mode, length, argv[5], seed);\n}\n"
+    },
+    "component_check": {
+      "name": "current/check.cpp",
+      "sha256": "72a88fad9f10a10d0d1f9b0bc878a60fdbc603a3a12e7b758905df4c7f6998ac",
+      "text": "#include \"components/oct_bit_vector.hpp\"\n#include <iostream>\n#include <random>\nint main() {\n    if (sizeof(OctBitVector) != 32) return 11;\n    std::mt19937 random(713);\n    for (int n : {0,1,31,32,33,63,64,65,127}) for (int sigma=1; sigma<=8; ++sigma) for (int shift : {0,3,30}) {\n        std::vector<std::uint32_t> a(n);\n        for (auto &x:a) x = (random()%sigma) << shift;\n        OctBitVector b(n), c(n);\n        b.build_scalar(a,shift);\n        c.build(a,shift);\n        for (int r=0; r<=n; ++r) {\n            std::array<int,8> count{};\n            for (int i=0;i<r;++i) ++count[(a[i]>>shift)&7];\n            auto br = b.ranks(r), cr = c.ranks(r);\n            for (int digit=0;digit<8;++digit) {\n                int below = 0;\n                for (int i=0;i<digit;++i) below += count[i];\n                if (b.rank(r,digit)!=count[digit] || c.rank(r,digit)!=count[digit] || br[digit]!=count[digit] || cr[digit]!=count[digit]) return 12;\n                if (b.below(r,digit)!=below || c.below(r,digit)!=below) return 13;\n            }\n        }\n        if (!n) continue;\n        for (int trial=0;trial<30;++trial) {\n            int l=random()%n,r=random()%n;\n            if(l>r)std::swap(l,r);\n            ++r;\n            int k=random()%(r-l);\n            std::array<int,8> counts{};\n            for (int i=l;i<r;++i)++counts[(a[i]>>shift)&7];\n            int d=0,before=0;\n            while (before+counts[d]<=k) before += counts[d++];\n            auto x=b.route_scalar(l,r,k),y=c.route_scalar(l,r,k);\n            if(x.digit!=d || y.digit!=d || x.b-x.a!=counts[d] || y.b-y.a!=counts[d] || x.k!=k-before || y.k!=k-before) return 14;\n#if defined(__x86_64__) || defined(__i386__)\n            if (OctBitVector::has_avx2()) {\n                auto z=c.route_avx2(l,r,k);\n                if(z.digit!=d || z.b-z.a!=counts[d] || z.k!=k-before || c.select_avx2(l,r,k)!=d) return 15;\n            }\n#endif\n        }\n        std::fill(a.begin(),a.end(),0);\n        c.build(a,shift);\n        if(c.rank(n,0)!=n || c.rank(n,1)!=0) return 16;\n    }\n    std::cout << \"passed \" << sizeof(OctBitVector) << '\\n';\n}\n"
+    },
+    "old_quad_header": {
+      "name": "523956f:data_structure/wavelet_matrix.hpp",
+      "sha256": "17759549150c7c635e481be3857d92c4622a61c47add9824675a9ca49a7c4993",
+      "text": "#ifndef WAVELET_MATRIX_HPP\n#define WAVELET_MATRIX_HPP\n\n#include <algorithm>\n#include <array>\n#include <bit>\n#include <cassert>\n#include <cstddef>\n#include <cstdint>\n#include <limits>\n#include <optional>\n#include <type_traits>\n#include <utility>\n#include <vector>\n#include \"../components/quad_bit_vector.hpp\"\n\ntemplate <class T = std::int64_t, class Sum = std::conditional_t<std::is_integral_v<T>, std::conditional_t<(sizeof(T) < 8), std::int64_t, __int128_t>, T>>\nclass WaveletMatrix {\n\tusing BitVector = QuadBitVector;\n\tint n = 0, levels = 0, ordered = 0;\n\tstd::vector<T> values;\n\tstd::vector<std::uint32_t> original;\n\tstd::vector<int> positions, offsets;\n\tbool dense = false;\n\tstd::vector<BitVector> bits;\n\tstd::vector<std::array<int, 4>> middle;\n\tstatic constexpr bool can_narrow = std::is_integral_v<T> && sizeof(T) <= 8 && std::is_same_v<Sum, __int128_t>;\n\tusing CompactSum = std::conditional_t<can_narrow, std::int64_t, Sum>;\n\tmutable std::vector<std::vector<Sum>> sum_prefix;\n\tmutable std::vector<std::vector<CompactSum>> compact_prefix;\n\tmutable bool sum_ready = false, narrow_sums = false;\n\tstatic constexpr bool supports_sum = requires(const T &x, Sum s) { Sum(x); s + s; s - s; s * 1; };\n\tstd::array<std::uint32_t, 8> small_codes(int l, int r) const {\n\t\tstd::array<std::uint32_t, 8> a;\n\t\ta.fill(std::numeric_limits<std::uint32_t>::max());\n\t\tfor (int i = 0; i < r - l; ++i) a[i] = original[l + i];\n\t\tauto swap = [&](int i, int j) {\n\t\t\tauto lo = std::min(a[i], a[j]), hi = std::max(a[i], a[j]);\n\t\t\ta[i] = lo;\n\t\t\ta[j] = hi;\n\t\t};\n\t\tswap(0, 1), swap(2, 3);\n\t\tif (r - l <= 4) {\n\t\t\tswap(0, 2), swap(1, 3), swap(1, 2);\n\t\t} else {\n\t\t\tswap(4, 5), swap(6, 7);\n\t\t\tswap(0, 2), swap(1, 3), swap(4, 6), swap(5, 7);\n\t\t\tswap(1, 2), swap(5, 6), swap(0, 4), swap(3, 7);\n\t\t\tswap(1, 5), swap(2, 6);\n\t\t\tswap(1, 4), swap(3, 6);\n\t\t\tswap(2, 4), swap(3, 5);\n\t\t\tswap(3, 4);\n\t\t}\n\t\treturn a;\n\t}\n\tvoid check(int l, int r) const { assert(0 <= l && l <= r && r <= n); }\n\tstd::uint32_t code(const T &x) const {\n\t\tif (values.empty()) return 0;\n\t\tif constexpr (std::is_integral_v<T> && sizeof(T) <= 8)\n\t\t\tif (dense) {\n\t\t\t\tif (x <= values.front()) return 0;\n\t\t\t\tif (values.back() < x) return static_cast<int>(values.size());\n\t\t\t\treturn std::uint64_t(x) - std::uint64_t(values.front());\n\t\t\t}\n\t\tint p = 0, length = static_cast<int>(values.size());\n\t\twhile (length > 1) {\n\t\t\tint half = length / 2;\n\t\t\tp += (values[p + half] < x) * half;\n\t\t\tlength -= half;\n\t\t}\n\t\treturn p + (values[p] < x);\n\t}\n\tstd::pair<int, int> interval(int l, int r, std::uint32_t x) const {\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tint digit = (x >> (2 * (levels - 1 - d))) & 3;\n\t\t\tl = middle[d][digit] + bits[d].rank(l, digit);\n\t\t\tr = middle[d][digit] + bits[d].rank(r, digit);\n\t\t}\n\t\treturn {l, r};\n\t}\n\tint less_than(int l, int r, std::uint32_t x) const {\n\t\tif (!x || l == r) return 0;\n\t\tif (x >= values.size()) return r - l;\n\t\tif (ordered) return std::clamp(ordered > 0 ? offsets[x] - l : r - n + offsets[x], 0, r - l);\n\t\tint answer = 0;\n\t\tif (r - l <= 8) {\n\t\t\tfor (int i = l; i < r; ++i) answer += original[i] < x;\n\t\t\treturn answer;\n\t\t}\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tint digit = (x >> (2 * (levels - 1 - d))) & 3;\n\t\t\tint a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);\n\t\t\tif (digit == 3) answer += r - l - b + a;\n\t\t\telse answer += bits[d].below(r, digit) - bits[d].below(l, digit);\n\t\t\tl = middle[d][digit] + a;\n\t\t\tr = middle[d][digit] + b;\n\t\t}\n\t\treturn answer;\n\t}\n\ttemplate <bool Previous>\n\tstd::optional<T> neighbor(int l, int r, std::uint32_t x) const {\n\t\tif (r - l <= 8) {\n\t\t\tstd::uint32_t best = Previous ? 0 : static_cast<std::uint32_t>(values.size());\n\t\t\tfor (int i = l; i < r; ++i) {\n\t\t\t\tstd::uint32_t c = original[i];\n\t\t\t\tif constexpr (Previous) {\n\t\t\t\t\tif (c <= x) best = std::max(best, c + 1);\n\t\t\t\t} else if (c >= x) best = std::min(best, c);\n\t\t\t}\n\t\t\tif constexpr (Previous) return best ? std::optional<T>(values[best - 1]) : std::nullopt;\n\t\t\telse return best < values.size() ? std::optional<T>(values[best]) : std::nullopt;\n\t\t}\n\t\tstd::array<std::pair<int, int>, 16> path;\n\t\tint d = 0;\n\t\tfor (; d < levels; ++d) {\n\t\t\tpath[d] = {l, r};\n\t\t\tint digit = (x >> (2 * (levels - 1 - d))) & 3;\n\t\t\tint a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);\n\t\t\tif (a == b) break;\n\t\t\tl = middle[d][digit] + a;\n\t\t\tr = middle[d][digit] + b;\n\t\t}\n\t\tif (d == levels) return values[x];\n\t\tfor (; d >= 0; --d) {\n\t\t\tl = path[d].first;\n\t\t\tr = path[d].second;\n\t\t\tint shift = 2 * (levels - 1 - d), digit = (x >> shift) & 3;\n\t\t\tfor (digit += Previous ? -1 : 1; 0 <= digit && digit < 4; digit += Previous ? -1 : 1) {\n\t\t\t\tint a = bits[d].rank(l, digit), b = bits[d].rank(r, digit);\n\t\t\t\tif (a == b) continue;\n\t\t\t\tx = ((x >> shift) & ~std::uint32_t(3)) | digit;\n\t\t\t\tl = middle[d][digit] + a;\n\t\t\t\tr = middle[d][digit] + b;\n\t\t\t\tfor (++d; d < levels; ++d) {\n\t\t\t\t\tauto step = route(l, r, Previous ? r - l - 1 : 0, d);\n\t\t\t\t\tx = (x << 2) | step.digit;\n\t\t\t\t\tl = middle[d][step.digit] + step.a;\n\t\t\t\t\tr = middle[d][step.digit] + step.b;\n\t\t\t\t}\n\t\t\t\treturn values[x];\n\t\t\t}\n\t\t}\n\t\treturn std::nullopt;\n\t}\n\tstd::vector<std::uint32_t> compress(const std::vector<T> &a) {\n\t\tstd::vector<std::uint32_t> current(n);\n\t\tbool ascending = std::is_sorted(a.begin(), a.end());\n\t\tif (ascending || std::is_sorted(a.rbegin(), a.rend())) {\n\t\t\tordered = ascending ? 1 : -1;\n\t\t\tvalues.clear();\n\t\t\tvalues.reserve(n);\n\t\t\tfor (int i = 0; i < n; ++i) {\n\t\t\t\tint j = ascending ? i : n - 1 - i;\n\t\t\t\tif (values.empty() || values.back() != a[j]) values.push_back(a[j]);\n\t\t\t\tcurrent[j] = static_cast<int>(values.size()) - 1;\n\t\t\t}\n\t\t\tvalues.shrink_to_fit();\n\t\t\treturn current;\n\t\t}\n\t\tif constexpr (std::is_integral_v<T> && !std::is_same_v<T, bool> && sizeof(T) <= 8) {\n\t\t\tif (n >= 1024) {\n\t\t\t\tusing U = std::make_unsigned_t<T>;\n\t\t\t\tstruct Item {\n\t\t\t\t\tU key;\n\t\t\t\t\tstd::uint32_t index;\n\t\t\t\t};\n\t\t\t\tstd::vector<Item> order(n);\n\t\t\t\tU lo = std::numeric_limits<U>::max(), hi = 0;\n\t\t\t\tconstexpr U sign = std::is_signed_v<T> ? U(1) << (sizeof(T) * 8 - 1) : U(0);\n\t\t\t\tfor (int i = 0; i < n; ++i) {\n\t\t\t\t\tU key = U(a[i]) ^ sign;\n\t\t\t\t\torder[i] = {key, std::uint32_t(i)};\n\t\t\t\t\tlo = std::min(lo, key);\n\t\t\t\t\thi = std::max(hi, key);\n\t\t\t\t}\n\t\t\t\tif (hi - lo < 65536 && std::uint64_t(hi - lo) < unsigned(n)) {\n\t\t\t\t\tstd::vector<int> codes(std::size_t(hi - lo) + 1, -1);\n\t\t\t\t\tfor (const auto &v : order) codes[v.key - lo] = 0;\n\t\t\t\t\tvalues.clear();\n\t\t\t\t\tvalues.reserve(codes.size());\n\t\t\t\t\tfor (std::size_t i = 0; i < codes.size(); ++i)\n\t\t\t\t\t\tif (codes[i] == 0) {\n\t\t\t\t\t\t\tcodes[i] = static_cast<int>(values.size());\n\t\t\t\t\t\t\tvalues.push_back(T(U(lo + U(i)) ^ sign));\n\t\t\t\t\t\t}\n\t\t\t\t\tfor (const auto &v : order) current[v.index] = codes[v.key - lo];\n\t\t\t\t\tvalues.shrink_to_fit();\n\t\t\t\t\treturn current;\n\t\t\t\t}\n\t\t\t\tstd::vector<Item> next(n);\n\t\t\t\tfor (int shift = 0, width = std::bit_width(U(lo ^ hi)); shift < width; shift += 11) {\n\t\t\t\t\tstd::array<int, 2048> offsets{};\n\t\t\t\t\tfor (const auto &v : order) ++offsets[(v.key >> shift) & 2047];\n\t\t\t\t\tint total = 0;\n\t\t\t\t\tfor (int &c : offsets) {\n\t\t\t\t\t\tint t = c;\n\t\t\t\t\t\tc = total;\n\t\t\t\t\t\ttotal += t;\n\t\t\t\t\t}\n\t\t\t\t\tfor (const auto &v : order) next[offsets[(v.key >> shift) & 2047]++] = v;\n\t\t\t\t\torder.swap(next);\n\t\t\t\t}\n\t\t\t\tvalues.clear();\n\t\t\t\tvalues.reserve(n);\n\t\t\t\tU previous = 0;\n\t\t\t\tfor (const auto &v : order) {\n\t\t\t\t\tif (values.empty() || v.key != previous) values.push_back(a[v.index]);\n\t\t\t\t\tprevious = v.key;\n\t\t\t\t\tcurrent[v.index] = static_cast<int>(values.size()) - 1;\n\t\t\t\t}\n\t\t\t\tvalues.shrink_to_fit();\n\t\t\t\treturn current;\n\t\t\t}\n\t\t}\n\t\tvalues = a;\n\t\tstd::sort(values.begin(), values.end());\n\t\tvalues.erase(std::unique(values.begin(), values.end()), values.end());\n\t\tvalues.shrink_to_fit();\n\t\tfor (int i = 0; i < n; ++i) current[i] = code(a[i]);\n\t\treturn current;\n\t}\n\tvoid partition(std::vector<std::uint32_t> &current, std::vector<std::uint32_t> &next, int d) const {\n\t\tauto offset = middle[d];\n\t\tint shift = 2 * (levels - 1 - d);\n\t\tfor (int i = 0; i < n; ++i) next[offset[(current[i] >> shift) & 3]++] = current[i];\n\t\tcurrent.swap(next);\n\t}\n\ttemplate <class S>\n\tvoid prefix_sum(std::vector<S> &prefix, const std::vector<std::uint32_t> &current, int l, int r) const\n\t\trequires supports_sum\n\t{\n\t\tprefix.resize(std::size_t(r - l) + 1);\n\t\tfor (int i = 0; i < r - l; ++i) prefix[i + 1] = prefix[i] + S(values[current[l + i]]);\n\t}\n\ttemplate <class S>\n\tvoid partition_sum(std::vector<std::vector<S>> &prefix, std::vector<std::uint32_t> &current, std::vector<std::uint32_t> &next, int d) const\n\t\trequires supports_sum\n\t{\n\t\tint zero = 0, one = middle[d][2], shift = 2 * (levels - 1 - d);\n\t\tfor (std::uint32_t x : current) {\n\t\t\tbool high = (x >> (shift + 1)) & 1;\n\t\t\tint p = high ? one : zero;\n\t\t\tone += high;\n\t\t\tzero += !high;\n\t\t\tnext[p] = x;\n\t\t}\n\t\tint base = 3 * d + 1;\n\t\tprefix_sum(prefix[base], next, 0, middle[d][2]);\n\t\tcurrent.swap(next);\n\t\tpartition(current, next, d);\n\t\tprefix_sum(prefix[base + 1], current, 0, middle[d][1]);\n\t\tprefix_sum(prefix[base + 2], current, middle[d][2], middle[d][3]);\n\t}\n\tstruct Route {\n\t\tint digit, a, b, k, high_l, high_r, zero_l, zero_r;\n\t};\n\ttemplate <bool ForSum = false>\n\t[[gnu::always_inline]] Route route(int l, int r, int k, int d) const {\n\t\tconst auto &left = bits[d].blocks[l >> 6], &right = bits[d].blocks[r >> 6];\n\t\tstd::uint64_t lm = (std::uint64_t(1) << (l & 63)) - 1, rm = (std::uint64_t(1) << (r & 63)) - 1;\n\t\tif constexpr (ForSum) {\n\t\t\tstd::uint64_t lh = left.high & lm, rh = right.high & rm;\n\t\t\tint ha = left.prefix[2] + left.prefix[3] + std::popcount(lh);\n\t\t\tint hb = right.prefix[2] + right.prefix[3] + std::popcount(rh);\n\t\t\tint high_l = l - ha, high_r = r - hb;\n\t\t\tbool high = k >= high_r - high_l;\n\t\t\tk -= high ? high_r - high_l : 0;\n\t\t\tint a = left.prefix[2 * high] + std::popcount(~left.low & (high ? lh : lm ^ lh));\n\t\t\tint b = right.prefix[2 * high] + std::popcount(~right.low & (high ? rh : rm ^ rh));\n\t\t\tbool low = k >= b - a;\n\t\t\tk -= low ? b - a : 0;\n\t\t\treturn {2 * high + low, low ? (high ? ha : high_l) - a : a,\n\t\t\t\t\tlow ? (high ? hb : high_r) - b : b, k, high_l, high_r, a, b};\n\t\t} else {\n\t\t\tint la = left.prefix[0] + std::popcount(~(left.low | left.high) & lm);\n\t\t\tint ra = right.prefix[0] + std::popcount(~(right.low | right.high) & rm);\n\t\t\tint lb = left.prefix[0] + left.prefix[1] + std::popcount(~left.high & lm);\n\t\t\tint rb = right.prefix[0] + right.prefix[1] + std::popcount(~right.high & rm);\n\t\t\tint lc = l - left.prefix[3] - std::popcount(left.low & left.high & lm);\n\t\t\tint rc = r - right.prefix[3] - std::popcount(right.low & right.high & rm);\n\t\t\tint digit = (k >= ra - la) + (k >= rb - lb) + (k >= rc - lc);\n\t\t\tstd::array<int, 5> a{0, la, lb, lc, l}, b{0, ra, rb, rc, r};\n\t\t\tint base = digit & 2;\n\t\t\treturn {digit, a[digit + 1] - a[digit], b[digit + 1] - b[digit], k - b[digit] + a[digit], lb, rb, a[base + 1] - a[base], b[base + 1] - b[base]};\n\t\t}\n\t}\n\tvoid init_sum() const\n\t\trequires supports_sum\n\t{\n\t\tif constexpr (can_narrow) {\n\t\t\tSum positive = 0, negative = 0;\n\t\t\tfor (int i = 0; i < static_cast<int>(values.size()); ++i) {\n\t\t\t\tSum v = Sum(values[i]) * (offsets[i + 1] - offsets[i]);\n\t\t\t\tif (v > 0) positive += v;\n\t\t\t\telse negative += v;\n\t\t\t}\n\t\t\tnarrow_sums = positive <= std::numeric_limits<std::int64_t>::max() && negative >= std::numeric_limits<std::int64_t>::min();\n\t\t}\n\t\tif (narrow_sums) {\n\t\t\tcompact_prefix.resize(ordered ? 1 : 3 * levels + 1);\n\t\t\tprefix_sum(compact_prefix[0], original, 0, n);\n\t\t} else {\n\t\t\tsum_prefix.resize(ordered ? 1 : 3 * levels + 1);\n\t\t\tprefix_sum(sum_prefix[0], original, 0, n);\n\t\t}\n\t}\n\tvoid construct(const std::vector<T> &a, bool with_sum) {\n\t\tassert(a.size() <= std::size_t(std::numeric_limits<int>::max()));\n\t\tsum_prefix.clear();\n\t\tcompact_prefix.clear();\n\t\tsum_ready = narrow_sums = false;\n\t\tn = static_cast<int>(a.size());\n\t\tdense = false;\n\t\tordered = 0;\n\t\tif (!n || std::all_of(a.begin() + 1, a.end(), [&](const T &x) { return x == a.front(); })) {\n\t\t\tvalues.clear();\n\t\t\tif (n) values.push_back(a.front());\n\t\t\tvalues.shrink_to_fit();\n\t\t\toriginal.clear();\n\t\t\tpositions.clear();\n\t\t\toffsets = {0, n};\n\t\t\tlevels = 0;\n\t\t\tbits.clear();\n\t\t\tmiddle.clear();\n\t\t\tsum_ready = with_sum;\n\t\t\treturn;\n\t\t}\n\t\toriginal = compress(a);\n\t\tif constexpr (std::is_integral_v<T> && sizeof(T) <= 8)\n\t\t\tdense = std::uint64_t(values.back()) - std::uint64_t(values.front()) == values.size() - 1;\n\t\toffsets.assign(values.size() + 1, 0);\n\t\tlevels = (std::bit_width(unsigned(static_cast<int>(values.size()) - 1)) + 1) / 2;\n\t\tfor (std::uint32_t x : original) ++offsets[x + 1];\n\t\tfor (int i = 0; i < static_cast<int>(values.size()); ++i) offsets[i + 1] += offsets[i];\n\t\tif (ordered) {\n\t\t\tpositions.clear();\n\t\t\tbits.clear();\n\t\t\tmiddle.clear();\n\t\t\tif constexpr (supports_sum)\n\t\t\t\tif (with_sum) init_sum();\n\t\t\tsum_ready = with_sum;\n\t\t\treturn;\n\t\t}\n\t\tpositions.resize(n);\n\t\tauto cursor = offsets;\n\t\tfor (int i = 0; i < n; ++i) positions[cursor[original[i]]++] = i;\n\t\tauto current = original;\n\t\tbits.clear();\n\t\tbits.reserve(levels);\n\t\tmiddle.resize(levels);\n\t\tif constexpr (supports_sum)\n\t\t\tif (with_sum) init_sum();\n\t\tstd::vector<std::uint32_t> next(n);\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tbits.emplace_back(n);\n\t\t\tbits.back().build(current, 2 * (levels - 1 - d));\n\t\t\tauto totals = bits.back().ranks(n);\n\t\t\tmiddle[d] = {0, totals[0], totals[0] + totals[1], totals[0] + totals[1] + totals[2]};\n\t\t\tif constexpr (supports_sum) {\n\t\t\t\tif (with_sum) {\n\t\t\t\t\tif (narrow_sums) partition_sum(compact_prefix, current, next, d);\n\t\t\t\t\telse partition_sum(sum_prefix, current, next, d);\n\t\t\t\t} else if (d + 1 < levels) partition(current, next, d);\n\t\t\t} else if (d + 1 < levels) partition(current, next, d);\n\t\t}\n\t\tsum_ready = with_sum;\n\t}\n\ttemplate <class S>\n\tS sum_smallest_impl(const std::vector<std::vector<S>> &prefix, int l, int r, int k) const\n\t\trequires supports_sum\n\t{\n\t\tS answer = 0;\n\t\tstd::uint32_t x = 0;\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tauto step = route<true>(l, r, k, d);\n\t\t\tint base = 3 * d + 1;\n\t\t\tif (step.digit & 2) answer += prefix[base][step.high_r] - prefix[base][step.high_l];\n\t\t\tif (step.digit & 1) {\n\t\t\t\tconst auto &row = prefix[base + 1 + (step.digit >> 1)];\n\t\t\t\tanswer += row[step.zero_r] - row[step.zero_l];\n\t\t\t}\n\t\t\tk = step.k;\n\t\t\tif (!k) return answer;\n\t\t\tx = (x << 2) | step.digit;\n\t\t\tl = middle[d][step.digit] + step.a;\n\t\t\tr = middle[d][step.digit] + step.b;\n\t\t}\n\t\treturn answer + S(values[x]) * k;\n\t}\n\n  public:\n\tusing sum_type = Sum;\n\tWaveletMatrix() = default;\n\texplicit WaveletMatrix(const std::vector<T> &a) { build(a); }\n\tWaveletMatrix(const std::vector<T> &a, bool with_sum)\n\t\trequires supports_sum\n\t{ construct(a, with_sum); }\n\tvoid build(const std::vector<T> &a) { construct(a, false); }\n\tint size() const { return n; }\n\tbool empty() const { return n == 0; }\n\tT access(int i) const {\n\t\tassert(0 <= i && i < n);\n\t\treturn values[levels ? original[i] : 0];\n\t}\n\tT operator[](int i) const { return access(i); }\n\tint count(int l, int r, const T &x) const {\n\t\tcheck(l, r);\n\t\tif (l == r) return 0;\n\t\tstd::uint32_t c = code(x);\n\t\tif (c == values.size() || values[c] != x) return 0;\n\t\tif (!levels) return r - l;\n\t\tint start = offsets[c], end = offsets[c + 1];\n\t\tif (ordered) {\n\t\t\tint first = ordered > 0 ? start : n - end;\n\t\t\treturn std::max(0, std::min(r, first + (end - start)) - std::max(l, first));\n\t\t}\n\t\tif (l == 0 && r == n) return end - start;\n\t\tif (end - start == 1) return int(l <= positions[start]) & int(positions[start] < r);\n\t\tif (end - start <= 16) {\n\t\t\tint answer = 0;\n\t\t\tfor (int i = start; i < end; ++i) answer += unsigned(positions[i] - l) < unsigned(r - l);\n\t\t\treturn answer;\n\t\t}\n\t\tif (r - l <= 8) {\n\t\t\tint answer = 0;\n\t\t\tfor (int i = l; i < r; ++i) answer += original[i] == c;\n\t\t\treturn answer;\n\t\t}\n\t\tauto [a, b] = interval(l, r, c);\n\t\treturn b - a;\n\t}\n\tint rank(const T &x, int r) const { return count(0, r, x); }\n\tint select(const T &x, int k) const {\n\t\tstd::uint32_t c = code(x);\n\t\tif (k < 0 || c == values.size() || values[c] != x || k >= offsets[c + 1] - offsets[c]) return -1;\n\t\tif (ordered) return (ordered > 0 ? offsets[c] : n - offsets[c + 1]) + k;\n\t\treturn levels ? positions[offsets[c] + k] : k;\n\t}\n\tT kth_smallest(int l, int r, int k) const {\n\t\tcheck(l, r);\n\t\tassert(0 <= k && k < r - l);\n\t\tif (!levels) return values[0];\n\t\tif (ordered) return values[original[ordered > 0 ? l + k : r - 1 - k]];\n\t\tif (r - l <= 8) return values[small_codes(l, r)[k]];\n\t\tstd::uint32_t x = 0;\n\t\tfor (int d = 0; d < levels; ++d) {\n\t\t\tauto step = route(l, r, k, d);\n\t\t\tx = (x << 2) | step.digit;\n\t\t\tk = step.k;\n\t\t\tl = middle[d][step.digit] + step.a;\n\t\t\tr = middle[d][step.digit] + step.b;\n\t\t}\n\t\treturn values[x];\n\t}\n\tT kth_largest(int l, int r, int k) const {\n\t\tcheck(l, r);\n\t\tassert(0 <= k && k < r - l);\n\t\treturn kth_smallest(l, r, r - l - 1 - k);\n\t}\n\tint range_freq(int l, int r, const T &upper) const {\n\t\tcheck(l, r);\n\t\treturn less_than(l, r, code(upper));\n\t}\n\tint range_freq(int l, int r, const T &lower, const T &upper) const {\n\t\tcheck(l, r);\n\t\tif (!(lower < upper)) return 0;\n\t\treturn less_than(l, r, code(upper)) - less_than(l, r, code(lower));\n\t}\n\tvoid prepare_sum() const\n\t\trequires supports_sum\n\t{\n\t\tif (sum_ready) return;\n\t\tif (!levels) {\n\t\t\tsum_ready = true;\n\t\t\treturn;\n\t\t}\n\t\tinit_sum();\n\t\tif (ordered) {\n\t\t\tsum_ready = true;\n\t\t\treturn;\n\t\t}\n\t\tstd::vector<std::uint32_t> current = original, next(n);\n\t\tif (narrow_sums)\n\t\t\tfor (int d = 0; d < levels; ++d) partition_sum(compact_prefix, current, next, d);\n\t\telse\n\t\t\tfor (int d = 0; d < levels; ++d) partition_sum(sum_prefix, current, next, d);\n\t\tsum_ready = true;\n\t}\n\tSum range_sum(int l, int r) const\n\t\trequires supports_sum\n\t{\n\t\tcheck(l, r);\n\t\tif (l == r) return Sum(0);\n\t\tif (!levels) return Sum(values[0]) * (r - l);\n\t\tif (!sum_ready && r - l <= 8) {\n\t\t\tSum answer = 0;\n\t\t\tfor (int i = l; i < r; ++i) answer += Sum(values[original[i]]);\n\t\t\treturn answer;\n\t\t}\n\t\tprepare_sum();\n\t\tif (narrow_sums) return compact_prefix[0][r] - compact_prefix[0][l];\n\t\treturn sum_prefix[0][r] - sum_prefix[0][l];\n\t}\n\tSum sum_smallest(int l, int r, int k) const\n\t\trequires supports_sum\n\t{\n\t\tcheck(l, r);\n\t\tassert(0 <= k && k <= r - l);\n\t\tif (!k) return Sum(0);\n\t\tif (k == r - l) return range_sum(l, r);\n\t\tif (!levels) return Sum(values[0]) * k;\n\t\tif (ordered) return ordered > 0 ? range_sum(l, l + k) : range_sum(r - k, r);\n\t\tif (k == 1) return Sum(kth_smallest(l, r, 0));\n\t\tif (r - l <= 8) {\n\t\t\tauto a = small_codes(l, r);\n\t\t\tSum answer = 0;\n\t\t\tfor (int i = 0; i < k; ++i) answer += Sum(values[a[i]]);\n\t\t\treturn answer;\n\t\t}\n\t\tprepare_sum();\n\t\tif (narrow_sums) return sum_smallest_impl(compact_prefix, l, r, k);\n\t\treturn sum_smallest_impl(sum_prefix, l, r, k);\n\t}\n\tSum sum_largest(int l, int r, int k) const\n\t\trequires supports_sum\n\t{\n\t\tcheck(l, r);\n\t\tassert(0 <= k && k <= r - l);\n\t\tif (!k) return Sum(0);\n\t\tif (!levels) return Sum(values[0]) * k;\n\t\tif (ordered) return ordered > 0 ? range_sum(r - k, r) : range_sum(l, l + k);\n\t\tif (k == 1) return Sum(kth_largest(l, r, 0));\n\t\tif (k == r - l) return range_sum(l, r);\n\t\tif (r - l <= 8) {\n\t\t\tauto a = small_codes(l, r);\n\t\t\tSum answer = 0;\n\t\t\tfor (int i = r - l - k; i < r - l; ++i) answer += Sum(values[a[i]]);\n\t\t\treturn answer;\n\t\t}\n\t\treturn range_sum(l, r) - sum_smallest(l, r, r - l - k);\n\t}\n\tstd::optional<T> prev_value(int l, int r, const T &upper) const {\n\t\tcheck(l, r);\n\t\tif (!levels) return l < r && values[0] < upper ? std::optional<T>(values[0]) : std::nullopt;\n\t\tif (!ordered) {\n\t\t\tauto x = code(upper);\n\t\t\tif (!x) return std::nullopt;\n\t\t\treturn neighbor<true>(l, r, x - 1);\n\t\t}\n\t\tint k = range_freq(l, r, upper);\n\t\tif (!k) return std::nullopt;\n\t\treturn kth_smallest(l, r, k - 1);\n\t}\n\tstd::optional<T> next_value(int l, int r, const T &lower) const {\n\t\tcheck(l, r);\n\t\tif (!levels) return l < r && !(values[0] < lower) ? std::optional<T>(values[0]) : std::nullopt;\n\t\tif (!ordered) {\n\t\t\tauto x = code(lower);\n\t\t\tif (x == values.size()) return std::nullopt;\n\t\t\treturn neighbor<false>(l, r, x);\n\t\t}\n\t\tint k = range_freq(l, r, lower);\n\t\tif (k == r - l) return std::nullopt;\n\t\treturn kth_smallest(l, r, k);\n\t}\n};\n\ntemplate <class T>\nWaveletMatrix(const std::vector<T> &, bool) -> WaveletMatrix<T>;\n\n#endif\n"
+    }
+  },
+  "logs": {
+    "component": "passed 32\npassed 32\npassed 32\n200000/6/count {'current': 1.383604, 'small_exact': 1.359452, 'binary_rank': 1.372395}\n200000/6/kth {'current': 0.998535, 'small_exact': 1.162635, 'binary_rank': 0.989488}\n200000/6/freq {'current': 0.949977, 'small_exact': 0.966394, 'binary_rank': 0.986356}\n200000/1/count {'current': 3.619955, 'small_exact': 3.198172, 'binary_rank': 3.798696}\n200000/1/kth {'current': 4.886861, 'small_exact': 5.472505, 'binary_rank': 5.419035}\n200000/1/freq {'current': 3.585856, 'small_exact': 3.844665, 'binary_rank': 3.831412}\n200000/9/count {'current': 3.428837, 'small_exact': 3.613489, 'binary_rank': 3.55071}\n200000/9/kth {'current': 5.2358, 'small_exact': 5.653589, 'binary_rank': 5.280945}\n200000/9/freq {'current': 3.48514, 'small_exact': 3.609645, 'binary_rank': 3.701402}\n200000/0/count {'current': 8.36004, 'small_exact': 8.495046, 'binary_rank': 8.643588}\n200000/0/kth {'current': 17.098994, 'small_exact': 17.25123, 'binary_rank': 17.21696}\n200000/0/freq {'current': 21.753237, 'small_exact': 22.470495, 'binary_rank': 22.109235}\n500000/6/count {'current': 1.397064, 'small_exact': 1.471784, 'binary_rank': 1.484292}\n500000/6/kth {'current': 1.139154, 'small_exact': 1.225254, 'binary_rank': 1.178436}\n500000/6/freq {'current': 1.048059, 'small_exact': 0.966884, 'binary_rank': 1.064704}\n500000/1/count {'current': 4.666114, 'small_exact': 4.879075, 'binary_rank': 5.046595}\n500000/1/kth {'current': 6.720054, 'small_exact': 7.010417, 'binary_rank': 6.80634}\n500000/1/freq {'current': 4.751433, 'small_exact': 4.918687, 'binary_rank': 5.498605}\n500000/9/count {'current': 4.741802, 'small_exact': 4.887811, 'binary_rank': 4.870822}\n500000/9/kth {'current': 6.782702, 'small_exact': 7.49008, 'binary_rank': 6.822569}\n500000/9/freq {'current': 4.914618, 'small_exact': 5.001409, 'binary_rank': 5.326094}\n500000/0/count {'current': 12.763944, 'small_exact': 12.772433, 'binary_rank': 12.503908}\n500000/0/kth {'current': 29.212597, 'small_exact': 29.119535, 'binary_rank': 28.796746}\n500000/0/freq {'current': 32.827745, 'small_exact': 36.77513, 'binary_rank': 33.935015}\n",
+    "interval": "200000/6/count {'current': 4.162683, 'interval_one': 4.165992, 'old_quad': 3.919279}\n200000/1/count {'current': 8.689172, 'interval_one': 7.831142, 'old_quad': 8.940792}\n200000/9/count {'current': 8.27708, 'interval_one': 7.778579, 'old_quad': 12.040813}\n200000/0/count {'current': 21.512716, 'interval_one': 21.420375, 'old_quad': 21.296942}\n500000/6/count {'current': 4.639948, 'interval_one': 4.562351, 'old_quad': 4.101812}\n500000/1/count {'current': 12.557859, 'interval_one': 12.13199, 'old_quad': 10.288947}\n500000/9/count {'current': 12.768929, 'interval_one': 11.930954, 'old_quad': 13.573458}\n500000/0/count {'current': 30.712323, 'interval_one': 30.088853, 'old_quad': 29.636483}\n500000/0/kth {'current': 69.092927, 'interval_one': 67.118163, 'old_quad': 74.934995}\n500000/0/freq {'current': 77.843856, 'interval_one': 78.917512, 'old_quad': 86.43832}\n"
+  },
+  "reproduce_sources": {
+    "script": "import argparse\nimport hashlib\nimport json\nimport pathlib\n\nparser=argparse.ArgumentParser()\nparser.add_argument('archive')\nparser.add_argument('--output')\nargs=parser.parse_args()\na=json.loads(pathlib.Path(args.archive).read_text())\nsha=lambda s:hashlib.sha256(s.encode()).hexdigest()\nfor s in [*a['snapshots'].values(),*a['scripts'].values()]:\n    assert sha(s['text'])==s['sha256'],s['name']\nscripts={k:v['text'] for k,v in a['scripts'].items()}\nns={'component':a['snapshots']['oct_component']['text']}\none=scripts['wm_small_rank_probe.py']\nexec(one[one.index('def finish_calls('):one.index(\"test = r\")],ns)\ncomponents=dict(ns['variants'])\nfor name,expected in a['raw']['component']['component_sha256'].items():\n    assert sha(components[name])==expected,name\nns={'header':a['snapshots']['header']['text']}\ntwo=scripts['wm_small_rank_interval.py']\nexec(two[two.index('fast=header'):two.index('variants={')],ns)\nheaders={'current':ns['header'],'interval_one':ns['fast'],'old_quad':a['snapshots']['old_quad_header']['text']}\nfor name,expected in a['raw']['interval']['header_sha256'].items():\n    assert sha(headers[name])==expected,name\nassert sha(a['snapshots']['header']['text'])==a['raw']['component']['header_sha256']\nfor record in a['raw'].values():\n    assert sha(a['snapshots']['quad_component']['text'])==record['quad_sha256']\nassert sha(a['snapshots']['benchmark']['text'])==a['raw']['component']['bench_sha256']\nassert sha(a['snapshots']['unbiased_benchmark']['text'])==a['raw']['interval']['bench_sha256']\nif args.output:\n    for name,component in components.items():\n        folder=pathlib.Path(args.output)/'component'/name\n        (folder/'data_structure').mkdir(parents=True,exist_ok=True)\n        (folder/'components').mkdir(exist_ok=True)\n        (folder/'data_structure/wavelet_matrix.hpp').write_text(a['snapshots']['header']['text'])\n        (folder/'components/oct_bit_vector.hpp').write_text(component)\n        (folder/'components/quad_bit_vector.hpp').write_text(a['snapshots']['quad_component']['text'])\n        (folder/'bench.cpp').write_text(a['snapshots']['benchmark']['text'])\n        (folder/'check.cpp').write_text(a['snapshots']['component_check']['text'])\n    for name,header in headers.items():\n        folder=pathlib.Path(args.output)/'interval'/name\n        (folder/'data_structure').mkdir(parents=True,exist_ok=True)\n        (folder/'components').mkdir(exist_ok=True)\n        (folder/'data_structure/wavelet_matrix.hpp').write_text(header)\n        (folder/'components/oct_bit_vector.hpp').write_text(a['snapshots']['oct_component']['text'])\n        (folder/'components/quad_bit_vector.hpp').write_text(a['snapshots']['quad_component']['text'])\n        (folder/'bench.cpp').write_text(a['snapshots']['unbiased_benchmark']['text'])\nprint('Verified 3 component variants, 3 header variants and benchmark/source bindings.')\n",
+    "usage": "Extract to reproduce.py and run python3 reproduce.py explorations_small_rank.json [--output DIRECTORY]; no git, network, or compilation is required for source-hash verification."
+  }
+}

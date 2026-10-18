@@ -1,39 +1,25 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/static_range_sum_with_upper_bound"
 #include "../data_structure/wavelet_matrix.hpp"
-#include <algorithm>
+#include "../components/fast_io.hpp"
 #include <cstdint>
-#include <iostream>
-#include <string>
-#include <tuple>
 #include <vector>
 
 using namespace std;
 
-void print_integer(__int128_t value) {
-	__uint128_t x = value;
-	if (value < 0) cout << '-', x = -x;
-	string digits;
-	do {
-		digits.push_back('0' + x % 10);
-		x /= 10;
-	} while (x);
-	reverse(digits.begin(), digits.end());
-	cout << digits << '\n';
-}
-
 int main() {
-	cin.tie(nullptr)->sync_with_stdio(false);
-	int n, q;
-	cin >> n >> q;
+	FastInput input;
+	FastOutput output;
+	uint32_t n = 0, q = 0;
+	input.read(n); input.read(q);
 	vector<int64_t> a(n);
-	for (auto &value : a) cin >> value;
+	for (auto &value : a) input.read(value);
 	WaveletMatrix wm(a, true);
-	for (int repeat_index = 0; repeat_index < q; ++repeat_index) {
-		int l, r;
-		int64_t x;
-		cin >> l >> r >> x;
+	for (uint32_t i = 0; i < q; ++i) {
+		uint32_t l = 0, r = 0;
+		int64_t x = 0;
+		input.read(l); input.read(r); input.read(x);
 		int k = wm.range_freq(l, r, x) + wm.count(l, r, x);
-		cout << k << ' ';
-		print_integer(wm.sum_smallest(l, r, k));
+		output.write(uint32_t(k)); output.write(' ');
+		output.println(wm.sum_smallest(l, r, k));
 	}
 }

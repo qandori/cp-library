@@ -1,0 +1,114 @@
+200000 0 build 0 64 {'before': 7.373553, 'current': 5.774717}
+200000 0 kth 0 64 {'before': 6.311474, 'current': 4.758092}
+200000 0 freq 0 64 {'before': 7.309839, 'current': 6.375828}
+200000 0 count 0 64 {'before': 2.280739, 'current': 2.329358}
+200000 0 prev 0 64 {'before': 7.788797, 'current': 7.683562}
+200000 0 next 0 64 {'before': 8.041215, 'current': 7.889609}
+200000 0 prepare 0 64 {'before': 7.308166, 'current': 7.72617}
+200000 0 small 0 64 {'before': 9.557513, 'current': 10.444114}
+200000 0 large 0 64 {'before': 9.600921, 'current': 10.309215}
+200000 0 eager 0 64 {'before': 13.296294, 'current': 13.569332}
+200000 1 build 0 64 {'before': 2.269429, 'current': 2.089553}
+200000 1 kth 0 64 {'before': 1.808358, 'current': 1.330724}
+200000 1 freq 0 64 {'before': 1.53322, 'current': 0.959284}
+200000 1 count 0 64 {'before': 0.848619, 'current': 0.860378}
+200000 1 prev 0 64 {'before': 0.964153, 'current': 0.836693}
+200000 1 next 0 64 {'before': 0.973656, 'current': 0.82449}
+200000 1 prepare 0 64 {'before': 2.96238, 'current': 3.131132}
+200000 1 small 0 64 {'before': 3.380429, 'current': 3.566041}
+200000 1 large 0 64 {'before': 5.553009, 'current': 5.109214}
+200000 1 eager 0 64 {'before': 4.889945, 'current': 5.666744}
+200000 2 build 0 64 {'before': 7.965962, 'current': 6.707941}
+200000 2 kth 0 64 {'before': 5.128405, 'current': 4.294619}
+200000 2 freq 0 64 {'before': 7.279158, 'current': 6.442715}
+200000 2 count 0 64 {'before': 2.311984, 'current': 2.294822}
+200000 2 prev 0 64 {'before': 7.751169, 'current': 7.416456}
+200000 2 next 0 64 {'before': 8.54347, 'current': 7.892732}
+200000 2 prepare 0 64 {'before': 11.020185, 'current': 11.847434}
+200000 2 small 0 64 {'before': 12.893129, 'current': 13.939391}
+200000 2 large 0 64 {'before': 14.254014, 'current': 13.954353}
+200000 2 eager 0 64 {'before': 19.274139, 'current': 19.370069}
+200000 7 build 0 64 {'before': 2.786073, 'current': 2.577584}
+200000 7 kth 0 64 {'before': 3.028563, 'current': 2.12171}
+200000 7 freq 0 64 {'before': 2.400175, 'current': 1.244272}
+200000 7 count 0 64 {'before': 1.480142, 'current': 0.645956}
+200000 7 prev 0 64 {'before': 1.641791, 'current': 1.230965}
+200000 7 next 0 64 {'before': 1.637353, 'current': 1.241405}
+200000 7 prepare 0 64 {'before': 4.741577, 'current': 4.968725}
+200000 7 small 0 64 {'before': 7.615075, 'current': 7.695034}
+200000 7 large 0 64 {'before': 6.632494, 'current': 6.69063}
+200000 7 eager 0 64 {'before': 6.612342, 'current': 7.675396}
+200000 0 build 0 32 {'before': 5.466261, 'current': 4.594075}
+200000 0 kth 0 32 {'before': 5.104983, 'current': 4.551403}
+200000 0 freq 0 32 {'before': 6.602107, 'current': 5.341149}
+200000 0 count 0 32 {'before': 1.993417, 'current': 1.992202}
+200000 0 small 0 32 {'before': 10.403967, 'current': 9.911661}
+200000 1 build 0 32 {'before': 1.753677, 'current': 1.813977}
+200000 1 kth 0 32 {'before': 1.796209, 'current': 1.258592}
+200000 1 freq 0 32 {'before': 1.53684, 'current': 0.902864}
+200000 1 count 0 32 {'before': 0.850222, 'current': 0.85174}
+200000 1 small 0 32 {'before': 3.383173, 'current': 3.37127}
+200000 2 build 0 32 {'before': 5.553063, 'current': 4.845425}
+200000 2 kth 0 32 {'before': 5.305679, 'current': 4.532643}
+200000 2 freq 0 32 {'before': 7.250859, 'current': 5.90955}
+200000 2 count 0 32 {'before': 2.327913, 'current': 2.288236}
+200000 2 small 0 32 {'before': 9.294789, 'current': 9.45326}
+200000 9 count 0 32 {'before': 1.168066, 'current': 0.82954}
+200000 10 count 0 32 {'before': 1.207299, 'current': 0.963923}
+200000 11 count 0 32 {'before': 0.930054, 'current': 0.608013}
+200000 12 count 0 32 {'before': 2.410487, 'current': 2.388587}
+1000000 0 build 0 64 {'before': 51.315693, 'current': 39.526947}
+1000000 0 kth 0 64 {'before': 12.149015, 'current': 10.478649}
+1000000 0 freq 0 64 {'before': 15.993349, 'current': 18.830287}
+1000000 0 count 0 64 {'before': 8.026161, 'current': 9.173001}
+1000000 1 build 0 64 {'before': 14.179173, 'current': 13.099987}
+1000000 1 kth 0 64 {'before': 2.43667, 'current': 3.034646}
+1000000 1 freq 0 64 {'before': 1.76905, 'current': 1.923639}
+1000000 1 count 0 64 {'before': 1.184574, 'current': 1.874328}
+1000000 2 build 0 64 {'before': 57.41889, 'current': 48.893313}
+1000000 2 kth 0 64 {'before': 12.332411, 'current': 12.250556}
+1000000 2 freq 0 64 {'before': 16.704704, 'current': 18.478293}
+1000000 2 count 0 64 {'before': 8.849588, 'current': 9.561995}
+200000 3 build 0 64 {'before': 1.221267, 'current': 0.907565}
+200000 3 kth 0 64 {'before': 0.202375, 'current': 0.208847}
+200000 3 freq 0 64 {'before': 1.948654, 'current': 1.920943}
+200000 3 count 0 64 {'before': 2.006525, 'current': 2.11164}
+200000 3 small 0 64 {'before': 0.22083, 'current': 0.260993}
+200000 4 build 0 64 {'before': 1.237659, 'current': 0.931027}
+200000 4 kth 0 64 {'before': 0.214223, 'current': 0.222643}
+200000 4 freq 0 64 {'before': 2.043161, 'current': 1.945417}
+200000 4 count 0 64 {'before': 2.170996, 'current': 2.158887}
+200000 4 small 0 64 {'before': 0.199364, 'current': 0.204368}
+200000 5 build 0 64 {'before': 0.030132, 'current': 0.029985}
+200000 5 kth 0 64 {'before': 0.085724, 'current': 0.090654}
+200000 5 freq 0 64 {'before': 0.089718, 'current': 0.089755}
+200000 5 count 0 64 {'before': 0.065394, 'current': 0.070347}
+200000 5 small 0 64 {'before': 0.079819, 'current': 0.075447}
+200000 6 build 0 64 {'before': 1.864292, 'current': 1.741143}
+200000 6 kth 0 64 {'before': 0.369003, 'current': 0.26592}
+200000 6 freq 0 64 {'before': 0.229369, 'current': 0.23784}
+200000 6 count 0 64 {'before': 0.290766, 'current': 0.334435}
+200000 6 small 0 64 {'before': 0.611686, 'current': 0.656453}
+200000 0 kth 8 64 {'before': 0.665852, 'current': 0.619101}
+200000 0 freq 8 64 {'before': 2.005333, 'current': 1.989425}
+200000 0 count 8 64 {'before': 2.507774, 'current': 2.630252}
+200000 0 prev 8 64 {'before': 2.807174, 'current': 2.753287}
+200000 0 next 8 64 {'before': 2.314442, 'current': 2.344655}
+200000 0 small 8 64 {'before': 0.728889, 'current': 0.723645}
+200000 0 large 8 64 {'before': 0.852488, 'current': 0.877081}
+200000 0 between 0 64 {'before': 15.062781, 'current': 9.183216}
+200000 0 access 0 64 {'before': 0.224991, 'current': 0.213244}
+200000 0 select 0 64 {'before': 2.393608, 'current': 2.613874}
+200000 0 sum 0 64 {'before': 0.453431, 'current': 0.410857}
+Traceback (most recent call last):
+  File "/mnt/c/Users/yukiz/Desktop/cp-library/test/benchmark/wavelet_matrix_opt.py", line 207, in <module>
+    main()
+  File "/mnt/c/Users/yukiz/Desktop/cp-library/test/benchmark/wavelet_matrix_opt.py", line 129, in main
+    save()
+  File "/mnt/c/Users/yukiz/Desktop/cp-library/test/benchmark/wavelet_matrix_opt.py", line 90, in save
+    (args.output / 'results.json').write_text(json.dumps(results, indent=2) + '\n')
+  File "/usr/lib/python3.10/pathlib.py", line 1154, in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+  File "/usr/lib/python3.10/pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+OSError: [Errno 22] Invalid argument: 'test/benchmark/results/wavelet_matrix_opt/native/results.json'

@@ -1,0 +1,54 @@
+{
+  "headers": [
+    "components/oct_bit_vector.hpp",
+    "data_structure/wavelet_matrix.hpp"
+  ],
+  "unit": [
+    "test/unit/wavelet_matrix.cpp",
+    "test/unit/wavelet_matrix_opt.cpp",
+    "test/unit/dynamic_wavelet_matrix.cpp",
+    "test/unit/standalone.cpp"
+  ],
+  "sanitize": [
+    "test/unit/oct_bit_vector.cpp",
+    "test/unit/wavelet_matrix.cpp",
+    "test/unit/wavelet_matrix_opt.cpp",
+    "test/unit/dynamic_wavelet_matrix.cpp"
+  ],
+  "verification": [
+    "test/wavelet_matrix_kth.test.cpp",
+    "test/wavelet_matrix_freq.test.cpp",
+    "test/wavelet_matrix_sum.test.cpp"
+  ],
+  "bundles": [
+    "components/oct_bit_vector.hpp",
+    "data_structure/wavelet_matrix.hpp"
+  ],
+  "state": {
+    "targets": {
+      "verification": {
+        "test/wavelet_matrix_kth.test.cpp": "a3f43c8eda6a92b75b6b73c3d898a828b32aaf12cdf379d30f72c7cd17cd09dc",
+        "test/wavelet_matrix_freq.test.cpp": "9789644d1c2dfce76d2e801c9c7b7b69e8fc2bc0f093a204142193d3baab31c3",
+        "test/wavelet_matrix_sum.test.cpp": "be83158dec5022c3d5d051a1000e04a817d43ba4917c7d59a4ce5c2205e0b5c4"
+      }
+    }
+  },
+  "source_sha256": {
+    "components/fast_io.hpp": "49d8c24846ede802ebb14c4d840faea760b207590fd3d1519540934d3a67d10c",
+    "components/oct_bit_vector.hpp": "c2d9656bd12c0a60e05c905b6484c284df1dfbff82bf48cf9d0d56a32c467435",
+    "components/quad_bit_vector.hpp": "1c79494ff1040fd8cb0cea1a8e7367d8cb478c65a4b6bc4b7a86cb911e3a03b2",
+    "components/splitmix64.hpp": "f74be6033b41f893dfa0550b99dca38b3da7eb565baeb2813c94cb7b5db3e566",
+    "data_structure/wavelet_matrix.hpp": "3e0643bb64c038b28d5452ab2608b444d1fce1762d2be84aff2290f2db0aed39",
+    "test/unit/dynamic_wavelet_matrix.cpp": "8d09369278cde4a9da7b12c1634d0cc61994658506fef7cb80ea62917b9bb2a6",
+    "test/unit/standalone.cpp": "0ace0914bb5ff3a32224ea782f629aae2dc96efeca4cca84c0d6c9237c677b6e",
+    "test/unit/wavelet_matrix.cpp": "35ae14c1b9c9097329173de40632583aec697299d2d22d543a53b714ff7956e3",
+    "test/unit/wavelet_matrix_opt.cpp": "ff21340a3a9d81be52122d97bf1553b2ae3ad026dec9d158a2676b9cbf00c77b",
+    "test/wavelet_matrix_freq.test.cpp": "634242eb8c1157c8d06bee0639ac06745c45053046314eabb50bac9e0ad02c59",
+    "test/wavelet_matrix_kth.test.cpp": "a23af23fef59add83a616a01a4af29d3b8f5e520fb133490e1495bdd6189216c",
+    "test/wavelet_matrix_sum.test.cpp": "8d84bee591086cd14ce2cbe53338f44c26451c7c97b0be6cc1db9eaa77f80c31"
+  },
+  "separate_checks": [
+    "validation_count.json",
+    "validation_clang.json"
+  ]
+}

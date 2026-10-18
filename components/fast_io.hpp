@@ -21,7 +21,10 @@
 #include <unistd.h>
 #endif
 
+namespace fast_io_detail { struct BulkInput; }
+
 class FastInput {
+	friend struct fast_io_detail::BulkInput;
 	static constexpr std::size_t capacity = 1 << 16;
 	FILE *file = nullptr;
 	std::unique_ptr<char[]> buffer;

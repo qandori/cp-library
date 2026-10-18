@@ -1,0 +1,109 @@
+{
+  "audited_at": "2026-10-18T17:06:12.996362+00:00",
+  "passed": true,
+  "archives": {
+    "explorations_rank.json": "71515c150df7e3fe999a6b7cbccc12b61ba8a70e2ce8f42865a5dc4f6ea31d1d",
+    "explorations_backend.json": "01c0c9af05579340fda00a1a9a500649dfd561a371fede9b90148ec21e993770"
+  },
+  "common_sources": {
+    "test/benchmark/wavelet_matrix_neighbors.cpp": {
+      "source": "#if defined(WAVELET_CANDIDATE_FIRST)\n#include \"data_structure/wavelet_matrix.hpp\"\n#undef WAVELET_MATRIX_HPP\n#endif\n#define WaveletMatrix WaveletMatrixBaseline\n#include WAVELET_BASELINE_HEADER\n#undef WaveletMatrix\n#undef WAVELET_MATRIX_HPP\n#if !defined(WAVELET_CANDIDATE_FIRST)\n#include \"data_structure/wavelet_matrix.hpp\"\n#endif\n#include <chrono>\n#include <cstdlib>\n#include <iomanip>\n#include <ctime>\n#include <iostream>\n#include <random>\n#include <string>\nusing namespace std;\n\nvolatile uint64_t sink;\nstruct Query {\n\tint l, r, k;\n\tint64_t x, y;\n};\n\ntemplate <class W>\nuint64_t run(W &wm, const vector<int64_t> &a, const vector<Query> &queries, int op) {\n\tint n = a.size();\n\tuint64_t sum = 0;\n\tswitch (op) {\n\tcase 0: {\n\t\tW other(a);\n\t\tsum += other.size();\n\t\tbreak;\n\t}\n\tcase 1:\n\t\tfor (auto z : queries) sum += uint64_t(wm.kth_smallest(z.l, z.r, z.k));\n\t\tbreak;\n\tcase 2:\n\t\tfor (auto z : queries) sum += wm.range_freq(z.l, z.r, z.x);\n\t\tbreak;\n\tcase 3:\n\t\tfor (auto z : queries) sum += wm.range_freq(z.l, z.r, min(z.x, z.y), max(z.x, z.y));\n\t\tbreak;\n\tcase 4:\n\t\tfor (auto z : queries) {\n\t\t\tauto x = wm.prev_value(z.l, z.r, z.x);\n\t\t\tsum += x ? uint64_t(*x) : 13;\n\t\t}\n\t\tbreak;\n\tcase 5:\n\t\tfor (auto z : queries) {\n\t\t\tauto x = wm.next_value(z.l, z.r, z.x);\n\t\t\tsum += x ? uint64_t(*x) : 17;\n\t\t}\n\t\tbreak;\n\tcase 6:\n\t\tfor (auto z : queries) sum += wm.count(z.l, z.r, z.x);\n\t\tbreak;\n\tcase 7:\n\t\tfor (auto z : queries) sum += uint64_t(wm.sum_smallest(z.l, z.r, z.k));\n\t\tbreak;\n\tcase 8:\n\t\tfor (auto z : queries) sum += uint64_t(wm.sum_largest(z.l, z.r, z.k));\n\t\tbreak;\n\tcase 9:\n\t\tfor (auto z : queries) sum += uint64_t(wm.range_sum(z.l, z.r));\n\t\tbreak;\n\tcase 10:\n\t\tfor (auto z : queries) sum += wm.select(z.x, 0);\n\t\tbreak;\n\tcase 11:\n\t\tfor (auto z : queries) sum += uint64_t(wm.access(z.l));\n\t\tbreak;\n\tcase 12: {\n\t\tW other(a, true);\n\t\tsum += uint64_t(other.range_sum(0, n));\n\t\tbreak;\n\t}\n\tcase 13: {\n\t\tW other(a);\n\t\tother.prepare_sum();\n\t\tsum += uint64_t(other.range_sum(0, n));\n\t\tbreak;\n\t}\n\t}\n\tsink = sum;\n\treturn sum;\n}\n\nint main(int argc, char **argv) {\n\tif (argc != 7 && argc != 8) return 2;\n\tint n = atoi(argv[1]), mode = atoi(argv[2]), op = atoi(argv[3]), length = atoi(argv[4]);\n\tdouble duration = atof(argv[5]);\n\tint pairs = atoi(argv[6]);\n\tif (n <= 0 || mode < 0 || mode > 8 || op < 0 || op > 13 || length < 0 || duration <= 0 || pairs <= 0) return 2;\n\tcout << setprecision(9);\n\tmt19937_64 rng(814253);\n\tvector<int64_t> a(n);\n\tfor (int i = 0; i < n; ++i)\n\t\ta[i] = mode == 1 ? rng() % 256 : mode == 2 ? int64_t(rng()) : mode == 5 ? 7 : mode >= 6 ? rng() % (1u << (mode == 6 ? 1 : mode == 7 ? 2 : 4)) : rng() % 1000000000;\n\tif (mode == 3 || mode == 4) sort(a.begin(), a.end());\n\tif (mode == 4) reverse(a.begin(), a.end());\n\tvector<Query> queries(20000);\n\tfor (auto &z : queries) {\n\t\tz.l = rng() % n;\n\t\tz.r = rng() % n;\n\t\tif (z.l > z.r) swap(z.l, z.r);\n\t\t++z.r;\n\t\tif (length) z.r = min(n, z.l + 1 + int(rng() % length));\n\t\tz.k = rng() % (z.r - z.l);\n\t\tz.x = a[rng() % n];\n\t\tz.y = a[rng() % n];\n\t\tif (argc == 7 && z.x > z.y) swap(z.x, z.y);\n\t}\n\tWaveletMatrixBaseline<int64_t> baseline(a);\n\tWaveletMatrix<int64_t> candidate(a);\n\tif (op >= 7 && op <= 9) {\n\t\tbaseline.prepare_sum();\n\t\tcandidate.prepare_sum();\n\t}\n\tfor (int pair = 0; pair < pairs; ++pair) {\n\t\tdouble cpu[2]{}, wall[2]{};\n\t\tuint64_t checksum[2]{};\n\t\tint repetitions = 0;\n\t\tdo {\n\t\t\tfor (int j = 0; j < 2; ++j) {\n\t\t\t\tint variant = (pair + repetitions + j) & 1;\n\t\t\t\tauto start = chrono::steady_clock::now();\n\t\t\t\tauto ticks = clock();\n\t\t\t\tchecksum[variant] = variant ? run(candidate, a, queries, op) : run(baseline, a, queries, op);\n\t\t\t\tcpu[variant] += double(clock() - ticks) / CLOCKS_PER_SEC;\n\t\t\t\twall[variant] += chrono::duration<double>(chrono::steady_clock::now() - start).count();\n\t\t\t}\n\t\t\tif (checksum[0] != checksum[1]) return 1;\n\t\t\t++repetitions;\n\t\t} while (min(cpu[0], cpu[1]) < duration);\n\t\tfor (int variant = 0; variant < 2; ++variant)\n\t\t\tcout << pair << ' ' << variant << ' ' << cpu[variant] / repetitions << ' '\n\t\t\t\t << wall[variant] / repetitions << ' ' << checksum[variant] << ' ' << repetitions << '\\n';\n\t}\n}\n",
+      "sha256": "db707a0cd7a364fa176d55e6eac8665839752d79a8a12b66a8881ee769be1dfb",
+      "provenance": "Unchanged repository source at baseline 523956f; included here to make archived compilation inputs complete."
+    },
+    "components/quad_bit_vector.hpp": {
+      "source": "#ifndef QUAD_BIT_VECTOR_HPP\n#define QUAD_BIT_VECTOR_HPP\n\n#include <algorithm>\n#include <array>\n#include <bit>\n#include <cassert>\n#include <cstddef>\n#include <cstdint>\n#include <vector>\n#if defined(__x86_64__) || defined(__i386__)\n#include <immintrin.h>\n#endif\n\nstruct QuadBitVector {\n\tstruct Block {\n\t\tstd::uint64_t low = 0, high = 0;\n\t\tstd::array<int, 4> prefix{};\n\t};\n\tint n;\n\tstd::vector<Block> blocks;\n\n#if defined(__x86_64__) || defined(__i386__)\n\t__attribute__((target(\"avx2\"))) static void pack_avx2(const std::uint32_t *a, int n, int shift, Block *blocks) {\n\t\tauto low_shift = _mm_cvtsi32_si128(31 - shift), high_shift = _mm_cvtsi32_si128(30 - shift);\n\t\tfor (int w = 0; w < (n >> 6) + bool(n & 63); ++w) {\n\t\t\tint start = w * 64;\n\t\t\tstd::uint64_t low = 0, high = 0;\n\t\t\tint length = std::min(64, n - start), j = 0;\n\t\t\tfor (; j + 8 <= length; j += 8) {\n\t\t\t\tauto x = _mm256_loadu_si256(reinterpret_cast<const __m256i *>(a + start + j));\n\t\t\t\tlow |= std::uint64_t(_mm256_movemask_ps(_mm256_castsi256_ps(_mm256_sll_epi32(x, low_shift)))) << j;\n\t\t\t\thigh |= std::uint64_t(_mm256_movemask_ps(_mm256_castsi256_ps(_mm256_sll_epi32(x, high_shift)))) << j;\n\t\t\t}\n\t\t\tfor (; j < length; ++j) {\n\t\t\t\tlow |= std::uint64_t((a[start + j] >> shift) & 1) << j;\n\t\t\t\thigh |= std::uint64_t((a[start + j] >> (shift + 1)) & 1) << j;\n\t\t\t}\n\t\t\tblocks[w].low = low;\n\t\t\tblocks[w].high = high;\n\t\t}\n\t\tblocks[n >> 6].low = n & 63 ? blocks[n >> 6].low : 0;\n\t\tblocks[n >> 6].high = n & 63 ? blocks[n >> 6].high : 0;\n\t}\n#endif\n\texplicit QuadBitVector(int n = 0) : n(n), blocks((n >> 6) + 1) {}\n\tvoid build(const std::vector<std::uint32_t> &a, int shift) {\n\t\tassert(a.size() == std::size_t(n) && 0 <= shift && shift <= 30);\n\t\t[[maybe_unused]] bool vectorized = false;\n#if defined(__x86_64__) || defined(__i386__)\n\t\tvectorized = n >= 64 && __builtin_cpu_supports(\"avx2\");\n\t\tif (vectorized) pack_avx2(a.data(), n, shift, blocks.data());\n#endif\n\t\tstd::array<int, 4> counts{};\n\t\tfor (int w = 0; w < static_cast<int>(blocks.size()); ++w) {\n\t\t\tstd::uint64_t low = 0, high = 0;\n\t\t\tint start = w * 64, length = std::min(64, n - start);\n\t\t\tif (vectorized) low = blocks[w].low, high = blocks[w].high;\n\t\t\telse\n\t\t\t\tfor (int j = 0; j < length; ++j) {\n\t\t\t\t\tlow |= std::uint64_t((a[start + j] >> shift) & 1) << j;\n\t\t\t\t\thigh |= std::uint64_t((a[start + j] >> (shift + 1)) & 1) << j;\n\t\t\t\t}\n\t\t\tblocks[w] = {low, high, counts};\n\t\t\tint c1 = std::popcount(low & ~high), c2 = std::popcount(~low & high), c3 = std::popcount(low & high);\n\t\t\tcounts[0] += length - c1 - c2 - c3;\n\t\t\tcounts[1] += c1;\n\t\t\tcounts[2] += c2;\n\t\t\tcounts[3] += c3;\n\t\t}\n\t}\n\tstd::uint64_t mask(const Block &b, int digit) const {\n\t\treturn ((digit & 1) ? b.low : ~b.low) & ((digit & 2) ? b.high : ~b.high);\n\t}\n\n\tint rank(int r, int digit) const {\n\t\tconst auto &b = blocks[r >> 6];\n\t\treturn b.prefix[digit] + std::popcount(mask(b, digit) & ((std::uint64_t(1) << (r & 63)) - 1));\n\t}\n\tint below(int r, int digit) const {\n\t\tif (!digit) return 0;\n\t\tif (digit == 1) return rank(r, 0);\n\t\tif (digit == 3) return r - rank(r, 3);\n\t\tconst auto &b = blocks[r >> 6];\n\t\treturn b.prefix[0] + b.prefix[1] + std::popcount(~b.high & ((std::uint64_t(1) << (r & 63)) - 1));\n\t}\n\tstd::array<int, 4> ranks(int r) const {\n\t\tconst auto &b = blocks[r >> 6];\n\t\tstd::uint64_t m = (std::uint64_t(1) << (r & 63)) - 1;\n\t\tstd::array<int, 4> a;\n\t\ta[1] = b.prefix[1] + std::popcount(b.low & ~b.high & m);\n\t\ta[2] = b.prefix[2] + std::popcount(~b.low & b.high & m);\n\t\ta[3] = b.prefix[3] + std::popcount(b.low & b.high & m);\n\t\ta[0] = r - a[1] - a[2] - a[3];\n\t\treturn a;\n\t}\n};\n\n#endif\n",
+      "sha256": "72a130ba540fe2f46b7b5c0874f92b8855bfc6edfce2456b9badd56aebe52818",
+      "provenance": "Unchanged repository source at baseline 523956f; included here to make archived compilation inputs complete."
+    }
+  },
+  "checks": [
+    {
+      "scope": "quaternary route candidates",
+      "candidates": 8,
+      "cases": 96,
+      "verified_pairs": 288,
+      "complete_sources": true
+    },
+    {
+      "scope": "oct_sum_all_lanes",
+      "verified_pairs": 108,
+      "component_sha256_matches": true
+    },
+    {
+      "scope": "oct_sum_scalar",
+      "verified_pairs": 18,
+      "component_sha256_matches": true
+    },
+    {
+      "scope": "oct_sum_permute",
+      "verified_pairs": 18,
+      "component_sha256_matches": true
+    },
+    {
+      "scope": "radix8_sum_inline_permute",
+      "verified_pairs": 18,
+      "complete_sources": true
+    },
+    {
+      "scope": "radix8_quad_sum_prototype",
+      "verified_pairs": 45,
+      "complete_sources": true
+    },
+    {
+      "scope": "radix8 kth prototype",
+      "cases": 6,
+      "sources": [
+        "wm_rank_oct.cpp",
+        "wm_rank_oct.hpp",
+        "wm_rank_oct.py"
+      ],
+      "complete_sources": true
+    },
+    {
+      "scope": "size_threshold",
+      "cases": 45,
+      "complete_sources": true,
+      "all_recorded_source_hashes_match": true,
+      "raw_ranges_match": true
+    },
+    {
+      "scope": "sum_focused_v1",
+      "cases": 43,
+      "complete_sources": true,
+      "all_recorded_source_hashes_match": true,
+      "raw_ranges_match": true
+    },
+    {
+      "scope": "sum_focused_noinline",
+      "cases": 12,
+      "complete_sources": true,
+      "all_recorded_source_hashes_match": true,
+      "raw_ranges_match": true
+    },
+    {
+      "scope": "sum_focused_nativeinline",
+      "cases": 12,
+      "complete_sources": true,
+      "all_recorded_source_hashes_match": true,
+      "raw_ranges_match": true
+    }
+  ],
+  "source_classification": {
+    "captured_snapshots": [
+      "All eight quaternary candidates, radix8 kth prototype, initial all-lane sum component (9a98added...), SIMD permutation component, native-inline header, all four backend experiments."
+    ],
+    "controlled_reconstructions": [
+      "rank.radix8_sum_prototypes.variants.oct_sum_scalar.component was reconstructed from the recorded scalar-route edit delta; exact whitespace identity with the measured temporary file is not independently certified.",
+      "rank.radix8_quad_sum_prototype.candidate was reconstructed by reinserting the two ForSum template wrappers removed during component simplification."
+    ],
+    "interpretation": "Reconstructed historical candidates are sufficient to reproduce the algorithm and checksums. Their recorded timings are historical exploration, not measurements bound to the final production source."
+  },
+  "replay": [
+    "Quaternary candidates: restore variant.sources at their recorded relative paths, then concatenate include before.hpp, include after.hpp, and the common wavelet_matrix_neighbors.cpp suffix starting at include <chrono>. The archived wm_rank_probe.py performs this exact construction. Compile with the archived flags and use each recorded n/mode/operation, q=20000, seed=814253, uniform bounds, 3 pairs and 0.035 seconds.",
+    "Unified radix8 sum candidates: restore rank.radix8_sum_prototypes.candidate with each recorded Oct component; use the same paired driver and the archived baseline before.hpp/before_quad.hpp. Other radix8 variants carry their candidate and component explicitly. The normal Quad component is included above for the dual-sum prototype.",
+    "Backend candidates: each experiment.sources variant supplies data_structure/wavelet_matrix.hpp and both components. Compile backend.driver.source with WM_OPT_HEADER pointing to that variant header; use recorded flags, n/q/mode/width/op/seed, CPU 2, one warmup and 3 fresh-process trials. Use frozen sources directly to replay historical versions; current generator defaults intentionally select the final noinline candidate.",
+    "CPU and OS details for these local experiments are recorded by the main benchmark environment files. Target AtCoder timing is not inferred from these local historical measurements."
+  ],
+  "validation_boundary": "This audit verifies source recovery, recorded hashes, checksums between paired candidates, and raw statistics. It does not rerun already successful historical benchmarks. Final production correctness and performance are verified separately."
+}

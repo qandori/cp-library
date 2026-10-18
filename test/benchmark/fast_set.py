@@ -53,8 +53,8 @@ def main():
     args.output.mkdir(parents=True, exist_ok=True)
     os.sched_setaffinity(0, {args.cpu})
     flags = ['-std=c++23', '-O2', '-DEVAL', '-DONLINE_JUDGE', '-march=native', '-ftrivial-auto-var-init=zero']
-    sources = ['components/predecessor_set.hpp', 'data_structure/fast_set.hpp', 'data_structure/sortable_segtree.hpp',
-               'components/fast_io.hpp', 'test/fast_set.test.cpp', 'test/sortable_segtree.test.cpp',
+    sources = ['components/predecessor_set.hpp', 'data_structure/sortable_segtree.hpp',
+               'components/fast_io.hpp', 'test/predecessor_set.test.cpp', 'test/sortable_segtree.test.cpp',
                'test/benchmark/fast_set.cpp', 'test/benchmark/fast_set.py']
     environment = dict(date=datetime.now(timezone.utc).isoformat(), flags=flags,
                        compiler=subprocess.check_output(['g++', '--version'], text=True),
@@ -76,14 +76,14 @@ def main():
         scalar = scalar.replace('predecessor_set_detail', 'predecessor_set_scalar_detail').replace('PredecessorSet', 'ScalarPredecessorSet')
         scalar = scalar.replace('__builtin_cpu_supports("avx2")', 'false')
         (work / 'scalar.hpp').write_text(scalar)
-        driver = (ROOT / 'test/fast_set.test.cpp').read_text().replace('"../components/fast_io.hpp"', '"components/fast_io.hpp"')
-        previous = driver.replace('"../data_structure/fast_set.hpp"', '"old.hpp"').replace('FastSet set(in.token());', '''auto bits = in.token();
+        driver = (ROOT / 'test/predecessor_set.test.cpp').read_text().replace('"../components/fast_io.hpp"', '"components/fast_io.hpp"')
+        previous = driver.replace('"../components/predecessor_set.hpp"', '"old.hpp"').replace('PredecessorSet set(in.token());', '''auto bits = in.token();
 \tPredecessorSet set(n);
 \tfor (int i = 0; i < n; ++i) if (bits[i] == '1') set.insert(i);''')
         previous = previous.replace('set.set(p, type == 0)', '(type == 0 ? set.insert(p) : set.erase(p))')
         (work / 'old.cpp').write_text(previous)
-        (work / 'scalar.cpp').write_text(driver.replace('"../data_structure/fast_set.hpp"', '"scalar.hpp"\nusing FastSet = ScalarPredecessorSet;'))
-        source_map = dict(current=ROOT / 'test/fast_set.test.cpp', before=work / 'old.cpp', scalar=work / 'scalar.cpp')
+        (work / 'scalar.cpp').write_text(driver.replace('"../components/predecessor_set.hpp"', '"scalar.hpp"\nusing PredecessorSet = ScalarPredecessorSet;'))
+        source_map = dict(current=ROOT / 'test/predecessor_set.test.cpp', before=work / 'old.cpp', scalar=work / 'scalar.cpp')
         source_map.update({str(i): args.references / (str(i) + '.cpp') for i in [403023, 278227]})
         binaries = {}
         for name, source in source_map.items():

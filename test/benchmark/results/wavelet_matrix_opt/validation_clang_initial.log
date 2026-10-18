@@ -1,0 +1,24 @@
+taskset -c 2 /var/tmp/cp-audit-tools/env/bin/clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O1 -g -DDEBUG=1 -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix.cpp -o /tmp/wm-clang-ig4ty6l4/wavelet_matrix-san-native
+taskset -c 2 /tmp/wm-clang-ig4ty6l4/wavelet_matrix-san-native
+taskset -c 2 /var/tmp/cp-audit-tools/env/bin/clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O1 -g -DDEBUG=1 -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp -o /tmp/wm-clang-ig4ty6l4/wavelet_matrix_opt-san-native
+taskset -c 2 /tmp/wm-clang-ig4ty6l4/wavelet_matrix_opt-san-native
+Wavelet Matrix boundaries OK
+taskset -c 2 /var/tmp/cp-audit-tools/env/bin/clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O1 -g -DDEBUG=1 -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/oct_bit_vector.cpp -o /tmp/wm-clang-ig4ty6l4/oct_bit_vector-san-native
+taskset -c 2 /tmp/wm-clang-ig4ty6l4/oct_bit_vector-san-native
+taskset -c 2 /var/tmp/cp-audit-tools/env/bin/clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O1 -g -DDEBUG=1 -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/dynamic_wavelet_matrix.cpp -o /tmp/wm-clang-ig4ty6l4/dynamic_wavelet_matrix-san-native
+taskset -c 2 /tmp/wm-clang-ig4ty6l4/dynamic_wavelet_matrix-san-native
+taskset -c 2 /var/tmp/cp-audit-tools/env/bin/clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O2 -DNDEBUG /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp -o /tmp/wm-clang-ig4ty6l4/wavelet_matrix_opt-ndebug-native
+taskset -c 2 /tmp/wm-clang-ig4ty6l4/wavelet_matrix_opt-ndebug-native
+Wavelet Matrix boundaries OK
+taskset -c 2 /var/tmp/cp-audit-tools/env/bin/clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O2 -DNDEBUG /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/oct_bit_vector.cpp -o /tmp/wm-clang-ig4ty6l4/oct_bit_vector-ndebug-native
+taskset -c 2 /tmp/wm-clang-ig4ty6l4/oct_bit_vector-ndebug-native
+taskset -c 2 /var/tmp/cp-audit-tools/env/bin/clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O1 -g -DDEBUG=1 -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer -include /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm_validate_oct_scalar.hpp /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp -o /tmp/wm-clang-ig4ty6l4/wavelet_matrix_opt-san-scalar
+taskset -c 2 /tmp/wm-clang-ig4ty6l4/wavelet_matrix_opt-san-scalar
+Wavelet Matrix boundaries OK
+taskset -c 2 /var/tmp/cp-audit-tools/env/bin/clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O1 -g -DDEBUG=1 -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer -include /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm_validate_oct_scalar.hpp /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/oct_bit_vector.cpp -o /tmp/wm-clang-ig4ty6l4/oct_bit_vector-san-scalar
+taskset -c 2 /tmp/wm-clang-ig4ty6l4/oct_bit_vector-san-scalar
+taskset -c 2 /var/tmp/cp-audit-tools/env/bin/clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O2 -DNDEBUG -include /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm_validate_oct_scalar.hpp /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp -o /tmp/wm-clang-ig4ty6l4/wavelet_matrix_opt-ndebug-scalar
+taskset -c 2 /tmp/wm-clang-ig4ty6l4/wavelet_matrix_opt-ndebug-scalar
+Wavelet Matrix boundaries OK
+taskset -c 2 /var/tmp/cp-audit-tools/env/bin/clang++ -std=gnu++23 -I /mnt/c/Users/yukiz/Desktop/cp-library -Wall -Wextra -Werror -O2 -DNDEBUG -include /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm_validate_oct_scalar.hpp /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/oct_bit_vector.cpp -o /tmp/wm-clang-ig4ty6l4/oct_bit_vector-ndebug-scalar
+taskset -c 2 /tmp/wm-clang-ig4ty6l4/oct_bit_vector-ndebug-scalar

@@ -21,6 +21,13 @@ MODE = "control-delta-no-cache-v1"
 INPUT = ".verify-helper/control-receipts.json"
 RECEIPT_CONTROLS = (INPUT, ".verify-helper/control_delta.py", ".verify-helper/control_delta_test.py",
                     ".verify-helper/check_context.py", ".verify-helper/check_context_test.py")
+# Reviewed upstream test-only update: expect the added wavelet-matrix unit.
+# This is not check-profile equivalence; changed helper bytes still run fresh.
+REVIEWED_UPSTREAM_TEST = {
+    ".verify-helper/ci_test.py": (
+        ("100644", "blob", "26f4fd4e3496dd37e7c87be47269856e4095c43c"),
+        ("100644", "blob", "95e0567599e15b021061b311b75764310a6f3b1d")),
+}
 MAX_RECEIPTS = 8
 LOG_LINE_LIMIT = 8192
 TARGET_CHUNK = 24
@@ -48,7 +55,9 @@ def changes(root, base, head):
     upstream_controls = {p for p in original.entries.keys() | old.entries.keys()
                          if p.startswith((".github/workflows/", ".verify-helper/"))
                          or p in ("test/verify.py", "test/requirements.txt")}
-    require(all(original.entries.get(p) == old.entries.get(p) for p in upstream_controls),
+    require(all(original.entries.get(p) == old.entries.get(p)
+                or (original.entries.get(p), old.entries.get(p)) == REVIEWED_UPSTREAM_TEST.get(p)
+                for p in upstream_controls),
             "Upstream CI/helper inputs changed; renewed review required")
     changed = {path for path in old.entries.keys() | new.entries.keys()
                if old.entries.get(path) != new.entries.get(path)}

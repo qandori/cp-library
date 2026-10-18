@@ -1,0 +1,20 @@
+$ python3 .verify-helper/ci.py docs --selection /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt-selection.json
+Generated documentation for 252 library and judge sources
+$ python3 .verify-helper/check-docs.py --selection /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt-selection.json
+Checked documentation for 130 libraries; compiled 2 affected bundles
+$ python3 .verify-helper/cache/audit_api_tables.py components/oct_bit_vector.hpp data_structure/wavelet_matrix.hpp
+Checked API tables, code spans, math delimiters, and log notation for 2 headers (31 table lines)
+All generated library pages contain the current documentation
+$ python3 .verify-helper/ci_test.py IncrementalVerification.test_repository_wavelet_dependencies
+.
+----------------------------------------------------------------------
+Ran 1 test in 7.787s
+
+OK
+All selected documentation, bundles, API tables and dependency routing checks passed
+$ python3 .verify-helper/cache/wm_render_doc_revision.py
+Re-rendered the changed Wavelet Matrix prose with the official front-matter merger; compiled bundled code and dependency metadata are unchanged
+$ python3 .verify-helper/cache/audit_api_tables.py data_structure/wavelet_matrix.hpp
+Checked API tables, code spans, math delimiters, and log notation for 1 headers (17 table lines)
+All generated library pages contain the current documentation
+Final documentation revision passed; successful unchanged bundle and dependency checks were reused

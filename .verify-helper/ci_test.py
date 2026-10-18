@@ -377,7 +377,7 @@ class IncrementalVerification(unittest.TestCase):
             plan = build_plan(ROOT, previous, environment="test")
         self.assertFalse(plan["full"])
         self.assertEqual(plan["headers"], ["data_structure/wavelet_matrix.hpp"])
-        self.assertEqual(plan["unit"], ["test/unit/dynamic_wavelet_matrix.cpp", "test/unit/standalone.cpp", "test/unit/wavelet_matrix.cpp"])
+        self.assertEqual(plan["unit"], ["test/unit/dynamic_wavelet_matrix.cpp", "test/unit/standalone.cpp", "test/unit/wavelet_matrix.cpp", "test/unit/wavelet_matrix_opt.cpp"])
         self.assertEqual(plan["verification"], ["test/wavelet_matrix_freq.test.cpp", "test/wavelet_matrix_kth.test.cpp", "test/wavelet_matrix_sum.test.cpp"])
 
     def test_repository_mint_dependencies(self):

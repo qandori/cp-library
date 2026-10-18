@@ -1,6 +1,6 @@
 #include "before.hpp"
 #include "scalar.hpp"
-#include "data_structure/fast_set.hpp"
+#include "components/predecessor_set.hpp"
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
@@ -47,6 +47,6 @@ int main(int argc, char **argv) {
 	queries.reserve(q);
 	for (int i = 0; i < q; ++i) queries.push_back({pattern < 2 ? int(rng() % 5) : 2 + int(rng() % 3), int(rng() % n)});
 	if (variant == 0) run<BeforePredecessorSet>(bits, queries);
-	else if (variant == 1) run<FastSet>(bits, queries);
+	else if (variant == 1) run<PredecessorSet>(bits, queries);
 	else run<ScalarPredecessorSet>(bits, queries);
 }

@@ -1,0 +1,75 @@
+{
+  "started_at": "2026-10-18T16:59:32.079390+00:00",
+  "cpu": 2,
+  "sources": {
+    "data_structure/wavelet_matrix.hpp": "3e0643bb64c038b28d5452ab2608b444d1fce1762d2be84aff2290f2db0aed39",
+    "components/oct_bit_vector.hpp": "c2d9656bd12c0a60e05c905b6484c284df1dfbff82bf48cf9d0d56a32c467435",
+    "components/quad_bit_vector.hpp": "1c79494ff1040fd8cb0cea1a8e7367d8cb478c65a4b6bc4b7a86cb911e3a03b2",
+    "components/splitmix64.hpp": "f74be6033b41f893dfa0550b99dca38b3da7eb565baeb2813c94cb7b5db3e566",
+    "test/unit/wavelet_matrix_opt.cpp": "ff21340a3a9d81be52122d97bf1553b2ae3ad026dec9d158a2676b9cbf00c77b"
+  },
+  "results": [
+    {
+      "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0",
+      "sanitizer": false,
+      "compile_command": [
+        "taskset",
+        "-c",
+        "2",
+        "g++",
+        "-std=gnu++23",
+        "-I",
+        "/mnt/c/Users/yukiz/Desktop/cp-library",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O2",
+        "-DNDEBUG",
+        "/mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp",
+        "-o",
+        "/tmp/wm-count-integration-0o_vjteh/g++"
+      ],
+      "run_command": [
+        "taskset",
+        "-c",
+        "2",
+        "/tmp/wm-count-integration-0o_vjteh/g++"
+      ],
+      "passed": true
+    },
+    {
+      "compiler": "clang version 21.1.8 (https://github.com/conda-forge/clangdev-feedstock 0586bae95bd818412431982353f925478061d031)",
+      "sanitizer": true,
+      "compile_command": [
+        "taskset",
+        "-c",
+        "2",
+        "clang++",
+        "-std=gnu++23",
+        "-I",
+        "/mnt/c/Users/yukiz/Desktop/cp-library",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-sanitize-recover=all",
+        "-fno-omit-frame-pointer",
+        "/mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp",
+        "-o",
+        "/tmp/wm-count-integration-0o_vjteh/clang++"
+      ],
+      "run_command": [
+        "taskset",
+        "-c",
+        "2",
+        "/tmp/wm-count-integration-0o_vjteh/clang++"
+      ],
+      "passed": true
+    }
+  ],
+  "frozen_sources_unchanged": true,
+  "passed": true,
+  "completed_at": "2026-10-18T16:59:55.176952+00:00"
+}

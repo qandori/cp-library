@@ -1,4 +1,4 @@
-#include "data_structure/fast_set.hpp"
+#include "components/predecessor_set.hpp"
 #include <climits>
 #include <cstdio>
 #include <cstdlib>
@@ -6,11 +6,10 @@
 #include <random>
 #include <set>
 #include <string>
-#include <type_traits>
 
 void require(bool ok, int line = __builtin_LINE()) { if (!ok) { std::fprintf(stderr, "line %d\n", line); std::abort(); } }
 
-void check(const FastSet &set, const std::vector<int> &expected) {
+void check(const PredecessorSet &set, const std::vector<int> &expected) {
 	require(set.size() == int(expected.size()) && set.empty() == expected.empty());
 	require(set.to_vector() == expected);
 	require(set.min() == (expected.empty() ? set.universe_size() : expected.front()));
@@ -30,14 +29,14 @@ void check(const FastSet &set, const std::vector<int> &expected) {
 }
 
 void test_bits(std::string_view bits) {
-	FastSet set(bits);
+	PredecessorSet set(bits);
 	std::vector<int> expected;
 	for (int i = 0; i < int(bits.size()); ++i) {
 		require(set.contains(i) == (bits[i] == '1'));
 		if (bits[i] == '1') expected.push_back(i);
 	}
 	check(set, expected);
-	FastSet copied(set.universe_size(), set.words()); check(copied, expected);
+	PredecessorSet copied(set.universe_size(), set.words()); check(copied, expected);
 	copied.assign(copied.universe_size(), copied.words()); check(copied, expected);
 	copied.clear(); require(copied.empty());
 	copied.assign(bits); check(copied, expected);
@@ -53,7 +52,6 @@ void test_bits(std::string_view bits) {
 }
 
 int main() {
-	static_assert(std::is_same_v<FastSet, PredecessorSet>);
 	for (int n = 0; n <= 10; ++n) for (int mask = 0; mask < (1 << n); ++mask) {
 		std::string bits(n, '0');
 		for (int i = 0; i < n; ++i) if (mask >> i & 1) bits[i] = '1';
@@ -71,7 +69,7 @@ int main() {
 			test_bits(std::string_view(bits).substr(1, n));
 		}
 	}
-	FastSet set(4097);
+	PredecessorSet set(4097);
 	std::set<int> oracle;
 	for (int i = 0; i < 20000; ++i) {
 		int p = rng() % set.universe_size();
@@ -85,7 +83,7 @@ int main() {
 		require(actual == expected);
 		if (i % 211 == 0) {
 			check(set, {oracle.begin(), oracle.end()});
-			FastSet copy = set, moved(std::move(copy));
+			PredecessorSet copy = set, moved(std::move(copy));
 			require(copy.empty() && !copy.universe_size() && copy.words().empty());
 			copy = std::move(moved); require(moved.empty());
 			check(copy, {oracle.begin(), oracle.end()});
@@ -94,15 +92,15 @@ int main() {
 	}
 	set.fill(); require(set.size() == 4097 && set.min() == 0 && set.max() == 4096);
 	require(!set.set(4096, true) && set.set(4096, false) && set.max() == 4095);
-	FastSet mask(65, std::vector<std::uint64_t>{UINT64_MAX, UINT64_MAX});
+	PredecessorSet mask(65, std::vector<std::uint64_t>{UINT64_MAX, UINT64_MAX});
 	require(mask.size() == 65 && mask.words().back() == 1);
-	FastSet alias(512, std::vector<std::uint64_t>(8, 0x3030303030303030ULL));
+	PredecessorSet alias(512, std::vector<std::uint64_t>(8, 0x3030303030303030ULL));
 	alias.assign(std::string_view(reinterpret_cast<const char *>(alias.words().data()), 64));
 	require(alias.universe_size() == 64 && alias.empty());
-	FastSet deep((1 << 24) + 1);
+	PredecessorSet deep((1 << 24) + 1);
 	for (int p : {0, 63, 64, 4095, 4096, 262143, 262144, (1 << 24) - 1, (1 << 24)}) require(deep.insert(p));
 	check(deep, {0, 63, 64, 4095, 4096, 262143, 262144, (1 << 24) - 1, (1 << 24)});
-	FastSet largest(INT_MAX, true);
+	PredecessorSet largest(INT_MAX, true);
 	require(largest.size() == INT_MAX && largest.next(INT_MAX - 1) == INT_MAX - 1 && largest.max() == INT_MAX - 1);
 	require(largest.erase(INT_MAX - 1) && largest.prev(INT_MAX) == INT_MAX - 2);
 	std::vector<int> tail;

@@ -1,0 +1,8 @@
+g++ -std=gnu++23 -I. -include /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt/review_wm_avx.hpp -Wall -Wextra -Werror -Wno-unused-parameter -O2 -DNDEBUG /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp -o /var/tmp/cp-wm-review-gpp-avx
+Wavelet Matrix boundaries OK
+g++ -std=gnu++23 -I. -include /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt/review_wm_scalar.hpp -Wall -Wextra -Werror -Wno-unused-parameter -O2 -DNDEBUG /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp -o /var/tmp/cp-wm-review-gpp-scalar
+Wavelet Matrix boundaries OK
+clang++ -std=gnu++23 -I. -include /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt/review_wm_avx.hpp -Wall -Wextra -Werror -Wno-unused-parameter -O1 -g -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp -o /var/tmp/cp-wm-review-clangpp-avx
+Wavelet Matrix boundaries OK
+clang++ -std=gnu++23 -I. -include /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/wm-opt/review_wm_scalar.hpp -Wall -Wextra -Werror -Wno-unused-parameter -O1 -g -fsanitize=address,undefined -fno-sanitize-recover=all -fno-omit-frame-pointer /mnt/c/Users/yukiz/Desktop/cp-library/test/unit/wavelet_matrix_opt.cpp -o /var/tmp/cp-wm-review-clangpp-scalar
+Wavelet Matrix boundaries OK

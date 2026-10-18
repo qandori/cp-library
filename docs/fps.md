@@ -36,7 +36,7 @@ mod は 998244353、係数は定数項から順に格納します。`fps` は `s
 
 [Bostan–Mori](https://qandori.github.io/cp-library/fps/bostan_mori.hpp.html)、[線形漸化式](https://qandori.github.io/cp-library/fps/linear_recurrence.hpp.html)、[合成](https://qandori.github.io/cp-library/fps/compose.hpp.html)、[合成逆元](https://qandori.github.io/cp-library/fps/compositional_inverse.hpp.html)、[多点評価](https://qandori.github.io/cp-library/fps/multipoint_eval.hpp.html)、[補間](https://qandori.github.io/cp-library/fps/interpolate.hpp.html)、[Taylor shift](https://qandori.github.io/cp-library/fps/taylor_shift.hpp.html) は専用ヘッダーの通常の関数として使います。本ヘッダーには含まれません。
 
-`log`・`exp` は隣接区間の NTT を共有し、Linux x86_64 では AVX2 で積和をまとめます。`pow` は途中の積分と微分を省略し、多項式除算は必要に応じて巡回畳み込みで余りを計算します。AVX2 が使えない環境でも動作します。
+`log`・`exp` は隣接区間の NTT を共有し、Linux x86_64 では AVX2 で積和をまとめます。`pow` は途中の積分と微分を省略し、多項式除算は必要に応じて巡回畳み込みで余りを計算します。Linux x86_64 / GCC の対数と冪は専用のブロック変換を使い、入力の表現変換と結果の二重初期化を省きます。AVX2 が使えない環境でも動作します。
 
 入力・出力の最大係数数を $$n$$ とします。
 

@@ -2,6 +2,8 @@ name: verify
 
 on:
   push:
+    branches-ignore: [codex/rerooting-identity-screen-v2-20261019]
+    tags: ['**']
   pull_request:
   workflow_dispatch:
     inputs:

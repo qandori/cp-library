@@ -338,7 +338,7 @@ class NoCacheWorkflowTests(unittest.TestCase):
                 if action.startswith("actions/setup-python") and "cache" in step.get("with", {}):
                     self.assertEqual(step["if"], "steps.route.outputs.mode == 'normal'")
             self.assertEqual(job["runs-on"], "ubuntu-24.04" if job_name == "verify" else "macos-14")
-            self.assertEqual(job["timeout-minutes"], "60" if job_name == "verify" else "30")
+            self.assertEqual(job["timeout-minutes"], "120" if job_name == "verify" else "30")
             self.assertEqual(next(step for step in steps if step.get("uses", "").startswith("actions/checkout"))["with"]["persist-credentials"], "false")
             self.assertTrue(any(step.get("name") == "Select exact-head affected scope without cache" for step in steps))
         workflow = self.workflow("verify.yml")

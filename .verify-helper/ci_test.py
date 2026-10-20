@@ -235,6 +235,18 @@ class IncrementalVerification(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual(read_json(state_path), self.previous)
 
+    def test_unrelated_macro_include_remains_selected(self):
+        self.write("test/opaque.test.cpp", '#define HEADER "tree/lca.hpp"\n#include HEADER\n')
+        previous = self.plan()["state"]
+        baseline = self.plan(previous)
+        self.assertEqual(baseline["verification"], ["test/opaque.test.cpp"])
+        self.write("math/mint.hpp", "#pragma once\nusing mint = int;\n")
+        plan = self.plan(previous)
+        self.assertEqual(plan["headers"], ["math/combinatorics/comb.hpp", "math/mint.hpp"])
+        self.assertEqual(plan["unit"], ["test/unit/comb.cpp", "test/unit/mint.cpp"])
+        self.assertEqual(plan["verification"], sorted(baseline["verification"] + ["test/comb.test.cpp"]))
+        self.assertEqual(self.plan(plan["state"])["verification"], baseline["verification"])
+
     def test_successful_state_skips_already_verified_content(self):
         self.write("math/mint.hpp", "#pragma once\nusing mint = int;\n")
         successful = self.plan(self.previous)["state"]
@@ -467,6 +479,7 @@ class IncrementalVerification(unittest.TestCase):
 
     def test_repository_wavelet_dependencies(self):
         previous = build_plan(ROOT, environment="test")["state"]
+        baseline = build_plan(ROOT, previous, environment="test")
         original = Path.read_bytes
 
         def changed(path):
@@ -478,7 +491,7 @@ class IncrementalVerification(unittest.TestCase):
         self.assertFalse(plan["full"])
         self.assertEqual(plan["headers"], ["data_structure/wavelet_matrix/point_set_wavelet_matrix.hpp", "data_structure/wavelet_matrix/wavelet_matrix.hpp", "data_structure/wavelet_matrix/weighted_wavelet_matrix.hpp"])
         self.assertEqual(plan["unit"], ["test/unit/dynamic_wavelet_matrix.cpp", "test/unit/point_set_wavelet_matrix.cpp", "test/unit/standalone.cpp", "test/unit/wavelet_matrix.cpp", "test/unit/wavelet_matrix_opt.cpp", "test/unit/wavelet_matrix_sum_bound.cpp", "test/unit/weighted_wavelet_matrix.cpp"])
-        self.assertEqual(plan["verification"], ["test/wavelet_matrix_freq.test.cpp", "test/wavelet_matrix_kth.test.cpp", "test/wavelet_matrix_sum.test.cpp", "test/weighted_wavelet_matrix_rectangle.test.cpp"])
+        self.assertEqual(plan["verification"], sorted(baseline["verification"] + ["test/wavelet_matrix_freq.test.cpp", "test/wavelet_matrix_kth.test.cpp", "test/wavelet_matrix_sum.test.cpp", "test/weighted_wavelet_matrix_rectangle.test.cpp"]))
 
     def test_repository_mint_dependencies(self):
         previous = build_plan(ROOT, environment="test")["state"]
@@ -499,6 +512,7 @@ class IncrementalVerification(unittest.TestCase):
 
     def test_repository_dynamic_bit_vector_dependencies(self):
         previous = build_plan(ROOT, environment="test")["state"]
+        baseline = build_plan(ROOT, previous, environment="test")
         original = Path.read_bytes
 
         def changed(path):
@@ -510,7 +524,7 @@ class IncrementalVerification(unittest.TestCase):
         self.assertEqual(plan["headers"], ["components/dynamic_bit_vector.hpp", "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp"])
         self.assertEqual(plan["unit"], ["test/unit/dynamic_bit_vector.cpp", "test/unit/dynamic_quad_wavelet.cpp", "test/unit/dynamic_wavelet_core.cpp", "test/unit/dynamic_wavelet_count.cpp", "test/unit/dynamic_wavelet_matrix.cpp", "test/unit/standalone.cpp"])
         self.assertEqual(plan["sanitize"], plan["unit"])
-        self.assertEqual(plan["verification"], ["test/dynamic_wavelet_matrix_freq.test.cpp", "test/dynamic_wavelet_matrix_kth.test.cpp"])
+        self.assertEqual(plan["verification"], sorted(baseline["verification"] + ["test/dynamic_wavelet_matrix_freq.test.cpp", "test/dynamic_wavelet_matrix_kth.test.cpp"]))
 
 
 class BoostIdentityTests(unittest.TestCase):

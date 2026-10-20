@@ -191,6 +191,30 @@ class QuadVector {
 			}
 		}
 	}
+	__attribute__((target("avx2,popcnt")))
+	static void set_counts_avx2(Node& node, int first, int old, int digit) {
+		auto one = _mm256_set1_epi32(1);
+		int i = first;
+		for (; i + 8 <= node.count; i += 8) {
+			auto* a = reinterpret_cast<__m256i*>(node.sums[old].data() + i + 1);
+			auto* b = reinterpret_cast<__m256i*>(node.sums[digit].data() + i + 1);
+			_mm256_storeu_si256(a, _mm256_sub_epi32(_mm256_loadu_si256(a), one));
+			_mm256_storeu_si256(b, _mm256_add_epi32(_mm256_loadu_si256(b), one));
+		}
+		for (; i < node.count; ++i) --node.sums[old][i + 1], ++node.sums[digit][i + 1];
+	}
+	__attribute__((target("avx512f,popcnt")))
+	static void set_counts_avx512(Node& node, int first, int old, int digit) {
+		auto one = _mm512_set1_epi32(1);
+		for (int i = first; i < node.count; i += 16) {
+			int length = std::min(16, node.count - i);
+			__mmask16 active = __mmask16((1U << length) - 1);
+			auto* a = node.sums[old].data() + i + 1;
+			auto* b = node.sums[digit].data() + i + 1;
+			_mm512_mask_storeu_epi32(a, active, _mm512_sub_epi32(_mm512_maskz_loadu_epi32(active, a), one));
+			_mm512_mask_storeu_epi32(b, active, _mm512_add_epi32(_mm512_maskz_loadu_epi32(active, b), one));
+		}
+	}
 #endif
 	static int child(const Node& node, int p) {
 #if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
@@ -225,6 +249,16 @@ class QuadVector {
 			node.sizes[i + 1] += size_delta;
 			node.sums[digit][i + 1] += sum_delta;
 		}
+	}
+	static void set_counts(Node& node, int first, int old, int digit) {
+		if (first == node.count) return;
+#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+		if constexpr (Branch == 32) {
+			if (has_avx512()) { set_counts_avx512(node, first, old, digit); return; }
+			if (has_avx2()) { set_counts_avx2(node, first, old, digit); return; }
+		}
+#endif
+		for (int i = first; i < node.count; ++i) --node.sums[old][i + 1], ++node.sums[digit][i + 1];
 	}
 
 	static int access_leaf(const Leaf& leaf, int p) {
@@ -270,16 +304,144 @@ class QuadVector {
 		for (int d = 0; d < 4; ++d) result[d] += before[d];
 		return result;
 	}
+	static Word prefix_delta(int old, int digit) {
+		if constexpr (std::endian::native == std::endian::big) return (Word(1) << (16 * (3 - digit))) - (Word(1) << (16 * (3 - old)));
+		else return (Word(1) << (16 * digit)) - (Word(1) << (16 * old));
+	}
+	static void update_prefix(std::array<std::uint16_t, 4>& prefix, int old, int digit) {
+		if constexpr (std::endian::native == std::endian::little || std::endian::native == std::endian::big)
+			prefix = std::bit_cast<std::array<std::uint16_t, 4>>(std::bit_cast<Word>(prefix) + prefix_delta(old, digit));
+		else --prefix[old], ++prefix[digit];
+	}
+	static void shift_insert(Leaf& leaf, int first, int last, int digit) {
+		for (int i = last; i > first; --i) {
+			int carry = int(leaf.low[i - 1] >> 63) | (int(leaf.high[i - 1] >> 63) << 1);
+			update_prefix(leaf.prefix[i], carry, digit);
+			leaf.low[i] = (leaf.low[i] << 1) | (leaf.low[i - 1] >> 63);
+			leaf.high[i] = (leaf.high[i] << 1) | (leaf.high[i - 1] >> 63);
+		}
+	}
+	static void shift_erase(Leaf& leaf, int first, int last, int digit) {
+		for (int i = first; i <= last; ++i) {
+			int carry = int(leaf.low[i] & 1) | (int(leaf.high[i] & 1) << 1);
+			update_prefix(leaf.prefix[i], digit, carry);
+			leaf.low[i] = (leaf.low[i] >> 1) | (i < last ? leaf.low[i + 1] << 63 : 0);
+			leaf.high[i] = (leaf.high[i] >> 1) | (i < last ? leaf.high[i + 1] << 63 : 0);
+		}
+	}
+#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+	__attribute__((target("avx2")))
+	static void shift_insert_avx2(Leaf& leaf, int first, int last, int digit) {
+		auto ones = _mm256_set1_epi64x(1), added = _mm256_set1_epi64x(Word(1) << (16 * digit));
+		int i = last;
+		for (; i - first >= 4; i -= 4) {
+			auto a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.low.data() + i - 3));
+			auto b = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.high.data() + i - 3));
+			auto ca = _mm256_srli_epi64(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.low.data() + i - 4)), 63);
+			auto cb = _mm256_srli_epi64(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.high.data() + i - 4)), 63);
+			auto shifts = _mm256_slli_epi64(_mm256_or_si256(ca, _mm256_slli_epi64(cb, 1)), 4);
+			auto delta = _mm256_sub_epi64(added, _mm256_sllv_epi64(ones, shifts));
+			auto* out = reinterpret_cast<__m256i*>(leaf.prefix.data() + i - 3);
+			_mm256_storeu_si256(out, _mm256_add_epi64(_mm256_loadu_si256(out), delta));
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(leaf.low.data() + i - 3), _mm256_or_si256(_mm256_slli_epi64(a, 1), ca));
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(leaf.high.data() + i - 3), _mm256_or_si256(_mm256_slli_epi64(b, 1), cb));
+		}
+		shift_insert(leaf, first, i, digit);
+	}
+	__attribute__((target("avx512f")))
+	static void shift_insert_avx512(Leaf& leaf, int first, int last, int digit) {
+		auto ones = _mm512_set1_epi64(1), added = _mm512_set1_epi64(Word(1) << (16 * digit));
+		int i = last;
+		for (; i - first >= 8; i -= 8) {
+			auto a = _mm512_loadu_si512(leaf.low.data() + i - 7);
+			auto b = _mm512_loadu_si512(leaf.high.data() + i - 7);
+			auto ca = _mm512_srli_epi64(_mm512_loadu_si512(leaf.low.data() + i - 8), 63);
+			auto cb = _mm512_srli_epi64(_mm512_loadu_si512(leaf.high.data() + i - 8), 63);
+			auto shifts = _mm512_slli_epi64(_mm512_or_si512(ca, _mm512_slli_epi64(cb, 1)), 4);
+			auto delta = _mm512_sub_epi64(added, _mm512_sllv_epi64(ones, shifts));
+			auto* out = leaf.prefix.data() + i - 7;
+			_mm512_storeu_si512(out, _mm512_add_epi64(_mm512_loadu_si512(out), delta));
+			_mm512_storeu_si512(leaf.low.data() + i - 7, _mm512_or_si512(_mm512_slli_epi64(a, 1), ca));
+			_mm512_storeu_si512(leaf.high.data() + i - 7, _mm512_or_si512(_mm512_slli_epi64(b, 1), cb));
+		}
+		shift_insert(leaf, first, i, digit);
+	}
+	__attribute__((target("avx2")))
+	static void shift_erase_avx2(Leaf& leaf, int first, int last, int digit) {
+		auto ones = _mm256_set1_epi64x(1), removed = _mm256_set1_epi64x(Word(1) << (16 * digit));
+		int i = first;
+		for (; i + 4 <= last; i += 4) {
+			auto a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.low.data() + i));
+			auto b = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.high.data() + i));
+			auto ca = _mm256_and_si256(a, ones), cb = _mm256_and_si256(b, ones);
+			auto shifts = _mm256_slli_epi64(_mm256_or_si256(ca, _mm256_slli_epi64(cb, 1)), 4);
+			auto delta = _mm256_sub_epi64(_mm256_sllv_epi64(ones, shifts), removed);
+			auto* out = reinterpret_cast<__m256i*>(leaf.prefix.data() + i);
+			_mm256_storeu_si256(out, _mm256_add_epi64(_mm256_loadu_si256(out), delta));
+			auto next_a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.low.data() + i + 1));
+			auto next_b = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.high.data() + i + 1));
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(leaf.low.data() + i), _mm256_or_si256(_mm256_srli_epi64(a, 1), _mm256_slli_epi64(next_a, 63)));
+			_mm256_storeu_si256(reinterpret_cast<__m256i*>(leaf.high.data() + i), _mm256_or_si256(_mm256_srli_epi64(b, 1), _mm256_slli_epi64(next_b, 63)));
+		}
+		shift_erase(leaf, i, last, digit);
+	}
+	__attribute__((target("avx512f")))
+	static void shift_erase_avx512(Leaf& leaf, int first, int last, int digit) {
+		auto ones = _mm512_set1_epi64(1), removed = _mm512_set1_epi64(Word(1) << (16 * digit));
+		int i = first;
+		for (; i + 8 <= last; i += 8) {
+			auto a = _mm512_loadu_si512(leaf.low.data() + i);
+			auto b = _mm512_loadu_si512(leaf.high.data() + i);
+			auto ca = _mm512_and_si512(a, ones), cb = _mm512_and_si512(b, ones);
+			auto shifts = _mm512_slli_epi64(_mm512_or_si512(ca, _mm512_slli_epi64(cb, 1)), 4);
+			auto delta = _mm512_sub_epi64(_mm512_sllv_epi64(ones, shifts), removed);
+			auto* out = leaf.prefix.data() + i;
+			_mm512_storeu_si512(out, _mm512_add_epi64(_mm512_loadu_si512(out), delta));
+			auto next_a = _mm512_loadu_si512(leaf.low.data() + i + 1);
+			auto next_b = _mm512_loadu_si512(leaf.high.data() + i + 1);
+			_mm512_storeu_si512(leaf.low.data() + i, _mm512_or_si512(_mm512_srli_epi64(a, 1), _mm512_slli_epi64(next_a, 63)));
+			_mm512_storeu_si512(leaf.high.data() + i, _mm512_or_si512(_mm512_srli_epi64(b, 1), _mm512_slli_epi64(next_b, 63)));
+		}
+		shift_erase(leaf, i, last, digit);
+	}
+	__attribute__((target("avx2")))
+	static void set_prefix_avx2(Leaf& leaf, int first, int last, int old, int digit) {
+		auto delta = _mm256_set1_epi64x(prefix_delta(old, digit));
+		int i = first;
+		for (; i + 4 <= last; i += 4) {
+			auto* p = reinterpret_cast<__m256i*>(leaf.prefix.data() + i);
+			_mm256_storeu_si256(p, _mm256_add_epi64(_mm256_loadu_si256(p), delta));
+		}
+		for (; i < last; ++i) update_prefix(leaf.prefix[i], old, digit);
+	}
+	__attribute__((target("avx512f")))
+	static void set_prefix_avx512(Leaf& leaf, int first, int last, int old, int digit) {
+		auto delta = _mm512_set1_epi64(prefix_delta(old, digit));
+		int i = first;
+		for (; i + 8 <= last; i += 8) {
+			auto* p = leaf.prefix.data() + i;
+			_mm512_storeu_si512(p, _mm512_add_epi64(_mm512_loadu_si512(p), delta));
+		}
+		for (; i < last; ++i) update_prefix(leaf.prefix[i], old, digit);
+	}
+#endif
+	static void set_prefix(Leaf& leaf, int first, int last, int old, int digit) {
+#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+		if (last - first >= 8 && has_avx512()) { set_prefix_avx512(leaf, first, last, old, digit); return; }
+		if (last - first >= 4 && has_avx2()) { set_prefix_avx2(leaf, first, last, old, digit); return; }
+#endif
+		for (int i = first; i < last; ++i) update_prefix(leaf.prefix[i], old, digit);
+	}
 	static void insert_leaf(Leaf& leaf, int p, int digit) {
 		int w = p >> 6, shift = p & 63;
 		if (!(leaf.length & 63)) for (int d = 0; d < 4; ++d) leaf.prefix[leaf.length >> 6][d] = leaf.counts[d];
-		for (int i = leaf.length >> 6; i > w; --i) {
-			int carry = int(leaf.low[i - 1] >> 63) | (int(leaf.high[i - 1] >> 63) << 1);
-			leaf.low[i] = (leaf.low[i] << 1) | (leaf.low[i - 1] >> 63);
-			leaf.high[i] = (leaf.high[i] << 1) | (leaf.high[i - 1] >> 63);
-			++leaf.prefix[i][digit];
-			--leaf.prefix[i][carry];
-		}
+		int last = leaf.length >> 6;
+#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+		if (last - w >= 8 && has_avx512()) shift_insert_avx512(leaf, w, last, digit);
+		else if (last - w >= 4 && has_avx2()) shift_insert_avx2(leaf, w, last, digit);
+		else
+#endif
+		shift_insert(leaf, w, last, digit);
 		Word low = mask(shift), a = leaf.low[w], b = leaf.high[w];
 		leaf.low[w] = (a & low) | ((a & ~low) << 1) | (Word(digit & 1) << shift);
 		leaf.high[w] = (b & low) | ((b & ~low) << 1) | (Word(digit >> 1) << shift);
@@ -291,13 +453,12 @@ class QuadVector {
 		leaf.low[w] = (a & low) | ((a >> 1) & ~low);
 		leaf.high[w] = (b & low) | ((b >> 1) & ~low);
 		if (w < last) leaf.low[w] |= leaf.low[w + 1] << 63, leaf.high[w] |= leaf.high[w + 1] << 63;
-		for (int i = w + 1; i <= last; ++i) {
-			int carry = int(leaf.low[i] & 1) | (int(leaf.high[i] & 1) << 1);
-			--leaf.prefix[i][digit];
-			++leaf.prefix[i][carry];
-			leaf.low[i] = (leaf.low[i] >> 1) | (i < last ? leaf.low[i + 1] << 63 : 0);
-			leaf.high[i] = (leaf.high[i] >> 1) | (i < last ? leaf.high[i + 1] << 63 : 0);
-		}
+#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+		if (last - w >= 9 && has_avx512()) shift_erase_avx512(leaf, w + 1, last, digit);
+		else if (last - w >= 5 && has_avx2()) shift_erase_avx2(leaf, w + 1, last, digit);
+		else
+#endif
+		shift_erase(leaf, w + 1, last, digit);
 		--leaf.length, --leaf.counts[digit];
 	}
 	static void assign_leaf(Leaf& leaf, const Word* low, const Word* high, int count, int start, int length) {
@@ -413,7 +574,7 @@ class QuadVector {
 	void reserve(int size) {
 		assert(size >= 0);
 		if (!size) return;
-		std::size_t capacity = std::size_t(size) / (Block / 2) + 2;
+		std::size_t capacity = std::size_t(size) / (Block / 4) + 2;
 		leaves.reserve(capacity);
 		if (size > Block) nodes.reserve(capacity / (Branch / 2 - 1) + 4);
 	}
@@ -433,6 +594,9 @@ class QuadVector {
 			high[i >> 6] |= Word(values[i] >> 1) << (i & 63);
 		}
 		int target = Block * 3 / 4, count = n <= Block ? 1 : (n - 1) / target + 1;
+		std::size_t capacity = 1;
+		while (capacity < (values.size() - 1) / Block + 1) capacity *= Branch;
+		count = int(std::min(std::size_t(count), capacity));
 		leaves.reserve(count);
 		std::vector<int> current;
 		current.reserve(count);
@@ -471,12 +635,27 @@ class QuadVector {
 		if (total[digit] == n) return {l, r};
 		if (!l) return {0, rank(r, digit)};
 		if (r == n) return {rank(l, digit), total[digit]};
+		auto prefix = [&](int id, int p) {
+			int before = 0;
+			while (!(id & 1)) {
+				if (!p) return before;
+				const auto& node = nodes[id >> 1];
+				if (p == node.sizes[node.count]) return before + node.sums[digit][node.count];
+				int j = child(node, p);
+				p -= node.sizes[j], before += node.sums[digit][j];
+				id = node.ids[j];
+			}
+			return before + rank_leaf(leaves[id >> 1], p, digit);
+		};
 		int id = root, before = 0;
 		while (!(id & 1)) {
 			const auto& node = nodes[id >> 1];
-			int a = child(node, l), b = child(node, r);
-			if (a != b) return {before + node.sums[digit][a] + rank_node(node.ids[a], l - node.sizes[a], digit),
-				before + node.sums[digit][b] + rank_node(node.ids[b], r - node.sizes[b], digit)};
+			if (!l) return {before, before + prefix(id, r)};
+			if (r == node.sizes[node.count]) return {before + prefix(id, l), before + node.sums[digit][node.count]};
+			int a = child(node, l);
+			int b = r <= node.sizes[a + 1] ? a : child(node, r - 1);
+			if (a != b) return {before + node.sums[digit][a] + prefix(node.ids[a], l - node.sizes[a]),
+				before + node.sums[digit][b] + prefix(node.ids[b], r - node.sizes[b])};
 			l -= node.sizes[a], r -= node.sizes[a], before += node.sums[digit][a];
 			id = node.ids[a];
 		}
@@ -495,14 +674,38 @@ class QuadVector {
 		if (uniform >= 0) { Counts x{}, y{}; x[uniform] = l, y[uniform] = r; return {x, y}; }
 		if (!l) return {Counts{}, ranks(r)};
 		if (r == n) return {ranks(l), total};
+		auto prefix = [&](int id, int p) {
+			Counts before{};
+			while (!(id & 1)) {
+				if (!p) return before;
+				const auto& node = nodes[id >> 1];
+				if (p == node.sizes[node.count]) {
+					for (int d = 0; d < 4; ++d) before[d] += node.sums[d][node.count];
+					return before;
+				}
+				int j = child(node, p);
+				p -= node.sizes[j];
+				for (int d = 0; d < 4; ++d) before[d] += node.sums[d][j];
+				id = node.ids[j];
+			}
+			auto result = ranks_leaf(leaves[id >> 1], p);
+			for (int d = 0; d < 4; ++d) result[d] += before[d];
+			return result;
+		};
 		int id = root;
 		Counts before{};
 		while (!(id & 1)) {
 			const auto& node = nodes[id >> 1];
-			int a = child(node, l), b = child(node, r);
+			if (!l || r == node.sizes[node.count]) {
+				auto x = prefix(id, l), y = prefix(id, r);
+				for (int d = 0; d < 4; ++d) x[d] += before[d], y[d] += before[d];
+				return {x, y};
+			}
+			int a = child(node, l);
+			int b = r <= node.sizes[a + 1] ? a : child(node, r - 1);
 			if (a != b) {
-				auto x = ranks_node(node.ids[a], l - node.sizes[a]);
-				auto y = ranks_node(node.ids[b], r - node.sizes[b]);
+				auto x = prefix(node.ids[a], l - node.sizes[a]);
+				auto y = prefix(node.ids[b], r - node.sizes[b]);
 				for (int d = 0; d < 4; ++d) x[d] += before[d] + node.sums[d][a], y[d] += before[d] + node.sums[d][b];
 				return {x, y};
 			}
@@ -590,17 +793,15 @@ class QuadVector {
 		assert(0 <= p && p < n);
 		std::array<int, 32> path, slots;
 		int id = root, depth = 0;
-		Counts before{};
 		while (!(id & 1)) {
 			const auto& node = nodes[id >> 1];
 			int j = child(node, p);
 			path[depth] = id, slots[depth++] = j;
 			p -= node.sizes[j];
-			for (int d = 0; d < 4; ++d) before[d] += node.sums[d][j];
 			id = node.ids[j];
 		}
 		auto& leaf = leaves[id >> 1];
-		int digit = access_leaf(leaf, p), rank = before[digit] + rank_leaf(leaf, p, digit);
+		int digit = access_leaf(leaf, p), rank = rank_leaf(leaf, p, digit);
 		erase_leaf(leaf, p, digit);
 		--n, --total[digit];
 		refresh_uniform();
@@ -611,9 +812,10 @@ class QuadVector {
 		}
 		for (int d = 0; d < depth; ++d) {
 			auto& node = nodes[path[d] >> 1];
+			rank += node.sums[digit][slots[d]];
 			add_range(node, slots[d], node.count, -1, digit, -1);
 		}
-		while (depth && (id & 1 ? leaves[id >> 1].length < Block / 2 : nodes[id >> 1].count < Branch / 2)) {
+		while (depth && (id & 1 ? leaves[id >> 1].length < Block / 4 : nodes[id >> 1].count < Branch / 2)) {
 			int parent = path[--depth];
 			if (!rebalance(parent, slots[depth])) break;
 			id = parent;
@@ -630,30 +832,31 @@ class QuadVector {
 		if (total[digit] == n) return {p, digit, p};
 		std::array<int, 32> path, slots;
 		int id = root, depth = 0;
-		Counts before{};
 		while (!(id & 1)) {
 			const auto& node = nodes[id >> 1];
 			int j = child(node, p);
 			path[depth] = id, slots[depth++] = j;
 			p -= node.sizes[j];
-			for (int d = 0; d < 4; ++d) before[d] += node.sums[d][j];
 			id = node.ids[j];
 		}
 		auto& leaf = leaves[id >> 1];
 		int old = access_leaf(leaf, p);
-		int old_rank = before[old] + rank_leaf(leaf, p, old);
-		if (old == digit) return {old_rank, old, old_rank};
-		int new_rank = before[digit] + rank_leaf(leaf, p, digit);
+		int old_rank = rank_leaf(leaf, p, old);
+		if (old == digit) {
+			for (int d = 0; d < depth; ++d) old_rank += nodes[path[d] >> 1].sums[old][slots[d]];
+			return {old_rank, old, old_rank};
+		}
+		int new_rank = rank_leaf(leaf, p, digit);
 		Word bit = Word(1) << (p & 63);
 		if ((old ^ digit) & 1) leaf.low[p >> 6] ^= bit;
 		if ((old ^ digit) & 2) leaf.high[p >> 6] ^= bit;
 		--leaf.counts[old], ++leaf.counts[digit], --total[old], ++total[digit];
 		uniform = total[digit] == n ? digit : -1;
-		for (int i = (p >> 6) + 1; i <= (leaf.length - 1) / 64; ++i) --leaf.prefix[i][old], ++leaf.prefix[i][digit];
+		set_prefix(leaf, (p >> 6) + 1, (leaf.length - 1) / 64 + 1, old, digit);
 		for (int d = 0; d < depth; ++d) {
 			auto& node = nodes[path[d] >> 1];
-			add_range(node, slots[d], node.count, 0, old, -1);
-			add_range(node, slots[d], node.count, 0, digit, 1);
+			old_rank += node.sums[old][slots[d]], new_rank += node.sums[digit][slots[d]];
+			set_counts(node, slots[d], old, digit);
 		}
 		return {old_rank, old, new_rank};
 	}
@@ -663,13 +866,11 @@ class QuadVector {
 		if (from == to) return set_rank(from, digit);
 		std::array<int, 32> left_path, right_path, left_slots, right_slots;
 		int a = root, b = root, p = from, q = to + (from < to), left_depth = 0, right_depth = 0, next = 0;
-		Counts before{};
 		while (!(a & 1)) {
 			const auto& node = nodes[a >> 1];
 			int j = child(node, p);
 			left_path[left_depth] = a, left_slots[left_depth++] = j;
 			p -= node.sizes[j];
-			for (int d = 0; d < 4; ++d) before[d] += node.sums[d][j];
 			a = node.ids[j];
 		}
 		while (!(b & 1)) {
@@ -681,11 +882,11 @@ class QuadVector {
 		}
 		auto& left = leaves[a >> 1];
 		auto& right = leaves[b >> 1];
-		if (a != b && (left.length <= Block / 2 || right.length == Block)) {
+		if (a != b && (left.length <= Block / 4 || right.length == Block)) {
 			auto [rank, old] = erase_rank(from);
 			return {rank, old, insert(to, digit)};
 		}
-		int old = access_leaf(left, p), rank = before[old] + rank_leaf(left, p, old);
+		int old = access_leaf(left, p), rank = rank_leaf(left, p, old);
 		next += rank_leaf(right, q, digit) - int(from < to && old == digit);
 		erase_leaf(left, p, old);
 		insert_leaf(right, q - int(a == b && from < to), digit);
@@ -695,16 +896,17 @@ class QuadVector {
 		while (common < left_depth && common < right_depth && left_path[common] == right_path[common]) {
 			auto& node = nodes[left_path[common] >> 1];
 			int l = left_slots[common], r = right_slots[common];
+			rank += node.sums[old][l];
 			if (old == digit) add_range(node, std::min(l, r), std::max(l, r), l < r ? -1 : 1, digit, l < r ? -1 : 1);
 			else {
-				add_range(node, std::min(l, r), std::max(l, r), l < r ? -1 : 1, digit, 0);
-				add_range(node, l, node.count, 0, old, -1);
-				add_range(node, r, node.count, 0, digit, 1);
+				add_range(node, std::min(l, r), std::max(l, r), l < r ? -1 : 1, l < r ? old : digit, l < r ? -1 : 1);
+				set_counts(node, std::max(l, r), old, digit);
 			}
 			++common;
 		}
 		for (int d = common; d < left_depth; ++d) {
 			auto& node = nodes[left_path[d] >> 1];
+			rank += node.sums[old][left_slots[d]];
 			add_range(node, left_slots[d], node.count, -1, old, -1);
 		}
 		for (int d = common; d < right_depth; ++d) {
@@ -731,7 +933,20 @@ class QuadVector {
 			id = node.ids[low];
 		}
 		const auto& leaf = leaves[id >> 1];
-		for (int i = 0; i < (leaf.length + 63) / 64; ++i) {
+		int word_count = (leaf.length + 63) / 64;
+		if (word_count > 16) {
+			int low = 0, high = word_count;
+			while (low + 1 < high) {
+				int middle = (low + high) / 2;
+				if (leaf.prefix[middle][digit] <= k) low = middle;
+				else high = middle;
+			}
+			k -= leaf.prefix[low][digit];
+			Word word = ((digit & 1) ? leaf.low[low] : ~leaf.low[low]) & ((digit & 2) ? leaf.high[low] : ~leaf.high[low]);
+			word &= mask(std::min(64, leaf.length - low * 64));
+			return before + low * 64 + select_word(word, k);
+		}
+		for (int i = 0; i < word_count; ++i) {
 			Word word = ((digit & 1) ? leaf.low[i] : ~leaf.low[i]) & ((digit & 2) ? leaf.high[i] : ~leaf.high[i]);
 			word &= mask(std::min(64, leaf.length - i * 64));
 			int count = popcount(word);

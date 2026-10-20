@@ -1,0 +1,1368 @@
+{
+  "created_at": "2026-10-20T14:37:19.166429+00:00",
+  "baseline": "5012542",
+  "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0",
+  "cpu": "model name\t: 13th Gen Intel(R) Core(TM) i7-13700F",
+  "cpu_affinity": [
+    2
+  ],
+  "flags": [
+    "-std=gnu++23",
+    "-O2",
+    "-UNDEBUG",
+    "-ftrivial-auto-var-init=zero",
+    "-fno-lto",
+    "-DDWM_FAST_IO=1",
+    "-DDWM_COUNT_DIRECT=1",
+    "-DDWM_INSTRUMENT=1",
+    "-march=native"
+  ],
+  "trials": 1,
+  "driver_sha256": "e89e8a8a256bbfd2c6667ba4ee8507aeab9b5616f99b004738ace3f0d5dd282e",
+  "sources": {
+    "before": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "541466cdfeabc524243dfcd661a752c2f3eeb71f1ffdd5b975d0265114a44d06",
+      "components/dynamic_quad_wavelet.hpp": "de93626cab81a07ac4f356a7699a39beacde634889e9ddedc6d57fce387ee655",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "offsets": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "541466cdfeabc524243dfcd661a752c2f3eeb71f1ffdd5b975d0265114a44d06",
+      "components/dynamic_quad_wavelet.hpp": "65b2caba7ee3bd5c1a21457e7574af7548daee8ad501ebbb0ef6423646a31195",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "leaf": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "57b8215fcf2ac39e043ffbf7ddb3136477e22d69db582b48d6b010a8582147c4",
+      "components/dynamic_quad_wavelet.hpp": "65b2caba7ee3bd5c1a21457e7574af7548daee8ad501ebbb0ef6423646a31195",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "pair": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "d8674ea947ccc11951cf9daa00178cd0139a1513e3d3fb4176b9b7ebab323ae0",
+      "components/dynamic_quad_wavelet.hpp": "65b2caba7ee3bd5c1a21457e7574af7548daee8ad501ebbb0ef6423646a31195",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "block4096": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "57b8215fcf2ac39e043ffbf7ddb3136477e22d69db582b48d6b010a8582147c4",
+      "components/dynamic_quad_wavelet.hpp": "2873c72aca896d54bb49a0af8e2f1132ddcdb15de64bf3bb69cc6307a9639bb8",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "quarter4096": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "fbd1181388496bb85b520b4e725833e7c558af86b4f24e7e262c7da57e106924",
+      "components/dynamic_quad_wavelet.hpp": "2873c72aca896d54bb49a0af8e2f1132ddcdb15de64bf3bb69cc6307a9639bb8",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "full4096": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "7d5385a01d343248e85ec23370deff8d1a81c46b955d4b0dafbe0a3e5cbb7e6d",
+      "components/dynamic_quad_wavelet.hpp": "2873c72aca896d54bb49a0af8e2f1132ddcdb15de64bf3bb69cc6307a9639bb8",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "block8192": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "57b8215fcf2ac39e043ffbf7ddb3136477e22d69db582b48d6b010a8582147c4",
+      "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "quarter8192": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "fbd1181388496bb85b520b4e725833e7c558af86b4f24e7e262c7da57e106924",
+      "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "full8192": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "7d5385a01d343248e85ec23370deff8d1a81c46b955d4b0dafbe0a3e5cbb7e6d",
+      "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    }
+  },
+  "cases": [
+    {
+      "name": "clustered",
+      "input_sha256": "019c94baf87bd52863ca3a19906b14a1ac8f200d767d805aa2c7b3dd74270d0a",
+      "output_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.006827,
+            "operation_cpu": 0.321987,
+            "build_wall": 0.006590582,
+            "operation_wall": 0.317747052,
+            "answers": 100000,
+            "process_wall": 0.34643564999998944
+          }
+        ],
+        "offsets": [
+          {
+            "build_cpu": 0.007008,
+            "operation_cpu": 0.314771,
+            "build_wall": 0.006771627,
+            "operation_wall": 0.300583097,
+            "answers": 100000,
+            "process_wall": 0.3298380230000362
+          }
+        ],
+        "leaf": [
+          {
+            "build_cpu": 0.006747,
+            "operation_cpu": 0.324415,
+            "build_wall": 0.006443466,
+            "operation_wall": 0.309743982,
+            "answers": 100000,
+            "process_wall": 0.3368466109999986
+          }
+        ],
+        "pair": [
+          {
+            "build_cpu": 0.006955,
+            "operation_cpu": 0.319285,
+            "build_wall": 0.00703188,
+            "operation_wall": 0.319254617,
+            "answers": 100000,
+            "process_wall": 0.349174239999968
+          }
+        ],
+        "block4096": [
+          {
+            "build_cpu": 0.00715,
+            "operation_cpu": 0.322182,
+            "build_wall": 0.006827504,
+            "operation_wall": 0.307627941,
+            "answers": 100000,
+            "process_wall": 0.33557510499997534
+          }
+        ],
+        "quarter4096": [
+          {
+            "build_cpu": 0.007131,
+            "operation_cpu": 0.32138,
+            "build_wall": 0.007135131,
+            "operation_wall": 0.3214548,
+            "answers": 100000,
+            "process_wall": 0.35155261799997106
+          }
+        ],
+        "full4096": [
+          {
+            "build_cpu": 0.006578,
+            "operation_cpu": 0.319219,
+            "build_wall": 0.006282051,
+            "operation_wall": 0.304797942,
+            "answers": 100000,
+            "process_wall": 0.3329565040000375
+          }
+        ],
+        "block8192": [
+          {
+            "build_cpu": 0.007176,
+            "operation_cpu": 0.337379,
+            "build_wall": 0.006852367,
+            "operation_wall": 0.322123188,
+            "answers": 100000,
+            "process_wall": 0.3515331709999714
+          }
+        ],
+        "quarter8192": [
+          {
+            "build_cpu": 0.006971,
+            "operation_cpu": 0.336214,
+            "build_wall": 0.006974542,
+            "operation_wall": 0.336315923,
+            "answers": 100000,
+            "process_wall": 0.37273055200000726
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.007039,
+            "operation_cpu": 0.274316,
+            "build_wall": 0.006721893,
+            "operation_wall": 0.26194258,
+            "answers": 100000,
+            "process_wall": 0.2911552209999968
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.006827,
+          "operation_cpu": 0.321987,
+          "process_wall": 0.34643564999998944
+        },
+        "offsets": {
+          "build_cpu": 0.007008,
+          "operation_cpu": 0.314771,
+          "process_wall": 0.3298380230000362
+        },
+        "leaf": {
+          "build_cpu": 0.006747,
+          "operation_cpu": 0.324415,
+          "process_wall": 0.3368466109999986
+        },
+        "pair": {
+          "build_cpu": 0.006955,
+          "operation_cpu": 0.319285,
+          "process_wall": 0.349174239999968
+        },
+        "block4096": {
+          "build_cpu": 0.00715,
+          "operation_cpu": 0.322182,
+          "process_wall": 0.33557510499997534
+        },
+        "quarter4096": {
+          "build_cpu": 0.007131,
+          "operation_cpu": 0.32138,
+          "process_wall": 0.35155261799997106
+        },
+        "full4096": {
+          "build_cpu": 0.006578,
+          "operation_cpu": 0.319219,
+          "process_wall": 0.3329565040000375
+        },
+        "block8192": {
+          "build_cpu": 0.007176,
+          "operation_cpu": 0.337379,
+          "process_wall": 0.3515331709999714
+        },
+        "quarter8192": {
+          "build_cpu": 0.006971,
+          "operation_cpu": 0.336214,
+          "process_wall": 0.37273055200000726
+        },
+        "full8192": {
+          "build_cpu": 0.007039,
+          "operation_cpu": 0.274316,
+          "process_wall": 0.2911552209999968
+        }
+      }
+    },
+    {
+      "name": "duplicates16",
+      "input_sha256": "dda49d6cf8f572d3eb0fbc72837d597a280d4da79595f194c98f2b88b6a2c875",
+      "output_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.003776,
+            "operation_cpu": 0.057788,
+            "build_wall": 0.003845054,
+            "operation_wall": 0.057905233,
+            "answers": 100000,
+            "process_wall": 0.0804254220000189
+          }
+        ],
+        "offsets": [
+          {
+            "build_cpu": 0.003688,
+            "operation_cpu": 0.057939,
+            "build_wall": 0.003784556,
+            "operation_wall": 0.058081571,
+            "answers": 100000,
+            "process_wall": 0.08282240900001625
+          }
+        ],
+        "leaf": [
+          {
+            "build_cpu": 0.003705,
+            "operation_cpu": 0.057791,
+            "build_wall": 0.00370915,
+            "operation_wall": 0.057890378,
+            "answers": 100000,
+            "process_wall": 0.07889253999996981
+          }
+        ],
+        "pair": [
+          {
+            "build_cpu": 0.003593,
+            "operation_cpu": 0.058596,
+            "build_wall": 0.003668081,
+            "operation_wall": 0.058591614,
+            "answers": 100000,
+            "process_wall": 0.07934515599998804
+          }
+        ],
+        "block4096": [
+          {
+            "build_cpu": 0.003527,
+            "operation_cpu": 0.05684,
+            "build_wall": 0.003529764,
+            "operation_wall": 0.056913977,
+            "answers": 100000,
+            "process_wall": 0.07723344700002599
+          }
+        ],
+        "quarter4096": [
+          {
+            "build_cpu": 0.003473,
+            "operation_cpu": 0.057613,
+            "build_wall": 0.003476144,
+            "operation_wall": 0.057704825,
+            "answers": 100000,
+            "process_wall": 0.07907856699995364
+          }
+        ],
+        "full4096": [
+          {
+            "build_cpu": 0.003478,
+            "operation_cpu": 0.057336,
+            "build_wall": 0.003481721,
+            "operation_wall": 0.059104294,
+            "answers": 100000,
+            "process_wall": 0.07951515500002415
+          }
+        ],
+        "block8192": [
+          {
+            "build_cpu": 0.003596,
+            "operation_cpu": 0.056548,
+            "build_wall": 0.003610188,
+            "operation_wall": 0.056631064,
+            "answers": 100000,
+            "process_wall": 0.07757807700005515
+          }
+        ],
+        "quarter8192": [
+          {
+            "build_cpu": 0.003775,
+            "operation_cpu": 0.056973,
+            "build_wall": 0.003780083,
+            "operation_wall": 0.057151546,
+            "answers": 100000,
+            "process_wall": 0.07994330100001434
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.003412,
+            "operation_cpu": 0.044127,
+            "build_wall": 0.003415026,
+            "operation_wall": 0.044212281,
+            "answers": 100000,
+            "process_wall": 0.06528433000005407
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.003776,
+          "operation_cpu": 0.057788,
+          "process_wall": 0.0804254220000189
+        },
+        "offsets": {
+          "build_cpu": 0.003688,
+          "operation_cpu": 0.057939,
+          "process_wall": 0.08282240900001625
+        },
+        "leaf": {
+          "build_cpu": 0.003705,
+          "operation_cpu": 0.057791,
+          "process_wall": 0.07889253999996981
+        },
+        "pair": {
+          "build_cpu": 0.003593,
+          "operation_cpu": 0.058596,
+          "process_wall": 0.07934515599998804
+        },
+        "block4096": {
+          "build_cpu": 0.003527,
+          "operation_cpu": 0.05684,
+          "process_wall": 0.07723344700002599
+        },
+        "quarter4096": {
+          "build_cpu": 0.003473,
+          "operation_cpu": 0.057613,
+          "process_wall": 0.07907856699995364
+        },
+        "full4096": {
+          "build_cpu": 0.003478,
+          "operation_cpu": 0.057336,
+          "process_wall": 0.07951515500002415
+        },
+        "block8192": {
+          "build_cpu": 0.003596,
+          "operation_cpu": 0.056548,
+          "process_wall": 0.07757807700005515
+        },
+        "quarter8192": {
+          "build_cpu": 0.003775,
+          "operation_cpu": 0.056973,
+          "process_wall": 0.07994330100001434
+        },
+        "full8192": {
+          "build_cpu": 0.003412,
+          "operation_cpu": 0.044127,
+          "process_wall": 0.06528433000005407
+        }
+      }
+    },
+    {
+      "name": "no_op_random",
+      "input_sha256": "2546525f0863e1118879e2ee42ec8d0311e4d3fb7b67ef7a351b624406b214c8",
+      "output_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.00725,
+            "operation_cpu": 0.187299,
+            "build_wall": 0.0070879,
+            "operation_wall": 0.180845881,
+            "answers": 100000,
+            "process_wall": 0.21103873999999223
+          }
+        ],
+        "offsets": [
+          {
+            "build_cpu": 0.006805,
+            "operation_cpu": 0.183655,
+            "build_wall": 0.006650962,
+            "operation_wall": 0.177338879,
+            "answers": 100000,
+            "process_wall": 0.20608828700000004
+          }
+        ],
+        "leaf": [
+          {
+            "build_cpu": 0.006871,
+            "operation_cpu": 0.186967,
+            "build_wall": 0.00663848,
+            "operation_wall": 0.180549114,
+            "answers": 100000,
+            "process_wall": 0.21039872099999002
+          }
+        ],
+        "pair": [
+          {
+            "build_cpu": 0.006876,
+            "operation_cpu": 0.18321,
+            "build_wall": 0.006719814,
+            "operation_wall": 0.176897368,
+            "answers": 100000,
+            "process_wall": 0.20603479199996855
+          }
+        ],
+        "block4096": [
+          {
+            "build_cpu": 0.007184,
+            "operation_cpu": 0.181287,
+            "build_wall": 0.006939144,
+            "operation_wall": 0.175041179,
+            "answers": 100000,
+            "process_wall": 0.204343893999976
+          }
+        ],
+        "quarter4096": [
+          {
+            "build_cpu": 0.006833,
+            "operation_cpu": 0.17951,
+            "build_wall": 0.006601693,
+            "operation_wall": 0.173338356,
+            "answers": 100000,
+            "process_wall": 0.20174739399999453
+          }
+        ],
+        "full4096": [
+          {
+            "build_cpu": 0.006573,
+            "operation_cpu": 0.170653,
+            "build_wall": 0.006349544,
+            "operation_wall": 0.164782417,
+            "answers": 100000,
+            "process_wall": 0.19557466999998496
+          }
+        ],
+        "block8192": [
+          {
+            "build_cpu": 0.007179,
+            "operation_cpu": 0.1734,
+            "build_wall": 0.006935418,
+            "operation_wall": 0.167438377,
+            "answers": 100000,
+            "process_wall": 0.19645150500002728
+          }
+        ],
+        "quarter8192": [
+          {
+            "build_cpu": 0.007157,
+            "operation_cpu": 0.170782,
+            "build_wall": 0.006914381,
+            "operation_wall": 0.164910419,
+            "answers": 100000,
+            "process_wall": 0.1937122660000341
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.006656,
+            "operation_cpu": 0.11131,
+            "build_wall": 0.0064324,
+            "operation_wall": 0.107473855,
+            "answers": 100000,
+            "process_wall": 0.14468853500000023
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.00725,
+          "operation_cpu": 0.187299,
+          "process_wall": 0.21103873999999223
+        },
+        "offsets": {
+          "build_cpu": 0.006805,
+          "operation_cpu": 0.183655,
+          "process_wall": 0.20608828700000004
+        },
+        "leaf": {
+          "build_cpu": 0.006871,
+          "operation_cpu": 0.186967,
+          "process_wall": 0.21039872099999002
+        },
+        "pair": {
+          "build_cpu": 0.006876,
+          "operation_cpu": 0.18321,
+          "process_wall": 0.20603479199996855
+        },
+        "block4096": {
+          "build_cpu": 0.007184,
+          "operation_cpu": 0.181287,
+          "process_wall": 0.204343893999976
+        },
+        "quarter4096": {
+          "build_cpu": 0.006833,
+          "operation_cpu": 0.17951,
+          "process_wall": 0.20174739399999453
+        },
+        "full4096": {
+          "build_cpu": 0.006573,
+          "operation_cpu": 0.170653,
+          "process_wall": 0.19557466999998496
+        },
+        "block8192": {
+          "build_cpu": 0.007179,
+          "operation_cpu": 0.1734,
+          "process_wall": 0.19645150500002728
+        },
+        "quarter8192": {
+          "build_cpu": 0.007157,
+          "operation_cpu": 0.170782,
+          "process_wall": 0.1937122660000341
+        },
+        "full8192": {
+          "build_cpu": 0.006656,
+          "operation_cpu": 0.11131,
+          "process_wall": 0.14468853500000023
+        }
+      }
+    },
+    {
+      "name": "query_only",
+      "input_sha256": "23c0a52b7a13d020498ebf58ed06a3c8fac8e45b8381751407cbde499660dd53",
+      "output_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.006901,
+            "operation_cpu": 0.263041,
+            "build_wall": 0.006965766,
+            "operation_wall": 0.263019793,
+            "answers": 200000,
+            "process_wall": 0.2919810149999762
+          }
+        ],
+        "offsets": [
+          {
+            "build_cpu": 0.006844,
+            "operation_cpu": 0.262349,
+            "build_wall": 0.006924496,
+            "operation_wall": 0.262327946,
+            "answers": 200000,
+            "process_wall": 0.2917670760000419
+          }
+        ],
+        "leaf": [
+          {
+            "build_cpu": 0.006836,
+            "operation_cpu": 0.26424,
+            "build_wall": 0.006753715,
+            "operation_wall": 0.260938162,
+            "answers": 200000,
+            "process_wall": 0.2908097110000085
+          }
+        ],
+        "pair": [
+          {
+            "build_cpu": 0.007285,
+            "operation_cpu": 0.262826,
+            "build_wall": 0.007361973,
+            "operation_wall": 0.262797407,
+            "answers": 200000,
+            "process_wall": 0.2946843369999783
+          }
+        ],
+        "block4096": [
+          {
+            "build_cpu": 0.006777,
+            "operation_cpu": 0.255389,
+            "build_wall": 0.006780542,
+            "operation_wall": 0.256287552,
+            "answers": 200000,
+            "process_wall": 0.28580605399997694
+          }
+        ],
+        "quarter4096": [
+          {
+            "build_cpu": 0.006819,
+            "operation_cpu": 0.256566,
+            "build_wall": 0.006822129,
+            "operation_wall": 0.256546646,
+            "answers": 200000,
+            "process_wall": 0.2857601459999728
+          }
+        ],
+        "full4096": [
+          {
+            "build_cpu": 0.00675,
+            "operation_cpu": 0.250174,
+            "build_wall": 0.006752244,
+            "operation_wall": 0.250147327,
+            "answers": 200000,
+            "process_wall": 0.27971453499998233
+          }
+        ],
+        "block8192": [
+          {
+            "build_cpu": 0.006865,
+            "operation_cpu": 0.24938,
+            "build_wall": 0.006868505,
+            "operation_wall": 0.249359485,
+            "answers": 200000,
+            "process_wall": 0.27826619600000413
+          }
+        ],
+        "quarter8192": [
+          {
+            "build_cpu": 0.00689,
+            "operation_cpu": 0.249877,
+            "build_wall": 0.006893137,
+            "operation_wall": 0.249881413,
+            "answers": 200000,
+            "process_wall": 0.27938435599998
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.006633,
+            "operation_cpu": 0.162129,
+            "build_wall": 0.00663686,
+            "operation_wall": 0.162111475,
+            "answers": 200000,
+            "process_wall": 0.19132695700000113
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.006901,
+          "operation_cpu": 0.263041,
+          "process_wall": 0.2919810149999762
+        },
+        "offsets": {
+          "build_cpu": 0.006844,
+          "operation_cpu": 0.262349,
+          "process_wall": 0.2917670760000419
+        },
+        "leaf": {
+          "build_cpu": 0.006836,
+          "operation_cpu": 0.26424,
+          "process_wall": 0.2908097110000085
+        },
+        "pair": {
+          "build_cpu": 0.007285,
+          "operation_cpu": 0.262826,
+          "process_wall": 0.2946843369999783
+        },
+        "block4096": {
+          "build_cpu": 0.006777,
+          "operation_cpu": 0.255389,
+          "process_wall": 0.28580605399997694
+        },
+        "quarter4096": {
+          "build_cpu": 0.006819,
+          "operation_cpu": 0.256566,
+          "process_wall": 0.2857601459999728
+        },
+        "full4096": {
+          "build_cpu": 0.00675,
+          "operation_cpu": 0.250174,
+          "process_wall": 0.27971453499998233
+        },
+        "block8192": {
+          "build_cpu": 0.006865,
+          "operation_cpu": 0.24938,
+          "process_wall": 0.27826619600000413
+        },
+        "quarter8192": {
+          "build_cpu": 0.00689,
+          "operation_cpu": 0.249877,
+          "process_wall": 0.27938435599998
+        },
+        "full8192": {
+          "build_cpu": 0.006633,
+          "operation_cpu": 0.162129,
+          "process_wall": 0.19132695700000113
+        }
+      }
+    },
+    {
+      "name": "random30",
+      "input_sha256": "ef5e4b8acc2cec303265992a6a3460cd4988fd1df5dd4f94aa41f8679e300880",
+      "output_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.007336,
+            "operation_cpu": 0.328458,
+            "build_wall": 0.007357746,
+            "operation_wall": 0.324483067,
+            "answers": 100000,
+            "process_wall": 0.3553582609999921
+          }
+        ],
+        "offsets": [
+          {
+            "build_cpu": 0.006991,
+            "operation_cpu": 0.323318,
+            "build_wall": 0.006967361,
+            "operation_wall": 0.31935821,
+            "answers": 100000,
+            "process_wall": 0.349089819000028
+          }
+        ],
+        "leaf": [
+          {
+            "build_cpu": 0.006918,
+            "operation_cpu": 0.331213,
+            "build_wall": 0.006834204,
+            "operation_wall": 0.327145952,
+            "answers": 100000,
+            "process_wall": 0.35736084600000595
+          }
+        ],
+        "pair": [
+          {
+            "build_cpu": 0.007176,
+            "operation_cpu": 0.337526,
+            "build_wall": 0.007176324,
+            "operation_wall": 0.335708092,
+            "answers": 100000,
+            "process_wall": 0.3657892179999749
+          }
+        ],
+        "block4096": [
+          {
+            "build_cpu": 0.006862,
+            "operation_cpu": 0.330889,
+            "build_wall": 0.006787663,
+            "operation_wall": 0.327425101,
+            "answers": 100000,
+            "process_wall": 0.35684904500004677
+          }
+        ],
+        "quarter4096": [
+          {
+            "build_cpu": 0.006916,
+            "operation_cpu": 0.333632,
+            "build_wall": 0.006833009,
+            "operation_wall": 0.329583046,
+            "answers": 100000,
+            "process_wall": 0.39259160099999235
+          }
+        ],
+        "full4096": [
+          {
+            "build_cpu": 0.006816,
+            "operation_cpu": 0.334253,
+            "build_wall": 0.006734358,
+            "operation_wall": 0.330349097,
+            "answers": 100000,
+            "process_wall": 0.3657071060000021
+          }
+        ],
+        "block8192": [
+          {
+            "build_cpu": 0.00706,
+            "operation_cpu": 0.344505,
+            "build_wall": 0.006974501,
+            "operation_wall": 0.340382847,
+            "answers": 100000,
+            "process_wall": 0.3714092510000455
+          }
+        ],
+        "quarter8192": [
+          {
+            "build_cpu": 0.006965,
+            "operation_cpu": 0.340248,
+            "build_wall": 0.006968225,
+            "operation_wall": 0.340331604,
+            "answers": 100000,
+            "process_wall": 0.36920196699998087
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.007099,
+            "operation_cpu": 0.275849,
+            "build_wall": 0.007013249,
+            "operation_wall": 0.272469942,
+            "answers": 100000,
+            "process_wall": 0.3019741350000231
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.007336,
+          "operation_cpu": 0.328458,
+          "process_wall": 0.3553582609999921
+        },
+        "offsets": {
+          "build_cpu": 0.006991,
+          "operation_cpu": 0.323318,
+          "process_wall": 0.349089819000028
+        },
+        "leaf": {
+          "build_cpu": 0.006918,
+          "operation_cpu": 0.331213,
+          "process_wall": 0.35736084600000595
+        },
+        "pair": {
+          "build_cpu": 0.007176,
+          "operation_cpu": 0.337526,
+          "process_wall": 0.3657892179999749
+        },
+        "block4096": {
+          "build_cpu": 0.006862,
+          "operation_cpu": 0.330889,
+          "process_wall": 0.35684904500004677
+        },
+        "quarter4096": {
+          "build_cpu": 0.006916,
+          "operation_cpu": 0.333632,
+          "process_wall": 0.39259160099999235
+        },
+        "full4096": {
+          "build_cpu": 0.006816,
+          "operation_cpu": 0.334253,
+          "process_wall": 0.3657071060000021
+        },
+        "block8192": {
+          "build_cpu": 0.00706,
+          "operation_cpu": 0.344505,
+          "process_wall": 0.3714092510000455
+        },
+        "quarter8192": {
+          "build_cpu": 0.006965,
+          "operation_cpu": 0.340248,
+          "process_wall": 0.36920196699998087
+        },
+        "full8192": {
+          "build_cpu": 0.007099,
+          "operation_cpu": 0.275849,
+          "process_wall": 0.3019741350000231
+        }
+      }
+    },
+    {
+      "name": "short",
+      "input_sha256": "43ca77ed31967a9c9074d11f4b9c32a8d1f8e9999dde3b0a7f1be8dff1cf5fb5",
+      "output_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.006871,
+            "operation_cpu": 0.30883,
+            "build_wall": 0.006836193,
+            "operation_wall": 0.304311533,
+            "answers": 100000,
+            "process_wall": 0.33551181500001803
+          }
+        ],
+        "offsets": [
+          {
+            "build_cpu": 0.006878,
+            "operation_cpu": 0.308349,
+            "build_wall": 0.006857923,
+            "operation_wall": 0.304492778,
+            "answers": 100000,
+            "process_wall": 0.3339353150000193
+          }
+        ],
+        "leaf": [
+          {
+            "build_cpu": 0.007266,
+            "operation_cpu": 0.310453,
+            "build_wall": 0.007160403,
+            "operation_wall": 0.30590694,
+            "answers": 100000,
+            "process_wall": 0.3364885080000022
+          }
+        ],
+        "pair": [
+          {
+            "build_cpu": 0.006943,
+            "operation_cpu": 0.312646,
+            "build_wall": 0.006917784,
+            "operation_wall": 0.307966598,
+            "answers": 100000,
+            "process_wall": 0.3372241089999761
+          }
+        ],
+        "block4096": [
+          {
+            "build_cpu": 0.006783,
+            "operation_cpu": 0.309191,
+            "build_wall": 0.006683976,
+            "operation_wall": 0.304640018,
+            "answers": 100000,
+            "process_wall": 0.3333893010000111
+          }
+        ],
+        "quarter4096": [
+          {
+            "build_cpu": 0.006952,
+            "operation_cpu": 0.309186,
+            "build_wall": 0.006851237,
+            "operation_wall": 0.304643964,
+            "answers": 100000,
+            "process_wall": 0.334881729000017
+          }
+        ],
+        "full4096": [
+          {
+            "build_cpu": 0.007213,
+            "operation_cpu": 0.311896,
+            "build_wall": 0.007108057,
+            "operation_wall": 0.307328258,
+            "answers": 100000,
+            "process_wall": 0.33671540299997105
+          }
+        ],
+        "block8192": [
+          {
+            "build_cpu": 0.006906,
+            "operation_cpu": 0.321677,
+            "build_wall": 0.006805523,
+            "operation_wall": 0.316936151,
+            "answers": 100000,
+            "process_wall": 0.34604110599997284
+          }
+        ],
+        "quarter8192": [
+          {
+            "build_cpu": 0.006899,
+            "operation_cpu": 0.321751,
+            "build_wall": 0.006798655,
+            "operation_wall": 0.317067418,
+            "answers": 100000,
+            "process_wall": 0.348046547000024
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.006879,
+            "operation_cpu": 0.265113,
+            "build_wall": 0.006780361,
+            "operation_wall": 0.261250715,
+            "answers": 100000,
+            "process_wall": 0.29113982699999497
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.006871,
+          "operation_cpu": 0.30883,
+          "process_wall": 0.33551181500001803
+        },
+        "offsets": {
+          "build_cpu": 0.006878,
+          "operation_cpu": 0.308349,
+          "process_wall": 0.3339353150000193
+        },
+        "leaf": {
+          "build_cpu": 0.007266,
+          "operation_cpu": 0.310453,
+          "process_wall": 0.3364885080000022
+        },
+        "pair": {
+          "build_cpu": 0.006943,
+          "operation_cpu": 0.312646,
+          "process_wall": 0.3372241089999761
+        },
+        "block4096": {
+          "build_cpu": 0.006783,
+          "operation_cpu": 0.309191,
+          "process_wall": 0.3333893010000111
+        },
+        "quarter4096": {
+          "build_cpu": 0.006952,
+          "operation_cpu": 0.309186,
+          "process_wall": 0.334881729000017
+        },
+        "full4096": {
+          "build_cpu": 0.007213,
+          "operation_cpu": 0.311896,
+          "process_wall": 0.33671540299997105
+        },
+        "block8192": {
+          "build_cpu": 0.006906,
+          "operation_cpu": 0.321677,
+          "process_wall": 0.34604110599997284
+        },
+        "quarter8192": {
+          "build_cpu": 0.006899,
+          "operation_cpu": 0.321751,
+          "process_wall": 0.348046547000024
+        },
+        "full8192": {
+          "build_cpu": 0.006879,
+          "operation_cpu": 0.265113,
+          "process_wall": 0.29113982699999497
+        }
+      }
+    },
+    {
+      "name": "uniform_same",
+      "input_sha256": "627bb32d19d5c24eea47205b419eb99521587ca880007a7f1b29e1b8dde092aa",
+      "output_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.002547,
+            "operation_cpu": 0.00435,
+            "build_wall": 0.002617454,
+            "operation_wall": 0.004352819,
+            "answers": 100000,
+            "process_wall": 0.021435158999963733
+          }
+        ],
+        "offsets": [
+          {
+            "build_cpu": 0.00258,
+            "operation_cpu": 0.003546,
+            "build_wall": 0.002648925,
+            "operation_wall": 0.003545757,
+            "answers": 100000,
+            "process_wall": 0.021132937000004404
+          }
+        ],
+        "leaf": [
+          {
+            "build_cpu": 0.002551,
+            "operation_cpu": 0.003582,
+            "build_wall": 0.002553222,
+            "operation_wall": 0.003582205,
+            "answers": 100000,
+            "process_wall": 0.021460301999979947
+          }
+        ],
+        "pair": [
+          {
+            "build_cpu": 0.002611,
+            "operation_cpu": 0.003575,
+            "build_wall": 0.002690396,
+            "operation_wall": 0.003574208,
+            "answers": 100000,
+            "process_wall": 0.021116632999962803
+          }
+        ],
+        "block4096": [
+          {
+            "build_cpu": 0.002517,
+            "operation_cpu": 0.003547,
+            "build_wall": 0.002520534,
+            "operation_wall": 0.003546603,
+            "answers": 100000,
+            "process_wall": 0.021406708999961666
+          }
+        ],
+        "quarter4096": [
+          {
+            "build_cpu": 0.002511,
+            "operation_cpu": 0.003607,
+            "build_wall": 0.002514139,
+            "operation_wall": 0.003610968,
+            "answers": 100000,
+            "process_wall": 0.020605321000005006
+          }
+        ],
+        "full4096": [
+          {
+            "build_cpu": 0.002513,
+            "operation_cpu": 0.003589,
+            "build_wall": 0.002516282,
+            "operation_wall": 0.003597892,
+            "answers": 100000,
+            "process_wall": 0.02105794099998093
+          }
+        ],
+        "block8192": [
+          {
+            "build_cpu": 0.002645,
+            "operation_cpu": 0.003568,
+            "build_wall": 0.002648618,
+            "operation_wall": 0.003567673,
+            "answers": 100000,
+            "process_wall": 0.029825844000015422
+          }
+        ],
+        "quarter8192": [
+          {
+            "build_cpu": 0.002611,
+            "operation_cpu": 0.00355,
+            "build_wall": 0.00261875,
+            "operation_wall": 0.003549045,
+            "answers": 100000,
+            "process_wall": 0.021479844999987563
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.002427,
+            "operation_cpu": 0.003529,
+            "build_wall": 0.002429334,
+            "operation_wall": 0.003529072,
+            "answers": 100000,
+            "process_wall": 0.020403777000012724
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.002547,
+          "operation_cpu": 0.00435,
+          "process_wall": 0.021435158999963733
+        },
+        "offsets": {
+          "build_cpu": 0.00258,
+          "operation_cpu": 0.003546,
+          "process_wall": 0.021132937000004404
+        },
+        "leaf": {
+          "build_cpu": 0.002551,
+          "operation_cpu": 0.003582,
+          "process_wall": 0.021460301999979947
+        },
+        "pair": {
+          "build_cpu": 0.002611,
+          "operation_cpu": 0.003575,
+          "process_wall": 0.021116632999962803
+        },
+        "block4096": {
+          "build_cpu": 0.002517,
+          "operation_cpu": 0.003547,
+          "process_wall": 0.021406708999961666
+        },
+        "quarter4096": {
+          "build_cpu": 0.002511,
+          "operation_cpu": 0.003607,
+          "process_wall": 0.020605321000005006
+        },
+        "full4096": {
+          "build_cpu": 0.002513,
+          "operation_cpu": 0.003589,
+          "process_wall": 0.02105794099998093
+        },
+        "block8192": {
+          "build_cpu": 0.002645,
+          "operation_cpu": 0.003568,
+          "process_wall": 0.029825844000015422
+        },
+        "quarter8192": {
+          "build_cpu": 0.002611,
+          "operation_cpu": 0.00355,
+          "process_wall": 0.021479844999987563
+        },
+        "full8192": {
+          "build_cpu": 0.002427,
+          "operation_cpu": 0.003529,
+          "process_wall": 0.020403777000012724
+        }
+      }
+    },
+    {
+      "name": "update_heavy",
+      "input_sha256": "227af8971ef8d344264393931ebb0633d1107b151802543de2bf9ffe09def548",
+      "output_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.007262,
+            "operation_cpu": 0.36661,
+            "build_wall": 0.007329557,
+            "operation_wall": 0.367325098,
+            "answers": 2000,
+            "process_wall": 0.39820979400002443
+          }
+        ],
+        "offsets": [
+          {
+            "build_cpu": 0.007042,
+            "operation_cpu": 0.359392,
+            "build_wall": 0.006767368,
+            "operation_wall": 0.342220888,
+            "answers": 2000,
+            "process_wall": 0.3715149839999867
+          }
+        ],
+        "leaf": [
+          {
+            "build_cpu": 0.006846,
+            "operation_cpu": 0.364575,
+            "build_wall": 0.006519951,
+            "operation_wall": 0.347098209,
+            "answers": 2000,
+            "process_wall": 0.3767971689999854
+          }
+        ],
+        "pair": [
+          {
+            "build_cpu": 0.007328,
+            "operation_cpu": 0.362756,
+            "build_wall": 0.007397236,
+            "operation_wall": 0.362723012,
+            "answers": 2000,
+            "process_wall": 0.39338816999998016
+          }
+        ],
+        "block4096": [
+          {
+            "build_cpu": 0.006812,
+            "operation_cpu": 0.37129,
+            "build_wall": 0.006815932,
+            "operation_wall": 0.371376414,
+            "answers": 2000,
+            "process_wall": 0.4021293220000075
+          }
+        ],
+        "quarter4096": [
+          {
+            "build_cpu": 0.00692,
+            "operation_cpu": 0.374083,
+            "build_wall": 0.006922998,
+            "operation_wall": 0.374177283,
+            "answers": 2000,
+            "process_wall": 0.4047341120000283
+          }
+        ],
+        "full4096": [
+          {
+            "build_cpu": 0.00682,
+            "operation_cpu": 0.375362,
+            "build_wall": 0.006495553,
+            "operation_wall": 0.364505235,
+            "answers": 2000,
+            "process_wall": 0.3933082169999693
+          }
+        ],
+        "block8192": [
+          {
+            "build_cpu": 0.006818,
+            "operation_cpu": 0.399493,
+            "build_wall": 0.006821344,
+            "operation_wall": 0.399587967,
+            "answers": 2000,
+            "process_wall": 0.4305123609999555
+          }
+        ],
+        "quarter8192": [
+          {
+            "build_cpu": 0.006967,
+            "operation_cpu": 0.401537,
+            "build_wall": 0.006635613,
+            "operation_wall": 0.38280253,
+            "answers": 2000,
+            "process_wall": 0.411699872999975
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.006694,
+            "operation_cpu": 0.368276,
+            "build_wall": 0.006697228,
+            "operation_wall": 0.368335326,
+            "answers": 2000,
+            "process_wall": 0.398530188000052
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.007262,
+          "operation_cpu": 0.36661,
+          "process_wall": 0.39820979400002443
+        },
+        "offsets": {
+          "build_cpu": 0.007042,
+          "operation_cpu": 0.359392,
+          "process_wall": 0.3715149839999867
+        },
+        "leaf": {
+          "build_cpu": 0.006846,
+          "operation_cpu": 0.364575,
+          "process_wall": 0.3767971689999854
+        },
+        "pair": {
+          "build_cpu": 0.007328,
+          "operation_cpu": 0.362756,
+          "process_wall": 0.39338816999998016
+        },
+        "block4096": {
+          "build_cpu": 0.006812,
+          "operation_cpu": 0.37129,
+          "process_wall": 0.4021293220000075
+        },
+        "quarter4096": {
+          "build_cpu": 0.00692,
+          "operation_cpu": 0.374083,
+          "process_wall": 0.4047341120000283
+        },
+        "full4096": {
+          "build_cpu": 0.00682,
+          "operation_cpu": 0.375362,
+          "process_wall": 0.3933082169999693
+        },
+        "block8192": {
+          "build_cpu": 0.006818,
+          "operation_cpu": 0.399493,
+          "process_wall": 0.4305123609999555
+        },
+        "quarter8192": {
+          "build_cpu": 0.006967,
+          "operation_cpu": 0.401537,
+          "process_wall": 0.411699872999975
+        },
+        "full8192": {
+          "build_cpu": 0.006694,
+          "operation_cpu": 0.368276,
+          "process_wall": 0.398530188000052
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "syntax": {
+    "cases.py": "33bcf0891cfed66faf8fbfba445552ec13a89c0b1fccb4e1d58c40a0b3905b0b",
+    "compare.py": "13662b02f0b5a56b02e82138288b5ba45fef1376ee633ba210f019eb21f7ee6b",
+    "export_reference.py": "e491101bda6e9e5e0d03d04fcbeffb572d1dfaa513e0ada76ba311f0a17cb286",
+    "pair_rank_candidate.py": "e96dda3414a335f6ba9bc049d558771892ace92ee67e5fbdbccfff06baac83f6",
+    "prepare.py": "56ee7a56e2dffca25f55a86601e12cc17ed1595ca20d5f097435946a3abf5d4f",
+    "quick_compare.py": "e3d2cfbc29e742a36f05254be71c6d3a820de411218e6d20ed47cdc86d7e2a0e",
+    "screen_cpp.py": "08ee523cda73af2cdfdcdc50fc771a0d6e88f51e9b8c2237f348468bc51a073f",
+    "select_screen.py": "06fb34225f7b936d744131a9ecbc0a13abacd6d914338c16795aab4ac109f046",
+    "size_cases.py": "93ab0a03e0ea203e45eccc1a847b648ef3bdcc700227558c328ee965f7bf024b",
+    "validate.py": "ed3aa72ab1ffc0579f8dd236fa0e418cfa345850a88004dbc661c0580899c880",
+    "validate_reference.py": "75612f962e51f07a2dd54bc5f147b8d0a1190aba8de73a2210cd0e6dad2c9dff",
+    "variants.py": "b22e17544c43a92f9ca881248b81573ac60d0104b5368f26030adee12f93c162"
+  },
+  "final_configuration_idempotent": true,
+  "leaf_only_screen3_reproduced": {
+    "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+    "components/dynamic_quad_vector.hpp": "7d5385a01d343248e85ec23370deff8d1a81c46b955d4b0dafbe0a3e5cbb7e6d",
+    "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+    "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+    "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+  },
+  "path_only_screen3_reproduced": {
+    "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+    "components/dynamic_quad_vector.hpp": "98a9326274c58e8cf3f3a4d893fb65847a4b9fa5ff3a021f0e33ac9645d1ab4a",
+    "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+    "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+    "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+  }
+}

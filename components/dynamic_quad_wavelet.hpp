@@ -19,7 +19,7 @@
 #endif
 
 namespace dynamic_wavelet_detail {
-template<class T, int Bits, int Block = 1024, int Branch = 32>
+template<class T, int Bits, int Block = 8192, int Branch = 32>
 class QuadMatrix {
 	static_assert(std::is_integral_v<T> && !std::is_same_v<T, bool> && sizeof(T) <= 8);
 	using U = std::make_unsigned_t<T>;
@@ -207,9 +207,9 @@ class QuadMatrix {
 			auto [rank, previous, next] = same ? rows[d].set_rank(old, v) : rows[d].move_rank(old, p, v);
 			if (same && previous == v) { old = p = offsets[d][v] + rank; continue; }
 			old = offsets[d][previous] + rank;
-			for (int other = previous + 1; other <= 4; ++other) --offsets[d][other];
-			p = offsets[d][v] + next;
-			for (int other = v + 1; other <= 4; ++other) ++offsets[d][other];
+			p = offsets[d][v] + next - int(previous < v);
+			if (previous < v) for (int other = previous + 1; other <= v; ++other) --offsets[d][other];
+			else for (int other = v + 1; other <= previous; ++other) ++offsets[d][other];
 		}
 	}
 	int count(int l, int r, T value) const {

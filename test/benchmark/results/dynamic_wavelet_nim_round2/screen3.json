@@ -1,0 +1,1373 @@
+{
+  "created_at": "2026-10-20T14:48:24.420548+00:00",
+  "baseline": "5012542",
+  "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0",
+  "cpu": "model name\t: 13th Gen Intel(R) Core(TM) i7-13700F",
+  "cpu_affinity": [
+    2
+  ],
+  "flags": [
+    "-std=gnu++23",
+    "-O2",
+    "-UNDEBUG",
+    "-ftrivial-auto-var-init=zero",
+    "-fno-lto",
+    "-DDWM_FAST_IO=1",
+    "-DDWM_COUNT_DIRECT=1",
+    "-DDWM_INSTRUMENT=1",
+    "-march=native"
+  ],
+  "trials": 3,
+  "driver_sha256": "e89e8a8a256bbfd2c6667ba4ee8507aeab9b5616f99b004738ace3f0d5dd282e",
+  "sources": {
+    "before": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "541466cdfeabc524243dfcd661a752c2f3eeb71f1ffdd5b975d0265114a44d06",
+      "components/dynamic_quad_wavelet.hpp": "de93626cab81a07ac4f356a7699a39beacde634889e9ddedc6d57fce387ee655",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "leaf_only_full8192": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "7d5385a01d343248e85ec23370deff8d1a81c46b955d4b0dafbe0a3e5cbb7e6d",
+      "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "path_only_full8192": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "98a9326274c58e8cf3f3a4d893fb65847a4b9fa5ff3a021f0e33ac9645d1ab4a",
+      "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "full8192": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "1e6b03d64560cdae51ab36a6146e4f8828bbf622cc2ea8e19365749e90f4769d",
+      "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    },
+    "pair_full8192": {
+      "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+      "components/dynamic_quad_vector.hpp": "8c9659db29f086a3bd9fa53dbfeb58d330cc828719b9b22deae85509acd58b20",
+      "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+      "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+      "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+    }
+  },
+  "cases": [
+    {
+      "name": "clustered",
+      "input_sha256": "019c94baf87bd52863ca3a19906b14a1ac8f200d767d805aa2c7b3dd74270d0a",
+      "output_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.006836,
+            "operation_cpu": 0.32,
+            "build_wall": 0.006911859,
+            "operation_wall": 0.320031128,
+            "answers": 100000,
+            "process_wall": 0.3489309320000018
+          },
+          {
+            "build_cpu": 0.007017,
+            "operation_cpu": 0.325611,
+            "build_wall": 0.007240683,
+            "operation_wall": 0.325342392,
+            "answers": 100000,
+            "process_wall": 0.37441929700000287
+          },
+          {
+            "build_cpu": 0.006943,
+            "operation_cpu": 0.323775,
+            "build_wall": 0.007845367,
+            "operation_wall": 0.323172549,
+            "answers": 100000,
+            "process_wall": 0.3888802829999989
+          }
+        ],
+        "leaf_only_full8192": [
+          {
+            "build_cpu": 0.006779,
+            "operation_cpu": 0.270423,
+            "build_wall": 0.006794053,
+            "operation_wall": 0.270695199,
+            "answers": 100000,
+            "process_wall": 0.3065492579999969
+          },
+          {
+            "build_cpu": 0.006644,
+            "operation_cpu": 0.274421,
+            "build_wall": 0.006648366,
+            "operation_wall": 0.274452285,
+            "answers": 100000,
+            "process_wall": 0.30361060599999945
+          },
+          {
+            "build_cpu": 0.006852,
+            "operation_cpu": 0.273495,
+            "build_wall": 0.006839032,
+            "operation_wall": 0.275664336,
+            "answers": 100000,
+            "process_wall": 0.30523673200000445
+          }
+        ],
+        "path_only_full8192": [
+          {
+            "build_cpu": 0.006774,
+            "operation_cpu": 0.27306,
+            "build_wall": 0.006781285,
+            "operation_wall": 0.273331586,
+            "answers": 100000,
+            "process_wall": 0.31892994300000055
+          },
+          {
+            "build_cpu": 0.006632,
+            "operation_cpu": 0.277273,
+            "build_wall": 0.006628966,
+            "operation_wall": 0.277086853,
+            "answers": 100000,
+            "process_wall": 0.30716751100000295
+          },
+          {
+            "build_cpu": 0.006645,
+            "operation_cpu": 0.283174,
+            "build_wall": 0.006636951,
+            "operation_wall": 0.282774882,
+            "answers": 100000,
+            "process_wall": 0.31569761899999804
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.006714,
+            "operation_cpu": 0.262452,
+            "build_wall": 0.006721142,
+            "operation_wall": 0.26253211,
+            "answers": 100000,
+            "process_wall": 0.2926909329999958
+          },
+          {
+            "build_cpu": 0.006647,
+            "operation_cpu": 0.265068,
+            "build_wall": 0.006651584,
+            "operation_wall": 0.267708925,
+            "answers": 100000,
+            "process_wall": 0.29730822500000187
+          },
+          {
+            "build_cpu": 0.00663,
+            "operation_cpu": 0.264637,
+            "build_wall": 0.006621762,
+            "operation_wall": 0.264242003,
+            "answers": 100000,
+            "process_wall": 0.29369836499999735
+          }
+        ],
+        "pair_full8192": [
+          {
+            "build_cpu": 0.006664,
+            "operation_cpu": 0.265113,
+            "build_wall": 0.006749652,
+            "operation_wall": 0.265289556,
+            "answers": 100000,
+            "process_wall": 0.29554972799999746
+          },
+          {
+            "build_cpu": 0.00672,
+            "operation_cpu": 0.263803,
+            "build_wall": 0.006788436,
+            "operation_wall": 0.263606876,
+            "answers": 100000,
+            "process_wall": 0.2926577739999985
+          },
+          {
+            "build_cpu": 0.006767,
+            "operation_cpu": 0.262377,
+            "build_wall": 0.006819445,
+            "operation_wall": 0.261919331,
+            "answers": 100000,
+            "process_wall": 0.2903559809999976
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.006943,
+          "operation_cpu": 0.323775,
+          "process_wall": 0.37441929700000287
+        },
+        "leaf_only_full8192": {
+          "build_cpu": 0.006779,
+          "operation_cpu": 0.273495,
+          "process_wall": 0.30523673200000445
+        },
+        "path_only_full8192": {
+          "build_cpu": 0.006645,
+          "operation_cpu": 0.277273,
+          "process_wall": 0.31569761899999804
+        },
+        "full8192": {
+          "build_cpu": 0.006647,
+          "operation_cpu": 0.264637,
+          "process_wall": 0.29369836499999735
+        },
+        "pair_full8192": {
+          "build_cpu": 0.00672,
+          "operation_cpu": 0.263803,
+          "process_wall": 0.2926577739999985
+        }
+      }
+    },
+    {
+      "name": "duplicates16",
+      "input_sha256": "dda49d6cf8f572d3eb0fbc72837d597a280d4da79595f194c98f2b88b6a2c875",
+      "output_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.003643,
+            "operation_cpu": 0.056974,
+            "build_wall": 0.003732666,
+            "operation_wall": 0.056932126,
+            "answers": 100000,
+            "process_wall": 0.07826130899999839
+          },
+          {
+            "build_cpu": 0.003712,
+            "operation_cpu": 0.057362,
+            "build_wall": 0.003786619,
+            "operation_wall": 0.057353554,
+            "answers": 100000,
+            "process_wall": 0.08104340799999932
+          },
+          {
+            "build_cpu": 0.003558,
+            "operation_cpu": 0.058015,
+            "build_wall": 0.003610179,
+            "operation_wall": 0.058046522,
+            "answers": 100000,
+            "process_wall": 0.07830409599999655
+          }
+        ],
+        "leaf_only_full8192": [
+          {
+            "build_cpu": 0.003418,
+            "operation_cpu": 0.043473,
+            "build_wall": 0.003411815,
+            "operation_wall": 0.043435566,
+            "answers": 100000,
+            "process_wall": 0.06419041099999845
+          },
+          {
+            "build_cpu": 0.003385,
+            "operation_cpu": 0.044084,
+            "build_wall": 0.003377273,
+            "operation_wall": 0.044061568,
+            "answers": 100000,
+            "process_wall": 0.0647250029999995
+          },
+          {
+            "build_cpu": 0.003523,
+            "operation_cpu": 0.043741,
+            "build_wall": 0.003516011,
+            "operation_wall": 0.043765513,
+            "answers": 100000,
+            "process_wall": 0.07186329099999966
+          }
+        ],
+        "path_only_full8192": [
+          {
+            "build_cpu": 0.00339,
+            "operation_cpu": 0.043708,
+            "build_wall": 0.003383335,
+            "operation_wall": 0.043663977,
+            "answers": 100000,
+            "process_wall": 0.0632445379999993
+          },
+          {
+            "build_cpu": 0.003504,
+            "operation_cpu": 0.044634,
+            "build_wall": 0.003497465,
+            "operation_wall": 0.044718447,
+            "answers": 100000,
+            "process_wall": 0.06505429199999924
+          },
+          {
+            "build_cpu": 0.003478,
+            "operation_cpu": 0.043904,
+            "build_wall": 0.003468957,
+            "operation_wall": 0.04386586,
+            "answers": 100000,
+            "process_wall": 0.0673555549999989
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.003408,
+            "operation_cpu": 0.043001,
+            "build_wall": 0.003400763,
+            "operation_wall": 0.042970559,
+            "answers": 100000,
+            "process_wall": 0.06291033400000146
+          },
+          {
+            "build_cpu": 0.003436,
+            "operation_cpu": 0.043075,
+            "build_wall": 0.003428934,
+            "operation_wall": 0.043043937,
+            "answers": 100000,
+            "process_wall": 0.06345800600000473
+          },
+          {
+            "build_cpu": 0.003589,
+            "operation_cpu": 0.043096,
+            "build_wall": 0.003585287,
+            "operation_wall": 0.043093295,
+            "answers": 100000,
+            "process_wall": 0.06540998500000228
+          }
+        ],
+        "pair_full8192": [
+          {
+            "build_cpu": 0.003503,
+            "operation_cpu": 0.042798,
+            "build_wall": 0.003600326,
+            "operation_wall": 0.042676226,
+            "answers": 100000,
+            "process_wall": 0.08083643199999813
+          },
+          {
+            "build_cpu": 0.003443,
+            "operation_cpu": 0.041799,
+            "build_wall": 0.003516703,
+            "operation_wall": 0.041679698,
+            "answers": 100000,
+            "process_wall": 0.06286328500000593
+          },
+          {
+            "build_cpu": 0.003546,
+            "operation_cpu": 0.043017,
+            "build_wall": 0.003631693,
+            "operation_wall": 0.042881407,
+            "answers": 100000,
+            "process_wall": 0.06472321799999747
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.003643,
+          "operation_cpu": 0.057362,
+          "process_wall": 0.07830409599999655
+        },
+        "leaf_only_full8192": {
+          "build_cpu": 0.003418,
+          "operation_cpu": 0.043741,
+          "process_wall": 0.0647250029999995
+        },
+        "path_only_full8192": {
+          "build_cpu": 0.003478,
+          "operation_cpu": 0.043904,
+          "process_wall": 0.06505429199999924
+        },
+        "full8192": {
+          "build_cpu": 0.003436,
+          "operation_cpu": 0.043075,
+          "process_wall": 0.06345800600000473
+        },
+        "pair_full8192": {
+          "build_cpu": 0.003503,
+          "operation_cpu": 0.042798,
+          "process_wall": 0.06472321799999747
+        }
+      }
+    },
+    {
+      "name": "no_op_random",
+      "input_sha256": "2546525f0863e1118879e2ee42ec8d0311e4d3fb7b67ef7a351b624406b214c8",
+      "output_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.006948,
+            "operation_cpu": 0.185785,
+            "build_wall": 0.006998707,
+            "operation_wall": 0.184783348,
+            "answers": 100000,
+            "process_wall": 0.21438799999999958
+          },
+          {
+            "build_cpu": 0.006804,
+            "operation_cpu": 0.186297,
+            "build_wall": 0.006849504,
+            "operation_wall": 0.185241674,
+            "answers": 100000,
+            "process_wall": 0.21456805100000054
+          },
+          {
+            "build_cpu": 0.007238,
+            "operation_cpu": 0.183931,
+            "build_wall": 0.007273217,
+            "operation_wall": 0.182849735,
+            "answers": 100000,
+            "process_wall": 0.2132942459999967
+          }
+        ],
+        "leaf_only_full8192": [
+          {
+            "build_cpu": 0.007344,
+            "operation_cpu": 0.128106,
+            "build_wall": 0.00730854,
+            "operation_wall": 0.127415911,
+            "answers": 100000,
+            "process_wall": 0.15989453099999906
+          },
+          {
+            "build_cpu": 0.006602,
+            "operation_cpu": 0.110166,
+            "build_wall": 0.006567061,
+            "operation_wall": 0.109533748,
+            "answers": 100000,
+            "process_wall": 0.1386073250000024
+          },
+          {
+            "build_cpu": 0.006816,
+            "operation_cpu": 0.112611,
+            "build_wall": 0.00677763,
+            "operation_wall": 0.111941191,
+            "answers": 100000,
+            "process_wall": 0.14144485300000298
+          }
+        ],
+        "path_only_full8192": [
+          {
+            "build_cpu": 0.006931,
+            "operation_cpu": 0.10836,
+            "build_wall": 0.006896977,
+            "operation_wall": 0.107793537,
+            "answers": 100000,
+            "process_wall": 0.13695238000000387
+          },
+          {
+            "build_cpu": 0.006658,
+            "operation_cpu": 0.108827,
+            "build_wall": 0.006623598,
+            "operation_wall": 0.108202183,
+            "answers": 100000,
+            "process_wall": 0.13872475200000167
+          },
+          {
+            "build_cpu": 0.006898,
+            "operation_cpu": 0.108011,
+            "build_wall": 0.006858543,
+            "operation_wall": 0.107363032,
+            "answers": 100000,
+            "process_wall": 0.13656910800000333
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.00666,
+            "operation_cpu": 0.109068,
+            "build_wall": 0.006627495,
+            "operation_wall": 0.108480079,
+            "answers": 100000,
+            "process_wall": 0.14175818500000048
+          },
+          {
+            "build_cpu": 0.006707,
+            "operation_cpu": 0.109039,
+            "build_wall": 0.006680727,
+            "operation_wall": 0.108424054,
+            "answers": 100000,
+            "process_wall": 0.13853255099999728
+          },
+          {
+            "build_cpu": 0.006677,
+            "operation_cpu": 0.108797,
+            "build_wall": 0.006639783,
+            "operation_wall": 0.10815563,
+            "answers": 100000,
+            "process_wall": 0.1377821589999968
+          }
+        ],
+        "pair_full8192": [
+          {
+            "build_cpu": 0.006747,
+            "operation_cpu": 0.107579,
+            "build_wall": 0.006787732,
+            "operation_wall": 0.106998932,
+            "answers": 100000,
+            "process_wall": 0.13936620199999794
+          },
+          {
+            "build_cpu": 0.00659,
+            "operation_cpu": 0.106866,
+            "build_wall": 0.006618884,
+            "operation_wall": 0.108584496,
+            "answers": 100000,
+            "process_wall": 0.13784718800000206
+          },
+          {
+            "build_cpu": 0.006697,
+            "operation_cpu": 0.107312,
+            "build_wall": 0.006735074,
+            "operation_wall": 0.106735791,
+            "answers": 100000,
+            "process_wall": 0.13623597300000512
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.006948,
+          "operation_cpu": 0.185785,
+          "process_wall": 0.21438799999999958
+        },
+        "leaf_only_full8192": {
+          "build_cpu": 0.006816,
+          "operation_cpu": 0.112611,
+          "process_wall": 0.14144485300000298
+        },
+        "path_only_full8192": {
+          "build_cpu": 0.006898,
+          "operation_cpu": 0.10836,
+          "process_wall": 0.13695238000000387
+        },
+        "full8192": {
+          "build_cpu": 0.006677,
+          "operation_cpu": 0.109039,
+          "process_wall": 0.13853255099999728
+        },
+        "pair_full8192": {
+          "build_cpu": 0.006697,
+          "operation_cpu": 0.107312,
+          "process_wall": 0.13784718800000206
+        }
+      }
+    },
+    {
+      "name": "query_only",
+      "input_sha256": "23c0a52b7a13d020498ebf58ed06a3c8fac8e45b8381751407cbde499660dd53",
+      "output_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.007112,
+            "operation_cpu": 0.261579,
+            "build_wall": 0.007132667,
+            "operation_wall": 0.259869523,
+            "answers": 200000,
+            "process_wall": 0.28886148699999836
+          },
+          {
+            "build_cpu": 0.00737,
+            "operation_cpu": 0.260806,
+            "build_wall": 0.007402001,
+            "operation_wall": 0.259832706,
+            "answers": 200000,
+            "process_wall": 0.2897919270000031
+          },
+          {
+            "build_cpu": 0.006873,
+            "operation_cpu": 0.264794,
+            "build_wall": 0.006952048,
+            "operation_wall": 0.265149487,
+            "answers": 200000,
+            "process_wall": 0.2942778070000003
+          }
+        ],
+        "leaf_only_full8192": [
+          {
+            "build_cpu": 0.006671,
+            "operation_cpu": 0.159921,
+            "build_wall": 0.006631123,
+            "operation_wall": 0.158879481,
+            "answers": 200000,
+            "process_wall": 0.18803284799999886
+          },
+          {
+            "build_cpu": 0.007263,
+            "operation_cpu": 0.160502,
+            "build_wall": 0.007219171,
+            "operation_wall": 0.159453793,
+            "answers": 200000,
+            "process_wall": 0.18867077299999835
+          },
+          {
+            "build_cpu": 0.006685,
+            "operation_cpu": 0.158182,
+            "build_wall": 0.006697307,
+            "operation_wall": 0.15918137,
+            "answers": 200000,
+            "process_wall": 0.18836486600000057
+          }
+        ],
+        "path_only_full8192": [
+          {
+            "build_cpu": 0.00675,
+            "operation_cpu": 0.1648,
+            "build_wall": 0.006710498,
+            "operation_wall": 0.163773845,
+            "answers": 200000,
+            "process_wall": 0.1924503760000036
+          },
+          {
+            "build_cpu": 0.006633,
+            "operation_cpu": 0.160253,
+            "build_wall": 0.006591674,
+            "operation_wall": 0.159169513,
+            "answers": 200000,
+            "process_wall": 0.18816409800000145
+          },
+          {
+            "build_cpu": 0.006627,
+            "operation_cpu": 0.159055,
+            "build_wall": 0.006639091,
+            "operation_wall": 0.159272365,
+            "answers": 200000,
+            "process_wall": 0.1876492479999996
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.00683,
+            "operation_cpu": 0.16334,
+            "build_wall": 0.00679139,
+            "operation_wall": 0.162324768,
+            "answers": 200000,
+            "process_wall": 0.19188271200000173
+          },
+          {
+            "build_cpu": 0.006628,
+            "operation_cpu": 0.159272,
+            "build_wall": 0.006587354,
+            "operation_wall": 0.15820034,
+            "answers": 200000,
+            "process_wall": 0.18661821399999923
+          },
+          {
+            "build_cpu": 0.006619,
+            "operation_cpu": 0.160502,
+            "build_wall": 0.006631705,
+            "operation_wall": 0.160743069,
+            "answers": 200000,
+            "process_wall": 0.18955416700000427
+          }
+        ],
+        "pair_full8192": [
+          {
+            "build_cpu": 0.006864,
+            "operation_cpu": 0.159503,
+            "build_wall": 0.006884209,
+            "operation_wall": 0.158519674,
+            "answers": 200000,
+            "process_wall": 0.1874293730000005
+          },
+          {
+            "build_cpu": 0.006793,
+            "operation_cpu": 0.157042,
+            "build_wall": 0.00682388,
+            "operation_wall": 0.156013288,
+            "answers": 200000,
+            "process_wall": 0.18458402799999618
+          },
+          {
+            "build_cpu": 0.006754,
+            "operation_cpu": 0.158166,
+            "build_wall": 0.006844221,
+            "operation_wall": 0.158365916,
+            "answers": 200000,
+            "process_wall": 0.18805642599999572
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.007112,
+          "operation_cpu": 0.261579,
+          "process_wall": 0.2897919270000031
+        },
+        "leaf_only_full8192": {
+          "build_cpu": 0.006685,
+          "operation_cpu": 0.159921,
+          "process_wall": 0.18836486600000057
+        },
+        "path_only_full8192": {
+          "build_cpu": 0.006633,
+          "operation_cpu": 0.160253,
+          "process_wall": 0.18816409800000145
+        },
+        "full8192": {
+          "build_cpu": 0.006628,
+          "operation_cpu": 0.160502,
+          "process_wall": 0.18955416700000427
+        },
+        "pair_full8192": {
+          "build_cpu": 0.006793,
+          "operation_cpu": 0.158166,
+          "process_wall": 0.1874293730000005
+        }
+      }
+    },
+    {
+      "name": "random30",
+      "input_sha256": "ef5e4b8acc2cec303265992a6a3460cd4988fd1df5dd4f94aa41f8679e300880",
+      "output_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.007057,
+            "operation_cpu": 0.3289,
+            "build_wall": 0.007110861,
+            "operation_wall": 0.327919106,
+            "answers": 100000,
+            "process_wall": 0.35913668800000664
+          },
+          {
+            "build_cpu": 0.006915,
+            "operation_cpu": 0.325416,
+            "build_wall": 0.006966394,
+            "operation_wall": 0.324281794,
+            "answers": 100000,
+            "process_wall": 0.35437195800000154
+          },
+          {
+            "build_cpu": 0.007115,
+            "operation_cpu": 0.336244,
+            "build_wall": 0.00719595,
+            "operation_wall": 0.335014813,
+            "answers": 100000,
+            "process_wall": 0.36548190399999925
+          }
+        ],
+        "leaf_only_full8192": [
+          {
+            "build_cpu": 0.006741,
+            "operation_cpu": 0.277212,
+            "build_wall": 0.006719405,
+            "operation_wall": 0.276256264,
+            "answers": 100000,
+            "process_wall": 0.3056148820000004
+          },
+          {
+            "build_cpu": 0.00677,
+            "operation_cpu": 0.277329,
+            "build_wall": 0.006746205,
+            "operation_wall": 0.276359389,
+            "answers": 100000,
+            "process_wall": 0.30664361699999887
+          },
+          {
+            "build_cpu": 0.007279,
+            "operation_cpu": 0.285773,
+            "build_wall": 0.007254321,
+            "operation_wall": 0.284829389,
+            "answers": 100000,
+            "process_wall": 0.32641506800000286
+          }
+        ],
+        "path_only_full8192": [
+          {
+            "build_cpu": 0.006785,
+            "operation_cpu": 0.281614,
+            "build_wall": 0.006763107,
+            "operation_wall": 0.28068788,
+            "answers": 100000,
+            "process_wall": 0.31511121600000536
+          },
+          {
+            "build_cpu": 0.006777,
+            "operation_cpu": 0.282364,
+            "build_wall": 0.006754435,
+            "operation_wall": 0.281359849,
+            "answers": 100000,
+            "process_wall": 0.31106463799999773
+          },
+          {
+            "build_cpu": 0.007017,
+            "operation_cpu": 0.280691,
+            "build_wall": 0.006992172,
+            "operation_wall": 0.279722171,
+            "answers": 100000,
+            "process_wall": 0.30995564700000244
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.006707,
+            "operation_cpu": 0.265642,
+            "build_wall": 0.00668535,
+            "operation_wall": 0.26532021,
+            "answers": 100000,
+            "process_wall": 0.29462964500000055
+          },
+          {
+            "build_cpu": 0.006598,
+            "operation_cpu": 0.272514,
+            "build_wall": 0.006575104,
+            "operation_wall": 0.271549296,
+            "answers": 100000,
+            "process_wall": 0.3006633090000008
+          },
+          {
+            "build_cpu": 0.006687,
+            "operation_cpu": 0.267054,
+            "build_wall": 0.006663001,
+            "operation_wall": 0.266071174,
+            "answers": 100000,
+            "process_wall": 0.2987387539999986
+          }
+        ],
+        "pair_full8192": [
+          {
+            "build_cpu": 0.006754,
+            "operation_cpu": 0.267239,
+            "build_wall": 0.006794895,
+            "operation_wall": 0.266584686,
+            "answers": 100000,
+            "process_wall": 0.2958008640000003
+          },
+          {
+            "build_cpu": 0.006697,
+            "operation_cpu": 0.269302,
+            "build_wall": 0.00674561,
+            "operation_wall": 0.268615673,
+            "answers": 100000,
+            "process_wall": 0.2998138890000064
+          },
+          {
+            "build_cpu": 0.006722,
+            "operation_cpu": 0.267954,
+            "build_wall": 0.006775008,
+            "operation_wall": 0.267317462,
+            "answers": 100000,
+            "process_wall": 0.29723351500000206
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.007057,
+          "operation_cpu": 0.3289,
+          "process_wall": 0.35913668800000664
+        },
+        "leaf_only_full8192": {
+          "build_cpu": 0.00677,
+          "operation_cpu": 0.277329,
+          "process_wall": 0.30664361699999887
+        },
+        "path_only_full8192": {
+          "build_cpu": 0.006785,
+          "operation_cpu": 0.281614,
+          "process_wall": 0.31106463799999773
+        },
+        "full8192": {
+          "build_cpu": 0.006687,
+          "operation_cpu": 0.267054,
+          "process_wall": 0.2987387539999986
+        },
+        "pair_full8192": {
+          "build_cpu": 0.006722,
+          "operation_cpu": 0.267954,
+          "process_wall": 0.29723351500000206
+        }
+      }
+    },
+    {
+      "name": "short",
+      "input_sha256": "43ca77ed31967a9c9074d11f4b9c32a8d1f8e9999dde3b0a7f1be8dff1cf5fb5",
+      "output_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.006925,
+            "operation_cpu": 0.311879,
+            "build_wall": 0.007005048,
+            "operation_wall": 0.312656349,
+            "answers": 100000,
+            "process_wall": 0.34237376000000097
+          },
+          {
+            "build_cpu": 0.006901,
+            "operation_cpu": 0.306309,
+            "build_wall": 0.006982663,
+            "operation_wall": 0.306494406,
+            "answers": 100000,
+            "process_wall": 0.3363384590000038
+          },
+          {
+            "build_cpu": 0.006912,
+            "operation_cpu": 0.315605,
+            "build_wall": 0.006992324,
+            "operation_wall": 0.31571585,
+            "answers": 100000,
+            "process_wall": 0.3493965079999981
+          }
+        ],
+        "leaf_only_full8192": [
+          {
+            "build_cpu": 0.006585,
+            "operation_cpu": 0.265122,
+            "build_wall": 0.00656822,
+            "operation_wall": 0.264115185,
+            "answers": 100000,
+            "process_wall": 0.2928358409999987
+          },
+          {
+            "build_cpu": 0.006739,
+            "operation_cpu": 0.260685,
+            "build_wall": 0.006747388,
+            "operation_wall": 0.260866844,
+            "answers": 100000,
+            "process_wall": 0.29399165799999594
+          },
+          {
+            "build_cpu": 0.007498,
+            "operation_cpu": 0.264052,
+            "build_wall": 0.007510958,
+            "operation_wall": 0.26421639,
+            "answers": 100000,
+            "process_wall": 0.29533463200000654
+          }
+        ],
+        "path_only_full8192": [
+          {
+            "build_cpu": 0.006668,
+            "operation_cpu": 0.262271,
+            "build_wall": 0.006643207,
+            "operation_wall": 0.261263748,
+            "answers": 100000,
+            "process_wall": 0.2910739500000048
+          },
+          {
+            "build_cpu": 0.00674,
+            "operation_cpu": 0.264447,
+            "build_wall": 0.006744201,
+            "operation_wall": 0.264661865,
+            "answers": 100000,
+            "process_wall": 0.2939246060000045
+          },
+          {
+            "build_cpu": 0.006791,
+            "operation_cpu": 0.266809,
+            "build_wall": 0.006793992,
+            "operation_wall": 0.266906196,
+            "answers": 100000,
+            "process_wall": 0.3039542449999999
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.006744,
+            "operation_cpu": 0.253172,
+            "build_wall": 0.006718879,
+            "operation_wall": 0.252204689,
+            "answers": 100000,
+            "process_wall": 0.2932778220000003
+          },
+          {
+            "build_cpu": 0.006654,
+            "operation_cpu": 0.252958,
+            "build_wall": 0.006655862,
+            "operation_wall": 0.253012075,
+            "answers": 100000,
+            "process_wall": 0.2823835319999972
+          },
+          {
+            "build_cpu": 0.006744,
+            "operation_cpu": 0.254051,
+            "build_wall": 0.006761048,
+            "operation_wall": 0.254113978,
+            "answers": 100000,
+            "process_wall": 0.28349755499999674
+          }
+        ],
+        "pair_full8192": [
+          {
+            "build_cpu": 0.006848,
+            "operation_cpu": 0.252712,
+            "build_wall": 0.006891193,
+            "operation_wall": 0.253082311,
+            "answers": 100000,
+            "process_wall": 0.28437306899999726
+          },
+          {
+            "build_cpu": 0.006829,
+            "operation_cpu": 0.254324,
+            "build_wall": 0.006904714,
+            "operation_wall": 0.254578458,
+            "answers": 100000,
+            "process_wall": 0.28781972600000927
+          },
+          {
+            "build_cpu": 0.006706,
+            "operation_cpu": 0.258927,
+            "build_wall": 0.006776705,
+            "operation_wall": 0.25921384,
+            "answers": 100000,
+            "process_wall": 0.2913997619999975
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.006912,
+          "operation_cpu": 0.311879,
+          "process_wall": 0.34237376000000097
+        },
+        "leaf_only_full8192": {
+          "build_cpu": 0.006739,
+          "operation_cpu": 0.264052,
+          "process_wall": 0.29399165799999594
+        },
+        "path_only_full8192": {
+          "build_cpu": 0.00674,
+          "operation_cpu": 0.264447,
+          "process_wall": 0.2939246060000045
+        },
+        "full8192": {
+          "build_cpu": 0.006744,
+          "operation_cpu": 0.253172,
+          "process_wall": 0.28349755499999674
+        },
+        "pair_full8192": {
+          "build_cpu": 0.006829,
+          "operation_cpu": 0.254324,
+          "process_wall": 0.28781972600000927
+        }
+      }
+    },
+    {
+      "name": "uniform_same",
+      "input_sha256": "627bb32d19d5c24eea47205b419eb99521587ca880007a7f1b29e1b8dde092aa",
+      "output_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.002737,
+            "operation_cpu": 0.004354,
+            "build_wall": 0.002804476,
+            "operation_wall": 0.004353985,
+            "answers": 100000,
+            "process_wall": 0.02341484299999763
+          },
+          {
+            "build_cpu": 0.002727,
+            "operation_cpu": 0.004279,
+            "build_wall": 0.002828679,
+            "operation_wall": 0.004277551,
+            "answers": 100000,
+            "process_wall": 0.02207654600000808
+          },
+          {
+            "build_cpu": 0.002581,
+            "operation_cpu": 0.004314,
+            "build_wall": 0.002645245,
+            "operation_wall": 0.004327209,
+            "answers": 100000,
+            "process_wall": 0.021489367000000925
+          }
+        ],
+        "leaf_only_full8192": [
+          {
+            "build_cpu": 0.002506,
+            "operation_cpu": 0.003833,
+            "build_wall": 0.002509272,
+            "operation_wall": 0.003832676,
+            "answers": 100000,
+            "process_wall": 0.022526967999993985
+          },
+          {
+            "build_cpu": 0.002396,
+            "operation_cpu": 0.003616,
+            "build_wall": 0.002398482,
+            "operation_wall": 0.003615058,
+            "answers": 100000,
+            "process_wall": 0.02069230300000413
+          },
+          {
+            "build_cpu": 0.002407,
+            "operation_cpu": 0.003545,
+            "build_wall": 0.002408758,
+            "operation_wall": 0.003544975,
+            "answers": 100000,
+            "process_wall": 0.020800023999996142
+          }
+        ],
+        "path_only_full8192": [
+          {
+            "build_cpu": 0.002626,
+            "operation_cpu": 0.003604,
+            "build_wall": 0.002643592,
+            "operation_wall": 0.003602537,
+            "answers": 100000,
+            "process_wall": 0.025175098999994816
+          },
+          {
+            "build_cpu": 0.002393,
+            "operation_cpu": 0.003563,
+            "build_wall": 0.002395284,
+            "operation_wall": 0.003562424,
+            "answers": 100000,
+            "process_wall": 0.020200299000009636
+          },
+          {
+            "build_cpu": 0.002429,
+            "operation_cpu": 0.003604,
+            "build_wall": 0.002430122,
+            "operation_wall": 0.003604734,
+            "answers": 100000,
+            "process_wall": 0.021312670000000367
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.002584,
+            "operation_cpu": 0.003536,
+            "build_wall": 0.002588259,
+            "operation_wall": 0.003534257,
+            "answers": 100000,
+            "process_wall": 0.025983980000006568
+          },
+          {
+            "build_cpu": 0.002507,
+            "operation_cpu": 0.003543,
+            "build_wall": 0.002509916,
+            "operation_wall": 0.003554512,
+            "answers": 100000,
+            "process_wall": 0.0282896060000013
+          },
+          {
+            "build_cpu": 0.002408,
+            "operation_cpu": 0.00353,
+            "build_wall": 0.002411057,
+            "operation_wall": 0.003537479,
+            "answers": 100000,
+            "process_wall": 0.02106813700000032
+          }
+        ],
+        "pair_full8192": [
+          {
+            "build_cpu": 0.002586,
+            "operation_cpu": 0.003678,
+            "build_wall": 0.002674045,
+            "operation_wall": 0.003677199,
+            "answers": 100000,
+            "process_wall": 0.02251844399999925
+          },
+          {
+            "build_cpu": 0.002534,
+            "operation_cpu": 0.003583,
+            "build_wall": 0.002615508,
+            "operation_wall": 0.003581904,
+            "answers": 100000,
+            "process_wall": 0.02994525600000486
+          },
+          {
+            "build_cpu": 0.002423,
+            "operation_cpu": 0.003576,
+            "build_wall": 0.002485329,
+            "operation_wall": 0.003576395,
+            "answers": 100000,
+            "process_wall": 0.02019432899999174
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.002727,
+          "operation_cpu": 0.004314,
+          "process_wall": 0.02207654600000808
+        },
+        "leaf_only_full8192": {
+          "build_cpu": 0.002407,
+          "operation_cpu": 0.003616,
+          "process_wall": 0.020800023999996142
+        },
+        "path_only_full8192": {
+          "build_cpu": 0.002429,
+          "operation_cpu": 0.003604,
+          "process_wall": 0.021312670000000367
+        },
+        "full8192": {
+          "build_cpu": 0.002507,
+          "operation_cpu": 0.003536,
+          "process_wall": 0.025983980000006568
+        },
+        "pair_full8192": {
+          "build_cpu": 0.002534,
+          "operation_cpu": 0.003583,
+          "process_wall": 0.02251844399999925
+        }
+      }
+    },
+    {
+      "name": "update_heavy",
+      "input_sha256": "227af8971ef8d344264393931ebb0633d1107b151802543de2bf9ffe09def548",
+      "output_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c",
+      "trials": {
+        "before": [
+          {
+            "build_cpu": 0.006877,
+            "operation_cpu": 0.370494,
+            "build_wall": 0.006949337,
+            "operation_wall": 0.370580674,
+            "answers": 2000,
+            "process_wall": 0.40185405400001173
+          },
+          {
+            "build_cpu": 0.006914,
+            "operation_cpu": 0.372605,
+            "build_wall": 0.006920931,
+            "operation_wall": 0.369563151,
+            "answers": 2000,
+            "process_wall": 0.4022560620000064
+          },
+          {
+            "build_cpu": 0.007261,
+            "operation_cpu": 0.382384,
+            "build_wall": 0.007275446,
+            "operation_wall": 0.379309325,
+            "answers": 2000,
+            "process_wall": 0.4200544199999996
+          }
+        ],
+        "leaf_only_full8192": [
+          {
+            "build_cpu": 0.006698,
+            "operation_cpu": 0.373396,
+            "build_wall": 0.00670097,
+            "operation_wall": 0.373520768,
+            "answers": 2000,
+            "process_wall": 0.4089480920000028
+          },
+          {
+            "build_cpu": 0.006969,
+            "operation_cpu": 0.369892,
+            "build_wall": 0.00691252,
+            "operation_wall": 0.366830648,
+            "answers": 2000,
+            "process_wall": 0.3978523240000129
+          },
+          {
+            "build_cpu": 0.006769,
+            "operation_cpu": 0.372938,
+            "build_wall": 0.006714337,
+            "operation_wall": 0.369868495,
+            "answers": 2000,
+            "process_wall": 0.40035725399999933
+          }
+        ],
+        "path_only_full8192": [
+          {
+            "build_cpu": 0.006661,
+            "operation_cpu": 0.373358,
+            "build_wall": 0.006663514,
+            "operation_wall": 0.373459482,
+            "answers": 2000,
+            "process_wall": 0.4072864140000121
+          },
+          {
+            "build_cpu": 0.006641,
+            "operation_cpu": 0.372145,
+            "build_wall": 0.006587399,
+            "operation_wall": 0.369114802,
+            "answers": 2000,
+            "process_wall": 0.3990718329999936
+          },
+          {
+            "build_cpu": 0.00678,
+            "operation_cpu": 0.373807,
+            "build_wall": 0.006735394,
+            "operation_wall": 0.372113453,
+            "answers": 2000,
+            "process_wall": 0.4029307019999919
+          }
+        ],
+        "full8192": [
+          {
+            "build_cpu": 0.006728,
+            "operation_cpu": 0.354881,
+            "build_wall": 0.006731803,
+            "operation_wall": 0.355596742,
+            "answers": 2000,
+            "process_wall": 0.3907248059999944
+          },
+          {
+            "build_cpu": 0.006845,
+            "operation_cpu": 0.359104,
+            "build_wall": 0.006790583,
+            "operation_wall": 0.356667008,
+            "answers": 2000,
+            "process_wall": 0.3879545149999899
+          },
+          {
+            "build_cpu": 0.007073,
+            "operation_cpu": 0.355825,
+            "build_wall": 0.007017905,
+            "operation_wall": 0.353054559,
+            "answers": 2000,
+            "process_wall": 0.403017804000001
+          }
+        ],
+        "pair_full8192": [
+          {
+            "build_cpu": 0.006796,
+            "operation_cpu": 0.356526,
+            "build_wall": 0.006887989,
+            "operation_wall": 0.355618214,
+            "answers": 2000,
+            "process_wall": 0.3867509370000022
+          },
+          {
+            "build_cpu": 0.006858,
+            "operation_cpu": 0.352574,
+            "build_wall": 0.006862975,
+            "operation_wall": 0.349940915,
+            "answers": 2000,
+            "process_wall": 0.3803536430000065
+          },
+          {
+            "build_cpu": 0.006797,
+            "operation_cpu": 0.365503,
+            "build_wall": 0.00680681,
+            "operation_wall": 0.362515047,
+            "answers": 2000,
+            "process_wall": 0.39965611099999876
+          }
+        ]
+      },
+      "median": {
+        "before": {
+          "build_cpu": 0.006914,
+          "operation_cpu": 0.372605,
+          "process_wall": 0.4022560620000064
+        },
+        "leaf_only_full8192": {
+          "build_cpu": 0.006769,
+          "operation_cpu": 0.372938,
+          "process_wall": 0.40035725399999933
+        },
+        "path_only_full8192": {
+          "build_cpu": 0.006661,
+          "operation_cpu": 0.373358,
+          "process_wall": 0.4029307019999919
+        },
+        "full8192": {
+          "build_cpu": 0.006845,
+          "operation_cpu": 0.355825,
+          "process_wall": 0.3907248059999944
+        },
+        "pair_full8192": {
+          "build_cpu": 0.006797,
+          "operation_cpu": 0.356526,
+          "process_wall": 0.3867509370000022
+        }
+      }
+    }
+  ]
+}

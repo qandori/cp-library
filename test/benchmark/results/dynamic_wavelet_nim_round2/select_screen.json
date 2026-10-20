@@ -1,0 +1,3410 @@
+{
+  "manifest": {
+    "utc": "2026-10-20T14:54:58.284251+00:00",
+    "base_commit": "5012542",
+    "comparison": "base1024 scan; frozen full8192 quarter+pair scan; same frozen candidate with select prefix binary for >16 words",
+    "headers": {
+      "base": {
+        "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+        "components/dynamic_quad_vector.hpp": "541466cdfeabc524243dfcd661a752c2f3eeb71f1ffdd5b975d0265114a44d06",
+        "components/dynamic_quad_wavelet.hpp": "de93626cab81a07ac4f356a7699a39beacde634889e9ddedc6d57fce387ee655",
+        "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+        "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+      },
+      "scan": {
+        "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+        "components/dynamic_quad_vector.hpp": "8c9659db29f086a3bd9fa53dbfeb58d330cc828719b9b22deae85509acd58b20",
+        "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+        "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+        "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+      },
+      "binary": {
+        "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+        "components/dynamic_quad_vector.hpp": "b7e24b602602ba0e114150be810dd50262384b07d508e0b5ba2555f5d57ba31e",
+        "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+        "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef",
+        "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2"
+      }
+    },
+    "flags": [
+      "-std=gnu++23",
+      "-O2",
+      "-march=native",
+      "-ftrivial-auto-var-init=zero",
+      "-UNDEBUG",
+      "-fno-lto",
+      "-Wall",
+      "-Wextra",
+      "-Werror"
+    ],
+    "cpu": 2,
+    "lock": "/tmp/cp-wm-opt.lock",
+    "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "helper_sha256": "0a446d9db644a2fdaa2cac7539d58b01e26d22ad8c0ecc663b34c78944e5a0d5",
+    "commands": [
+      {
+        "command": [
+          "g++",
+          "-std=c++2b",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-O2",
+          "-march=native",
+          "-I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/select_oracle.cpp",
+          "-o",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/oracle-native"
+        ],
+        "returncode": 0,
+        "seconds": 3.3915317409999943
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/oracle-native"
+        ],
+        "returncode": 0,
+        "seconds": 0.05512856100000363
+      },
+      {
+        "command": [
+          "clang++",
+          "-std=c++2b",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-O1",
+          "-g",
+          "-DDYNAMIC_QUAD_DISABLE_SIMD",
+          "-fsanitize=address,undefined",
+          "-fno-omit-frame-pointer",
+          "-I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/select_oracle.cpp",
+          "-o",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/oracle-scalar-sanitize"
+        ],
+        "returncode": 0,
+        "seconds": 3.878896267000016
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/oracle-scalar-sanitize"
+        ],
+        "returncode": 0,
+        "seconds": 0.2127476659999843
+      },
+      {
+        "command": [
+          "g++",
+          "-std=gnu++23",
+          "-O2",
+          "-march=native",
+          "-ftrivial-auto-var-init=zero",
+          "-UNDEBUG",
+          "-fno-lto",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-DVALUE_TYPE=std::uint32_t",
+          "-DBITS=7",
+          "-I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/bench.cpp",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/escape.o",
+          "-o",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7"
+        ],
+        "returncode": 0,
+        "seconds": 3.9711685139999986
+      },
+      {
+        "command": [
+          "g++",
+          "-std=gnu++23",
+          "-O2",
+          "-march=native",
+          "-ftrivial-auto-var-init=zero",
+          "-UNDEBUG",
+          "-fno-lto",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-DVALUE_TYPE=std::int64_t",
+          "-DBITS=64",
+          "-I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/bench.cpp",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/escape.o",
+          "-o",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-i64"
+        ],
+        "returncode": 0,
+        "seconds": 3.6512221639999893
+      },
+      {
+        "command": [
+          "g++",
+          "-std=gnu++23",
+          "-O2",
+          "-march=native",
+          "-ftrivial-auto-var-init=zero",
+          "-UNDEBUG",
+          "-fno-lto",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-DVALUE_TYPE=std::uint64_t",
+          "-DBITS=64",
+          "-I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/bench.cpp",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/escape.o",
+          "-o",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u64"
+        ],
+        "returncode": 0,
+        "seconds": 3.6517068979999863
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-base-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.4192837749999967
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-scan-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.4047408810000093
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-binary-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.2456300080000346
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-scan-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.368777872999999
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-base-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.1097336789999872
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-binary-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.2187975279999819
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-base-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.3252602000000024
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-binary-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.2350631990000238
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-scan-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.3409609770000088
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-binary-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.2426184740000394
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-base-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.2780017810000004
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-scan-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.3311509399999863
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-base-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.261705476999964
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-binary-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.3224053899999717
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select",
+          "100000",
+          "1000000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-scan-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.382406418999949
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-binary-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8967043869999998
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-base-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.0417149609999683
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-scan-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8583737690000248
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-scan-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8548004349999587
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-binary-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.830399247999992
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-base-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.969877839999981
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-scan-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8265682420000076
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-binary-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.7781504310000287
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-base-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8774079450000158
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-binary-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.9179436819999864
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-scan-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.7564294739999582
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-base-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.0102570469999819
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-binary-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.7422749659999681
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-base-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.9702385400000253
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-i64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-i64-select-scan-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8008805389999907
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-binary-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.9449413510000113
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-scan-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.9711271229999738
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-base-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.0533922019999977
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-base-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.0203645949999895
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-scan-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8896116489999599
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-binary-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8474549819999879
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-scan-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8149751580000384
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-binary-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.7791091409999922
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-base-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8879913299999771
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-scan-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.9229010020000032
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-binary-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.7788441769999963
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-base-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 1.003298271999995
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-scan-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8503578529999913
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-base-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.9755746069999987
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u64",
+          "select",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u64-select-binary-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.8434211620000269
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-scan-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2601648639999894
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-binary-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.28602913500003524
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-base-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.35228016799999295
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-base-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2749053440000466
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-scan-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.31015824700000394
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-binary-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2797802860000047
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-binary-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2574975399999744
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-scan-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.3078259250000315
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-base-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.3069282100000237
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-scan-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2537170470000092
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-base-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2860432759999867
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-binary-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.32656339400000434
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-base-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2492535370000155
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-scan-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.3424915989999704
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-valid-dup",
+          "100000",
+          "200000",
+          "20261020",
+          "duplicates",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-valid-dup-binary-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.30268702600000097
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-binary-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.26036865600002557
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-base-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.28999981500004424
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-scan-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2848815500000228
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-scan-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.24747897999998258
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-binary-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.27510892800000875
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-base-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.35317100999998274
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-base-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.32072912200004566
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-binary-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.3170481010000117
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-scan-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.3068395689999761
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-scan-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.31060433800001874
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-binary-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2092235819999928
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-base-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.23252981799998906
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-scan-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.25970978999998806
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-base-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.287894203999997
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-lastbit-miss",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-lastbit-miss-binary-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.3395875680000131
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-base-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.30915247500001897
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-scan-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.294670004000011
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-binary-0",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.3175885919999928
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-scan-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2267805019999969
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-base-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.31472687900003393
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-binary-1",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.32490153100002317
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-base-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.33093825899999274
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-binary-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.36330396400001064
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-scan-2",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.3269465650000143
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-scan-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2800591430000168
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-binary-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.2681167860000073
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-base-3",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.24282354199999645
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/binary-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-binary-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.27841029799998296
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/candidate-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-scan-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.31621234200002846
+      },
+      {
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/api-screen/base-u7",
+          "select-high-k",
+          "100000",
+          "200000",
+          "20261020",
+          "uniform",
+          "random",
+          "1",
+          "warm",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/select-screen/dump-u7-select-high-k-base-4",
+          "bulk"
+        ],
+        "returncode": 0,
+        "seconds": 0.3824494149999964
+      }
+    ],
+    "binaries": {
+      "binary-u7": "fcbae73a1071a8f1f683b4862bf38fbb3e5c725148e10ddad79a86283bb3eabb",
+      "binary-i64": "7610d86b03a29e4d6d719256ff4c01652a9d68741bd89be97b6cf547ce85aad4",
+      "binary-u64": "a2a5b0ce6b9a541993e22bee624b65e9d4c835c43d44efa4135f9e2c7701b7aa"
+    }
+  },
+  "checks": [
+    {
+      "name": "native",
+      "status": "pass",
+      "binary_sha256": "d58767787d9444081d15d4ec18cfb4bbe9673a2e41be091a575b9a17ab0d026e"
+    },
+    {
+      "name": "scalar-sanitize",
+      "status": "pass",
+      "binary_sha256": "3fc2b80813aa28780f9eb3bea3a1356dd23a56b9a5da92e8b3ef500b453d4103"
+    }
+  ],
+  "cases": [
+    {
+      "domain": "u7",
+      "kind": "select",
+      "distribution": "uniform",
+      "n": 100000,
+      "q": 1000000,
+      "samples": {
+        "base": [
+          {
+            "trial": 0,
+            "cpu": 0.128230088,
+            "wall": 0.126877886,
+            "buildcpu": 0.001111193,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 239136,
+            "rss_kib": 48160
+          },
+          {
+            "trial": 1,
+            "cpu": 0.128115966,
+            "wall": 0.128177553,
+            "buildcpu": 0.001143975,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 239136,
+            "rss_kib": 48124
+          },
+          {
+            "trial": 2,
+            "cpu": 0.127221364,
+            "wall": 0.127162076,
+            "buildcpu": 0.001154245,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 239136,
+            "rss_kib": 48160
+          },
+          {
+            "trial": 3,
+            "cpu": 0.128334709,
+            "wall": 0.128325008,
+            "buildcpu": 0.001156327,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 239136,
+            "rss_kib": 48124
+          },
+          {
+            "trial": 4,
+            "cpu": 0.128303122,
+            "wall": 0.126547034,
+            "buildcpu": 0.001099279,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 239136,
+            "rss_kib": 48160
+          }
+        ],
+        "scan": [
+          {
+            "trial": 0,
+            "cpu": 0.194024368,
+            "wall": 0.193999758,
+            "buildcpu": 0.001158007,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 47968
+          },
+          {
+            "trial": 1,
+            "cpu": 0.193891801,
+            "wall": 0.194728675,
+            "buildcpu": 0.001122462,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 48084
+          },
+          {
+            "trial": 2,
+            "cpu": 0.201332619,
+            "wall": 0.201460582,
+            "buildcpu": 0.001168176,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 47968
+          },
+          {
+            "trial": 3,
+            "cpu": 0.194806304,
+            "wall": 0.194757411,
+            "buildcpu": 0.001126292,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 47968
+          },
+          {
+            "trial": 4,
+            "cpu": 0.197005802,
+            "wall": 0.19425565,
+            "buildcpu": 0.001099047,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 47968
+          }
+        ],
+        "binary": [
+          {
+            "trial": 0,
+            "cpu": 0.110208061,
+            "wall": 0.110555092,
+            "buildcpu": 0.001109918,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 48032
+          },
+          {
+            "trial": 1,
+            "cpu": 0.109671086,
+            "wall": 0.109830655,
+            "buildcpu": 0.001143024,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 48076
+          },
+          {
+            "trial": 2,
+            "cpu": 0.110330357,
+            "wall": 0.112654113,
+            "buildcpu": 0.001109017,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 48068
+          },
+          {
+            "trial": 3,
+            "cpu": 0.108451539,
+            "wall": 0.108549606,
+            "buildcpu": 0.001118331,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 48032
+          },
+          {
+            "trial": 4,
+            "cpu": 0.108764619,
+            "wall": 0.107518183,
+            "buildcpu": 0.001112092,
+            "reps": 1,
+            "hash": "16571472421032663751",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 47968
+          }
+        ]
+      },
+      "hashes": [
+        "fd90d66b47a1aaf5f4883f6deccb28edcdbc0cda411ca489decfa5e7f1c10bc6",
+        "03ef70796926a58f29134a03811a480deb399667e68c65c609d1b82e736d03d8",
+        "16571472421032663751",
+        "1855670410993200256"
+      ],
+      "summary": {
+        "cpu": {
+          "base": {
+            "median": 0.128230088,
+            "range": [
+              0.127221364,
+              0.128334709
+            ]
+          },
+          "scan": {
+            "median": 0.194806304,
+            "range": [
+              0.193891801,
+              0.201332619
+            ]
+          },
+          "binary": {
+            "median": 0.109671086,
+            "range": [
+              0.108451539,
+              0.110330357
+            ]
+          }
+        },
+        "wall": {
+          "base": {
+            "median": 0.127162076,
+            "range": [
+              0.126547034,
+              0.128325008
+            ]
+          },
+          "scan": {
+            "median": 0.194728675,
+            "range": [
+              0.193999758,
+              0.201460582
+            ]
+          },
+          "binary": {
+            "median": 0.109830655,
+            "range": [
+              0.107518183,
+              0.112654113
+            ]
+          }
+        },
+        "buildcpu": {
+          "base": {
+            "median": 0.001143975,
+            "range": [
+              0.001099279,
+              0.001156327
+            ]
+          },
+          "scan": {
+            "median": 0.001126292,
+            "range": [
+              0.001099047,
+              0.001168176
+            ]
+          },
+          "binary": {
+            "median": 0.001112092,
+            "range": [
+              0.001109017,
+              0.001143024
+            ]
+          }
+        },
+        "memory": {
+          "base": {
+            "median": 239136,
+            "range": [
+              239136,
+              239136
+            ]
+          },
+          "scan": {
+            "median": 167328,
+            "range": [
+              167328,
+              167328
+            ]
+          },
+          "binary": {
+            "median": 167328,
+            "range": [
+              167328,
+              167328
+            ]
+          }
+        }
+      },
+      "binary_over_base": 0.8552679617594897,
+      "binary_over_scan": 0.5629750359618753
+    },
+    {
+      "domain": "i64",
+      "kind": "select",
+      "distribution": "uniform",
+      "n": 100000,
+      "q": 200000,
+      "samples": {
+        "base": [
+          {
+            "trial": 0,
+            "cpu": 0.345089687,
+            "wall": 0.339956003,
+            "buildcpu": 0.007726195,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1913088,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 1,
+            "cpu": 0.350696938,
+            "wall": 0.34314998,
+            "buildcpu": 0.007807258,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1913088,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 2,
+            "cpu": 0.340767448,
+            "wall": 0.333365234,
+            "buildcpu": 0.007736071,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1913088,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 3,
+            "cpu": 0.335603996,
+            "wall": 0.335829303,
+            "buildcpu": 0.007727924,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1913088,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 4,
+            "cpu": 0.332739451,
+            "wall": 0.3297743,
+            "buildcpu": 0.007748453,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1913088,
+            "rss_kib": 44668
+          }
+        ],
+        "scan": [
+          {
+            "trial": 0,
+            "cpu": 0.277543402,
+            "wall": 0.273423736,
+            "buildcpu": 0.007559555,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 1,
+            "cpu": 0.267449172,
+            "wall": 0.267616659,
+            "buildcpu": 0.00774262,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 2,
+            "cpu": 0.28461886,
+            "wall": 0.278521776,
+            "buildcpu": 0.007666654,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 3,
+            "cpu": 0.268740134,
+            "wall": 0.266870531,
+            "buildcpu": 0.007630889,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 4,
+            "cpu": 0.259030278,
+            "wall": 0.25674151,
+            "buildcpu": 0.00787215,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          }
+        ],
+        "binary": [
+          {
+            "trial": 0,
+            "cpu": 0.241759854,
+            "wall": 0.23823607,
+            "buildcpu": 0.007671056,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 1,
+            "cpu": 0.24381684,
+            "wall": 0.239307265,
+            "buildcpu": 0.007807397,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 2,
+            "cpu": 0.256966939,
+            "wall": 0.251505465,
+            "buildcpu": 0.008036934,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 3,
+            "cpu": 0.253880163,
+            "wall": 0.248453928,
+            "buildcpu": 0.007751165,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 4,
+            "cpu": 0.241496387,
+            "wall": 0.239474297,
+            "buildcpu": 0.007792791,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          }
+        ]
+      },
+      "hashes": [
+        "4b02cf78878cc24bca810332dc0703e17aadedc3bc4f23764bdb435ef3ba0826",
+        "8352a28929fe35144d2c8248c234aded30e05ef49a1075e10624392ae616ac3f",
+        "12538191742641228402",
+        "4098549958390089216"
+      ],
+      "summary": {
+        "cpu": {
+          "base": {
+            "median": 0.340767448,
+            "range": [
+              0.332739451,
+              0.350696938
+            ]
+          },
+          "scan": {
+            "median": 0.268740134,
+            "range": [
+              0.259030278,
+              0.28461886
+            ]
+          },
+          "binary": {
+            "median": 0.24381684,
+            "range": [
+              0.241496387,
+              0.256966939
+            ]
+          }
+        },
+        "wall": {
+          "base": {
+            "median": 0.335829303,
+            "range": [
+              0.3297743,
+              0.34314998
+            ]
+          },
+          "scan": {
+            "median": 0.267616659,
+            "range": [
+              0.25674151,
+              0.278521776
+            ]
+          },
+          "binary": {
+            "median": 0.239474297,
+            "range": [
+              0.23823607,
+              0.251505465
+            ]
+          }
+        },
+        "buildcpu": {
+          "base": {
+            "median": 0.007736071,
+            "range": [
+              0.007726195,
+              0.007807258
+            ]
+          },
+          "scan": {
+            "median": 0.007666654,
+            "range": [
+              0.007559555,
+              0.00787215
+            ]
+          },
+          "binary": {
+            "median": 0.007792791,
+            "range": [
+              0.007671056,
+              0.008036934
+            ]
+          }
+        },
+        "memory": {
+          "base": {
+            "median": 1913088,
+            "range": [
+              1913088,
+              1913088
+            ]
+          },
+          "scan": {
+            "median": 1338624,
+            "range": [
+              1338624,
+              1338624
+            ]
+          },
+          "binary": {
+            "median": 1338624,
+            "range": [
+              1338624,
+              1338624
+            ]
+          }
+        }
+      },
+      "binary_over_base": 0.7154933413710338,
+      "binary_over_scan": 0.907258757264741
+    },
+    {
+      "domain": "u64",
+      "kind": "select",
+      "distribution": "uniform",
+      "n": 100000,
+      "q": 200000,
+      "samples": {
+        "base": [
+          {
+            "trial": 0,
+            "cpu": 0.332419839,
+            "wall": 0.32953687,
+            "buildcpu": 0.007902324,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1913088,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 1,
+            "cpu": 0.331152706,
+            "wall": 0.328224945,
+            "buildcpu": 0.007777084,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1913088,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 2,
+            "cpu": 0.337715607,
+            "wall": 0.335003898,
+            "buildcpu": 0.007741031,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1913088,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 3,
+            "cpu": 0.330144849,
+            "wall": 0.337305876,
+            "buildcpu": 0.00808034,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1913088,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 4,
+            "cpu": 0.349034026,
+            "wall": 0.358934723,
+            "buildcpu": 0.008001754,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1913088,
+            "rss_kib": 44860
+          }
+        ],
+        "scan": [
+          {
+            "trial": 0,
+            "cpu": 0.262369936,
+            "wall": 0.260137649,
+            "buildcpu": 0.007762562,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 1,
+            "cpu": 0.261967728,
+            "wall": 0.25993542,
+            "buildcpu": 0.007734424,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 2,
+            "cpu": 0.279095652,
+            "wall": 0.275268131,
+            "buildcpu": 0.007767973,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 3,
+            "cpu": 0.27194662,
+            "wall": 0.280308317,
+            "buildcpu": 0.007705657,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 4,
+            "cpu": 0.257983231,
+            "wall": 0.262462276,
+            "buildcpu": 0.007735578,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44860
+          }
+        ],
+        "binary": [
+          {
+            "trial": 0,
+            "cpu": 0.235357728,
+            "wall": 0.233330134,
+            "buildcpu": 0.007655643,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44668
+          },
+          {
+            "trial": 1,
+            "cpu": 0.238782086,
+            "wall": 0.235557916,
+            "buildcpu": 0.008802355,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 2,
+            "cpu": 0.247879476,
+            "wall": 0.244468515,
+            "buildcpu": 0.007802554,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 3,
+            "cpu": 0.242019912,
+            "wall": 0.248603286,
+            "buildcpu": 0.007789135,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 4,
+            "cpu": 0.244256701,
+            "wall": 0.248222672,
+            "buildcpu": 0.009025125,
+            "reps": 1,
+            "hash": "12538191742641228402",
+            "finalhash": "4098549958390089216",
+            "memory": 1338624,
+            "rss_kib": 44860
+          }
+        ]
+      },
+      "hashes": [
+        "39ed8fe232c835b7939bfe3adfeb575960600dc76736b0f4a30e0894fcbf1db4",
+        "7928bda2afc1856e0f9e24a6151ba0b726334dd4ebdef6e25b042d5f59d4608c",
+        "12538191742641228402",
+        "4098549958390089216"
+      ],
+      "summary": {
+        "cpu": {
+          "base": {
+            "median": 0.332419839,
+            "range": [
+              0.330144849,
+              0.349034026
+            ]
+          },
+          "scan": {
+            "median": 0.262369936,
+            "range": [
+              0.257983231,
+              0.279095652
+            ]
+          },
+          "binary": {
+            "median": 0.242019912,
+            "range": [
+              0.235357728,
+              0.247879476
+            ]
+          }
+        },
+        "wall": {
+          "base": {
+            "median": 0.335003898,
+            "range": [
+              0.328224945,
+              0.358934723
+            ]
+          },
+          "scan": {
+            "median": 0.262462276,
+            "range": [
+              0.25993542,
+              0.280308317
+            ]
+          },
+          "binary": {
+            "median": 0.244468515,
+            "range": [
+              0.233330134,
+              0.248603286
+            ]
+          }
+        },
+        "buildcpu": {
+          "base": {
+            "median": 0.007902324,
+            "range": [
+              0.007741031,
+              0.00808034
+            ]
+          },
+          "scan": {
+            "median": 0.007735578,
+            "range": [
+              0.007705657,
+              0.007767973
+            ]
+          },
+          "binary": {
+            "median": 0.007802554,
+            "range": [
+              0.007655643,
+              0.009025125
+            ]
+          }
+        },
+        "memory": {
+          "base": {
+            "median": 1913088,
+            "range": [
+              1913088,
+              1913088
+            ]
+          },
+          "scan": {
+            "median": 1338624,
+            "range": [
+              1338624,
+              1338624
+            ]
+          },
+          "binary": {
+            "median": 1338624,
+            "range": [
+              1338624,
+              1338624
+            ]
+          }
+        }
+      },
+      "binary_over_base": 0.7280549582361118,
+      "binary_over_scan": 0.9224376683157783
+    },
+    {
+      "domain": "u7",
+      "kind": "select-valid-dup",
+      "distribution": "duplicates",
+      "n": 100000,
+      "q": 200000,
+      "samples": {
+        "base": [
+          {
+            "trial": 0,
+            "cpu": 0.025285488,
+            "wall": 0.025768998,
+            "buildcpu": 0.000854694,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 239136,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 1,
+            "cpu": 0.025627586,
+            "wall": 0.028162507,
+            "buildcpu": 0.000817753,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 239136,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 2,
+            "cpu": 0.025150665,
+            "wall": 0.025539523,
+            "buildcpu": 0.000807467,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 239136,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 3,
+            "cpu": 0.025216729,
+            "wall": 0.025501306,
+            "buildcpu": 0.000851132,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 239136,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 4,
+            "cpu": 0.025504517,
+            "wall": 0.025736586,
+            "buildcpu": 0.000811335,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 239136,
+            "rss_kib": 44860
+          }
+        ],
+        "scan": [
+          {
+            "trial": 0,
+            "cpu": 0.030195628,
+            "wall": 0.030820626,
+            "buildcpu": 0.000851672,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 167328,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 1,
+            "cpu": 0.031489689,
+            "wall": 0.033704811,
+            "buildcpu": 0.000818855,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 167328,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 2,
+            "cpu": 0.030027314,
+            "wall": 0.030534989,
+            "buildcpu": 0.000797528,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 167328,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 3,
+            "cpu": 0.03014098,
+            "wall": 0.03055113,
+            "buildcpu": 0.000890805,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 167328,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 4,
+            "cpu": 0.030140313,
+            "wall": 0.030503556,
+            "buildcpu": 0.000793254,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 167328,
+            "rss_kib": 44860
+          }
+        ],
+        "binary": [
+          {
+            "trial": 0,
+            "cpu": 0.024889589,
+            "wall": 0.025471794,
+            "buildcpu": 0.000799962,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 167328,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 1,
+            "cpu": 0.025269972,
+            "wall": 0.025683952,
+            "buildcpu": 0.000903989,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 167328,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 2,
+            "cpu": 0.025283032,
+            "wall": 0.025837436,
+            "buildcpu": 0.00081629,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 167328,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 3,
+            "cpu": 0.024967618,
+            "wall": 0.02544341,
+            "buildcpu": 0.000818792,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 167328,
+            "rss_kib": 44860
+          },
+          {
+            "trial": 4,
+            "cpu": 0.025098798,
+            "wall": 0.025371226,
+            "buildcpu": 0.000815759,
+            "reps": 1,
+            "hash": "5591810617982061585",
+            "finalhash": "5428758662516437088",
+            "memory": 167328,
+            "rss_kib": 44860
+          }
+        ]
+      },
+      "hashes": [
+        "4ec666c0d972dcc37a89255a9bba86f841285dbce664d0eb86a704b4b58d4094",
+        "274b62bce2b83844df6c3fea4ee9db9850454e9ccba2067f0f16d5b11f928f77",
+        "5591810617982061585",
+        "5428758662516437088"
+      ],
+      "summary": {
+        "cpu": {
+          "base": {
+            "median": 0.025285488,
+            "range": [
+              0.025150665,
+              0.025627586
+            ]
+          },
+          "scan": {
+            "median": 0.03014098,
+            "range": [
+              0.030027314,
+              0.031489689
+            ]
+          },
+          "binary": {
+            "median": 0.025098798,
+            "range": [
+              0.024889589,
+              0.025283032
+            ]
+          }
+        },
+        "wall": {
+          "base": {
+            "median": 0.025736586,
+            "range": [
+              0.025501306,
+              0.028162507
+            ]
+          },
+          "scan": {
+            "median": 0.03055113,
+            "range": [
+              0.030503556,
+              0.033704811
+            ]
+          },
+          "binary": {
+            "median": 0.025471794,
+            "range": [
+              0.025371226,
+              0.025837436
+            ]
+          }
+        },
+        "buildcpu": {
+          "base": {
+            "median": 0.000817753,
+            "range": [
+              0.000807467,
+              0.000854694
+            ]
+          },
+          "scan": {
+            "median": 0.000818855,
+            "range": [
+              0.000793254,
+              0.000890805
+            ]
+          },
+          "binary": {
+            "median": 0.00081629,
+            "range": [
+              0.000799962,
+              0.000903989
+            ]
+          }
+        },
+        "memory": {
+          "base": {
+            "median": 239136,
+            "range": [
+              239136,
+              239136
+            ]
+          },
+          "scan": {
+            "median": 167328,
+            "range": [
+              167328,
+              167328
+            ]
+          },
+          "binary": {
+            "median": 167328,
+            "range": [
+              167328,
+              167328
+            ]
+          }
+        }
+      },
+      "binary_over_base": 0.9926167135868605,
+      "binary_over_scan": 0.832713402152153
+    },
+    {
+      "domain": "u7",
+      "kind": "select-lastbit-miss",
+      "distribution": "uniform",
+      "n": 100000,
+      "q": 200000,
+      "samples": {
+        "base": [
+          {
+            "trial": 0,
+            "cpu": 0.008352751,
+            "wall": 0.00854100399999,
+            "buildcpu": 0.001175843,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 239136,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 1,
+            "cpu": 0.008364079,
+            "wall": 0.008494649,
+            "buildcpu": 0.001199664,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 239136,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 2,
+            "cpu": 0.008338873,
+            "wall": 0.00834476800003,
+            "buildcpu": 0.001252254,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 239136,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 3,
+            "cpu": 0.008398135,
+            "wall": 0.00831614399999,
+            "buildcpu": 0.001137833,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 239136,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 4,
+            "cpu": 0.008453279,
+            "wall": 0.00840455299999,
+            "buildcpu": 0.001167541,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 239136,
+            "rss_kib": 45052
+          }
+        ],
+        "scan": [
+          {
+            "trial": 0,
+            "cpu": 0.00622808,
+            "wall": 0.00647323300001,
+            "buildcpu": 0.001116157,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 1,
+            "cpu": 0.006205873,
+            "wall": 0.010730643,
+            "buildcpu": 0.001150201,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 2,
+            "cpu": 0.006203632,
+            "wall": 0.00628683100001,
+            "buildcpu": 0.001193249,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 3,
+            "cpu": 0.00623138,
+            "wall": 0.00633958999998,
+            "buildcpu": 0.001169342,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 4,
+            "cpu": 0.00629066,
+            "wall": 0.007148159,
+            "buildcpu": 0.001121683,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 167328,
+            "rss_kib": 45052
+          }
+        ],
+        "binary": [
+          {
+            "trial": 0,
+            "cpu": 0.006234599,
+            "wall": 0.00670506199998,
+            "buildcpu": 0.001152006,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 1,
+            "cpu": 0.006260848,
+            "wall": 0.00716659699998,
+            "buildcpu": 0.001170861,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 2,
+            "cpu": 0.006301622,
+            "wall": 0.00649089399997,
+            "buildcpu": 0.001192264,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 3,
+            "cpu": 0.006282235,
+            "wall": 0.00634635799997,
+            "buildcpu": 0.001198015,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 4,
+            "cpu": 0.006226571,
+            "wall": 0.00633891800004,
+            "buildcpu": 0.001152563,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "15786289974475519465",
+            "memory": 167328,
+            "rss_kib": 45052
+          }
+        ]
+      },
+      "hashes": [
+        "960c8445902fa4556cbdc28e187f9f5cf81b537f75636e2fc51210943b3a8b79",
+        "2ba6305884671bcf3b3c4ac5931f5953be9924612aa19183fa1789ca7ce6ffcd",
+        "9904992195573860995",
+        "15786289974475519465"
+      ],
+      "summary": {
+        "cpu": {
+          "base": {
+            "median": 0.008364079,
+            "range": [
+              0.008338873,
+              0.008453279
+            ]
+          },
+          "scan": {
+            "median": 0.00622808,
+            "range": [
+              0.006203632,
+              0.00629066
+            ]
+          },
+          "binary": {
+            "median": 0.006260848,
+            "range": [
+              0.006226571,
+              0.006301622
+            ]
+          }
+        },
+        "wall": {
+          "base": {
+            "median": 0.00840455299999,
+            "range": [
+              0.00831614399999,
+              0.00854100399999
+            ]
+          },
+          "scan": {
+            "median": 0.00647323300001,
+            "range": [
+              0.00628683100001,
+              0.010730643
+            ]
+          },
+          "binary": {
+            "median": 0.00649089399997,
+            "range": [
+              0.00633891800004,
+              0.00716659699998
+            ]
+          }
+        },
+        "buildcpu": {
+          "base": {
+            "median": 0.001175843,
+            "range": [
+              0.001137833,
+              0.001252254
+            ]
+          },
+          "scan": {
+            "median": 0.001150201,
+            "range": [
+              0.001116157,
+              0.001193249
+            ]
+          },
+          "binary": {
+            "median": 0.001170861,
+            "range": [
+              0.001152006,
+              0.001198015
+            ]
+          }
+        },
+        "memory": {
+          "base": {
+            "median": 239136,
+            "range": [
+              239136,
+              239136
+            ]
+          },
+          "scan": {
+            "median": 167328,
+            "range": [
+              167328,
+              167328
+            ]
+          },
+          "binary": {
+            "median": 167328,
+            "range": [
+              167328,
+              167328
+            ]
+          }
+        }
+      },
+      "binary_over_base": 0.7485400365061115,
+      "binary_over_scan": 1.0052613325455035
+    },
+    {
+      "domain": "u7",
+      "kind": "select-high-k",
+      "distribution": "uniform",
+      "n": 100000,
+      "q": 200000,
+      "samples": {
+        "base": [
+          {
+            "trial": 0,
+            "cpu": 0.000648688,
+            "wall": 0.000625366999998,
+            "buildcpu": 0.001217774,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 239136,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 1,
+            "cpu": 0.000718845,
+            "wall": 0.000692012000002,
+            "buildcpu": 0.001217845,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 239136,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 2,
+            "cpu": 0.000656653,
+            "wall": 0.000651269999992,
+            "buildcpu": 0.001180701,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 239136,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 3,
+            "cpu": 0.000691537,
+            "wall": 0.000687530999983,
+            "buildcpu": 0.001174877,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 239136,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 4,
+            "cpu": 0.000668969,
+            "wall": 0.000663266999993,
+            "buildcpu": 0.001117427,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 239136,
+            "rss_kib": 45052
+          }
+        ],
+        "scan": [
+          {
+            "trial": 0,
+            "cpu": 0.000672005,
+            "wall": 0.001194113,
+            "buildcpu": 0.001205516,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 1,
+            "cpu": 0.000652645,
+            "wall": 0.000775076000025,
+            "buildcpu": 0.001132602,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 2,
+            "cpu": 0.000665006,
+            "wall": 0.000831629999993,
+            "buildcpu": 0.00130325,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 3,
+            "cpu": 0.000689271,
+            "wall": 0.000965410999981,
+            "buildcpu": 0.001141473,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 4,
+            "cpu": 0.000684324,
+            "wall": 0.00206357500002,
+            "buildcpu": 0.001148566,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 45052
+          }
+        ],
+        "binary": [
+          {
+            "trial": 0,
+            "cpu": 0.000662106,
+            "wall": 0.000802626999985,
+            "buildcpu": 0.00114128,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 1,
+            "cpu": 0.00064045,
+            "wall": 0.00077262100001,
+            "buildcpu": 0.001197085,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 2,
+            "cpu": 0.001395985,
+            "wall": 0.001714048,
+            "buildcpu": 0.001527595,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 3,
+            "cpu": 0.000638984,
+            "wall": 0.000849734999974,
+            "buildcpu": 0.001202874,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 45052
+          },
+          {
+            "trial": 4,
+            "cpu": 0.000697118,
+            "wall": 0.00517798300001,
+            "buildcpu": 0.001375207,
+            "reps": 1,
+            "hash": "9904992195573860995",
+            "finalhash": "1855670410993200256",
+            "memory": 167328,
+            "rss_kib": 45052
+          }
+        ]
+      },
+      "hashes": [
+        "7daae0e76bfc14084f400421b42cae37562bfe6af0e795a4b4d8baf46ff9b436",
+        "fefa58340c3f41875cd71bca7c978a497669acffd7c3a5d51fca08294df5a5b1",
+        "9904992195573860995",
+        "1855670410993200256"
+      ],
+      "summary": {
+        "cpu": {
+          "base": {
+            "median": 0.000668969,
+            "range": [
+              0.000648688,
+              0.000718845
+            ]
+          },
+          "scan": {
+            "median": 0.000672005,
+            "range": [
+              0.000652645,
+              0.000689271
+            ]
+          },
+          "binary": {
+            "median": 0.000662106,
+            "range": [
+              0.000638984,
+              0.001395985
+            ]
+          }
+        },
+        "wall": {
+          "base": {
+            "median": 0.000663266999993,
+            "range": [
+              0.000625366999998,
+              0.000692012000002
+            ]
+          },
+          "scan": {
+            "median": 0.000965410999981,
+            "range": [
+              0.000775076000025,
+              0.00206357500002
+            ]
+          },
+          "binary": {
+            "median": 0.000849734999974,
+            "range": [
+              0.00077262100001,
+              0.00517798300001
+            ]
+          }
+        },
+        "buildcpu": {
+          "base": {
+            "median": 0.001180701,
+            "range": [
+              0.001117427,
+              0.001217845
+            ]
+          },
+          "scan": {
+            "median": 0.001148566,
+            "range": [
+              0.001132602,
+              0.00130325
+            ]
+          },
+          "binary": {
+            "median": 0.001202874,
+            "range": [
+              0.00114128,
+              0.001527595
+            ]
+          }
+        },
+        "memory": {
+          "base": {
+            "median": 239136,
+            "range": [
+              239136,
+              239136
+            ]
+          },
+          "scan": {
+            "median": 167328,
+            "range": [
+              167328,
+              167328
+            ]
+          },
+          "binary": {
+            "median": 167328,
+            "range": [
+              167328,
+              167328
+            ]
+          }
+        }
+      },
+      "binary_over_base": 0.9897409296992834,
+      "binary_over_scan": 0.9852694548403657
+    }
+  ],
+  "complete": true,
+  "interpretation": "Five shuffled paired process samples; operation-only CPU/wall with build recorded separately. Each workload checks full input/output/final-state hashes across all fifteen processes. The independent selector oracle exercises every occurrence at word0/final-word/prefix boundaries, long empty-word runs, uniform/missing values, set/move/insert/erase, native AVX2 and scalar ASan+UBSan. AtCoder speed unmeasured."
+}

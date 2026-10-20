@@ -1,0 +1,711 @@
+$ g++ --version
+g++ (conda-forge gcc 15.2.0-20) 15.2.0
+Copyright (C) 2025 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+exit_code=0
+
+$ clang++ --version
+clang version 21.1.8 (https://github.com/conda-forge/clangdev-feedstock 0586bae95bd818412431982353f925478061d031)
+Target: x86_64-conda-linux-gnu
+Thread model: posix
+InstalledDir: /var/tmp/cp-audit-tools/env/bin
+Configuration file: /var/tmp/cp-audit-tools/env/bin/x86_64-conda-linux-gnu-clang++.cfg
+
+exit_code=0
+
+$ git rev-parse HEAD
+50125422751b58e79a3550b66a9261efedf4cf03
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -fsyntax-only /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/header-0.cpp
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -fsyntax-only /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/header-1.cpp
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -fsyntax-only /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/header-2.cpp
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dynamic_quad_vector.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-dynamic_quad_vector
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-dynamic_quad_vector
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dynamic_quad_wavelet.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-dynamic_quad_wavelet
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-dynamic_quad_wavelet
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dynamic_wavelet_core.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-dynamic_wavelet_core
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-dynamic_wavelet_core
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dynamic_wavelet_count.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-dynamic_wavelet_count
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-dynamic_wavelet_count
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dynamic_wavelet_matrix.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-dynamic_wavelet_matrix
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-dynamic_wavelet_matrix
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/standalone.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-standalone
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-standalone
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -fsyntax-only /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/header-0.cpp
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -fsyntax-only /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/header-1.cpp
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -fsyntax-only /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/header-2.cpp
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dynamic_quad_vector.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-dynamic_quad_vector
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-dynamic_quad_vector
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dynamic_quad_wavelet.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-dynamic_quad_wavelet
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-dynamic_quad_wavelet
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dynamic_wavelet_core.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-dynamic_wavelet_core
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-dynamic_wavelet_core
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dynamic_wavelet_count.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-dynamic_wavelet_count
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-dynamic_wavelet_count
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dynamic_wavelet_matrix.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-dynamic_wavelet_matrix
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-dynamic_wavelet_matrix
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/standalone.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-standalone
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-standalone
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -fsanitize=address,undefined -fno-omit-frame-pointer -g test/unit/dynamic_quad_vector.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/sanitize-dynamic_quad_vector
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/sanitize-dynamic_quad_vector
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -fsanitize=address,undefined -fno-omit-frame-pointer -g test/unit/dynamic_quad_wavelet.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/sanitize-dynamic_quad_wavelet
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/sanitize-dynamic_quad_wavelet
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -fsanitize=address,undefined -fno-omit-frame-pointer -g test/unit/dynamic_wavelet_matrix.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/sanitize-dynamic_wavelet_matrix
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/sanitize-dynamic_wavelet_matrix
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -DDYNAMIC_QUAD_DISABLE_SIMD test/unit/dynamic_quad_vector.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/scalar-dynamic_quad_vector
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/scalar-dynamic_quad_vector
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -DDYNAMIC_QUAD_DISABLE_SIMD test/unit/dynamic_quad_wavelet.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/scalar-dynamic_quad_wavelet
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/scalar-dynamic_quad_wavelet
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library -DDYNAMIC_QUAD_DISABLE_SIMD test/unit/dynamic_wavelet_matrix.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/scalar-dynamic_wavelet_matrix
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/scalar-dynamic_wavelet_matrix
+
+exit_code=0
+
+$ git -C /home/qand/.cache/online-judge-tools/library-checker-problems rev-parse HEAD
+1814c4e5205517e368bb57a8d1127eb961cfeaae
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/dynamic_wavelet_matrix_freq.test.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 5 answer tokens matched; output_sha256=b5052193c43876af4d76c16b6de12e977b373509b1b6f6d47acabe0e8b244059
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 2005 answer tokens matched; output_sha256=3e863af15343320f11dda388cbea7a7b3de74c5390542dd2954760ff4f6d64fb
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 1948 answer tokens matched; output_sha256=5f8878c9ca8c375e868aa4db0e20aa16182a1e635d2c85a472693bf24eab382b
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 2057 answer tokens matched; output_sha256=1935e6a860560039a6f8e7940a8dc73d69727f49c46baa946975253e04e251cb
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 1961 answer tokens matched; output_sha256=5edaa339a63a82d031c04d4b7c1ddbe495a207fbd7a7468e311e494a6c70bdb7
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 198003 answer tokens matched; output_sha256=ecd50ed95bc89709bb5b9cd728247fc3ec0bb5bb277c0649b9c899b66137aa83
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 198031 answer tokens matched; output_sha256=158885c7af172876507a1570637b85d58fc7dfadc16cde9641965e549c6b818d
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 197962 answer tokens matched; output_sha256=2b8e57c30cbfb820f506de451ed693bc3f14145d4e7c1717ee0ab41f30865af0
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 198059 answer tokens matched; output_sha256=64138eb75dec5386a851a68f29d8f163490d0091046cadbcc373742c09d34c7e
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 100148 answer tokens matched; output_sha256=e9ce3c9f2df5c78faca10d47af60f3994dd9cf1528bfc7775d373f98686baf6b
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 100002 answer tokens matched; output_sha256=0212bb119fa5c1957129609bfc6ac0d8c27cb7df58084628f68ac0864389d6af
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 100344 answer tokens matched; output_sha256=92fd5c4110df9a31258aab71a2059cfad0ee8b70bc712153d3fa48543a5ac3f9
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 100133 answer tokens matched; output_sha256=85a23080dfc69df6aa342b29cc77c79e19a9ce4f50d91a9000faf194fc9fedf7
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 99951 answer tokens matched; output_sha256=b12b816acf8104b4104b6476f35aea31e1b4e80186fd32bae3bdf2ac88b1d257
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 99956 answer tokens matched; output_sha256=815cec6b65bc8b855794a823389f6cd37717dca1db35eede2b7c17746209ca06
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 99778 answer tokens matched; output_sha256=f166f7a559e00fcfc9d47f9ef0b8c647af97f619e1129b27c7c1a9bde3e78605
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 99674 answer tokens matched; output_sha256=d7b06a220e381865e98e58797506de7def90ce8ff4769d501893510dcc9b3cc1
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 99937 answer tokens matched; output_sha256=e1699a8b79f42caa3b580eae1f6fd4d626244dd4646c06964977201c4a668f53
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 100049 answer tokens matched; output_sha256=27342853d585d6e46a5234026f70ec49806eadafa87ad3ccc42d1585d8f1fd69
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 100183 answer tokens matched; output_sha256=f165db6a97873490510761ef5324f4b2dfbd6834b95f453d6ae0f92253cac282
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 100385 answer tokens matched; output_sha256=6e28947236ae3e9956892f19fc5d68d996cc3e1325f61ae27e5c520e7f74d8af
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 100146 answer tokens matched; output_sha256=dbd955d7cdbd1491c0d42010d226c8ce12d38d7c78307225e0ee8d6d18df7a1b
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 200000 answer tokens matched; output_sha256=115aacad666d79bcea30a9334c9f57c3b4a044949ccd6bb0fe59a4dc18ee6da2
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 99906 answer tokens matched; output_sha256=500b65341486abfbc4a45be2fd8333b7c0ae05f504bffc35050a6d24367c8769
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-point_set_range_frequency
+All 99762 answer tokens matched; output_sha256=483f265739b59013d91e16350420e0e71e89e0bf9aedc4eb7cfa7831c97fefb2
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/dynamic_wavelet_matrix_freq.test.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 5 answer tokens matched; output_sha256=b5052193c43876af4d76c16b6de12e977b373509b1b6f6d47acabe0e8b244059
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 2005 answer tokens matched; output_sha256=3e863af15343320f11dda388cbea7a7b3de74c5390542dd2954760ff4f6d64fb
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 1948 answer tokens matched; output_sha256=5f8878c9ca8c375e868aa4db0e20aa16182a1e635d2c85a472693bf24eab382b
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 2057 answer tokens matched; output_sha256=1935e6a860560039a6f8e7940a8dc73d69727f49c46baa946975253e04e251cb
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 1961 answer tokens matched; output_sha256=5edaa339a63a82d031c04d4b7c1ddbe495a207fbd7a7468e311e494a6c70bdb7
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 198003 answer tokens matched; output_sha256=ecd50ed95bc89709bb5b9cd728247fc3ec0bb5bb277c0649b9c899b66137aa83
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 198031 answer tokens matched; output_sha256=158885c7af172876507a1570637b85d58fc7dfadc16cde9641965e549c6b818d
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 197962 answer tokens matched; output_sha256=2b8e57c30cbfb820f506de451ed693bc3f14145d4e7c1717ee0ab41f30865af0
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 198059 answer tokens matched; output_sha256=64138eb75dec5386a851a68f29d8f163490d0091046cadbcc373742c09d34c7e
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 100148 answer tokens matched; output_sha256=e9ce3c9f2df5c78faca10d47af60f3994dd9cf1528bfc7775d373f98686baf6b
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 100002 answer tokens matched; output_sha256=0212bb119fa5c1957129609bfc6ac0d8c27cb7df58084628f68ac0864389d6af
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 100344 answer tokens matched; output_sha256=92fd5c4110df9a31258aab71a2059cfad0ee8b70bc712153d3fa48543a5ac3f9
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 100133 answer tokens matched; output_sha256=85a23080dfc69df6aa342b29cc77c79e19a9ce4f50d91a9000faf194fc9fedf7
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 99951 answer tokens matched; output_sha256=b12b816acf8104b4104b6476f35aea31e1b4e80186fd32bae3bdf2ac88b1d257
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 99956 answer tokens matched; output_sha256=815cec6b65bc8b855794a823389f6cd37717dca1db35eede2b7c17746209ca06
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 99778 answer tokens matched; output_sha256=f166f7a559e00fcfc9d47f9ef0b8c647af97f619e1129b27c7c1a9bde3e78605
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 99674 answer tokens matched; output_sha256=d7b06a220e381865e98e58797506de7def90ce8ff4769d501893510dcc9b3cc1
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 99937 answer tokens matched; output_sha256=e1699a8b79f42caa3b580eae1f6fd4d626244dd4646c06964977201c4a668f53
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 100049 answer tokens matched; output_sha256=27342853d585d6e46a5234026f70ec49806eadafa87ad3ccc42d1585d8f1fd69
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 100183 answer tokens matched; output_sha256=f165db6a97873490510761ef5324f4b2dfbd6834b95f453d6ae0f92253cac282
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 100385 answer tokens matched; output_sha256=6e28947236ae3e9956892f19fc5d68d996cc3e1325f61ae27e5c520e7f74d8af
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 100146 answer tokens matched; output_sha256=dbd955d7cdbd1491c0d42010d226c8ce12d38d7c78307225e0ee8d6d18df7a1b
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 200000 answer tokens matched; output_sha256=115aacad666d79bcea30a9334c9f57c3b4a044949ccd6bb0fe59a4dc18ee6da2
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 99906 answer tokens matched; output_sha256=500b65341486abfbc4a45be2fd8333b7c0ae05f504bffc35050a6d24367c8769
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-point_set_range_frequency
+All 99762 answer tokens matched; output_sha256=483f265739b59013d91e16350420e0e71e89e0bf9aedc4eb7cfa7831c97fefb2
+
+exit_code=0
+
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/dynamic_wavelet_matrix_kth.test.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 693 answer tokens matched; output_sha256=d49ff2372ee85c6b2ca70f1e2ddce4d94690210b64c833054a37e41c73768ce7
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 198485 answer tokens matched; output_sha256=f90282fb68a8ec10c90d332ff4395d44013f9641e9baaa782a6e3e9ccd98dd1e
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 198485 answer tokens matched; output_sha256=b435710fd2093fc13aa90d5a14a2d497f6f4defc8885d30310cb776008a1ebac
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 3 answer tokens matched; output_sha256=14f11ec42728dfc31cbcf9928bd427f47e7425b4d89aac75b328764921f1ac1c
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 200000 answer tokens matched; output_sha256=79bf95a008ebf8f569d73dcd5995785d7fe3638d9f2021125729337a46c3c6c2
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 200000 answer tokens matched; output_sha256=df4341caf5498ab7537b2c06b31e94ea7243d92821b07bff369113635582413b
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 200000 answer tokens matched; output_sha256=bcaf093c3edde6c155e435731417e2c45932284bd171cb3be4f8cdd87d03a2e5
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 200000 answer tokens matched; output_sha256=7faed48b3b37fb1f16ae8bf8d98a5b15ffba3930b826a2d6aec474e38b9b1c69
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 200000 answer tokens matched; output_sha256=ed357bce8cbc070782b90c66fbdd5cc5f8adb2dd5f3fd3e71d5dfc3ed228a0a6
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 148779 answer tokens matched; output_sha256=25169823a7c114d4dc9f8a2c440f77e1b3f94a34a9670acd164a9e088ffdc8b2
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 148757 answer tokens matched; output_sha256=0f0ad4f690756e5e50ba5ab2dfdb575e5c1da0baf2449f1be14aaf633266ae13
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 120203 answer tokens matched; output_sha256=7e5fff43d78d53ba0e61867212146ca0f1a251259dc80121677bfc1dc1b3334d
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 25839 answer tokens matched; output_sha256=88130c4dbc2e79c263f1d53b90deb4b8e213970543f9ff3773e3f7f360aea74a
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 99117 answer tokens matched; output_sha256=94ca518d5cd0791599d14c5e3993428de7cc768bcca2cc5d0eec0ba9048c35ce
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 299 answer tokens matched; output_sha256=a2eb6f823bca589c68c09b3cbb8366361707c90f39ec7206e421b6d4ad4a57b1
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 235 answer tokens matched; output_sha256=56575cb18b2ac7f2cb7f809d1f4fd72002bcbe185619ec0a5a37d29baa8df246
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 395 answer tokens matched; output_sha256=00e0617e104ce0946cc10344c856e42955f02704f318a1e641cc06d1cdbdf60c
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 239 answer tokens matched; output_sha256=f50ced2f8d8b5a8339dec10a51c62348816c91bb261f92e6396ee8f345ccf082
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 813 answer tokens matched; output_sha256=763b5225ebd704eda688a2e6564129ef1383e3bfc1de82d3912f4dfcef4b87c1
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 221 answer tokens matched; output_sha256=297604da112653cdfabacce00ba31c0f1e25f13d435a54e22e1ea0e6df0c49e5
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 252 answer tokens matched; output_sha256=5cd011cb30b50a726907d1ab27cab95de7b4acaeda49c6ca61031954e00e753e
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 211 answer tokens matched; output_sha256=c8c250b813258343880d7bcfc84196285bcec6338ac0a020897cf7e60b0bab14
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 303 answer tokens matched; output_sha256=634c3da3d1460a56c1473c69f2874025834f0cd15b378cfacd5885e3e7df375e
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/gcc-range_kth_smallest
+All 792 answer tokens matched; output_sha256=03d69642f6538325fc258aeeea036755ad7ffe791943beb0a097a4973f0c28fb
+
+exit_code=0
+
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -DDEBUG=1 -UNDEBUG -I /mnt/c/Users/yukiz/Desktop/cp-library test/dynamic_wavelet_matrix_kth.test.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 693 answer tokens matched; output_sha256=d49ff2372ee85c6b2ca70f1e2ddce4d94690210b64c833054a37e41c73768ce7
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 198485 answer tokens matched; output_sha256=f90282fb68a8ec10c90d332ff4395d44013f9641e9baaa782a6e3e9ccd98dd1e
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 198485 answer tokens matched; output_sha256=b435710fd2093fc13aa90d5a14a2d497f6f4defc8885d30310cb776008a1ebac
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 3 answer tokens matched; output_sha256=14f11ec42728dfc31cbcf9928bd427f47e7425b4d89aac75b328764921f1ac1c
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 200000 answer tokens matched; output_sha256=79bf95a008ebf8f569d73dcd5995785d7fe3638d9f2021125729337a46c3c6c2
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 200000 answer tokens matched; output_sha256=df4341caf5498ab7537b2c06b31e94ea7243d92821b07bff369113635582413b
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 200000 answer tokens matched; output_sha256=bcaf093c3edde6c155e435731417e2c45932284bd171cb3be4f8cdd87d03a2e5
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 200000 answer tokens matched; output_sha256=7faed48b3b37fb1f16ae8bf8d98a5b15ffba3930b826a2d6aec474e38b9b1c69
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 200000 answer tokens matched; output_sha256=ed357bce8cbc070782b90c66fbdd5cc5f8adb2dd5f3fd3e71d5dfc3ed228a0a6
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 148779 answer tokens matched; output_sha256=25169823a7c114d4dc9f8a2c440f77e1b3f94a34a9670acd164a9e088ffdc8b2
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 148757 answer tokens matched; output_sha256=0f0ad4f690756e5e50ba5ab2dfdb575e5c1da0baf2449f1be14aaf633266ae13
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 120203 answer tokens matched; output_sha256=7e5fff43d78d53ba0e61867212146ca0f1a251259dc80121677bfc1dc1b3334d
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 25839 answer tokens matched; output_sha256=88130c4dbc2e79c263f1d53b90deb4b8e213970543f9ff3773e3f7f360aea74a
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 99117 answer tokens matched; output_sha256=94ca518d5cd0791599d14c5e3993428de7cc768bcca2cc5d0eec0ba9048c35ce
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 299 answer tokens matched; output_sha256=a2eb6f823bca589c68c09b3cbb8366361707c90f39ec7206e421b6d4ad4a57b1
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 235 answer tokens matched; output_sha256=56575cb18b2ac7f2cb7f809d1f4fd72002bcbe185619ec0a5a37d29baa8df246
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 395 answer tokens matched; output_sha256=00e0617e104ce0946cc10344c856e42955f02704f318a1e641cc06d1cdbdf60c
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 239 answer tokens matched; output_sha256=f50ced2f8d8b5a8339dec10a51c62348816c91bb261f92e6396ee8f345ccf082
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 813 answer tokens matched; output_sha256=763b5225ebd704eda688a2e6564129ef1383e3bfc1de82d3912f4dfcef4b87c1
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 221 answer tokens matched; output_sha256=297604da112653cdfabacce00ba31c0f1e25f13d435a54e22e1ea0e6df0c49e5
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 252 answer tokens matched; output_sha256=5cd011cb30b50a726907d1ab27cab95de7b4acaeda49c6ca61031954e00e753e
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 211 answer tokens matched; output_sha256=c8c250b813258343880d7bcfc84196285bcec6338ac0a020897cf7e60b0bab14
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 303 answer tokens matched; output_sha256=634c3da3d1460a56c1473c69f2874025834f0cd15b378cfacd5885e3e7df375e
+
+exit_code=0
+
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/clang-range_kth_smallest
+All 792 answer tokens matched; output_sha256=03d69642f6538325fc258aeeea036755ad7ffe791943beb0a097a4973f0c28fb
+
+exit_code=0
+
+$ /usr/bin/python3 /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/generate_docs.py
+Generated documentation for 3 library and judge sources
+
+exit_code=0
+
+$ /usr/bin/python3 .verify-helper/check-docs.py --selection /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/validation/selection.json
+Checked documentation for 180 libraries; compiled 3 affected bundles
+
+exit_code=0

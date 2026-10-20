@@ -1,0 +1,163 @@
+--- a/components/dynamic_quad_vector.hpp
++++ b/components/dynamic_quad_vector.hpp
+@@ -272,0 +273,128 @@
++	static Word prefix_delta(int old, int digit) {
++		if constexpr (std::endian::native == std::endian::big) return (Word(1) << (16 * (3 - digit))) - (Word(1) << (16 * (3 - old)));
++		else return (Word(1) << (16 * digit)) - (Word(1) << (16 * old));
++	}
++	static void update_prefix(std::array<std::uint16_t, 4>& prefix, int old, int digit) {
++		if constexpr (std::endian::native == std::endian::little || std::endian::native == std::endian::big)
++			prefix = std::bit_cast<std::array<std::uint16_t, 4>>(std::bit_cast<Word>(prefix) + prefix_delta(old, digit));
++		else --prefix[old], ++prefix[digit];
++	}
++	static void shift_insert(Leaf& leaf, int first, int last, int digit) {
++		for (int i = last; i > first; --i) {
++			int carry = int(leaf.low[i - 1] >> 63) | (int(leaf.high[i - 1] >> 63) << 1);
++			update_prefix(leaf.prefix[i], carry, digit);
++			leaf.low[i] = (leaf.low[i] << 1) | (leaf.low[i - 1] >> 63);
++			leaf.high[i] = (leaf.high[i] << 1) | (leaf.high[i - 1] >> 63);
++		}
++	}
++	static void shift_erase(Leaf& leaf, int first, int last, int digit) {
++		for (int i = first; i <= last; ++i) {
++			int carry = int(leaf.low[i] & 1) | (int(leaf.high[i] & 1) << 1);
++			update_prefix(leaf.prefix[i], digit, carry);
++			leaf.low[i] = (leaf.low[i] >> 1) | (i < last ? leaf.low[i + 1] << 63 : 0);
++			leaf.high[i] = (leaf.high[i] >> 1) | (i < last ? leaf.high[i + 1] << 63 : 0);
++		}
++	}
++#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
++	__attribute__((target("avx2")))
++	static void shift_insert_avx2(Leaf& leaf, int first, int last, int digit) {
++		auto ones = _mm256_set1_epi64x(1), added = _mm256_set1_epi64x(Word(1) << (16 * digit));
++		int i = last;
++		for (; i - first >= 4; i -= 4) {
++			auto a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.low.data() + i - 3));
++			auto b = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.high.data() + i - 3));
++			auto ca = _mm256_srli_epi64(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.low.data() + i - 4)), 63);
++			auto cb = _mm256_srli_epi64(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.high.data() + i - 4)), 63);
++			auto shifts = _mm256_slli_epi64(_mm256_or_si256(ca, _mm256_slli_epi64(cb, 1)), 4);
++			auto delta = _mm256_sub_epi64(added, _mm256_sllv_epi64(ones, shifts));
++			auto* out = reinterpret_cast<__m256i*>(leaf.prefix.data() + i - 3);
++			_mm256_storeu_si256(out, _mm256_add_epi64(_mm256_loadu_si256(out), delta));
++			_mm256_storeu_si256(reinterpret_cast<__m256i*>(leaf.low.data() + i - 3), _mm256_or_si256(_mm256_slli_epi64(a, 1), ca));
++			_mm256_storeu_si256(reinterpret_cast<__m256i*>(leaf.high.data() + i - 3), _mm256_or_si256(_mm256_slli_epi64(b, 1), cb));
++		}
++		shift_insert(leaf, first, i, digit);
++	}
++	__attribute__((target("avx512f")))
++	static void shift_insert_avx512(Leaf& leaf, int first, int last, int digit) {
++		auto ones = _mm512_set1_epi64(1), added = _mm512_set1_epi64(Word(1) << (16 * digit));
++		int i = last;
++		for (; i - first >= 8; i -= 8) {
++			auto a = _mm512_loadu_si512(leaf.low.data() + i - 7);
++			auto b = _mm512_loadu_si512(leaf.high.data() + i - 7);
++			auto ca = _mm512_srli_epi64(_mm512_loadu_si512(leaf.low.data() + i - 8), 63);
++			auto cb = _mm512_srli_epi64(_mm512_loadu_si512(leaf.high.data() + i - 8), 63);
++			auto shifts = _mm512_slli_epi64(_mm512_or_si512(ca, _mm512_slli_epi64(cb, 1)), 4);
++			auto delta = _mm512_sub_epi64(added, _mm512_sllv_epi64(ones, shifts));
++			auto* out = leaf.prefix.data() + i - 7;
++			_mm512_storeu_si512(out, _mm512_add_epi64(_mm512_loadu_si512(out), delta));
++			_mm512_storeu_si512(leaf.low.data() + i - 7, _mm512_or_si512(_mm512_slli_epi64(a, 1), ca));
++			_mm512_storeu_si512(leaf.high.data() + i - 7, _mm512_or_si512(_mm512_slli_epi64(b, 1), cb));
++		}
++		shift_insert(leaf, first, i, digit);
++	}
++	__attribute__((target("avx2")))
++	static void shift_erase_avx2(Leaf& leaf, int first, int last, int digit) {
++		auto ones = _mm256_set1_epi64x(1), removed = _mm256_set1_epi64x(Word(1) << (16 * digit));
++		int i = first;
++		for (; i + 4 <= last; i += 4) {
++			auto a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.low.data() + i));
++			auto b = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.high.data() + i));
++			auto ca = _mm256_and_si256(a, ones), cb = _mm256_and_si256(b, ones);
++			auto shifts = _mm256_slli_epi64(_mm256_or_si256(ca, _mm256_slli_epi64(cb, 1)), 4);
++			auto delta = _mm256_sub_epi64(_mm256_sllv_epi64(ones, shifts), removed);
++			auto* out = reinterpret_cast<__m256i*>(leaf.prefix.data() + i);
++			_mm256_storeu_si256(out, _mm256_add_epi64(_mm256_loadu_si256(out), delta));
++			auto next_a = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.low.data() + i + 1));
++			auto next_b = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(leaf.high.data() + i + 1));
++			_mm256_storeu_si256(reinterpret_cast<__m256i*>(leaf.low.data() + i), _mm256_or_si256(_mm256_srli_epi64(a, 1), _mm256_slli_epi64(next_a, 63)));
++			_mm256_storeu_si256(reinterpret_cast<__m256i*>(leaf.high.data() + i), _mm256_or_si256(_mm256_srli_epi64(b, 1), _mm256_slli_epi64(next_b, 63)));
++		}
++		shift_erase(leaf, i, last, digit);
++	}
++	__attribute__((target("avx512f")))
++	static void shift_erase_avx512(Leaf& leaf, int first, int last, int digit) {
++		auto ones = _mm512_set1_epi64(1), removed = _mm512_set1_epi64(Word(1) << (16 * digit));
++		int i = first;
++		for (; i + 8 <= last; i += 8) {
++			auto a = _mm512_loadu_si512(leaf.low.data() + i);
++			auto b = _mm512_loadu_si512(leaf.high.data() + i);
++			auto ca = _mm512_and_si512(a, ones), cb = _mm512_and_si512(b, ones);
++			auto shifts = _mm512_slli_epi64(_mm512_or_si512(ca, _mm512_slli_epi64(cb, 1)), 4);
++			auto delta = _mm512_sub_epi64(_mm512_sllv_epi64(ones, shifts), removed);
++			auto* out = leaf.prefix.data() + i;
++			_mm512_storeu_si512(out, _mm512_add_epi64(_mm512_loadu_si512(out), delta));
++			auto next_a = _mm512_loadu_si512(leaf.low.data() + i + 1);
++			auto next_b = _mm512_loadu_si512(leaf.high.data() + i + 1);
++			_mm512_storeu_si512(leaf.low.data() + i, _mm512_or_si512(_mm512_srli_epi64(a, 1), _mm512_slli_epi64(next_a, 63)));
++			_mm512_storeu_si512(leaf.high.data() + i, _mm512_or_si512(_mm512_srli_epi64(b, 1), _mm512_slli_epi64(next_b, 63)));
++		}
++		shift_erase(leaf, i, last, digit);
++	}
++	__attribute__((target("avx2")))
++	static void set_prefix_avx2(Leaf& leaf, int first, int last, int old, int digit) {
++		auto delta = _mm256_set1_epi64x(prefix_delta(old, digit));
++		int i = first;
++		for (; i + 4 <= last; i += 4) {
++			auto* p = reinterpret_cast<__m256i*>(leaf.prefix.data() + i);
++			_mm256_storeu_si256(p, _mm256_add_epi64(_mm256_loadu_si256(p), delta));
++		}
++		for (; i < last; ++i) update_prefix(leaf.prefix[i], old, digit);
++	}
++	__attribute__((target("avx512f")))
++	static void set_prefix_avx512(Leaf& leaf, int first, int last, int old, int digit) {
++		auto delta = _mm512_set1_epi64(prefix_delta(old, digit));
++		int i = first;
++		for (; i + 8 <= last; i += 8) {
++			auto* p = leaf.prefix.data() + i;
++			_mm512_storeu_si512(p, _mm512_add_epi64(_mm512_loadu_si512(p), delta));
++		}
++		for (; i < last; ++i) update_prefix(leaf.prefix[i], old, digit);
++	}
++#endif
++	static void set_prefix(Leaf& leaf, int first, int last, int old, int digit) {
++#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
++		if (last - first >= 8 && has_avx512()) { set_prefix_avx512(leaf, first, last, old, digit); return; }
++		if (last - first >= 4 && has_avx2()) { set_prefix_avx2(leaf, first, last, old, digit); return; }
++#endif
++		for (int i = first; i < last; ++i) update_prefix(leaf.prefix[i], old, digit);
++	}
+@@ -276,7 +404,7 @@
+-		for (int i = leaf.length >> 6; i > w; --i) {
+-			int carry = int(leaf.low[i - 1] >> 63) | (int(leaf.high[i - 1] >> 63) << 1);
+-			leaf.low[i] = (leaf.low[i] << 1) | (leaf.low[i - 1] >> 63);
+-			leaf.high[i] = (leaf.high[i] << 1) | (leaf.high[i - 1] >> 63);
+-			++leaf.prefix[i][digit];
+-			--leaf.prefix[i][carry];
+-		}
++		int last = leaf.length >> 6;
++#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
++		if (last - w >= 8 && has_avx512()) shift_insert_avx512(leaf, w, last, digit);
++		else if (last - w >= 4 && has_avx2()) shift_insert_avx2(leaf, w, last, digit);
++		else
++#endif
++		shift_insert(leaf, w, last, digit);
+@@ -294,7 +422,6 @@
+-		for (int i = w + 1; i <= last; ++i) {
+-			int carry = int(leaf.low[i] & 1) | (int(leaf.high[i] & 1) << 1);
+-			--leaf.prefix[i][digit];
+-			++leaf.prefix[i][carry];
+-			leaf.low[i] = (leaf.low[i] >> 1) | (i < last ? leaf.low[i + 1] << 63 : 0);
+-			leaf.high[i] = (leaf.high[i] >> 1) | (i < last ? leaf.high[i + 1] << 63 : 0);
+-		}
++#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
++		if (last - w >= 9 && has_avx512()) shift_erase_avx512(leaf, w + 1, last, digit);
++		else if (last - w >= 5 && has_avx2()) shift_erase_avx2(leaf, w + 1, last, digit);
++		else
++#endif
++		shift_erase(leaf, w + 1, last, digit);
+@@ -652 +779 @@
+-		for (int i = (p >> 6) + 1; i <= (leaf.length - 1) / 64; ++i) --leaf.prefix[i][old], ++leaf.prefix[i][digit];
++		set_prefix(leaf, (p >> 6) + 1, (leaf.length - 1) / 64 + 1, old, digit);

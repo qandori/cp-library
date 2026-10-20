@@ -1,0 +1,2954 @@
+{
+  "metadata": {
+    "utc": "2026-10-20T14:41:14.934961+00:00",
+    "helper_sha256": "ff1d28f7ed52b2c7bcf9695944f2e2d8c79fcbfa3331beffd7d9d3e2dc95a7a6",
+    "cpp_screen_manifest_sha256": "0fde8564243284c2b89b18aa6044e912a683fa86b2fc823f3224ad589919a527",
+    "cpp_flags": [
+      "-std=gnu++23",
+      "-O2",
+      "-UNDEBUG",
+      "-ftrivial-auto-var-init=zero",
+      "-fno-lto",
+      "-DDWM_FAST_IO=1",
+      "-DDWM_COUNT_DIRECT=1",
+      "-DDWM_INSTRUMENT=1",
+      "-march=native"
+    ],
+    "cpp_driver_sha256": "e89e8a8a256bbfd2c6667ba4ee8507aeab9b5616f99b004738ace3f0d5dd282e",
+    "cpp_baseline": "5012542",
+    "cpp_candidate": "full8192 selection candidate, not applied to production",
+    "sources": {
+      "before": {
+        "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+        "components/dynamic_quad_vector.hpp": "541466cdfeabc524243dfcd661a752c2f3eeb71f1ffdd5b975d0265114a44d06",
+        "components/dynamic_quad_wavelet.hpp": "de93626cab81a07ac4f356a7699a39beacde634889e9ddedc6d57fce387ee655",
+        "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2",
+        "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef"
+      },
+      "full8192": {
+        "components/dynamic_bit_vector.hpp": "677fb21568ef90b2418620912c6a77ee5dd064cd615147812713a3bd40f0b101",
+        "components/dynamic_quad_vector.hpp": "7d5385a01d343248e85ec23370deff8d1a81c46b955d4b0dafbe0a3e5cbb7e6d",
+        "components/dynamic_quad_wavelet.hpp": "d199aa8c0b2bd3591bf4767b92365e526381daadd07432335b5bef8d4878f7b9",
+        "components/fast_io.hpp": "eafb26953dbbabf73d90cde43ea9f9992fbcc5224fd2ca221d675710641d3eb2",
+        "data_structure/wavelet_matrix/dynamic_wavelet_matrix.hpp": "2db1f1f83a1ab0f879bd85b8bc4220e0c84f0b5a4dbb2756870e5b98fcb0b5ef"
+      }
+    },
+    "binaries": {
+      "cpp_before": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/screen1/before/solver",
+        "sha256": "940eaf3b48a0a25cb4d568995b9d5295bc87de471ab4b904e047a7dffd6d4f0e",
+        "source": "before",
+        "semantics": "signed int32 / 32 bits, FastInput/FastOutput, kth_largest(0), prev_value, count"
+      },
+      "cpp_full8192": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/screen1/full8192/solver",
+        "sha256": "fa33ffcf1922692d7586440799aeced210f39e1a2a72ed2ad570a7a38c401b42",
+        "source": "full8192",
+        "semantics": "signed int32 / 32 bits, FastInput/FastOutput, kth_largest(0), prev_value, count"
+      },
+      "nim_official_api": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api",
+        "sha256": "7cfe49216219a6caf4a47fbdd406c56d47d0be73efd9a4a4da42562a370e3ea8",
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/bin/nim",
+          "cpp",
+          "-d:release",
+          "--opt:speed",
+          "--multimethods:on",
+          "--warning[SmallLshouldNotBeUsed]:off",
+          "--hints:off",
+          "--maxLoopIterationsVM:10000000000000",
+          "--maxCallDepthVM:10000000000000",
+          "-d:second_compile",
+          "--listCmd:on",
+          "--nimcache:/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache",
+          "--out:/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/Instrumented.nim"
+        ],
+        "backend_build": {
+          "cacheVersion": "D20240927T193831",
+          "outputFile": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api",
+          "outputLastModificationTime": "",
+          "compile": [
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mInstrumented.nim.cpp",
+              "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mInstrumented.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mInstrumented.nim.cpp"
+            ]
+          ],
+          "link": [
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mInstrumented.nim.cpp.o"
+          ],
+          "linkcmd": "g++   -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/official_api-cache/@mInstrumented.nim.cpp.o  -pthread -pthread -lm -lm -lrt   -ldl",
+          "extraCmds": [],
+          "configFiles": [
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/config/nim.cfg",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/config/config.nims"
+          ],
+          "stdinInput": false,
+          "projectIsCmd": false,
+          "cmdInput": "",
+          "currentDir": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference",
+          "cmdline": "",
+          "depfiles": [],
+          "nimexe": ""
+        },
+        "semantics": "unsigned/nonnegative H=30, FastQuadVector, kth_largest(0), prev_value, count; explicit AVX512 if available, otherwise auto"
+      },
+      "nim_optimized_api": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api",
+        "sha256": "585eb1b3181927d7688d660b460c10ffe1a73ee9b71f4f0db39e83c8711bab3a",
+        "command": [
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/bin/nim",
+          "c",
+          "-d:danger",
+          "-d:second_compile",
+          "-d:useMalloc",
+          "--gc:arc",
+          "--panics:on",
+          "--opt:speed",
+          "--checks:off",
+          "--passC:-flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta",
+          "--passL:-flto",
+          "--hints:off",
+          "--listCmd:on",
+          "--nimcache:/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache",
+          "--out:/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api",
+          "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/Instrumented.nim"
+        ],
+        "backend_build": {
+          "cacheVersion": "D20240927T193831",
+          "outputFile": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api",
+          "outputLastModificationTime": "",
+          "compile": [
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c"
+            ],
+            [
+              "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mInstrumented.nim.c",
+              "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/lib -I/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mInstrumented.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mInstrumented.nim.c"
+            ]
+          ],
+          "link": [
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c.o",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mInstrumented.nim.c.o"
+          ],
+          "linkcmd": "gcc   -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c.o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/optimized_api-cache/@mInstrumented.nim.c.o  -pthread -pthread -lm -lm -lrt  -flto  -ldl",
+          "extraCmds": [],
+          "configFiles": [
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/config/nim.cfg",
+            "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/tools/nim-2.2.4/config/config.nims"
+          ],
+          "stdinInput": false,
+          "projectIsCmd": false,
+          "cmdInput": "",
+          "currentDir": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference",
+          "cmdline": "",
+          "depfiles": [],
+          "nimexe": ""
+        },
+        "semantics": "unsigned/nonnegative H=30, FastQuadVector, kth_largest(0), prev_value, count; explicit AVX512 if available, otherwise auto"
+      }
+    },
+    "nim_preparation_sha256": "a523c5fbf3fbf8ed0f363df8ea50f87851248c8fabfcdbf4f53981223555b5a1",
+    "nim_source_sha256": "88fdb69f361231db7a7cdf6721454f28e60686ba66945e9a652d64bfa84d29f5",
+    "nim_api_source_sha256": "c7f3d6ba9a0fdb0d5ea85b81b316a566e73ec4e5b6275daf21f267931a850515",
+    "nim_library_commit": "244c855f5961a2ce03a3acebed8eac1f5f4099fc",
+    "nim_license": {
+      "url": "https://raw.githubusercontent.com/kemuniku/cplib/244c855f5961a2ce03a3acebed8eac1f5f4099fc/LICENSE",
+      "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/reference/LICENSE",
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "bytes": 7048
+    },
+    "nim_version": "Nim Compiler Version 2.2.4 [Linux: amd64]\nCompiled at 2025-04-22\nCopyright (c) 2006-2025 by Andreas Rumpf\n\ngit hash: f7145dd26efeeeb6eeae6fff649db244d81b212d\nactive boot switches: -d:release\n",
+    "nim_sha256": "8eda591ce66af95b583622c748df12017f6fb1c75364b0a23082836ed1f2d4bc",
+    "nim_optimization_difference": {
+      "official": "AtCoder Nim cpp release flags; second_compile only bypasses the source self-recompilation macro",
+      "optimized": "Exact flags from the supplied optimize() second-stage nim c command, C backend, ARC, danger, LTO, native; not an equal compiler control"
+    },
+    "compiler": "g++ (conda-forge gcc 15.2.0-20) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "compiler_sha256": "7eecba793bb654cdd46ac8fce7c1421b13ef07b441054b890409054d0fa0d720",
+    "uname": [
+      "Linux",
+      "qand-PC",
+      "6.18.40.1-microsoft-standard-WSL2",
+      "#1 SMP PREEMPT_DYNAMIC Fri Jul 31 22:12:15 UTC 2026",
+      "x86_64"
+    ],
+    "lscpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           39 bits physical, 48 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  24\nOn-line CPU(s) list:                     0-23\nVendor ID:                               GenuineIntel\nModel name:                              13th Gen Intel(R) Core(TM) i7-13700F\nCPU family:                              6\nModel:                                   183\nThread(s) per core:                      2\nCore(s) per socket:                      12\nSocket(s):                               1\nStepping:                                1\nBogoMIPS:                                4223.99\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves avx_vnni vnmi umip waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize ibt flush_l1d arch_capabilities\nVirtualization:                          VT-x\nHypervisor vendor:                       Microsoft\nVirtualization type:                     full\nL1d cache:                               576 KiB (12 instances)\nL1i cache:                               384 KiB (12 instances)\nL2 cache:                                24 MiB (12 instances)\nL3 cache:                                30 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-23\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Old microcode:             Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Mitigation; Enhanced IBRS\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI BHI_DIS_S\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+    "cpu": 2,
+    "seed": 20261020,
+    "repeats": 3,
+    "warmups": 1,
+    "timing": "exclusive shared task lock, CPU2, shuffled order, blocking subprocess wait, regular file stdin/stdout, process CPU RUSAGE_CHILDREN; API timers exclude input/loading/output",
+    "resumed": [
+      {
+        "utc": "2026-10-20T14:44:08.360251+00:00",
+        "helper_sha256": "e3d2cfbc29e742a36f05254be71c6d3a820de411218e6d20ed47cdc86d7e2a0e"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "clustered",
+      "n": 200000,
+      "q": 200000,
+      "seed": 20261024,
+      "input": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/clustered.in",
+        "sha256": "019c94baf87bd52863ca3a19906b14a1ac8f200d767d805aa2c7b3dd74270d0a",
+        "bytes": 5341708
+      },
+      "expected": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/clustered.out",
+        "sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9",
+        "bytes": 200000
+      },
+      "stats": {
+        "set": 100000,
+        "set_same": 0,
+        "set_changed": 100000,
+        "query": 100000,
+        "query_single": 1032,
+        "query_2_to_16": 9,
+        "query_full": 1031,
+        "answer_zero": 1032,
+        "naive_cross_checks": 0
+      },
+      "generator_sha256": "306208893d21264845ed7c45340839ea74164cfa3d9c2a819d4257632ec1139d",
+      "python": "3.10.12 (main, Nov  6 2024, 20:22:13) [GCC 11.4.0]",
+      "created_at": "2026-10-20T14:35:51.407445+00:00",
+      "oracle": "independent iterative segment tree, highest two distinct values with multiplicities",
+      "round2_generator_sha256": "33bcf0891cfed66faf8fbfba445552ec13a89c0b1fccb4e1d58c40a0b3905b0b"
+    },
+    {
+      "name": "random30",
+      "n": 200000,
+      "q": 200000,
+      "seed": 20261020,
+      "input": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/random30.in",
+        "sha256": "ef5e4b8acc2cec303265992a6a3460cd4988fd1df5dd4f94aa41f8679e300880",
+        "bytes": 5295984
+      },
+      "expected": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/random30.out",
+        "sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633",
+        "bytes": 200000
+      },
+      "stats": {
+        "set": 100000,
+        "set_same": 0,
+        "set_changed": 100000,
+        "query": 100000,
+        "query_single": 1031,
+        "query_2_to_16": 16,
+        "query_full": 1031,
+        "answer_zero": 1031,
+        "naive_cross_checks": 0
+      },
+      "generator_sha256": "306208893d21264845ed7c45340839ea74164cfa3d9c2a819d4257632ec1139d",
+      "python": "3.10.12 (main, Nov  6 2024, 20:22:13) [GCC 11.4.0]",
+      "created_at": "2026-10-20T14:35:45.176092+00:00",
+      "oracle": "independent iterative segment tree, highest two distinct values with multiplicities",
+      "round2_generator_sha256": "33bcf0891cfed66faf8fbfba445552ec13a89c0b1fccb4e1d58c40a0b3905b0b"
+    },
+    {
+      "name": "no_op_random",
+      "n": 200000,
+      "q": 200000,
+      "seed": 20261023,
+      "input": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/no_op_random.in",
+        "sha256": "2546525f0863e1118879e2ee42ec8d0311e4d3fb7b67ef7a351b624406b214c8",
+        "bytes": 5296214
+      },
+      "expected": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/no_op_random.out",
+        "sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633",
+        "bytes": 200000
+      },
+      "stats": {
+        "set": 100000,
+        "set_same": 100000,
+        "set_changed": 0,
+        "query": 100000,
+        "query_single": 1031,
+        "query_2_to_16": 13,
+        "query_full": 1031,
+        "answer_zero": 1031,
+        "naive_cross_checks": 0
+      },
+      "generator_sha256": "306208893d21264845ed7c45340839ea74164cfa3d9c2a819d4257632ec1139d",
+      "python": "3.10.12 (main, Nov  6 2024, 20:22:13) [GCC 11.4.0]",
+      "created_at": "2026-10-20T14:35:50.001710+00:00",
+      "oracle": "independent iterative segment tree, highest two distinct values with multiplicities",
+      "round2_generator_sha256": "33bcf0891cfed66faf8fbfba445552ec13a89c0b1fccb4e1d58c40a0b3905b0b"
+    },
+    {
+      "name": "duplicates16",
+      "n": 200000,
+      "q": 200000,
+      "seed": 20261021,
+      "input": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/duplicates16.in",
+        "sha256": "dda49d6cf8f572d3eb0fbc72837d597a280d4da79595f194c98f2b88b6a2c875",
+        "bytes": 3059873
+      },
+      "expected": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/duplicates16.out",
+        "sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a",
+        "bytes": 484628
+      },
+      "stats": {
+        "set": 100000,
+        "set_same": 6161,
+        "set_changed": 93839,
+        "query": 100000,
+        "query_single": 1032,
+        "query_2_to_16": 10,
+        "query_full": 1031,
+        "answer_zero": 1032,
+        "naive_cross_checks": 0
+      },
+      "generator_sha256": "306208893d21264845ed7c45340839ea74164cfa3d9c2a819d4257632ec1139d",
+      "python": "3.10.12 (main, Nov  6 2024, 20:22:13) [GCC 11.4.0]",
+      "created_at": "2026-10-20T14:35:46.837448+00:00",
+      "oracle": "independent iterative segment tree, highest two distinct values with multiplicities",
+      "round2_generator_sha256": "33bcf0891cfed66faf8fbfba445552ec13a89c0b1fccb4e1d58c40a0b3905b0b"
+    },
+    {
+      "name": "uniform_same",
+      "n": 200000,
+      "q": 200000,
+      "seed": 20261022,
+      "input": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/uniform_same.in",
+        "sha256": "627bb32d19d5c24eea47205b419eb99521587ca880007a7f1b29e1b8dde092aa",
+        "bytes": 2929414
+      },
+      "expected": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/uniform_same.out",
+        "sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370",
+        "bytes": 200000
+      },
+      "stats": {
+        "set": 100000,
+        "set_same": 100000,
+        "set_changed": 0,
+        "query": 100000,
+        "query_single": 1032,
+        "query_2_to_16": 16,
+        "query_full": 1031,
+        "answer_zero": 100000,
+        "naive_cross_checks": 0
+      },
+      "generator_sha256": "306208893d21264845ed7c45340839ea74164cfa3d9c2a819d4257632ec1139d",
+      "python": "3.10.12 (main, Nov  6 2024, 20:22:13) [GCC 11.4.0]",
+      "created_at": "2026-10-20T14:35:48.416772+00:00",
+      "oracle": "independent iterative segment tree, highest two distinct values with multiplicities",
+      "round2_generator_sha256": "33bcf0891cfed66faf8fbfba445552ec13a89c0b1fccb4e1d58c40a0b3905b0b"
+    },
+    {
+      "name": "update_heavy",
+      "n": 200000,
+      "q": 200000,
+      "seed": 20261027,
+      "input": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/update_heavy.in",
+        "sha256": "227af8971ef8d344264393931ebb0633d1107b151802543de2bf9ffe09def548",
+        "bytes": 5637860
+      },
+      "expected": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/update_heavy.out",
+        "sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c",
+        "bytes": 4000
+      },
+      "stats": {
+        "set": 198000,
+        "set_same": 0,
+        "set_changed": 198000,
+        "query": 2000,
+        "query_single": 1,
+        "query_2_to_16": 1,
+        "query_full": 200,
+        "answer_zero": 1,
+        "naive_cross_checks": 0
+      },
+      "generator_sha256": "306208893d21264845ed7c45340839ea74164cfa3d9c2a819d4257632ec1139d",
+      "python": "3.10.12 (main, Nov  6 2024, 20:22:13) [GCC 11.4.0]",
+      "created_at": "2026-10-20T14:35:54.596307+00:00",
+      "oracle": "independent iterative segment tree, highest two distinct values with multiplicities",
+      "round2_generator_sha256": "33bcf0891cfed66faf8fbfba445552ec13a89c0b1fccb4e1d58c40a0b3905b0b"
+    },
+    {
+      "name": "short",
+      "n": 200000,
+      "q": 200000,
+      "seed": 20261025,
+      "input": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/short.in",
+        "sha256": "43ca77ed31967a9c9074d11f4b9c32a8d1f8e9999dde3b0a7f1be8dff1cf5fb5",
+        "bytes": 5299727
+      },
+      "expected": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/short.out",
+        "sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1",
+        "bytes": 200000
+      },
+      "stats": {
+        "set": 100000,
+        "set_same": 0,
+        "set_changed": 100000,
+        "query": 100000,
+        "query_single": 50001,
+        "query_2_to_16": 49999,
+        "query_full": 0,
+        "answer_zero": 50001,
+        "naive_cross_checks": 0
+      },
+      "generator_sha256": "306208893d21264845ed7c45340839ea74164cfa3d9c2a819d4257632ec1139d",
+      "python": "3.10.12 (main, Nov  6 2024, 20:22:13) [GCC 11.4.0]",
+      "created_at": "2026-10-20T14:35:52.911784+00:00",
+      "oracle": "independent iterative segment tree, highest two distinct values with multiplicities",
+      "round2_generator_sha256": "33bcf0891cfed66faf8fbfba445552ec13a89c0b1fccb4e1d58c40a0b3905b0b"
+    },
+    {
+      "name": "query_only",
+      "n": 200000,
+      "q": 200000,
+      "seed": 20261028,
+      "input": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/query_only.in",
+        "sha256": "23c0a52b7a13d020498ebf58ed06a3c8fac8e45b8381751407cbde499660dd53",
+        "bytes": 5035070
+      },
+      "expected": {
+        "path": "/mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dynamic-wavelet-nim-round2/cases-large/query_only.out",
+        "sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4",
+        "bytes": 400000
+      },
+      "stats": {
+        "set": 0,
+        "set_same": 0,
+        "set_changed": 0,
+        "query": 200000,
+        "query_single": 11,
+        "query_2_to_16": 133,
+        "query_full": 200,
+        "answer_zero": 11,
+        "naive_cross_checks": 0
+      },
+      "generator_sha256": "306208893d21264845ed7c45340839ea74164cfa3d9c2a819d4257632ec1139d",
+      "python": "3.10.12 (main, Nov  6 2024, 20:22:13) [GCC 11.4.0]",
+      "created_at": "2026-10-20T14:35:56.069763+00:00",
+      "oracle": "independent iterative segment tree, highest two distinct values with multiplicities",
+      "round2_generator_sha256": "33bcf0891cfed66faf8fbfba445552ec13a89c0b1fccb4e1d58c40a0b3905b0b"
+    }
+  ],
+  "warmups": [
+    {
+      "case": "clustered",
+      "variant": "cpp_full8192",
+      "trial": -1,
+      "sequence": 0,
+      "wall_seconds": 0.361024074,
+      "cpu_seconds": 0.292299,
+      "api": {
+        "build_cpu": 0.006848,
+        "operation_cpu": 0.274155,
+        "build_wall": 0.006786552,
+        "operation_wall": 0.271642642,
+        "answers": 100000,
+        "total_cpu": 0.281003
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "nim_official_api",
+      "trial": -1,
+      "sequence": 1,
+      "wall_seconds": 0.351301267,
+      "cpu_seconds": 0.339963,
+      "api": {
+        "build_cpu": 0.013454897,
+        "operation_cpu": 0.318340223,
+        "build_wall": 0.013399600982666016,
+        "operation_wall": 0.3153238296508789,
+        "answers": 100000,
+        "total_cpu": 0.33179512
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "cpp_before",
+      "trial": -1,
+      "sequence": 2,
+      "wall_seconds": 0.353514971,
+      "cpu_seconds": 0.34085999999999994,
+      "api": {
+        "build_cpu": 0.007022,
+        "operation_cpu": 0.323753,
+        "build_wall": 0.007021792,
+        "operation_wall": 0.320673122,
+        "answers": 100000,
+        "total_cpu": 0.330775
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "nim_optimized_api",
+      "trial": -1,
+      "sequence": 3,
+      "wall_seconds": 0.322689835,
+      "cpu_seconds": 0.31094900000000003,
+      "api": {
+        "build_cpu": 0.009945915,
+        "operation_cpu": 0.293563114,
+        "build_wall": 0.009848594665527344,
+        "operation_wall": 0.29085755348205566,
+        "answers": 100000,
+        "total_cpu": 0.303509029
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "random30",
+      "variant": "nim_optimized_api",
+      "trial": -1,
+      "sequence": 16,
+      "wall_seconds": 0.331124638,
+      "cpu_seconds": 0.31487599999999993,
+      "api": {
+        "build_cpu": 0.010250308,
+        "operation_cpu": 0.29709964,
+        "build_wall": 0.010155677795410156,
+        "operation_wall": 0.2946441173553467,
+        "answers": 100000,
+        "total_cpu": 0.307349948
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "nim_official_api",
+      "trial": -1,
+      "sequence": 17,
+      "wall_seconds": 0.35791907,
+      "cpu_seconds": 0.3461369999999997,
+      "api": {
+        "build_cpu": 0.013321893999999999,
+        "operation_cpu": 0.324433422,
+        "build_wall": 0.013292551040649414,
+        "operation_wall": 0.32155609130859375,
+        "answers": 100000,
+        "total_cpu": 0.337755316
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "cpp_before",
+      "trial": -1,
+      "sequence": 18,
+      "wall_seconds": 0.381196857,
+      "cpu_seconds": 0.35537499999999955,
+      "api": {
+        "build_cpu": 0.007063,
+        "operation_cpu": 0.338003,
+        "build_wall": 0.007456039,
+        "operation_wall": 0.346036003,
+        "answers": 100000,
+        "total_cpu": 0.345066
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "cpp_full8192",
+      "trial": -1,
+      "sequence": 19,
+      "wall_seconds": 0.322102526,
+      "cpu_seconds": 0.2951070000000007,
+      "api": {
+        "build_cpu": 0.006713,
+        "operation_cpu": 0.277973,
+        "build_wall": 0.006967296,
+        "operation_wall": 0.288124109,
+        "answers": 100000,
+        "total_cpu": 0.28468600000000005
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "nim_official_api",
+      "trial": -1,
+      "sequence": 32,
+      "wall_seconds": 0.193957308,
+      "cpu_seconds": 0.17423999999999928,
+      "api": {
+        "build_cpu": 0.013664688000000001,
+        "operation_cpu": 0.152175553,
+        "build_wall": 0.01392221450805664,
+        "operation_wall": 0.15429973602294922,
+        "answers": 100000,
+        "total_cpu": 0.165840241
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "nim_optimized_api",
+      "trial": -1,
+      "sequence": 33,
+      "wall_seconds": 0.162253586,
+      "cpu_seconds": 0.14625400000000077,
+      "api": {
+        "build_cpu": 0.009924679,
+        "operation_cpu": 0.12867610300000001,
+        "build_wall": 0.010054349899291992,
+        "operation_wall": 0.13053441047668457,
+        "answers": 100000,
+        "total_cpu": 0.138600782
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "cpp_full8192",
+      "trial": -1,
+      "sequence": 34,
+      "wall_seconds": 0.150561829,
+      "cpu_seconds": 0.13170000000000037,
+      "api": {
+        "build_cpu": 0.006793,
+        "operation_cpu": 0.114577,
+        "build_wall": 0.00688612,
+        "operation_wall": 0.116063579,
+        "answers": 100000,
+        "total_cpu": 0.12137
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "cpp_before",
+      "trial": -1,
+      "sequence": 35,
+      "wall_seconds": 0.239311977,
+      "cpu_seconds": 0.2089780000000001,
+      "api": {
+        "build_cpu": 0.007123,
+        "operation_cpu": 0.191084,
+        "build_wall": 0.007303487,
+        "operation_wall": 0.193572433,
+        "answers": 100000,
+        "total_cpu": 0.198207
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "cpp_full8192",
+      "trial": -1,
+      "sequence": 48,
+      "wall_seconds": 0.072672488,
+      "cpu_seconds": 0.05741699999999916,
+      "api": {
+        "build_cpu": 0.003518,
+        "operation_cpu": 0.043935,
+        "build_wall": 0.003540064,
+        "operation_wall": 0.044266425,
+        "answers": 100000,
+        "total_cpu": 0.047453
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "cpp_before",
+      "trial": -1,
+      "sequence": 49,
+      "wall_seconds": 0.086394548,
+      "cpu_seconds": 0.07180700000000151,
+      "api": {
+        "build_cpu": 0.003638,
+        "operation_cpu": 0.058311,
+        "build_wall": 0.00373753,
+        "operation_wall": 0.058734473,
+        "answers": 100000,
+        "total_cpu": 0.061949000000000004
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "nim_optimized_api",
+      "trial": -1,
+      "sequence": 50,
+      "wall_seconds": 0.078371463,
+      "cpu_seconds": 0.06541899999999856,
+      "api": {
+        "build_cpu": 0.007856583,
+        "operation_cpu": 0.049526502,
+        "build_wall": 0.007898330688476562,
+        "operation_wall": 0.049980878829956055,
+        "answers": 100000,
+        "total_cpu": 0.057383085
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "nim_official_api",
+      "trial": -1,
+      "sequence": 51,
+      "wall_seconds": 0.094765464,
+      "cpu_seconds": 0.07788400000000095,
+      "api": {
+        "build_cpu": 0.008821724999999999,
+        "operation_cpu": 0.060161802,
+        "build_wall": 0.008965492248535156,
+        "operation_wall": 0.06060290336608887,
+        "answers": 100000,
+        "total_cpu": 0.068983527
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "nim_optimized_api",
+      "trial": -1,
+      "sequence": 64,
+      "wall_seconds": 0.030487639,
+      "cpu_seconds": 0.017587999999999937,
+      "api": {
+        "build_cpu": 0.007320806,
+        "operation_cpu": 0.0032096750000000004,
+        "build_wall": 0.007345914840698242,
+        "operation_wall": 0.0032196044921875,
+        "answers": 100000,
+        "total_cpu": 0.010530481000000001
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "cpp_full8192",
+      "trial": -1,
+      "sequence": 65,
+      "wall_seconds": 0.027972449,
+      "cpu_seconds": 0.014797999999998979,
+      "api": {
+        "build_cpu": 0.002607,
+        "operation_cpu": 0.003739,
+        "build_wall": 0.002620561,
+        "operation_wall": 0.003750715,
+        "answers": 100000,
+        "total_cpu": 0.006346
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "nim_official_api",
+      "trial": -1,
+      "sequence": 66,
+      "wall_seconds": 0.029635864,
+      "cpu_seconds": 0.02048200000000122,
+      "api": {
+        "build_cpu": 0.007364562,
+        "operation_cpu": 0.005511167000000001,
+        "build_wall": 0.007472515106201172,
+        "operation_wall": 0.0056760311126708984,
+        "answers": 100000,
+        "total_cpu": 0.012875729
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "cpp_before",
+      "trial": -1,
+      "sequence": 67,
+      "wall_seconds": 0.026518149,
+      "cpu_seconds": 0.015116000000000795,
+      "api": {
+        "build_cpu": 0.002722,
+        "operation_cpu": 0.004344,
+        "build_wall": 0.003016712,
+        "operation_wall": 0.004370176,
+        "answers": 100000,
+        "total_cpu": 0.007065999999999999
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "cpp_before",
+      "trial": -1,
+      "sequence": 80,
+      "wall_seconds": 0.403345466,
+      "cpu_seconds": 0.3890600000000006,
+      "api": {
+        "build_cpu": 0.006983,
+        "operation_cpu": 0.371511,
+        "build_wall": 0.007057993,
+        "operation_wall": 0.372167071,
+        "answers": 2000,
+        "total_cpu": 0.378494
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "nim_optimized_api",
+      "trial": -1,
+      "sequence": 81,
+      "wall_seconds": 0.450326373,
+      "cpu_seconds": 0.4304370000000013,
+      "api": {
+        "build_cpu": 0.011701268,
+        "operation_cpu": 0.41119636200000004,
+        "build_wall": 0.011719465255737305,
+        "operation_wall": 0.4118156433105469,
+        "answers": 2000,
+        "total_cpu": 0.42289763
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "cpp_full8192",
+      "trial": -1,
+      "sequence": 82,
+      "wall_seconds": 0.397513791,
+      "cpu_seconds": 0.38368699999999833,
+      "api": {
+        "build_cpu": 0.006719,
+        "operation_cpu": 0.366695,
+        "build_wall": 0.006722235,
+        "operation_wall": 0.366759338,
+        "answers": 2000,
+        "total_cpu": 0.37341399999999997
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "nim_official_api",
+      "trial": -1,
+      "sequence": 83,
+      "wall_seconds": 0.432100627,
+      "cpu_seconds": 0.41662,
+      "api": {
+        "build_cpu": 0.013427749000000003,
+        "operation_cpu": 0.395243534,
+        "build_wall": 0.013518095016479492,
+        "operation_wall": 0.39508771896362305,
+        "answers": 2000,
+        "total_cpu": 0.408671283
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "short",
+      "variant": "cpp_full8192",
+      "trial": -1,
+      "sequence": 96,
+      "wall_seconds": 0.299149389,
+      "cpu_seconds": 0.28359800000000135,
+      "api": {
+        "build_cpu": 0.006753,
+        "operation_cpu": 0.266337,
+        "build_wall": 0.006701521,
+        "operation_wall": 0.264240383,
+        "answers": 100000,
+        "total_cpu": 0.27309
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "nim_optimized_api",
+      "trial": -1,
+      "sequence": 97,
+      "wall_seconds": 0.313486058,
+      "cpu_seconds": 0.29888799999999804,
+      "api": {
+        "build_cpu": 0.011544921,
+        "operation_cpu": 0.279751873,
+        "build_wall": 0.011451005935668945,
+        "operation_wall": 0.27762937545776367,
+        "answers": 100000,
+        "total_cpu": 0.29129679399999997
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "nim_official_api",
+      "trial": -1,
+      "sequence": 98,
+      "wall_seconds": 0.320593163,
+      "cpu_seconds": 0.3095510000000026,
+      "api": {
+        "build_cpu": 0.013282374999999999,
+        "operation_cpu": 0.288072821,
+        "build_wall": 0.013245582580566406,
+        "operation_wall": 0.2856743335723877,
+        "answers": 100000,
+        "total_cpu": 0.301355196
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "cpp_before",
+      "trial": -1,
+      "sequence": 99,
+      "wall_seconds": 0.3410009,
+      "cpu_seconds": 0.32792699999999897,
+      "api": {
+        "build_cpu": 0.006883,
+        "operation_cpu": 0.310836,
+        "build_wall": 0.006889648,
+        "operation_wall": 0.308760981,
+        "answers": 100000,
+        "total_cpu": 0.317719
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "query_only",
+      "variant": "nim_official_api",
+      "trial": -1,
+      "sequence": 112,
+      "wall_seconds": 0.252531883,
+      "cpu_seconds": 0.23056299999999985,
+      "api": {
+        "build_cpu": 0.014992055,
+        "operation_cpu": 0.20682635,
+        "build_wall": 0.014999866485595703,
+        "operation_wall": 0.20552968978881836,
+        "answers": 200000,
+        "total_cpu": 0.221818405
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "cpp_before",
+      "trial": -1,
+      "sequence": 113,
+      "wall_seconds": 0.306262937,
+      "cpu_seconds": 0.28744700000000023,
+      "api": {
+        "build_cpu": 0.006925,
+        "operation_cpu": 0.269712,
+        "build_wall": 0.006934505,
+        "operation_wall": 0.271510879,
+        "answers": 200000,
+        "total_cpu": 0.276637
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "nim_optimized_api",
+      "trial": -1,
+      "sequence": 114,
+      "wall_seconds": 0.194913083,
+      "cpu_seconds": 0.18205099999999974,
+      "api": {
+        "build_cpu": 0.011522836000000002,
+        "operation_cpu": 0.16251029100000003,
+        "build_wall": 0.011429548263549805,
+        "operation_wall": 0.16127610206604004,
+        "answers": 200000,
+        "total_cpu": 0.17403312700000004
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "cpp_full8192",
+      "trial": -1,
+      "sequence": 115,
+      "wall_seconds": 0.200229183,
+      "cpu_seconds": 0.1835690000000001,
+      "api": {
+        "build_cpu": 0.007215,
+        "operation_cpu": 0.16547,
+        "build_wall": 0.007155687,
+        "operation_wall": 0.163997061,
+        "answers": 200000,
+        "total_cpu": 0.172685
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    }
+  ],
+  "samples": [
+    {
+      "case": "clustered",
+      "variant": "nim_official_api",
+      "trial": 0,
+      "sequence": 4,
+      "wall_seconds": 0.356594062,
+      "cpu_seconds": 0.33954300000000015,
+      "api": {
+        "build_cpu": 0.013630217,
+        "operation_cpu": 0.31813534099999996,
+        "build_wall": 0.013978719711303711,
+        "operation_wall": 0.31511402130126953,
+        "answers": 100000,
+        "total_cpu": 0.33176555799999996
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "nim_optimized_api",
+      "trial": 0,
+      "sequence": 5,
+      "wall_seconds": 0.326639183,
+      "cpu_seconds": 0.3099679999999998,
+      "api": {
+        "build_cpu": 0.010019204,
+        "operation_cpu": 0.292620129,
+        "build_wall": 0.009925603866577148,
+        "operation_wall": 0.2949490547180176,
+        "answers": 100000,
+        "total_cpu": 0.302639333
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "cpp_full8192",
+      "trial": 0,
+      "sequence": 6,
+      "wall_seconds": 0.312685607,
+      "cpu_seconds": 0.30030900000000016,
+      "api": {
+        "build_cpu": 0.007098,
+        "operation_cpu": 0.28314,
+        "build_wall": 0.007030487,
+        "operation_wall": 0.280386522,
+        "answers": 100000,
+        "total_cpu": 0.290238
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "cpp_before",
+      "trial": 0,
+      "sequence": 7,
+      "wall_seconds": 0.35281163,
+      "cpu_seconds": 0.33697500000000025,
+      "api": {
+        "build_cpu": 0.006871,
+        "operation_cpu": 0.320046,
+        "build_wall": 0.006908865,
+        "operation_wall": 0.316932778,
+        "answers": 100000,
+        "total_cpu": 0.326917
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "nim_official_api",
+      "trial": 1,
+      "sequence": 8,
+      "wall_seconds": 0.35606661,
+      "cpu_seconds": 0.34411399999999936,
+      "api": {
+        "build_cpu": 0.014693195999999999,
+        "operation_cpu": 0.321289047,
+        "build_wall": 0.014696598052978516,
+        "operation_wall": 0.3181569576263428,
+        "answers": 100000,
+        "total_cpu": 0.335982243
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "cpp_full8192",
+      "trial": 1,
+      "sequence": 9,
+      "wall_seconds": 0.313656811,
+      "cpu_seconds": 0.29957700000000065,
+      "api": {
+        "build_cpu": 0.006687,
+        "operation_cpu": 0.282803,
+        "build_wall": 0.00663015,
+        "operation_wall": 0.280354545,
+        "answers": 100000,
+        "total_cpu": 0.28949
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "nim_optimized_api",
+      "trial": 1,
+      "sequence": 10,
+      "wall_seconds": 0.319954257,
+      "cpu_seconds": 0.30475699999999994,
+      "api": {
+        "build_cpu": 0.010041141,
+        "operation_cpu": 0.287583694,
+        "build_wall": 0.009950876235961914,
+        "operation_wall": 0.28519368171691895,
+        "answers": 100000,
+        "total_cpu": 0.297624835
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "cpp_before",
+      "trial": 1,
+      "sequence": 11,
+      "wall_seconds": 0.353745731,
+      "cpu_seconds": 0.3407009999999997,
+      "api": {
+        "build_cpu": 0.006988,
+        "operation_cpu": 0.323608,
+        "build_wall": 0.006991951,
+        "operation_wall": 0.321451379,
+        "answers": 100000,
+        "total_cpu": 0.330596
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "cpp_full8192",
+      "trial": 2,
+      "sequence": 12,
+      "wall_seconds": 0.313707689,
+      "cpu_seconds": 0.29362699999999986,
+      "api": {
+        "build_cpu": 0.00691,
+        "operation_cpu": 0.276022,
+        "build_wall": 0.006859464,
+        "operation_wall": 0.273632196,
+        "answers": 100000,
+        "total_cpu": 0.282932
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "nim_optimized_api",
+      "trial": 2,
+      "sequence": 13,
+      "wall_seconds": 0.318561969,
+      "cpu_seconds": 0.30600000000000005,
+      "api": {
+        "build_cpu": 0.009885052000000002,
+        "operation_cpu": 0.28881655500000003,
+        "build_wall": 0.009794950485229492,
+        "operation_wall": 0.28637051582336426,
+        "answers": 100000,
+        "total_cpu": 0.29870160700000004
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "nim_official_api",
+      "trial": 2,
+      "sequence": 14,
+      "wall_seconds": 0.364313148,
+      "cpu_seconds": 0.3428810000000002,
+      "api": {
+        "build_cpu": 0.013393271000000002,
+        "operation_cpu": 0.321150324,
+        "build_wall": 0.013394832611083984,
+        "operation_wall": 0.3184490203857422,
+        "answers": 100000,
+        "total_cpu": 0.33454359499999997
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "clustered",
+      "variant": "cpp_before",
+      "trial": 2,
+      "sequence": 15,
+      "wall_seconds": 0.371634229,
+      "cpu_seconds": 0.3475130000000002,
+      "api": {
+        "build_cpu": 0.007033,
+        "operation_cpu": 0.329786,
+        "build_wall": 0.007052118,
+        "operation_wall": 0.326888411,
+        "answers": 100000,
+        "total_cpu": 0.33681900000000004
+      },
+      "answer_sha256": "8d83a2dd4912107265c8c07d1820cbab3c432337105f6cc9126ae90113995fe9"
+    },
+    {
+      "case": "random30",
+      "variant": "cpp_full8192",
+      "trial": 0,
+      "sequence": 20,
+      "wall_seconds": 0.326864655,
+      "cpu_seconds": 0.300497,
+      "api": {
+        "build_cpu": 0.006747,
+        "operation_cpu": 0.283218,
+        "build_wall": 0.006993962,
+        "operation_wall": 0.293512827,
+        "answers": 100000,
+        "total_cpu": 0.28996500000000003
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "nim_official_api",
+      "trial": 0,
+      "sequence": 21,
+      "wall_seconds": 0.373296082,
+      "cpu_seconds": 0.3478619999999992,
+      "api": {
+        "build_cpu": 0.013270293999999998,
+        "operation_cpu": 0.32617624900000003,
+        "build_wall": 0.013818025588989258,
+        "operation_wall": 0.3362133502960205,
+        "answers": 100000,
+        "total_cpu": 0.33944654300000004
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "nim_optimized_api",
+      "trial": 0,
+      "sequence": 22,
+      "wall_seconds": 0.33808457,
+      "cpu_seconds": 0.3136120000000009,
+      "api": {
+        "build_cpu": 0.010154546,
+        "operation_cpu": 0.29575128900000003,
+        "build_wall": 0.010463476181030273,
+        "operation_wall": 0.3053882122039795,
+        "answers": 100000,
+        "total_cpu": 0.305905835
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "cpp_before",
+      "trial": 0,
+      "sequence": 23,
+      "wall_seconds": 0.381139159,
+      "cpu_seconds": 0.3515980000000001,
+      "api": {
+        "build_cpu": 0.006988,
+        "operation_cpu": 0.334296,
+        "build_wall": 0.007273077,
+        "operation_wall": 0.344192652,
+        "answers": 100000,
+        "total_cpu": 0.341284
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "cpp_before",
+      "trial": 1,
+      "sequence": 24,
+      "wall_seconds": 0.374872235,
+      "cpu_seconds": 0.3465819999999997,
+      "api": {
+        "build_cpu": 0.006874,
+        "operation_cpu": 0.329369,
+        "build_wall": 0.007138072,
+        "operation_wall": 0.338619847,
+        "answers": 100000,
+        "total_cpu": 0.336243
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "nim_optimized_api",
+      "trial": 1,
+      "sequence": 25,
+      "wall_seconds": 0.338391689,
+      "cpu_seconds": 0.3161519999999989,
+      "api": {
+        "build_cpu": 0.011308478,
+        "operation_cpu": 0.29719007000000003,
+        "build_wall": 0.01159524917602539,
+        "operation_wall": 0.3049278259277344,
+        "answers": 100000,
+        "total_cpu": 0.30849854800000004
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "cpp_full8192",
+      "trial": 1,
+      "sequence": 26,
+      "wall_seconds": 0.322213297,
+      "cpu_seconds": 0.30004600000000003,
+      "api": {
+        "build_cpu": 0.006719,
+        "operation_cpu": 0.283019,
+        "build_wall": 0.006892719,
+        "operation_wall": 0.289502875,
+        "answers": 100000,
+        "total_cpu": 0.289738
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "nim_official_api",
+      "trial": 1,
+      "sequence": 27,
+      "wall_seconds": 0.374082105,
+      "cpu_seconds": 0.3514790000000012,
+      "api": {
+        "build_cpu": 0.014780206,
+        "operation_cpu": 0.328364069,
+        "build_wall": 0.015211343765258789,
+        "operation_wall": 0.33538269996643066,
+        "answers": 100000,
+        "total_cpu": 0.343144275
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "nim_optimized_api",
+      "trial": 2,
+      "sequence": 28,
+      "wall_seconds": 0.33657594,
+      "cpu_seconds": 0.3158480000000008,
+      "api": {
+        "build_cpu": 0.009965158000000002,
+        "operation_cpu": 0.298211395,
+        "build_wall": 0.010187149047851562,
+        "operation_wall": 0.30466413497924805,
+        "answers": 100000,
+        "total_cpu": 0.308176553
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "cpp_full8192",
+      "trial": 2,
+      "sequence": 29,
+      "wall_seconds": 0.320861501,
+      "cpu_seconds": 0.29789699999999897,
+      "api": {
+        "build_cpu": 0.006783,
+        "operation_cpu": 0.280803,
+        "build_wall": 0.006928939,
+        "operation_wall": 0.285830402,
+        "answers": 100000,
+        "total_cpu": 0.287586
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "cpp_before",
+      "trial": 2,
+      "sequence": 30,
+      "wall_seconds": 0.38411116,
+      "cpu_seconds": 0.357111999999999,
+      "api": {
+        "build_cpu": 0.006988,
+        "operation_cpu": 0.339184,
+        "build_wall": 0.007186146,
+        "operation_wall": 0.345178935,
+        "answers": 100000,
+        "total_cpu": 0.346172
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "random30",
+      "variant": "nim_official_api",
+      "trial": 2,
+      "sequence": 31,
+      "wall_seconds": 0.363589079,
+      "cpu_seconds": 0.3426570000000009,
+      "api": {
+        "build_cpu": 0.013055715999999998,
+        "operation_cpu": 0.321351393,
+        "build_wall": 0.013388395309448242,
+        "operation_wall": 0.3267643451690674,
+        "answers": 100000,
+        "total_cpu": 0.334407109
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "cpp_full8192",
+      "trial": 0,
+      "sequence": 36,
+      "wall_seconds": 0.15287927,
+      "cpu_seconds": 0.12952499999999922,
+      "api": {
+        "build_cpu": 0.006737,
+        "operation_cpu": 0.1122,
+        "build_wall": 0.006828558,
+        "operation_wall": 0.113584349,
+        "answers": 100000,
+        "total_cpu": 0.11893699999999999
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "nim_optimized_api",
+      "trial": 0,
+      "sequence": 37,
+      "wall_seconds": 0.162314563,
+      "cpu_seconds": 0.1450800000000001,
+      "api": {
+        "build_cpu": 0.010950988000000002,
+        "operation_cpu": 0.12639497,
+        "build_wall": 0.011061668395996094,
+        "operation_wall": 0.12784218788146973,
+        "answers": 100000,
+        "total_cpu": 0.137345958
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "nim_official_api",
+      "trial": 0,
+      "sequence": 38,
+      "wall_seconds": 0.18892491,
+      "cpu_seconds": 0.17185199999999945,
+      "api": {
+        "build_cpu": 0.014561880000000001,
+        "operation_cpu": 0.14882970899999998,
+        "build_wall": 0.014796257019042969,
+        "operation_wall": 0.15046334266662598,
+        "answers": 100000,
+        "total_cpu": 0.16339158899999998
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "cpp_before",
+      "trial": 0,
+      "sequence": 39,
+      "wall_seconds": 0.227621937,
+      "cpu_seconds": 0.20821100000000037,
+      "api": {
+        "build_cpu": 0.006953,
+        "operation_cpu": 0.190588,
+        "build_wall": 0.007089466,
+        "operation_wall": 0.192524073,
+        "answers": 100000,
+        "total_cpu": 0.197541
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "nim_official_api",
+      "trial": 1,
+      "sequence": 40,
+      "wall_seconds": 0.193580041,
+      "cpu_seconds": 0.17539900000000053,
+      "api": {
+        "build_cpu": 0.013764327,
+        "operation_cpu": 0.15305558400000002,
+        "build_wall": 0.013997077941894531,
+        "operation_wall": 0.1548175811767578,
+        "answers": 100000,
+        "total_cpu": 0.16681991100000002
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "cpp_before",
+      "trial": 1,
+      "sequence": 41,
+      "wall_seconds": 0.225262322,
+      "cpu_seconds": 0.20261999999999958,
+      "api": {
+        "build_cpu": 0.007024,
+        "operation_cpu": 0.184926,
+        "build_wall": 0.007309829,
+        "operation_wall": 0.186498296,
+        "answers": 100000,
+        "total_cpu": 0.19195
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "nim_optimized_api",
+      "trial": 1,
+      "sequence": 42,
+      "wall_seconds": 0.164813173,
+      "cpu_seconds": 0.1447269999999996,
+      "api": {
+        "build_cpu": 0.010889506,
+        "operation_cpu": 0.126177284,
+        "build_wall": 0.010971546173095703,
+        "operation_wall": 0.1273033618927002,
+        "answers": 100000,
+        "total_cpu": 0.13706679
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "cpp_full8192",
+      "trial": 1,
+      "sequence": 43,
+      "wall_seconds": 0.147928935,
+      "cpu_seconds": 0.13143999999999956,
+      "api": {
+        "build_cpu": 0.007124,
+        "operation_cpu": 0.113995,
+        "build_wall": 0.007180556,
+        "operation_wall": 0.114836883,
+        "answers": 100000,
+        "total_cpu": 0.121119
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "nim_official_api",
+      "trial": 2,
+      "sequence": 44,
+      "wall_seconds": 0.189234958,
+      "cpu_seconds": 0.17141100000000087,
+      "api": {
+        "build_cpu": 0.013477368,
+        "operation_cpu": 0.149653682,
+        "build_wall": 0.013671398162841797,
+        "operation_wall": 0.15086722373962402,
+        "answers": 100000,
+        "total_cpu": 0.16313105
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "cpp_before",
+      "trial": 2,
+      "sequence": 45,
+      "wall_seconds": 0.226215794,
+      "cpu_seconds": 0.20882299999999887,
+      "api": {
+        "build_cpu": 0.007415,
+        "operation_cpu": 0.190473,
+        "build_wall": 0.007673383,
+        "operation_wall": 0.191891163,
+        "answers": 100000,
+        "total_cpu": 0.197888
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "cpp_full8192",
+      "trial": 2,
+      "sequence": 46,
+      "wall_seconds": 0.153446736,
+      "cpu_seconds": 0.13120300000000285,
+      "api": {
+        "build_cpu": 0.006913,
+        "operation_cpu": 0.113094,
+        "build_wall": 0.006968695,
+        "operation_wall": 0.113754046,
+        "answers": 100000,
+        "total_cpu": 0.120007
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "no_op_random",
+      "variant": "nim_optimized_api",
+      "trial": 2,
+      "sequence": 47,
+      "wall_seconds": 0.163038462,
+      "cpu_seconds": 0.14708699999999908,
+      "api": {
+        "build_cpu": 0.009831157,
+        "operation_cpu": 0.129668207,
+        "build_wall": 0.009882450103759766,
+        "operation_wall": 0.13050031661987305,
+        "answers": 100000,
+        "total_cpu": 0.13949936400000001
+      },
+      "answer_sha256": "32083b5454d83d30fdbcc241b906a3cceaf9a211852c8747b56d1a6a8305e633"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "nim_official_api",
+      "trial": 0,
+      "sequence": 52,
+      "wall_seconds": 0.093684869,
+      "cpu_seconds": 0.07913399999999982,
+      "api": {
+        "build_cpu": 0.008802840999999999,
+        "operation_cpu": 0.06101406300000001,
+        "build_wall": 0.008954524993896484,
+        "operation_wall": 0.06144213676452637,
+        "answers": 100000,
+        "total_cpu": 0.06981690400000001
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "cpp_full8192",
+      "trial": 0,
+      "sequence": 53,
+      "wall_seconds": 0.072901682,
+      "cpu_seconds": 0.05815400000000004,
+      "api": {
+        "build_cpu": 0.00358,
+        "operation_cpu": 0.044316,
+        "build_wall": 0.003603323,
+        "operation_wall": 0.044658891,
+        "answers": 100000,
+        "total_cpu": 0.047896
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "nim_optimized_api",
+      "trial": 0,
+      "sequence": 54,
+      "wall_seconds": 0.07971863,
+      "cpu_seconds": 0.0657589999999999,
+      "api": {
+        "build_cpu": 0.007871148000000001,
+        "operation_cpu": 0.04960475600000001,
+        "build_wall": 0.007912874221801758,
+        "operation_wall": 0.05005931854248047,
+        "answers": 100000,
+        "total_cpu": 0.05747590400000001
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "cpp_before",
+      "trial": 0,
+      "sequence": 55,
+      "wall_seconds": 0.087490491,
+      "cpu_seconds": 0.07187799999999989,
+      "api": {
+        "build_cpu": 0.003785,
+        "operation_cpu": 0.057838,
+        "build_wall": 0.003900955,
+        "operation_wall": 0.058216591,
+        "answers": 100000,
+        "total_cpu": 0.061623
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "cpp_full8192",
+      "trial": 1,
+      "sequence": 56,
+      "wall_seconds": 0.075948131,
+      "cpu_seconds": 0.05853100000000033,
+      "api": {
+        "build_cpu": 0.003561,
+        "operation_cpu": 0.044848,
+        "build_wall": 0.003576868,
+        "operation_wall": 0.045082805,
+        "answers": 100000,
+        "total_cpu": 0.048409
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "nim_official_api",
+      "trial": 1,
+      "sequence": 57,
+      "wall_seconds": 0.091256902,
+      "cpu_seconds": 0.07918100000000017,
+      "api": {
+        "build_cpu": 0.008992189999999999,
+        "operation_cpu": 0.06131059700000001,
+        "build_wall": 0.009107828140258789,
+        "operation_wall": 0.06166386604309082,
+        "answers": 100000,
+        "total_cpu": 0.070302787
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "nim_optimized_api",
+      "trial": 1,
+      "sequence": 58,
+      "wall_seconds": 0.076994077,
+      "cpu_seconds": 0.06540199999999885,
+      "api": {
+        "build_cpu": 0.007949949000000001,
+        "operation_cpu": 0.049196918,
+        "build_wall": 0.007976293563842773,
+        "operation_wall": 0.04958748817443848,
+        "answers": 100000,
+        "total_cpu": 0.057146867000000004
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "cpp_before",
+      "trial": 1,
+      "sequence": 59,
+      "wall_seconds": 0.085738235,
+      "cpu_seconds": 0.07100200000000001,
+      "api": {
+        "build_cpu": 0.003619,
+        "operation_cpu": 0.057631,
+        "build_wall": 0.003697956,
+        "operation_wall": 0.057919595,
+        "answers": 100000,
+        "total_cpu": 0.06125
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "cpp_full8192",
+      "trial": 2,
+      "sequence": 60,
+      "wall_seconds": 0.070639359,
+      "cpu_seconds": 0.057159999999999656,
+      "api": {
+        "build_cpu": 0.003565,
+        "operation_cpu": 0.043879,
+        "build_wall": 0.003580535,
+        "operation_wall": 0.044113173,
+        "answers": 100000,
+        "total_cpu": 0.047444
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "cpp_before",
+      "trial": 2,
+      "sequence": 61,
+      "wall_seconds": 0.087437145,
+      "cpu_seconds": 0.07138000000000133,
+      "api": {
+        "build_cpu": 0.003632,
+        "operation_cpu": 0.057896,
+        "build_wall": 0.003724095,
+        "operation_wall": 0.05819935,
+        "answers": 100000,
+        "total_cpu": 0.061528
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "nim_official_api",
+      "trial": 2,
+      "sequence": 62,
+      "wall_seconds": 0.090724831,
+      "cpu_seconds": 0.0790249999999979,
+      "api": {
+        "build_cpu": 0.009096600000000002,
+        "operation_cpu": 0.06101593499999999,
+        "build_wall": 0.009211540222167969,
+        "operation_wall": 0.061339378356933594,
+        "answers": 100000,
+        "total_cpu": 0.07011253499999999
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "duplicates16",
+      "variant": "nim_optimized_api",
+      "trial": 2,
+      "sequence": 63,
+      "wall_seconds": 0.076869862,
+      "cpu_seconds": 0.06567400000000134,
+      "api": {
+        "build_cpu": 0.0077831309999999996,
+        "operation_cpu": 0.049704615,
+        "build_wall": 0.0078089237213134766,
+        "operation_wall": 0.05005240440368652,
+        "answers": 100000,
+        "total_cpu": 0.057487746
+      },
+      "answer_sha256": "fcbb9ab9c7b033ccbf8fceb896f9aca973a8280dab7022392738934304deab2a"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "cpp_full8192",
+      "trial": 0,
+      "sequence": 68,
+      "wall_seconds": 0.023743329,
+      "cpu_seconds": 0.014094000000000051,
+      "api": {
+        "build_cpu": 0.002536,
+        "operation_cpu": 0.003609,
+        "build_wall": 0.002547501,
+        "operation_wall": 0.003620355,
+        "answers": 100000,
+        "total_cpu": 0.006144999999999999
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "cpp_before",
+      "trial": 0,
+      "sequence": 69,
+      "wall_seconds": 0.027334112,
+      "cpu_seconds": 0.01544299999999943,
+      "api": {
+        "build_cpu": 0.002854,
+        "operation_cpu": 0.00437,
+        "build_wall": 0.002966106,
+        "operation_wall": 0.004375715,
+        "answers": 100000,
+        "total_cpu": 0.0072239999999999995
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "nim_official_api",
+      "trial": 0,
+      "sequence": 70,
+      "wall_seconds": 0.035085145,
+      "cpu_seconds": 0.02137600000000006,
+      "api": {
+        "build_cpu": 0.007574685,
+        "operation_cpu": 0.005773894,
+        "build_wall": 0.00772547721862793,
+        "operation_wall": 0.00593256950378418,
+        "answers": 100000,
+        "total_cpu": 0.013348579
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "nim_optimized_api",
+      "trial": 0,
+      "sequence": 71,
+      "wall_seconds": 0.034442178,
+      "cpu_seconds": 0.017489000000001198,
+      "api": {
+        "build_cpu": 0.007181577,
+        "operation_cpu": 0.0030383380000000015,
+        "build_wall": 0.007193565368652344,
+        "operation_wall": 0.0030426979064941406,
+        "answers": 100000,
+        "total_cpu": 0.010219915000000001
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "cpp_before",
+      "trial": 1,
+      "sequence": 72,
+      "wall_seconds": 0.031062507,
+      "cpu_seconds": 0.015412999999998789,
+      "api": {
+        "build_cpu": 0.002863,
+        "operation_cpu": 0.004403,
+        "build_wall": 0.002967563,
+        "operation_wall": 0.004409177,
+        "answers": 100000,
+        "total_cpu": 0.007266
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "nim_official_api",
+      "trial": 1,
+      "sequence": 73,
+      "wall_seconds": 0.031848351,
+      "cpu_seconds": 0.020367999999999498,
+      "api": {
+        "build_cpu": 0.007463496,
+        "operation_cpu": 0.005267253999999999,
+        "build_wall": 0.007589578628540039,
+        "operation_wall": 0.0053844451904296875,
+        "answers": 100000,
+        "total_cpu": 0.012730749999999999
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "nim_optimized_api",
+      "trial": 1,
+      "sequence": 74,
+      "wall_seconds": 0.029003196,
+      "cpu_seconds": 0.01692600000000155,
+      "api": {
+        "build_cpu": 0.006927492000000001,
+        "operation_cpu": 0.0030716890000000007,
+        "build_wall": 0.0069386959075927734,
+        "operation_wall": 0.0030760765075683594,
+        "answers": 100000,
+        "total_cpu": 0.009999181000000003
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "cpp_full8192",
+      "trial": 1,
+      "sequence": 75,
+      "wall_seconds": 0.023554808,
+      "cpu_seconds": 0.013940999999999093,
+      "api": {
+        "build_cpu": 0.002486,
+        "operation_cpu": 0.003615,
+        "build_wall": 0.002493479,
+        "operation_wall": 0.003630901,
+        "answers": 100000,
+        "total_cpu": 0.0061010000000000005
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "nim_optimized_api",
+      "trial": 2,
+      "sequence": 76,
+      "wall_seconds": 0.028468519,
+      "cpu_seconds": 0.01700999999999908,
+      "api": {
+        "build_cpu": 0.007043088,
+        "operation_cpu": 0.0030856860000000007,
+        "build_wall": 0.007054805755615234,
+        "operation_wall": 0.00308990478515625,
+        "answers": 100000,
+        "total_cpu": 0.010128774
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "cpp_before",
+      "trial": 2,
+      "sequence": 77,
+      "wall_seconds": 0.023897657,
+      "cpu_seconds": 0.014672000000000907,
+      "api": {
+        "build_cpu": 0.002646,
+        "operation_cpu": 0.004279,
+        "build_wall": 0.002711798,
+        "operation_wall": 0.004285231,
+        "answers": 100000,
+        "total_cpu": 0.006925
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "nim_official_api",
+      "trial": 2,
+      "sequence": 78,
+      "wall_seconds": 0.029018701,
+      "cpu_seconds": 0.020171999999998746,
+      "api": {
+        "build_cpu": 0.007313139,
+        "operation_cpu": 0.005355802,
+        "build_wall": 0.007414817810058594,
+        "operation_wall": 0.005468845367431641,
+        "answers": 100000,
+        "total_cpu": 0.012668941
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "uniform_same",
+      "variant": "cpp_full8192",
+      "trial": 2,
+      "sequence": 79,
+      "wall_seconds": 0.031004356,
+      "cpu_seconds": 0.014507000000000048,
+      "api": {
+        "build_cpu": 0.002581,
+        "operation_cpu": 0.003539,
+        "build_wall": 0.002588957,
+        "operation_wall": 0.003544105,
+        "answers": 100000,
+        "total_cpu": 0.0061200000000000004
+      },
+      "answer_sha256": "2b24177887d7488ecf6c77cf713a167fb66538816615870297afe9db70f90370"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "cpp_before",
+      "trial": 0,
+      "sequence": 84,
+      "wall_seconds": 0.4007621,
+      "cpu_seconds": 0.38694500000000076,
+      "api": {
+        "build_cpu": 0.006803,
+        "operation_cpu": 0.369889,
+        "build_wall": 0.00685865,
+        "operation_wall": 0.369535447,
+        "answers": 2000,
+        "total_cpu": 0.376692
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "nim_official_api",
+      "trial": 0,
+      "sequence": 85,
+      "wall_seconds": 0.432340185,
+      "cpu_seconds": 0.41825899999999905,
+      "api": {
+        "build_cpu": 0.014617677000000003,
+        "operation_cpu": 0.395614981,
+        "build_wall": 0.0146942138671875,
+        "operation_wall": 0.39436841011047363,
+        "answers": 2000,
+        "total_cpu": 0.410232658
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "cpp_full8192",
+      "trial": 0,
+      "sequence": 86,
+      "wall_seconds": 0.403859194,
+      "cpu_seconds": 0.392354000000001,
+      "api": {
+        "build_cpu": 0.006863,
+        "operation_cpu": 0.375239,
+        "build_wall": 0.006833991,
+        "operation_wall": 0.373502314,
+        "answers": 2000,
+        "total_cpu": 0.382102
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "nim_optimized_api",
+      "trial": 0,
+      "sequence": 87,
+      "wall_seconds": 0.442715358,
+      "cpu_seconds": 0.4292259999999999,
+      "api": {
+        "build_cpu": 0.010162543999999999,
+        "operation_cpu": 0.411710053,
+        "build_wall": 0.010114192962646484,
+        "operation_wall": 0.40994691848754883,
+        "answers": 2000,
+        "total_cpu": 0.421872597
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "cpp_full8192",
+      "trial": 1,
+      "sequence": 88,
+      "wall_seconds": 0.414220197,
+      "cpu_seconds": 0.3913650000000004,
+      "api": {
+        "build_cpu": 0.006812,
+        "operation_cpu": 0.373527,
+        "build_wall": 0.006783896,
+        "operation_wall": 0.371573106,
+        "answers": 2000,
+        "total_cpu": 0.380339
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "nim_official_api",
+      "trial": 1,
+      "sequence": 89,
+      "wall_seconds": 0.444902258,
+      "cpu_seconds": 0.43101899999999915,
+      "api": {
+        "build_cpu": 0.013265564,
+        "operation_cpu": 0.409685709,
+        "build_wall": 0.013283252716064453,
+        "operation_wall": 0.407973051071167,
+        "answers": 2000,
+        "total_cpu": 0.422951273
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "cpp_before",
+      "trial": 1,
+      "sequence": 90,
+      "wall_seconds": 0.416758557,
+      "cpu_seconds": 0.39695899999999895,
+      "api": {
+        "build_cpu": 0.008337,
+        "operation_cpu": 0.377503,
+        "build_wall": 0.008472039,
+        "operation_wall": 0.375420191,
+        "answers": 2000,
+        "total_cpu": 0.38583999999999996
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "nim_optimized_api",
+      "trial": 1,
+      "sequence": 91,
+      "wall_seconds": 0.437928347,
+      "cpu_seconds": 0.42583700000000135,
+      "api": {
+        "build_cpu": 0.010347708,
+        "operation_cpu": 0.40824904500000003,
+        "build_wall": 0.010278463363647461,
+        "operation_wall": 0.40570521354675293,
+        "answers": 2000,
+        "total_cpu": 0.41859675300000004
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "cpp_full8192",
+      "trial": 2,
+      "sequence": 92,
+      "wall_seconds": 0.417945732,
+      "cpu_seconds": 0.4018049999999995,
+      "api": {
+        "build_cpu": 0.006678,
+        "operation_cpu": 0.384941,
+        "build_wall": 0.006636855,
+        "operation_wall": 0.382356519,
+        "answers": 2000,
+        "total_cpu": 0.391619
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "nim_official_api",
+      "trial": 2,
+      "sequence": 93,
+      "wall_seconds": 0.433283566,
+      "cpu_seconds": 0.41900900000000263,
+      "api": {
+        "build_cpu": 0.013112243,
+        "operation_cpu": 0.397660401,
+        "build_wall": 0.013100862503051758,
+        "operation_wall": 0.39479970932006836,
+        "answers": 2000,
+        "total_cpu": 0.410772644
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "nim_optimized_api",
+      "trial": 2,
+      "sequence": 94,
+      "wall_seconds": 0.442264069,
+      "cpu_seconds": 0.4316219999999973,
+      "api": {
+        "build_cpu": 0.01166466,
+        "operation_cpu": 0.412750595,
+        "build_wall": 0.011577844619750977,
+        "operation_wall": 0.4098663330078125,
+        "answers": 2000,
+        "total_cpu": 0.424415255
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "update_heavy",
+      "variant": "cpp_before",
+      "trial": 2,
+      "sequence": 95,
+      "wall_seconds": 0.403391841,
+      "cpu_seconds": 0.3905799999999999,
+      "api": {
+        "build_cpu": 0.007146,
+        "operation_cpu": 0.3727,
+        "build_wall": 0.007283487,
+        "operation_wall": 0.369804419,
+        "answers": 2000,
+        "total_cpu": 0.37984599999999996
+      },
+      "answer_sha256": "f0527916369f0ac12527c64a1edd5db3adeaf13628b151b1401a3b5d294ba78c"
+    },
+    {
+      "case": "short",
+      "variant": "cpp_full8192",
+      "trial": 0,
+      "sequence": 100,
+      "wall_seconds": 0.293360559,
+      "cpu_seconds": 0.28023999999999916,
+      "api": {
+        "build_cpu": 0.006889,
+        "operation_cpu": 0.263207,
+        "build_wall": 0.00683202,
+        "operation_wall": 0.260980286,
+        "answers": 100000,
+        "total_cpu": 0.270096
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "nim_optimized_api",
+      "trial": 0,
+      "sequence": 101,
+      "wall_seconds": 0.315962185,
+      "cpu_seconds": 0.2992449999999991,
+      "api": {
+        "build_cpu": 0.010279983,
+        "operation_cpu": 0.28099128,
+        "build_wall": 0.010185003280639648,
+        "operation_wall": 0.27861690521240234,
+        "answers": 100000,
+        "total_cpu": 0.291271263
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "cpp_before",
+      "trial": 0,
+      "sequence": 102,
+      "wall_seconds": 0.338879615,
+      "cpu_seconds": 0.3256799999999984,
+      "api": {
+        "build_cpu": 0.007134,
+        "operation_cpu": 0.308134,
+        "build_wall": 0.007139016,
+        "operation_wall": 0.305356585,
+        "answers": 100000,
+        "total_cpu": 0.315268
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "nim_official_api",
+      "trial": 0,
+      "sequence": 103,
+      "wall_seconds": 0.318011961,
+      "cpu_seconds": 0.30561900000000364,
+      "api": {
+        "build_cpu": 0.01470745,
+        "operation_cpu": 0.28194849899999996,
+        "build_wall": 0.014662742614746094,
+        "operation_wall": 0.27945899963378906,
+        "answers": 100000,
+        "total_cpu": 0.296655949
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "cpp_full8192",
+      "trial": 1,
+      "sequence": 104,
+      "wall_seconds": 0.299730615,
+      "cpu_seconds": 0.28638400000000175,
+      "api": {
+        "build_cpu": 0.006845,
+        "operation_cpu": 0.269076,
+        "build_wall": 0.006782208,
+        "operation_wall": 0.266645839,
+        "answers": 100000,
+        "total_cpu": 0.27592099999999997
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "nim_optimized_api",
+      "trial": 1,
+      "sequence": 105,
+      "wall_seconds": 0.306819381,
+      "cpu_seconds": 0.29171899999999695,
+      "api": {
+        "build_cpu": 0.010748558000000002,
+        "operation_cpu": 0.273134139,
+        "build_wall": 0.010646343231201172,
+        "operation_wall": 0.27074456214904785,
+        "answers": 100000,
+        "total_cpu": 0.283882697
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "nim_official_api",
+      "trial": 1,
+      "sequence": 106,
+      "wall_seconds": 0.317947559,
+      "cpu_seconds": 0.3049500000000016,
+      "api": {
+        "build_cpu": 0.013492274999999998,
+        "operation_cpu": 0.283240299,
+        "build_wall": 0.013487577438354492,
+        "operation_wall": 0.28111839294433594,
+        "answers": 100000,
+        "total_cpu": 0.29673257399999997
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "cpp_before",
+      "trial": 1,
+      "sequence": 107,
+      "wall_seconds": 0.342052241,
+      "cpu_seconds": 0.3297739999999969,
+      "api": {
+        "build_cpu": 0.007481,
+        "operation_cpu": 0.311785,
+        "build_wall": 0.007511785,
+        "operation_wall": 0.309388613,
+        "answers": 100000,
+        "total_cpu": 0.319266
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "cpp_before",
+      "trial": 2,
+      "sequence": 108,
+      "wall_seconds": 0.362800323,
+      "cpu_seconds": 0.34955,
+      "api": {
+        "build_cpu": 0.007046,
+        "operation_cpu": 0.331588,
+        "build_wall": 0.007065412,
+        "operation_wall": 0.329108492,
+        "answers": 100000,
+        "total_cpu": 0.338634
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "cpp_full8192",
+      "trial": 2,
+      "sequence": 109,
+      "wall_seconds": 0.304001915,
+      "cpu_seconds": 0.28565,
+      "api": {
+        "build_cpu": 0.00683,
+        "operation_cpu": 0.268253,
+        "build_wall": 0.0067766,
+        "operation_wall": 0.266124602,
+        "answers": 100000,
+        "total_cpu": 0.275083
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "nim_official_api",
+      "trial": 2,
+      "sequence": 110,
+      "wall_seconds": 0.325948763,
+      "cpu_seconds": 0.3087899999999999,
+      "api": {
+        "build_cpu": 0.013739051999999998,
+        "operation_cpu": 0.286359359,
+        "build_wall": 0.01377725601196289,
+        "operation_wall": 0.2841947078704834,
+        "answers": 100000,
+        "total_cpu": 0.30009841099999995
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "short",
+      "variant": "nim_optimized_api",
+      "trial": 2,
+      "sequence": 111,
+      "wall_seconds": 0.343288603,
+      "cpu_seconds": 0.29503900000000016,
+      "api": {
+        "build_cpu": 0.010739236000000003,
+        "operation_cpu": 0.276329751,
+        "build_wall": 0.010662078857421875,
+        "operation_wall": 0.2743206024169922,
+        "answers": 100000,
+        "total_cpu": 0.287068987
+      },
+      "answer_sha256": "0b656df882e3cae6737667d03c2d4ed6303bcdc07eb7fa56d00cef59c517acd1"
+    },
+    {
+      "case": "query_only",
+      "variant": "cpp_before",
+      "trial": 0,
+      "sequence": 116,
+      "wall_seconds": 0.297489117,
+      "cpu_seconds": 0.28260799999999975,
+      "api": {
+        "build_cpu": 0.006969,
+        "operation_cpu": 0.264847,
+        "build_wall": 0.00697916,
+        "operation_wall": 0.26245,
+        "answers": 200000,
+        "total_cpu": 0.271816
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "nim_optimized_api",
+      "trial": 0,
+      "sequence": 117,
+      "wall_seconds": 0.192885208,
+      "cpu_seconds": 0.17874100000000048,
+      "api": {
+        "build_cpu": 0.010074238,
+        "operation_cpu": 0.161005852,
+        "build_wall": 0.009984731674194336,
+        "operation_wall": 0.15975475311279297,
+        "answers": 200000,
+        "total_cpu": 0.17108009000000002
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "cpp_full8192",
+      "trial": 0,
+      "sequence": 118,
+      "wall_seconds": 0.195619219,
+      "cpu_seconds": 0.18038599999999994,
+      "api": {
+        "build_cpu": 0.007069,
+        "operation_cpu": 0.162877,
+        "build_wall": 0.007014578,
+        "operation_wall": 0.161429479,
+        "answers": 200000,
+        "total_cpu": 0.16994599999999999
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "nim_official_api",
+      "trial": 0,
+      "sequence": 119,
+      "wall_seconds": 0.254197341,
+      "cpu_seconds": 0.23175999999999997,
+      "api": {
+        "build_cpu": 0.014749893000000002,
+        "operation_cpu": 0.208041065,
+        "build_wall": 0.014697551727294922,
+        "operation_wall": 0.206528902053833,
+        "answers": 200000,
+        "total_cpu": 0.222790958
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "cpp_before",
+      "trial": 1,
+      "sequence": 120,
+      "wall_seconds": 0.298592706,
+      "cpu_seconds": 0.2803800000000001,
+      "api": {
+        "build_cpu": 0.007274,
+        "operation_cpu": 0.262045,
+        "build_wall": 0.00728416,
+        "operation_wall": 0.259616154,
+        "answers": 200000,
+        "total_cpu": 0.269319
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "cpp_full8192",
+      "trial": 1,
+      "sequence": 121,
+      "wall_seconds": 0.193044108,
+      "cpu_seconds": 0.17812199999999967,
+      "api": {
+        "build_cpu": 0.00675,
+        "operation_cpu": 0.160683,
+        "build_wall": 0.006690432,
+        "operation_wall": 0.15920167,
+        "answers": 200000,
+        "total_cpu": 0.167433
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "nim_official_api",
+      "trial": 1,
+      "sequence": 122,
+      "wall_seconds": 0.244138939,
+      "cpu_seconds": 0.22858199999999984,
+      "api": {
+        "build_cpu": 0.013262132,
+        "operation_cpu": 0.20668278099999998,
+        "build_wall": 0.013249635696411133,
+        "operation_wall": 0.20511126518249512,
+        "answers": 200000,
+        "total_cpu": 0.219944913
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "nim_optimized_api",
+      "trial": 1,
+      "sequence": 123,
+      "wall_seconds": 0.192782075,
+      "cpu_seconds": 0.1809210000000001,
+      "api": {
+        "build_cpu": 0.010156715,
+        "operation_cpu": 0.16296810900000003,
+        "build_wall": 0.010062932968139648,
+        "operation_wall": 0.16164374351501465,
+        "answers": 200000,
+        "total_cpu": 0.17312482400000004
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "cpp_before",
+      "trial": 2,
+      "sequence": 124,
+      "wall_seconds": 0.302205087,
+      "cpu_seconds": 0.2853480000000004,
+      "api": {
+        "build_cpu": 0.007369,
+        "operation_cpu": 0.26661,
+        "build_wall": 0.007405073,
+        "operation_wall": 0.264066991,
+        "answers": 200000,
+        "total_cpu": 0.27397900000000003
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "nim_official_api",
+      "trial": 2,
+      "sequence": 125,
+      "wall_seconds": 0.243033607,
+      "cpu_seconds": 0.22936099999999993,
+      "api": {
+        "build_cpu": 0.013248591,
+        "operation_cpu": 0.207351338,
+        "build_wall": 0.013211727142333984,
+        "operation_wall": 0.2057485580444336,
+        "answers": 200000,
+        "total_cpu": 0.220599929
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "nim_optimized_api",
+      "trial": 2,
+      "sequence": 126,
+      "wall_seconds": 0.196071842,
+      "cpu_seconds": 0.18138399999999955,
+      "api": {
+        "build_cpu": 0.010112736000000002,
+        "operation_cpu": 0.16349522400000002,
+        "build_wall": 0.010017633438110352,
+        "operation_wall": 0.16214394569396973,
+        "answers": 200000,
+        "total_cpu": 0.17360796000000003
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    },
+    {
+      "case": "query_only",
+      "variant": "cpp_full8192",
+      "trial": 2,
+      "sequence": 127,
+      "wall_seconds": 0.202296991,
+      "cpu_seconds": 0.1820030000000008,
+      "api": {
+        "build_cpu": 0.007207,
+        "operation_cpu": 0.163458,
+        "build_wall": 0.007142072,
+        "operation_wall": 0.16186639,
+        "answers": 200000,
+        "total_cpu": 0.17066499999999998
+      },
+      "answer_sha256": "273a81a708ea1653dea7ca9e95036d9017850b0cbf5a4d8b3e98aefd3a0d0cb4"
+    }
+  ],
+  "summary": {
+    "clustered": {
+      "cpp_before": {
+        "build_cpu": 0.006988,
+        "operation_cpu": 0.323608,
+        "total_cpu": 0.330596,
+        "process_wall": 0.353745731
+      },
+      "cpp_full8192": {
+        "build_cpu": 0.00691,
+        "operation_cpu": 0.282803,
+        "total_cpu": 0.28949,
+        "process_wall": 0.313656811
+      },
+      "nim_official_api": {
+        "build_cpu": 0.013630217,
+        "operation_cpu": 0.321150324,
+        "total_cpu": 0.33454359499999997,
+        "process_wall": 0.356594062
+      },
+      "nim_optimized_api": {
+        "build_cpu": 0.010019204,
+        "operation_cpu": 0.28881655500000003,
+        "total_cpu": 0.29870160700000004,
+        "process_wall": 0.319954257
+      }
+    },
+    "random30": {
+      "cpp_before": {
+        "build_cpu": 0.006988,
+        "operation_cpu": 0.334296,
+        "total_cpu": 0.341284,
+        "process_wall": 0.381139159
+      },
+      "cpp_full8192": {
+        "build_cpu": 0.006747,
+        "operation_cpu": 0.283019,
+        "total_cpu": 0.289738,
+        "process_wall": 0.322213297
+      },
+      "nim_official_api": {
+        "build_cpu": 0.013270293999999998,
+        "operation_cpu": 0.32617624900000003,
+        "total_cpu": 0.33944654300000004,
+        "process_wall": 0.373296082
+      },
+      "nim_optimized_api": {
+        "build_cpu": 0.010154546,
+        "operation_cpu": 0.29719007000000003,
+        "total_cpu": 0.308176553,
+        "process_wall": 0.33808457
+      }
+    },
+    "no_op_random": {
+      "cpp_before": {
+        "build_cpu": 0.007024,
+        "operation_cpu": 0.190473,
+        "total_cpu": 0.197541,
+        "process_wall": 0.226215794
+      },
+      "cpp_full8192": {
+        "build_cpu": 0.006913,
+        "operation_cpu": 0.113094,
+        "total_cpu": 0.120007,
+        "process_wall": 0.15287927
+      },
+      "nim_official_api": {
+        "build_cpu": 0.013764327,
+        "operation_cpu": 0.149653682,
+        "total_cpu": 0.16339158899999998,
+        "process_wall": 0.189234958
+      },
+      "nim_optimized_api": {
+        "build_cpu": 0.010889506,
+        "operation_cpu": 0.12639497,
+        "total_cpu": 0.137345958,
+        "process_wall": 0.163038462
+      }
+    },
+    "duplicates16": {
+      "cpp_before": {
+        "build_cpu": 0.003632,
+        "operation_cpu": 0.057838,
+        "total_cpu": 0.061528,
+        "process_wall": 0.087437145
+      },
+      "cpp_full8192": {
+        "build_cpu": 0.003565,
+        "operation_cpu": 0.044316,
+        "total_cpu": 0.047896,
+        "process_wall": 0.072901682
+      },
+      "nim_official_api": {
+        "build_cpu": 0.008992189999999999,
+        "operation_cpu": 0.06101593499999999,
+        "total_cpu": 0.07011253499999999,
+        "process_wall": 0.091256902
+      },
+      "nim_optimized_api": {
+        "build_cpu": 0.007871148000000001,
+        "operation_cpu": 0.04960475600000001,
+        "total_cpu": 0.05747590400000001,
+        "process_wall": 0.076994077
+      }
+    },
+    "uniform_same": {
+      "cpp_before": {
+        "build_cpu": 0.002854,
+        "operation_cpu": 0.00437,
+        "total_cpu": 0.0072239999999999995,
+        "process_wall": 0.027334112
+      },
+      "cpp_full8192": {
+        "build_cpu": 0.002536,
+        "operation_cpu": 0.003609,
+        "total_cpu": 0.0061200000000000004,
+        "process_wall": 0.023743329
+      },
+      "nim_official_api": {
+        "build_cpu": 0.007463496,
+        "operation_cpu": 0.005355802,
+        "total_cpu": 0.012730749999999999,
+        "process_wall": 0.031848351
+      },
+      "nim_optimized_api": {
+        "build_cpu": 0.007043088,
+        "operation_cpu": 0.0030716890000000007,
+        "total_cpu": 0.010128774,
+        "process_wall": 0.029003196
+      }
+    },
+    "update_heavy": {
+      "cpp_before": {
+        "build_cpu": 0.007146,
+        "operation_cpu": 0.3727,
+        "total_cpu": 0.37984599999999996,
+        "process_wall": 0.403391841
+      },
+      "cpp_full8192": {
+        "build_cpu": 0.006812,
+        "operation_cpu": 0.375239,
+        "total_cpu": 0.382102,
+        "process_wall": 0.414220197
+      },
+      "nim_official_api": {
+        "build_cpu": 0.013265564,
+        "operation_cpu": 0.397660401,
+        "total_cpu": 0.410772644,
+        "process_wall": 0.433283566
+      },
+      "nim_optimized_api": {
+        "build_cpu": 0.010347708,
+        "operation_cpu": 0.411710053,
+        "total_cpu": 0.421872597,
+        "process_wall": 0.442264069
+      }
+    },
+    "short": {
+      "cpp_before": {
+        "build_cpu": 0.007134,
+        "operation_cpu": 0.311785,
+        "total_cpu": 0.319266,
+        "process_wall": 0.342052241
+      },
+      "cpp_full8192": {
+        "build_cpu": 0.006845,
+        "operation_cpu": 0.268253,
+        "total_cpu": 0.275083,
+        "process_wall": 0.299730615
+      },
+      "nim_official_api": {
+        "build_cpu": 0.013739051999999998,
+        "operation_cpu": 0.283240299,
+        "total_cpu": 0.29673257399999997,
+        "process_wall": 0.318011961
+      },
+      "nim_optimized_api": {
+        "build_cpu": 0.010739236000000003,
+        "operation_cpu": 0.276329751,
+        "total_cpu": 0.287068987,
+        "process_wall": 0.315962185
+      }
+    },
+    "query_only": {
+      "cpp_before": {
+        "build_cpu": 0.007274,
+        "operation_cpu": 0.264847,
+        "total_cpu": 0.271816,
+        "process_wall": 0.298592706
+      },
+      "cpp_full8192": {
+        "build_cpu": 0.007069,
+        "operation_cpu": 0.162877,
+        "total_cpu": 0.16994599999999999,
+        "process_wall": 0.195619219
+      },
+      "nim_official_api": {
+        "build_cpu": 0.013262132,
+        "operation_cpu": 0.207351338,
+        "total_cpu": 0.220599929,
+        "process_wall": 0.244138939
+      },
+      "nim_optimized_api": {
+        "build_cpu": 0.010112736000000002,
+        "operation_cpu": 0.16296810900000003,
+        "total_cpu": 0.17312482400000004,
+        "process_wall": 0.192885208
+      }
+    }
+  }
+}

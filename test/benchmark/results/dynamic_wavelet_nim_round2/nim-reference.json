@@ -1,0 +1,364 @@
+{
+  "utc": "2026-10-20T14:50:13.624856+00:00",
+  "export_helper_sha256": "e491101bda6e9e5e0d03d04fcbeffb572d1dfaa513e0ada76ba311f0a17cb286",
+  "preparation_sha256": "a523c5fbf3fbf8ed0f363df8ea50f87851248c8fabfcdbf4f53981223555b5a1",
+  "prepared_utc": "2026-10-20T14:36:27.663251+00:00",
+  "preparation_helper_sha256": "d4671039ba2b98a9cea7d0bbbc998704506cb3c8c21e3774a4ec873e40ba8587",
+  "supplied_source_sha256": "88fdb69f361231db7a7cdf6721454f28e60686ba66945e9a652d64bfa84d29f5",
+  "instrumented_source_sha256": "c7f3d6ba9a0fdb0d5ea85b81b316a566e73ec4e5b6275daf21f267931a850515",
+  "source_origin": "user supplied self-contained Nim source, including originalSource metadata template",
+  "upstream_commit": "244c855f5961a2ce03a3acebed8eac1f5f4099fc",
+  "upstream_files": [
+    {
+      "path": "cplib/collections/dynamic_bplus_kernels.nim",
+      "url": "https://raw.githubusercontent.com/kemuniku/cplib/244c855f5961a2ce03a3acebed8eac1f5f4099fc/src/cplib/collections/dynamic_bplus_kernels.nim",
+      "sha256": "0ddbaa6418a1c3e482c9fbc1aba6b3c3b1c1b0d04abc2fbf343bb020c1f1c34e",
+      "bytes": 7134
+    },
+    {
+      "path": "cplib/collections/dynamic_quaternary_kernels.nim",
+      "url": "https://raw.githubusercontent.com/kemuniku/cplib/244c855f5961a2ce03a3acebed8eac1f5f4099fc/src/cplib/collections/dynamic_quaternary_kernels.nim",
+      "sha256": "834467f02f5e3b240358352b65da1c27d7d7faedc8c4f8b228b2040b0eb70401",
+      "bytes": 21805
+    },
+    {
+      "path": "cplib/collections/dynamic_quaternary_vector.nim",
+      "url": "https://raw.githubusercontent.com/kemuniku/cplib/244c855f5961a2ce03a3acebed8eac1f5f4099fc/src/cplib/collections/dynamic_quaternary_vector.nim",
+      "sha256": "64e1e0ae100134a1929378b14a43655a09daadd83d8e2e40867984005d896953",
+      "bytes": 44685
+    },
+    {
+      "path": "cplib/collections/dynamic_quaternary_waveletmatrix.nim",
+      "url": "https://raw.githubusercontent.com/kemuniku/cplib/244c855f5961a2ce03a3acebed8eac1f5f4099fc/src/cplib/collections/dynamic_quaternary_waveletmatrix.nim",
+      "sha256": "c7d3fd136249096d8b5a367312b62f508bd88887930bdf37c10a8bf691db6063",
+      "bytes": 18392
+    },
+    {
+      "path": "cplib/tmpl/fastio.nim",
+      "url": "https://raw.githubusercontent.com/kemuniku/cplib/244c855f5961a2ce03a3acebed8eac1f5f4099fc/src/cplib/tmpl/fastio.nim",
+      "sha256": "075bfbe1736976148ac7adc6157a6e1cff0aa15d1a9ee19db5910552aa5aa063",
+      "bytes": 47427
+    },
+    {
+      "path": "cplib/tmpl/optimize.nim",
+      "url": "https://raw.githubusercontent.com/kemuniku/cplib/244c855f5961a2ce03a3acebed8eac1f5f4099fc/src/cplib/tmpl/optimize.nim",
+      "sha256": "41aefdc7c30df3c7a1d4a73a03f5ccb6c2544847c526a57510191d292537a1ab",
+      "bytes": 2785
+    },
+    {
+      "path": "cplib/tmpl/sheep.nim",
+      "url": "https://raw.githubusercontent.com/kemuniku/cplib/244c855f5961a2ce03a3acebed8eac1f5f4099fc/src/cplib/tmpl/sheep.nim",
+      "sha256": "b6b1af04e745a12e5041739e8648352a00ba5c166622dde0ca2106a85a2ba20a",
+      "bytes": 5501
+    },
+    {
+      "path": "cplib/utils/constants.nim",
+      "url": "https://raw.githubusercontent.com/kemuniku/cplib/244c855f5961a2ce03a3acebed8eac1f5f4099fc/src/cplib/utils/constants.nim",
+      "sha256": "b9451e5d994497483e22ff9936876b31ffea94c13cdd922521805871875fdf4d",
+      "bytes": 170
+    }
+  ],
+  "license": {
+    "url": "https://raw.githubusercontent.com/kemuniku/cplib/244c855f5961a2ce03a3acebed8eac1f5f4099fc/LICENSE",
+    "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+    "bytes": 7048,
+    "name": "CC0-1.0"
+  },
+  "nim_version": "Nim Compiler Version 2.2.4 [Linux: amd64]\nCompiled at 2025-04-22\nCopyright (c) 2006-2025 by Andreas Rumpf\n\ngit hash: f7145dd26efeeeb6eeae6fff649db244d81b212d\nactive boot switches: -d:release\n",
+  "nim_binary_sha256": "8eda591ce66af95b583622c748df12017f6fb1c75364b0a23082836ed1f2d4bc",
+  "nim_distribution": {
+    "url": "https://nim-lang.org/download/nim-2.2.4-linux_x64.tar.xz",
+    "path": "${REFERENCE}/tools/nim-2.2.4-linux_x64.tar.xz",
+    "sha256": "791802138aaf19c8579232c50b4998ce2ae2928b791127ce5b4ef3c7af53fb46",
+    "bytes": 16154064,
+    "sha256_url": "https://nim-lang.org/download/nim-2.2.4-linux_x64.tar.xz.sha256"
+  },
+  "backend_compilers": {
+    "gcc": {
+      "path": "/usr/bin/gcc",
+      "sha256": "fb60c5945ce785d0cb2ef0303dac5249f25bd0d0324317a0734aae6aa24f609b"
+    },
+    "g++": {
+      "path": "/var/tmp/cp-audit-tools/env/bin/g++",
+      "sha256": "7eecba793bb654cdd46ac8fce7c1421b13ef07b441054b890409054d0fa0d720"
+    }
+  },
+  "semantics": "unsigned/nonnegative H=30, FastQuadVector, kth_largest(0), prev_value, count; explicit AVX512 if available, otherwise auto",
+  "official_control": "AtCoder Nim cpp release flags; second_compile only bypasses the source self-recompilation macro",
+  "optimized_control": "Exact flags from the supplied optimize() second-stage nim c command, C backend, ARC, danger, LTO, native; not an equal compiler control",
+  "binaries": {
+    "official_stream": {
+      "sha256": "a2de9062508c176dd8e058a71f3abf53b8fef69ed7c4bba897e452d655dee38f",
+      "command": [
+        "${REFERENCE}/tools/nim-2.2.4/bin/nim",
+        "cpp",
+        "-d:release",
+        "--opt:speed",
+        "--multimethods:on",
+        "--warning[SmallLshouldNotBeUsed]:off",
+        "--hints:off",
+        "--maxLoopIterationsVM:10000000000000",
+        "--maxCallDepthVM:10000000000000",
+        "-d:second_compile",
+        "--listCmd:on",
+        "--nimcache:${REFERENCE}/official_stream-cache",
+        "--out:${REFERENCE}/official_stream",
+        "${REFERENCE}/Supplied.nim"
+      ],
+      "backend_compile": [
+        [
+          "${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_stream-cache/@mSupplied.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_stream-cache/@mSupplied.nim.cpp.o ${REFERENCE}/official_stream-cache/@mSupplied.nim.cpp"
+        ]
+      ],
+      "backend_link": "g++   -o ${REFERENCE}/official_stream ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp.o ${REFERENCE}/official_stream-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp.o ${REFERENCE}/official_stream-cache/@mSupplied.nim.cpp.o  -pthread -pthread -lm -lm -lrt   -ldl",
+      "build_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "official_api": {
+      "sha256": "7cfe49216219a6caf4a47fbdd406c56d47d0be73efd9a4a4da42562a370e3ea8",
+      "command": [
+        "${REFERENCE}/tools/nim-2.2.4/bin/nim",
+        "cpp",
+        "-d:release",
+        "--opt:speed",
+        "--multimethods:on",
+        "--warning[SmallLshouldNotBeUsed]:off",
+        "--hints:off",
+        "--maxLoopIterationsVM:10000000000000",
+        "--maxCallDepthVM:10000000000000",
+        "-d:second_compile",
+        "--listCmd:on",
+        "--nimcache:${REFERENCE}/official_api-cache",
+        "--out:${REFERENCE}/official_api",
+        "${REFERENCE}/Instrumented.nim"
+      ],
+      "backend_compile": [
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp"
+        ],
+        [
+          "${REFERENCE}/official_api-cache/@mInstrumented.nim.cpp",
+          "g++ -c -std=gnu++17 -funsigned-char  -w -fmax-errors=3 -fpermissive -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/official_api-cache/@mInstrumented.nim.cpp.o ${REFERENCE}/official_api-cache/@mInstrumented.nim.cpp"
+        ]
+      ],
+      "backend_link": "g++   -o ${REFERENCE}/official_api ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sassertions.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.cpp.o ${REFERENCE}/official_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.cpp.o ${REFERENCE}/official_api-cache/@mInstrumented.nim.cpp.o  -pthread -pthread -lm -lm -lrt   -ldl",
+      "build_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "optimized_stream": {
+      "sha256": "91e7d3e5a3a98c23c0f88999075ae4902ce51ced7a491eb729b098e4d01b191a",
+      "command": [
+        "${REFERENCE}/tools/nim-2.2.4/bin/nim",
+        "c",
+        "-d:danger",
+        "-d:second_compile",
+        "-d:useMalloc",
+        "--gc:arc",
+        "--panics:on",
+        "--opt:speed",
+        "--checks:off",
+        "--passC:-flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta",
+        "--passL:-flto",
+        "--hints:off",
+        "--listCmd:on",
+        "--nimcache:${REFERENCE}/optimized_stream-cache",
+        "--out:${REFERENCE}/optimized_stream",
+        "${REFERENCE}/Supplied.nim"
+      ],
+      "backend_compile": [
+        [
+          "${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_stream-cache/@mSupplied.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_stream-cache/@mSupplied.nim.c.o ${REFERENCE}/optimized_stream-cache/@mSupplied.nim.c"
+        ]
+      ],
+      "backend_link": "gcc   -o ${REFERENCE}/optimized_stream ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c.o ${REFERENCE}/optimized_stream-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c.o ${REFERENCE}/optimized_stream-cache/@mSupplied.nim.c.o  -pthread -pthread -lm -lm -lrt  -flto  -ldl",
+      "build_log_sha256": "8af90f62a4f865c23b6f7d37c34d0852ea4b1d4bfc14448ed06f339ab713ec29"
+    },
+    "optimized_api": {
+      "sha256": "585eb1b3181927d7688d660b460c10ffe1a73ee9b71f4f0db39e83c8711bab3a",
+      "command": [
+        "${REFERENCE}/tools/nim-2.2.4/bin/nim",
+        "c",
+        "-d:danger",
+        "-d:second_compile",
+        "-d:useMalloc",
+        "--gc:arc",
+        "--panics:on",
+        "--opt:speed",
+        "--checks:off",
+        "--passC:-flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta",
+        "--passL:-flto",
+        "--hints:off",
+        "--listCmd:on",
+        "--nimcache:${REFERENCE}/optimized_api-cache",
+        "--out:${REFERENCE}/optimized_api",
+        "${REFERENCE}/Instrumented.nim"
+      ],
+      "backend_compile": [
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c"
+        ],
+        [
+          "${REFERENCE}/optimized_api-cache/@mInstrumented.nim.c",
+          "gcc -c  -w -fmax-errors=3 -pthread -mavx2 -DCPLIB_FASTIO_NO_MMAP -flto -m64 -march=native -ffast-math -funroll-loops -fipa-pta -O3 -fno-strict-aliasing -fno-ident -fno-math-errno   -I${REFERENCE}/tools/nim-2.2.4/lib -I${REFERENCE} -o ${REFERENCE}/optimized_api-cache/@mInstrumented.nim.c.o ${REFERENCE}/optimized_api-cache/@mInstrumented.nim.c"
+        ]
+      ],
+      "backend_link": "gcc   -o ${REFERENCE}/optimized_api ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sexceptions.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdigitsutils.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sprivate@sdragonbox.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@sformatfloat.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem@sdollars.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@stypedthreads.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@ssyncio.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@ssystem.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@soptions.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@spure@stimes.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@senvvars.nim.c.o ${REFERENCE}/optimized_api-cache/@mtools@snim-2.2.4@slib@sstd@scmdline.nim.c.o ${REFERENCE}/optimized_api-cache/@mInstrumented.nim.c.o  -pthread -pthread -lm -lm -lrt  -flto  -ldl",
+      "build_log_sha256": "8af90f62a4f865c23b6f7d37c34d0852ea4b1d4bfc14448ed06f339ab713ec29"
+    }
+  },
+  "portable_path": "${REFERENCE} is the prepared reference directory"
+}

@@ -204,9 +204,104 @@ void uniform_test() {
 	}
 }
 
+template<class Vector>
+void check_boundaries(const Vector& actual, const std::vector<std::uint8_t>& expected, const std::vector<int>& boundaries = {}) {
+	int n = int(expected.size());
+	std::vector<Counts> sums(n + 1);
+	for (int i = 0; i < n; ++i) sums[i + 1] = sums[i], ++sums[i + 1][expected[i]];
+	std::vector<int> points{0, n};
+	for (int p = 0; p <= n; p += n <= 512 ? 1 : 64)
+		for (int d = -1; d <= 1; ++d) if (0 <= p + d && p + d <= n) points.push_back(p + d);
+	for (int p : boundaries)
+		for (int d = -4; d <= 4; ++d) if (0 <= p + d && p + d <= n) points.push_back(p + d);
+	std::sort(points.begin(), points.end());
+	points.erase(std::unique(points.begin(), points.end()), points.end());
+	for (int p : points) {
+		assert(actual.ranks(p) == sums[p]);
+		for (int digit = 0; digit < 4; ++digit) assert(actual.rank(p, digit) == sums[p][digit]);
+		if (p < n) assert(actual.access_rank(p) == std::pair(sums[p][expected[p]], int(expected[p])));
+		for (auto [l, r] : {std::pair(p, p), std::pair(0, p), std::pair(p, n), std::pair(std::max(0, p - 65), std::min(n, p + 65))}) {
+			assert(actual.ranks(l, r) == std::pair(sums[l], sums[r]));
+			for (int digit = 0; digit < 4; ++digit)
+				assert(actual.rank(l, r, digit) == std::pair(sums[l][digit], sums[r][digit]));
+		}
+	}
+}
+
+template<int Block>
+void leaf_simd_test() {
+	using Vector = dynamic_wavelet_detail::QuadVector<Block, 4>;
+	std::array sizes{63, 64, 65, 255, 256, 257, 511, 512, 513, Block - 65, Block - 64, Block - 63, Block - 1, Block, Block + 1};
+	for (int n : sizes) for (int mode = 0; mode < (n == Block - 1 ? 2 : 1); ++mode) {
+		std::vector<std::uint8_t> expected(n);
+		for (int i = 0; i < n; ++i) expected[i] = std::uint8_t(mode ? 3 : (i * 11 + i / 7) % 4);
+		Vector actual(expected);
+		check_boundaries(actual, expected);
+		std::array positions{0, 1, 63, 64, 65, n - 577, n - 513, n - 512, n - 321, n - 257, n - 256, n - 1};
+		for (int p : positions) if (0 <= p && p < n) {
+			int old = expected[p], digit = (old + 1 + p % 3) % 4;
+			auto ranks = prefix(expected, p);
+			assert(actual.set_rank(p, digit) == std::tuple(ranks[old], old, ranks[digit]));
+			expected[p] = std::uint8_t(digit);
+			check_boundaries(actual, expected);
+			assert(actual.set_rank(p, digit) == std::tuple(ranks[digit], digit, ranks[digit]));
+		}
+		for (auto [from, to] : {std::pair(0, n - 1), std::pair(n - 1, 0), std::pair(63, n - 1), std::pair(n - 1, std::min(64, n - 1)), std::pair(n / 2, n / 2)}) {
+			if (from >= n) continue;
+			int old = expected[from], digit = (old + 1) % 4, rank = prefix(expected, from)[old];
+			expected.erase(expected.begin() + from);
+			int next = prefix(expected, to)[digit];
+			expected.insert(expected.begin() + to, std::uint8_t(digit));
+			assert(actual.move_rank(from, to, digit) == std::tuple(rank, old, next));
+			check_boundaries(actual, expected);
+		}
+		for (int p : {0, std::min(63, n - 1), std::min(64, n - 1), n - 1}) {
+			int old = expected[p], rank = prefix(expected, p)[old];
+			assert(actual.erase_rank(p) == std::pair(rank, old));
+			expected.erase(expected.begin() + p);
+			check_boundaries(actual, expected);
+			int digit = (old + 2) % 4;
+			assert(actual.insert(p, digit) == prefix(expected, p)[digit]);
+			expected.insert(expected.begin() + p, std::uint8_t(digit));
+			check_boundaries(actual, expected);
+		}
+		assert(actual.insert(n / 2, 1) == prefix(expected, n / 2)[1]);
+		expected.insert(expected.begin() + n / 2, 1);
+		check_boundaries(actual, expected);
+		int old = expected[n / 2];
+		assert(actual.erase_rank(n / 2) == std::pair(prefix(expected, n / 2)[old], old));
+		expected.erase(expected.begin() + n / 2);
+		check_boundaries(actual, expected);
+	}
+}
+
+template<int Block, int Branch>
+void pair_rank_boundaries(int n) {
+	using Vector = dynamic_wavelet_detail::QuadVector<Block, Branch>;
+	std::vector<std::uint8_t> expected(n);
+	for (int i = 0; i < n; ++i) expected[i] = std::uint8_t((i * 13 + i / 19) % 4);
+	Vector actual(expected);
+	int count = n <= Block ? 1 : (n - 1) / (Block * 3 / 4) + 1, position = 0;
+	std::vector<int> boundaries{0};
+	for (int i = 0; i < count; ++i) boundaries.push_back(position += n / count + (i < n % count));
+	check_boundaries(actual, expected, boundaries);
+	for (int iteration = 0; iteration < 6; ++iteration) {
+		int from = boundaries[boundaries.size() / 2] + iteration - 3, to = iteration & 1 ? 0 : n - 1;
+		int old = expected[from], digit = (old + iteration) % 4, rank = prefix(expected, from)[old];
+		expected.erase(expected.begin() + from);
+		int next = prefix(expected, to)[digit];
+		expected.insert(expected.begin() + to, std::uint8_t(digit));
+		assert(actual.move_rank(from, to, digit) == std::tuple(rank, old, next));
+		check_boundaries(actual, expected, boundaries);
+	}
+}
+
 int main() {
 	uniform_test<128>(); uniform_test<1024>(); uniform_test<32768>();
 	random_test<128, 4>(); random_test<192, 8>(); random_test<256, 32>(); random_test<1024, 32>(); random_test<32768, 4>();
 	structure<128, 4>(); structure<192, 8>(); structure<128, 32>(); default_height();
 	build_boundaries<128>(); build_boundaries<192>(); build_boundaries<1024>(); build_boundaries<32768>();
+	leaf_simd_test<1024>(); leaf_simd_test<4096>(); leaf_simd_test<8192>(); leaf_simd_test<16384>(); leaf_simd_test<32768>();
+	pair_rank_boundaries<128, 4>(128 * 4 * 4 + 1);
+	pair_rank_boundaries<1024, 32>(1024 * 32 + 1);
 }

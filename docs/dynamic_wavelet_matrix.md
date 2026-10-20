@@ -48,10 +48,12 @@ auto frequency = wm.count(0, wm.size(), 1);
 
 各段は [Dynamic Quad Vector](https://qandori.github.io/cp-library/components/dynamic_quad_vector.hpp.html) で保持します。4値の順位をまとめて取得し、代入では削除と挿入の木の更新を共有します。全要素が同じ桁値の段や、値を変えない代入は専用の経路を使います。`prev_value`・`next_value` は境界に沿って下降し、必要な場合に候補の枝から最大値・最小値を求めます。候補が一要素になった `count`・`select` などでは残りの桁を直接照合します。
 
+各段の葉は最大8192個の桁値を保持します。葉の bit 移動と累積個数の更新をまとめ、クエリ時にたどるノード数を減らします。初期構築では更新用の空きを残し、大きな葉の `select` は累積個数から対象 word を二分探索します。
+
 既定の内部処理は GCC・Clang の x86 で CPU の対応状況を実行時に調べ、AVX-512F／AVX2 と POPCNT を使うノード処理、BMI2 の PDEP を使う word 内の `select` を選びます。対応しない CPU や macOS ARM では通常の整数演算を使います。`-march=native` や呼び出し側への target 指定は不要です。include 前に `DYNAMIC_QUAD_DISABLE_SIMD` を定義すると実行時に選ぶ SIMD・POPCNT・BMI2 経路を、`DYNAMIC_QUAD_DISABLE_AVX512` を定義すると AVX-512 経路を無効にできます。
 
 第3テンプレート引数に既定と異なる `BitVector` を指定した場合は、従来の二分 Wavelet Matrix を使います。独自の `BitVector` のインターフェース要件は変わりません。`move_rank` がない場合は `erase_rank` と `insert` を組み合わせ、`select` で `access_rank` を使えない場合は順位検索の経路を使います。この二分実装の BMI2・AVX2 最適化はコンパイル時の指定に従うので、その場合は実行する CPU に合ったオプションを使ってください。
 
-[比較結果と再現手順](https://github.com/qandori/cp-library/blob/main/test/benchmark/dynamic_wavelet_quaternary.md)を別に記録しています。
+[比較結果と再現手順](https://github.com/qandori/cp-library/blob/main/test/benchmark/dynamic_wavelet_nim_round2.md)を別に記録しています。
 
 要素数を $$n$$、bit 数を $$B$$ として、構築は $$O(Bn)$$、挿入・代入は償却 $$O(B\log n)$$、削除・クエリは $$O(B\log n)$$ です。サイズ取得は $$O(1)$$、`clear`・`memory_usage`・`swap` は $$O(B)$$、`reserve(N)` は $$O(BN)$$、空間は $$O(BN)$$ です。$$N$$ は過去の最大要素数と予約容量の最大値です。

@@ -1,10 +1,7 @@
-#define PROBLEM "https://atcoder.jp/contests/arc190/tasks/arc190_b"
-#include "../math/combinatorics/binomial_prefix_sum_incremental.hpp"
-#include "../components/fast_io.hpp"
+#include "math/combinatorics/binomial_prefix_sum_incremental.hpp"
+#include "components/fast_io.hpp"
 
-int main() {
-	FastInput in;
-	FastOutput out;
+void solve_arc190_b(FastInput &in, FastOutput &out) {
 	int n, a, b, q;
 	in.read(n), in.read(a), in.read(b), in.read(q);
 	--a, --b;
@@ -28,3 +25,11 @@ int main() {
 		last = k, previous = upper;
 	}
 }
+
+#ifndef BINOMIAL_PREFIX_INCREMENTAL_ARC190_B_TEST
+int main() {
+	FastInput in;
+	FastOutput out;
+	solve_arc190_b(in, out);
+}
+#endif

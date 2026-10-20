@@ -78,7 +78,7 @@ def main():
         binaries = {}
         sources = {'micro': ROOT / 'test/benchmark/binomial_prefix_incremental.cpp',
                    'submitted': CACHE / 'submitted.cpp', 'sweeps': ROOT / 'test/benchmark/arc190_b_sweeps.cpp',
-                   'cdf': ROOT / 'test/binomial_prefix_sum_incremental_arc190_b.test.cpp',
+                   'cdf': ROOT / 'test/benchmark/binomial_prefix_incremental_arc190_b.cpp',
                    'official': CACHE / '61518705.cpp'}
         for mode, source in sources.items():
             binary = CACHE / (mode + '-' + name)
@@ -133,7 +133,7 @@ def main():
     sources = ['math/combinatorics/binomial_prefix_sum_incremental.hpp', 'components/binomial_prefix_core.hpp',
                'components/fps_factorials.hpp', 'math/mint.hpp', 'test/unit/binomial_prefix_sum_incremental.cpp',
                'test/benchmark/binomial_prefix_incremental.cpp', 'test/benchmark/binomial_prefix_incremental.py',
-               'test/binomial_prefix_sum_incremental_arc190_b.test.cpp', 'test/benchmark/arc190_b_sweeps.cpp']
+               'test/benchmark/binomial_prefix_incremental_arc190_b.cpp', 'test/benchmark/arc190_b_sweeps.cpp']
     report['sources'] = {name: sha(ROOT / name) for name in sources}
     (OUT / 'measurements.json').write_text(json.dumps(report, indent=2) + '\n')
 

@@ -1,0 +1,168 @@
+{
+  "retrieved_at": "2026-10-20T15:19:45.166509+00:00",
+  "listing": {
+    "count": 939,
+    "submissions": [
+      {
+        "id": 403571,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 14778368,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2026-09-18T09:25:08.332385Z",
+        "time": 0.034,
+        "user_name": "nandhagk"
+      },
+      {
+        "id": 405058,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 14692352,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2026-09-22T09:31:13.124051Z",
+        "time": 0.035,
+        "user_name": "Rohan_Kapri"
+      },
+      {
+        "id": 306174,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 20176896,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2025-08-10T12:14:56.263597Z",
+        "time": 0.035,
+        "user_name": "mukundan314"
+      },
+      {
+        "id": 278243,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 15982592,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2025-04-09T06:20:41.734926Z",
+        "time": 0.037,
+        "user_name": "chaihf"
+      },
+      {
+        "id": 269750,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 16097280,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2025-02-25T10:15:02.910839Z",
+        "time": 0.039,
+        "user_name": "mukundan314"
+      },
+      {
+        "id": 269548,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 16064512,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2025-02-24T10:34:54.321387Z",
+        "time": 0.039,
+        "user_name": "chaihf"
+      },
+      {
+        "id": 269545,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 15953920,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2025-02-24T10:16:53.704701Z",
+        "time": 0.039,
+        "user_name": "chaihf"
+      },
+      {
+        "id": 269752,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 16044032,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2025-02-25T10:24:21.342862Z",
+        "time": 0.04,
+        "user_name": "mukundan314"
+      },
+      {
+        "id": 257613,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 19038208,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2024-12-21T19:27:19.340863Z",
+        "time": 0.041,
+        "user_name": "mukundan314"
+      },
+      {
+        "id": 257610,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 19148800,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2024-12-21T19:14:55.206297Z",
+        "time": 0.042,
+        "user_name": "mukundan314"
+      }
+    ]
+  },
+  "references": [
+    {
+      "overview": {
+        "id": 403571,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 14778368,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2026-09-18T09:25:08.332385Z",
+        "time": 0.034,
+        "user_name": "nandhagk"
+      },
+      "source_sha256": "834fdfffd498cc90445f6d320de3f3fec6c52be4addb0eb1b4ca9ddff84e37b1",
+      "url": "https://judge.yosupo.jp/submission/403571"
+    },
+    {
+      "overview": {
+        "id": 405058,
+        "is_latest": true,
+        "lang": "cpp",
+        "memory": 14692352,
+        "problem_name": "vertex_add_subtree_sum",
+        "problem_title": "Vertex Add Subtree Sum",
+        "status": "AC",
+        "submission_time": "2026-09-22T09:31:13.124051Z",
+        "time": 0.035,
+        "user_name": "Rohan_Kapri"
+      },
+      "source_sha256": "f1885362eec2df76e08fdd941e47fa6ec433ca8d027b05a4982bfabf47fef085",
+      "url": "https://judge.yosupo.jp/submission/405058"
+    }
+  ],
+  "dsu_reference": {
+    "url": "https://raw.githubusercontent.com/NyaanNyaan/library/3c97a156745fe4cabdc77d6d602b9ed147126e87/tree/dsu-on-tree.hpp",
+    "commit": "3c97a156745fe4cabdc77d6d602b9ed147126e87",
+    "source_sha256": "5b0506af0cd7757ee09274885ba958ca6204f0c065c4293ef4793d1012a8ebb6"
+  },
+  "editorial": "https://atcoder.jp/contests/abc454/editorial/19112"
+}

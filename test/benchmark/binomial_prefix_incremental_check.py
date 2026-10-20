@@ -46,7 +46,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix='binomial-incremental-') as directory:
         binary = str(Path(directory) / 'check')
         for compiler in ['g++', 'clang++']:
-            for source in ['test/binomial_prefix_sum_incremental_arc190_b.test.cpp', 'test/benchmark/arc190_b_sweeps.cpp']:
+            for source in ['test/benchmark/binomial_prefix_incremental_arc190_b.cpp', 'test/benchmark/arc190_b_sweeps.cpp']:
                 subprocess.run([compiler, *flags, source, '-o', binary], cwd=ROOT, check=True)
                 for payload, expected in cases:
                     output = subprocess.check_output([binary], input=payload)
@@ -57,7 +57,7 @@ def main():
                 checks.append({'compiler': compiler, 'source': source, 'cases': len(cases), 'bundle': 'passed'})
                 print(compiler, source, len(cases), 'cases and bundle passed', flush=True)
     names = ['math/combinatorics/binomial_prefix_sum_incremental.hpp', 'test/unit/binomial_prefix_sum_incremental.cpp',
-             'test/binomial_prefix_sum_incremental_arc190_b.test.cpp', 'test/benchmark/arc190_b_sweeps.cpp',
+             'test/benchmark/binomial_prefix_incremental_arc190_b.cpp', 'test/benchmark/arc190_b_sweeps.cpp',
              'test/benchmark/binomial_prefix_incremental_check.py']
     report = {'result': 'passed', 'checks': checks, 'brute_grid_limit': 6, 'seed': 20261020,
               'sources': {name: hashlib.sha256((ROOT / name).read_bytes().replace(b'\r\n', b'\n')).hexdigest() for name in names}}

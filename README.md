@@ -68,6 +68,7 @@
 | `tree/lca.hpp` | LCA | [使い方](docs/lca.md) |
 | `tree/auxiliary_tree.hpp` | Auxiliary Tree | [使い方](docs/auxiliary_tree.md) |
 | `tree/rerooting.hpp` | 全方位木 DP | [使い方](docs/rerooting.md) |
+| `tree/dsu_on_tree.hpp` | DSU on Tree | [使い方](docs/dsu_on_tree.md) |
 
 ### 最短経路
 

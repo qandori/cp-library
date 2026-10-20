@@ -35,7 +35,7 @@ $$\displaystyle S(n-1,k-1)=\frac{S(n,k)-\binom{n-1}{k-1}}2$$
 
 `arc190_b_sweeps.cpp` は元の4走査を維持する。入力後の表の構築・共有、`binom` の再利用と、補正項を積にまとめる変更を行った。
 
-`../binomial_prefix_sum_incremental_arc190_b.test.cpp` は累積値の差を使う。0始まりの座標 a,b に対し、
+`binomial_prefix_incremental_arc190_b.cpp` は累積値の差を使う。0始まりの座標 a,b に対し、
 
 $$X_k=S(N-k,a+1)-S(N-k,a-k+1)$$
 
@@ -82,3 +82,7 @@ flock /tmp/cp-wm-opt.lock python3 test/verify.py --unit-only --cxx g++ clang++ -
 flock /tmp/cp-wm-opt.lock python3 test/verify.py --unit-only --sanitize --cxx clang++ --selection test/benchmark/results/binomial_prefix_incremental/selection.json
 flock /tmp/cp-wm-opt.lock python3 test/benchmark/binomial_prefix_incremental_check.py
 ```
+
+## CI の検証方法
+
+AtCoder は[システムテストケースの公開を停止](https://atcoder.jp/posts/1377)しているため、ARC190 B は外部ジャッジの自動取得ではなく `test/unit/binomial_prefix_incremental_arc190_b.cpp` で同じ提出用コードを検証する。公開サンプル3件、N<=6 の全座標・全分割列挙、連続・飛び飛びのクエリ、Q=200000 の隅の恒等式を使う。既存のライブラリ単体テストとともに GCC・Clang・ASan/UBSan の対象となる。これは AtCoder の非公開システムテストと同等の網羅性や AC を保証するものではない。上記の測定結果・ソースハッシュは測定時点の記録として保持する。

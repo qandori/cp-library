@@ -1,0 +1,618 @@
+$ g++ --version
+g++ (conda-forge gcc 15.2.0-20) 15.2.0
+Copyright (C) 2025 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+exit_code=0
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library -fsyntax-only /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/header.cpp
+exit_code=0
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library -DNDEBUG -fsyntax-only /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/header.cpp
+exit_code=0
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/example.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-example
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-example
+exit_code=0
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library -DNDEBUG test/dsu_on_tree_subtree_sum.test.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ g++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library -DNDEBUG test/dsu_on_tree_mode.test.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ clang++ --version
+clang version 21.1.8 (https://github.com/conda-forge/clangdev-feedstock 0586bae95bd818412431982353f925478061d031)
+Target: x86_64-conda-linux-gnu
+Thread model: posix
+InstalledDir: /var/tmp/cp-audit-tools/env/bin
+Configuration file: /var/tmp/cp-audit-tools/env/bin/x86_64-conda-linux-gnu-clang++.cfg
+exit_code=0
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library -fsyntax-only /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/header.cpp
+exit_code=0
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library -DNDEBUG -fsyntax-only /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/header.cpp
+exit_code=0
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library test/unit/dsu_on_tree.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang-unit
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang-unit
+exit_code=0
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/example.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-example
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-example
+exit_code=0
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library -DNDEBUG test/dsu_on_tree_subtree_sum.test.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library -DNDEBUG test/dsu_on_tree_mode.test.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ clang++ -std=c++2b -O2 -Wall -Wextra -Werror -I /mnt/c/Users/yukiz/Desktop/cp-library -fsanitize=address,undefined -fno-omit-frame-pointer -g test/unit/dsu_on_tree.cpp -o /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/sanitize-unit
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/sanitize-unit
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-subtree_sum
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/g++-mode
+exit_code=0
+$ /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/clang++-mode
+exit_code=0
+$ /usr/bin/python3 /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/docs.py
+Generated documentation for 1 library and judge sources
+exit_code=0
+$ /usr/bin/python3 .verify-helper/check-docs.py --selection /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/selection.json
+Checked documentation for 181 libraries; compiled 1 affected bundles
+exit_code=0
+$ /usr/bin/python3 /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/docs.py
+Generated documentation for 1 library and judge sources
+exit_code=0
+$ /usr/bin/python3 .verify-helper/check-docs.py --selection /mnt/c/Users/yukiz/Desktop/cp-library/.verify-helper/cache/dsu-on-tree/validation/metadata-only.json
+Checked documentation for 181 libraries; compiled 0 affected bundles
+exit_code=0

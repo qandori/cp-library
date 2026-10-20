@@ -87,6 +87,7 @@ class AffectedVerification(unittest.TestCase):
 
     def git(self, *arguments):
         return subprocess.check_output(["git", "-c", "core.hooksPath=" + os.devnull,
+                                        "-c", "maintenance.autoDetach=false", "-c", "gc.autoDetach=false",
                                         "-C", str(self.root), *arguments], stderr=subprocess.PIPE)
 
     def write(self, name, source):
@@ -125,6 +126,10 @@ class AffectedVerification(unittest.TestCase):
                 patch.object(ci, "environment_key", return_value="fixture"), contextlib.redirect_stdout(output):
             ci.main()
         return output.getvalue()
+
+    def test_fixture_git_waits_for_maintenance(self):
+        for name in ("maintenance.autoDetach", "gc.autoDetach"):
+            self.assertEqual(self.git("config", "--get", name), b"false\n")
 
     def test_sequence_header_scope(self):
         self.write("sequence/lis.hpp", "#pragma once\n")

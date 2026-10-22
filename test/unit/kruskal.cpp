@@ -101,7 +101,39 @@ void overflow(Cost a, Cost b) {
 	assert(caught);
 }
 
+template<class Cost>
+void sorting_boundaries() {
+	for (int m : {255, 256, 257, 1000}) for (int mode = 0; mode < 4; ++mode) {
+		Kruskal<Cost> graph(2);
+		Cost minimum = std::numeric_limits<Cost>::max();
+		int first = -1;
+		for (int i = 0; i < m; ++i) {
+			Cost cost = mode == 0 ? Cost(i / 8) : mode == 1 ? Cost((m - i) / 8) :
+				mode == 2 ? Cost(7) : i % 2 ? std::numeric_limits<Cost>::max() : std::numeric_limits<Cost>::lowest();
+			if (first == -1 || cost < minimum) minimum = cost, first = i;
+			graph.add_edge(0, 1, cost);
+		}
+		auto result = graph.solve();
+		assert(result.cost == minimum && result.edges == std::vector<int>{first});
+	}
+}
+
 int main() {
+	for (bool shuffled : {false, true}) {
+		std::vector<Edge> edges(253, {0, 1, 9});
+		edges.insert(edges.end(), { {0, 1, 1}, {1, 2, 1}, {0, 2, 1}, {2, 3, 1} });
+		if (shuffled) std::rotate(edges.begin(), edges.begin() + 254, edges.end());
+		Kruskal<> ties(4);
+		for (auto [u, v, cost] : edges) ties.add_edge(u, v, cost);
+		auto result = ties.solve();
+		assert(result.cost == 3 && result.connected());
+		assert(result.edges == (shuffled ? std::vector<int>{0, 1, 2} : std::vector<int>{253, 254, 256}));
+	}
+	sorting_boundaries<std::int64_t>();
+	sorting_boundaries<std::uint64_t>();
+	sorting_boundaries<std::int32_t>();
+	sorting_boundaries<double>();
+	sorting_boundaries<__int128_t>();
 	check(0, {});
 	check(1, {});
 	check(6, {});

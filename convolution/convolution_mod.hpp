@@ -69,17 +69,18 @@ std::vector<std::uint32_t> convolution_mod(const std::vector<T> &a, const std::v
 	assert(mod > 0);
 	if (a.empty() || b.empty()) return {};
 	assert(a.size() + b.size() - 1 <= std::size_t(1) << 24);
-	std::vector<std::uint32_t> x(a.size()), y(b.size());
+	std::vector<std::uint32_t> x(a.size()), y(&a == &b ? 0 : b.size());
 	auto reduce = [=](T value) {
 		__int128_t r = __int128_t(value) % mod;
 		return std::uint32_t(r < 0 ? r + mod : r);
 	};
 	std::transform(a.begin(), a.end(), x.begin(), reduce);
-	std::transform(b.begin(), b.end(), y.begin(), reduce);
-	if (mod == 998244353 && x.size() + y.size() - 1 <= std::size_t(1) << 23) return convolution_mod_detail::multiply<998244353, 3>(x, y);
-	auto p = convolution_mod_detail::multiply<convolution_mod_detail::p, 11>(x, y);
-	auto q = convolution_mod_detail::multiply<convolution_mod_detail::q, 3>(x, y);
-	auto r = convolution_mod_detail::multiply<convolution_mod_detail::r, 31>(x, y);
+	if (&a != &b) std::transform(b.begin(), b.end(), y.begin(), reduce);
+	const auto &other = &a == &b ? x : y;
+	if (mod == 998244353 && x.size() + other.size() - 1 <= std::size_t(1) << 23) return convolution_mod_detail::multiply<998244353, 3>(x, other);
+	auto p = convolution_mod_detail::multiply<convolution_mod_detail::p, 11>(x, other);
+	auto q = convolution_mod_detail::multiply<convolution_mod_detail::q, 3>(x, other);
+	auto r = convolution_mod_detail::multiply<convolution_mod_detail::r, 31>(x, other);
 	for (std::size_t i = 0; i < p.size(); ++i) p[i] = convolution_mod_detail::restore(p[i], q[i], r[i]) % mod;
 	return p;
 }

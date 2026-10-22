@@ -2,6 +2,7 @@
 #define KRUSKAL_HPP
 
 #include "../data_structure/union_find.hpp"
+#include "../components/radix_sort.hpp"
 #include <cstdint>
 #include <limits>
 #include <stdexcept>
@@ -64,11 +65,30 @@ class Kruskal {
 		std::vector<int> order;
 		order.reserve(edges_.size());
 		for (int id = 0; id < edge_count(); ++id) if (edges_[id].from != edges_[id].to) order.push_back(id);
-		std::sort(order.begin(), order.end(), [&](int a, int b) {
+		auto compare = [&](int a, int b) {
 			if (edges_[a].cost < edges_[b].cost) return true;
 			if (edges_[b].cost < edges_[a].cost) return false;
 			return a < b;
-		});
+		};
+		if constexpr (std::is_integral_v<Cost> && sizeof(Cost) <= sizeof(std::uint64_t)) {
+			if (order.size() < 256) std::sort(order.begin(), order.end(), compare);
+			else if (std::is_sorted(order.begin(), order.end(), [&](int a, int b) { return edges_[b].cost < edges_[a].cost; })) {
+				std::reverse(order.begin(), order.end());
+				for (std::size_t first = 0; first < order.size();) {
+					std::size_t last = first + 1;
+					while (last < order.size() && edges_[order[first]].cost == edges_[order[last]].cost) ++last;
+					std::reverse(order.begin() + first, order.begin() + last);
+					first = last;
+				}
+			} else {
+				using Key = std::make_unsigned_t<Cost>;
+				stable_radix_sort(order, [&](int id) {
+					Key key = static_cast<Key>(edges_[id].cost);
+					if constexpr (std::is_signed_v<Cost>) key ^= Key(1) << (std::numeric_limits<Key>::digits - 1);
+					return key;
+				});
+			}
+		} else std::sort(order.begin(), order.end(), compare);
 		UnionFind uf(n_);
 		Result result;
 		result.edges.reserve(std::min(order.size(), std::size_t(n_ ? n_ - 1 : 0)));

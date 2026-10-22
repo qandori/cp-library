@@ -3,7 +3,7 @@ title: 二部マッチング
 documentation_of: //graph/matching/bipartite_matching.hpp
 ---
 
-二部グラフの最大マッチングと、それを使う各種の集合・証明を求めます。左右の頂点番号はそれぞれ 0 始まりです。重み・容量は持ちません。
+二部グラフの最大マッチングと、それを使う各種の集合・証明を求めます。左右の頂点番号はそれぞれ 0 始まりです。重み・容量は持ちません。無向隣接リストをそのまま渡し、元の頂点番号で結果を受け取りたい場合は [二部グラフ（自動色分け）](bipartite_graph.md) を使います。
 
 ```cpp
 #include "lib/graph/matching/bipartite_matching.hpp"

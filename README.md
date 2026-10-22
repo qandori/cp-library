@@ -132,6 +132,7 @@
 
 | ファイル | 内容 | 使い方 |
 | --- | --- | --- |
+| `graph/matching/bipartite_graph.hpp` | 二部グラフの自動色分け・最大独立集合・最小頂点被覆 | [使い方](docs/bipartite_graph.md) |
 | `graph/matching/bipartite_matching.hpp` | 二部マッチング・最小頂点被覆・最大独立集合・辺の分類 | [使い方](docs/bipartite_matching.md) |
 | `graph/matching/general_matching.hpp` | General Matching（一般グラフ最大マッチング） | [使い方](docs/general_matching.md) |
 | `graph/matching/general_weighted_matching.hpp` | General Weighted Matching（一般グラフ最大重みマッチング） | [使い方](docs/general_weighted_matching.md) |

@@ -4,6 +4,7 @@
 #include "convolution/ordered_convolution_light.hpp"
 #include "convolution/max_min_convolution_light.hpp"
 #include "convolution/multivariate_convolution_light.hpp"
+#include "components/multivariate_ranked.hpp"
 #include <cassert>
 #include <array>
 #include <random>

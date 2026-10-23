@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <vector>
 #include "../components/multivariate_convolution_core.hpp"
+#include "../components/multivariate_ranked.hpp"
 
 #include "convolution.hpp"
 #include "../components/ntt.hpp"
@@ -43,7 +44,16 @@ std::vector<T> multivariate_convolution(const std::vector<T> &a, const std::vect
 				if (inverse) ntt->fft<true>(p, v.size()), ntt->scale(p, v.size(), 998244353 - 998244352 / v.size());
 				else ntt->fft<false>(p, v.size());
 			};
-			auto product = multivariate_convolution_detail::Core::multiply(x, y, dims, transform, convolution<mint>);
+			auto product = [&] {
+#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+				int degree = 0;
+				bool small = true;
+				for (int d : dims) degree += d - 1, small &= d <= 3;
+				if (small && degree < 24 && std::count(dims.begin(), dims.end(), 2) >= 3 && multivariate_convolution_detail::Core::available())
+					return multivariate_ranked_detail::multiply(x, y, dims);
+#endif
+				return multivariate_convolution_detail::Core::multiply(x, y, dims, transform, convolution<mint>);
+			}();
 			std::vector<T> result;
 			result.reserve(size);
 			for (auto v : product) result.push_back(T::raw(v.val()));

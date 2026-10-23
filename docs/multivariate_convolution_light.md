@@ -3,7 +3,7 @@ title: "多変数の切り捨て畳み込み（軽量実装）"
 documentation_of: //convolution/multivariate_convolution_light.hpp
 ---
 
-`light_convolution` 名前空間で呼び出します。法 998244353 の計算は軽量 NTT を使い、FPS 本体は読み込みません。高速実装と同時に include できます。
+`light_convolution` 名前空間で呼び出します。法 998244353 の計算は軽量 NTT を使い、FPS 本体は読み込みません。高速実装と同時に include できます。64 KiB の展開サイズに収めるため、小さい次元向けの ranked AVX2 専用処理は通常版のみで使います。その対象となる入力では軽量版の方が遅くなることがあるため、速度を優先する場合は通常版を使ってください。
 
 ```cpp
 #include "lib/convolution/multivariate_convolution_light.hpp"

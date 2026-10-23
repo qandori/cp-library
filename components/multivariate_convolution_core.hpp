@@ -6,7 +6,6 @@
 #include <cstddef>
 #include <vector>
 #include "mint_arithmetic.hpp"
-#include "multivariate_ranked.hpp"
 
 #if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
 #pragma GCC push_options
@@ -63,13 +62,6 @@ struct Core : mint_detail::Ops {
 	template <class Transform, class Product>
 	static std::vector<mint> multiply(const std::vector<mint> &a, const std::vector<mint> &b, std::vector<int> dims, Transform transform, Product product) {
 		int n = a.size();
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
-		int degree = 0;
-		bool small = true;
-		for (int d : dims) degree += d - 1, small &= d <= 3;
-		if (small && degree < 24 && std::count(dims.begin(), dims.end(), 2) >= 3 && available())
-			return multivariate_ranked_detail::multiply(a, b, dims);
-#endif
 		std::vector<int> order(dims.size());
 		for (int j = 0; j < int(order.size()); ++j) order[j] = j;
 		std::stable_sort(order.begin(), order.end(), [&](int x, int y) { return dims[x] > dims[y]; });

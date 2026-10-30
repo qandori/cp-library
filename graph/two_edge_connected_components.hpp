@@ -31,7 +31,7 @@ class TwoEdgeConnectedComponents {
 	void build() {
 		built_ = false;
 		UndirectedCSR graph(n, edges);
-		std::vector<int> ord(n, -1), low(n);
+		std::vector<int> ord(n, -1);
 		std::vector<Frame> stack;
 		stack.reserve(n);
 		vertices_.resize(n), component.resize(n), bridges.clear();
@@ -40,7 +40,7 @@ class TwoEdgeConnectedComponents {
 		boundaries_.clear(), boundaries_.push_back(n);
 		int timer = 0, top = 0, end = n;
 		for (int root = 0; root < n; ++root) if (ord[root] == -1) {
-			ord[root] = low[root] = timer++;
+			ord[root] = component[root] = timer++;
 			vertices_[top++] = root;
 			stack.push_back({root, -1, graph.start[root]});
 			while (!stack.empty()) {
@@ -49,7 +49,7 @@ class TwoEdgeConnectedComponents {
 				if (frame.next == graph.start[v + 1]) {
 					int parent = frame.parent;
 					stack.pop_back();
-					if (low[v] == ord[v]) {
+					if (component[v] == ord[v]) {
 						int id = static_cast<int>(boundaries_.size()) - 1, u;
 						do {
 							u = vertices_[--top];
@@ -59,15 +59,15 @@ class TwoEdgeConnectedComponents {
 						if (parent != -1) bridges.push_back(parent);
 					} else {
 						int p = stack.back().v;
-						low[p] = std::min(low[p], low[v]);
+						component[p] = std::min(component[p], component[v]);
 					}
 					continue;
 				}
 				auto [to, id] = graph.adj[frame.next++];
 				if (id == frame.parent) continue;
-				if (ord[to] != -1) low[v] = std::min(low[v], ord[to]);
+				if (ord[to] != -1) component[v] = std::min(component[v], ord[to]);
 				else {
-					ord[to] = low[to] = timer++;
+					ord[to] = component[to] = timer++;
 					vertices_[top++] = to;
 					stack.push_back({to, id, graph.start[to]});
 				}

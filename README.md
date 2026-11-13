@@ -344,6 +344,7 @@
 | `string/rolling_hash.hpp` | Rolling Hash | [使い方](docs/rolling_hash.md) |
 | `string/data_dependent_tree.hpp` | Data Dependent Tree・永続文字列・LCP・辞書順比較 | [使い方](docs/data_dependent_tree.md) |
 | `string/z_algorithm.hpp` | Z algorithm | [使い方](docs/z_algorithm.md) |
+| `string/wildcard_pattern_matching.hpp` | ワイルドカード付きパターンマッチング | [使い方](docs/wildcard_pattern_matching.md) |
 | `string/suffix_array.hpp` | Suffix Array・整数列対応 | [使い方](docs/suffix_array_public.md) |
 | `string/lcp_array.hpp` | LCP Array | [使い方](docs/lcp_array.md) |
 | `string/concatenation_order.hpp` | 文字列結合の辞書順比較・並べ替え | [使い方](docs/concatenation_order.md) |
@@ -465,6 +466,7 @@
 | `components/default_init_allocator.hpp` | Default Init Allocator | [使い方](docs/default_init_allocator.md) |
 | `components/sequence_match.hpp` | 前方・後方の一致比較 | [使い方](docs/sequence_match.md) |
 | `components/z_algorithm.hpp` | Z algorithm・接頭辞一致の列挙 | [使い方](docs/z_algorithm_core.md) |
+| `components/wildcard_pattern_matching.hpp` | ワイルドカード照合の内部部品 | [使い方](docs/wildcard_pattern_matching_core.md) |
 | `components/bitset_ops.hpp` | Bitset のワード演算・ビット数集約 | [使い方](docs/bitset_ops.md) |
 | `components/fenwick_bitset.hpp` | 更新可能ビット列の区間個数 | [使い方](docs/fenwick_bitset.md) |
 | `components/incremental_prefix_count.hpp` | 一点加算・接頭辞個数 | [使い方](docs/incremental_prefix_count.md) |

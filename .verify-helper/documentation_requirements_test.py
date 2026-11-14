@@ -23,7 +23,7 @@ class DocumentationRequirements(unittest.TestCase):
         self.assertEqual(check(self.root), 1)
 
     def test_complexity_table_cannot_defer_to_a_symbol(self):
-        self.document('a', '| 操作 | 時間計算量 | 使用空間 |\n| --- | --- | --- |\n'
+        self.document('a', '| 操作・型 | 時間計算量 | 使用空間 |\n| --- | --- | --- |\n'
                       '| solve() | $$T$$ | $$O(n)$$ |\n\nT は末尾で定義します。$$T=O(n)$$ です。')
         with self.assertRaisesRegex(AssertionError, '別記号'):
             check(self.root)

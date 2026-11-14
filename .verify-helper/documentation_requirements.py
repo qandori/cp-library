@@ -33,7 +33,7 @@ def table_errors(body):
             columns = []
             continue
         row = cells(line)
-        if row and row[0].strip('*`') in ('操作', '主な操作', '関数', '関数・操作', '操作・関数', 'API'):
+        if row and row[0].strip('*`') in ('操作', '操作・型', '主な操作', '関数', '関数・操作', '操作・関数', 'API'):
             columns = [i for i, cell in enumerate(row) if '計算量' in cell]
         elif columns and not all(re.fullmatch(r':?-+:?', cell) for cell in row):
             if any(i >= len(row) or row[i] in ('', '-', '—', 'TODO', '未記載') for i in columns):

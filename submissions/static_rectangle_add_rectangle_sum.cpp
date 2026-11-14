@@ -4,69 +4,6 @@
 
 
 
-#line 1 "components/fenwick_sum.hpp"
-
-
-
-#include <cassert>
-#include <bit>
-#include <limits>
-#include <vector>
-
-template <class T>
-class FenwickSum {
-	std::vector<T> data;
-
-  public:
-	FenwickSum() = default;
-	explicit FenwickSum(int n) { assert(n >= 0); data.resize(n); }
-	explicit FenwickSum(const std::vector<T> &a) { build(a); }
-	void build(const std::vector<T> &a) {
-		assert(a.size() <= static_cast<unsigned>(std::numeric_limits<int>::max()));
-		data = a;
-		constexpr unsigned step = sizeof(T) <= 8 ? 2 : 1;
-		for (unsigned i = step; i <= data.size(); i += step) {
-			if constexpr (step == 2) data[i - 1] += data[i - 2];
-			unsigned p = i + (i & -i);
-			if (p <= data.size()) data[p - 1] += data[i - 1];
-		}
-	}
-	int size() const { return static_cast<int>(data.size()); }
-	void add(int p, const T &x) {
-		assert(0 <= p && p < size());
-		for (unsigned i = unsigned(p) + 1; i <= data.size(); i += i & -i) data[i - 1] += x;
-	}
-	void add_pair(int p, const T &x, int q, const T &y) {
-		assert(0 <= p && p < size() && 0 <= q && q < size());
-		unsigned a = unsigned(p) + 1, b = unsigned(q) + 1;
-		while (a != b && (a <= data.size() || b <= data.size())) {
-			if (a < b) data[a - 1] += x, a += a & -a;
-			else data[b - 1] += y, b += b & -b;
-		}
-		T both = x;
-		both += y;
-		for (; a <= data.size(); a += a & -a) data[a - 1] += both;
-	}
-	T prefix(int r) const {
-		assert(0 <= r && r <= size());
-		T result{};
-		for (; r; r &= r - 1) result += data[r - 1];
-		return result;
-	}
-	template <class Accum>
-	Accum prod_as(int l, int r) const {
-		assert(0 <= l && l <= r && r <= size());
-		Accum result{};
-		if (l == r) return result;
-		unsigned shared = unsigned(l) & (std::numeric_limits<unsigned>::max() << std::bit_width(unsigned(l ^ r)));
-		for (; unsigned(l) != shared; l &= l - 1) result -= data[l - 1];
-		for (; unsigned(r) != shared; r &= r - 1) result += data[r - 1];
-		return result;
-	}
-	T prod(int l, int r) const { return prod_as<T>(l, r); }
-};
-
-
 #line 1 "components/radix_sort.hpp"
 
 
@@ -77,7 +14,7 @@ class FenwickSum {
 #include <cstdint>
 #include <type_traits>
 #include <utility>
-#line 11 "components/radix_sort.hpp"
+#include <vector>
 
 template <int Bits, class T, class Key>
 void stable_radix_sort(std::vector<T> &values, Key &&key) {
@@ -163,7 +100,25 @@ void sort_by_key(std::vector<T> &values, Key key) {
 
 
 
+#line 6 "components/rectangle_sum_polynomial.hpp"
+#if defined(__x86_64__)
+#include <emmintrin.h>
+#endif
+
+namespace mint_detail { struct Mint; }
+
 namespace rectangle_sum_detail {
+
+template <class T, bool = std::is_integral_v<T> && !std::is_same_v<T, bool>>
+struct Storage { using type = T; };
+
+template <class T>
+struct Storage<T, true> { using type = std::conditional_t<(sizeof(T) < sizeof(unsigned)), unsigned, std::make_unsigned_t<T>>; };
+
+#if defined(__SIZEOF_INT128__)
+template <>
+struct Storage<__int128_t, false> { using type = __uint128_t; };
+#endif
 
 template <class T>
 struct Polynomial {
@@ -173,10 +128,29 @@ struct Polynomial {
 		return {value, ax, by, ax * b};
 	}
 	Polynomial &operator+=(const Polynomial &other) {
+#if defined(__x86_64__)
+		if constexpr (std::is_same_v<T, mint_detail::Mint>) {
+			static_assert(sizeof(Polynomial) == 16 && sizeof(T) == 4);
+			auto modulus = _mm_set1_epi32(2 * 998244353);
+			auto sum = _mm_add_epi32(_mm_loadu_si128(reinterpret_cast<const __m128i *>(this)), _mm_loadu_si128(reinterpret_cast<const __m128i *>(&other)));
+			auto difference = _mm_sub_epi32(sum, modulus);
+			_mm_storeu_si128(reinterpret_cast<__m128i *>(this), _mm_add_epi32(difference, _mm_and_si128(_mm_srai_epi32(difference, 31), modulus)));
+			return *this;
+		}
+#endif
 		weight += other.weight; x += other.x; y += other.y; xy += other.xy;
 		return *this;
 	}
 	Polynomial &operator-=(const Polynomial &other) {
+#if defined(__x86_64__)
+		if constexpr (std::is_same_v<T, mint_detail::Mint>) {
+			static_assert(sizeof(Polynomial) == 16 && sizeof(T) == 4);
+			auto modulus = _mm_set1_epi32(2 * 998244353);
+			auto difference = _mm_sub_epi32(_mm_loadu_si128(reinterpret_cast<const __m128i *>(this)), _mm_loadu_si128(reinterpret_cast<const __m128i *>(&other)));
+			_mm_storeu_si128(reinterpret_cast<__m128i *>(this), _mm_add_epi32(difference, _mm_and_si128(_mm_srai_epi32(difference, 31), modulus)));
+			return *this;
+		}
+#endif
 		weight -= other.weight; x -= other.x; y -= other.y; xy -= other.xy;
 		return *this;
 	}
@@ -186,12 +160,19 @@ struct Polynomial {
 }
 
 
-#line 13 "data_structure/static_rectangle_add_rectangle_sum.hpp"
+#line 7 "data_structure/static_rectangle_add_rectangle_sum.hpp"
+#include <bit>
+#line 9 "data_structure/static_rectangle_add_rectangle_sum.hpp"
+#include <cassert>
+#line 11 "data_structure/static_rectangle_add_rectangle_sum.hpp"
+#include <limits>
+#line 14 "data_structure/static_rectangle_add_rectangle_sum.hpp"
 
 template <class T = std::int64_t, class Coordinate = std::int64_t>
 class StaticRectangleAddRectangleSum {
 	static_assert(std::is_integral_v<Coordinate> && !std::is_same_v<Coordinate, bool> && sizeof(Coordinate) <= 8);
-	using Node = rectangle_sum_detail::Polynomial<T>;
+	using Value = typename rectangle_sum_detail::Storage<T>::type;
+	using Node = rectangle_sum_detail::Polynomial<Value>;
 	struct Rectangle { Coordinate left, down, right, up; };
 	struct Update { Rectangle rectangle; T value; };
 	std::vector<Update> updates_;
@@ -212,37 +193,42 @@ class StaticRectangleAddRectangleSum {
 		return static_cast<int>(queries_.size()) - 1;
 	}
 	std::vector<T> solve() const {
-		std::vector<T> answers(queries_.size());
-		if (updates_.empty() || queries_.empty()) return answers;
+		std::vector<Value> answers(queries_.size());
+		auto result = [&]() -> std::vector<T> {
+			if constexpr (std::is_same_v<T, Value>) return std::move(answers);
+			else return std::vector<T>(answers.begin(), answers.end());
+		};
+		if (updates_.empty() || queries_.empty()) return result();
 		if (std::min(updates_.size(), queries_.size()) <= 4 || updates_.size() <= 4096 / queries_.size()) {
 			for (std::size_t i = 0; i < queries_.size(); ++i)
 				for (const auto &update : updates_) {
 					const auto &a = queries_[i], &b = update.rectangle;
 					Coordinate left = std::max(a.left, b.left), right = std::min(a.right, b.right);
 					Coordinate down = std::max(a.down, b.down), up = std::min(a.up, b.up);
-					if (left < right && down < up) answers[i] += update.value * (T(right) - T(left)) * (T(up) - T(down));
+					if (left < right && down < up) answers[i] += Value(update.value) * (Value(right) - Value(left)) * (Value(up) - Value(down));
 				}
-			return answers;
+			return result();
 		}
 		int n = static_cast<int>(updates_.size()), count = n + static_cast<int>(queries_.size());
 		auto rectangle = [&](int id) -> const Rectangle & { return id < n ? updates_[id].rectangle : queries_[id - n]; };
-		struct Endpoint { Coordinate y; int id; };
-		struct Event { Coordinate x; T down, up, weight; int low, high, id; };
-		std::vector<int> ranks(2 * std::size_t(count));
+		struct Endpoint { Coordinate coordinate; int id; };
+		struct Event { Value x, down, up, weight; int low, high, id; };
 		std::vector<Event> events;
 		int size = 0;
 		{
+			std::vector<int> ranks(2 * std::size_t(count));
 			std::vector<Endpoint> endpoints;
 			endpoints.reserve(2 * std::size_t(count));
 			for (int i = 0; i < count; ++i) {
 				const auto &r = rectangle(i);
+				if (r.left == r.right || r.down == r.up) continue;
 				endpoints.push_back({r.down, 2 * i}); endpoints.push_back({r.up, 2 * i + 1});
 			}
-			radix_sort_detail::sort_by_key(endpoints, [](const Endpoint &e) { return e.y; });
+			radix_sort_detail::sort_by_key<11>(endpoints, [](const Endpoint &e) { return e.coordinate; });
 			for (std::size_t first = 0; first < endpoints.size();) {
 				std::size_t last = first;
 				bool update = false;
-				while (last < endpoints.size() && endpoints[last].y == endpoints[first].y) {
+				while (last < endpoints.size() && endpoints[last].coordinate == endpoints[first].coordinate) {
 					ranks[endpoints[last].id] = size;
 					update = update || endpoints[last].id < 2 * n;
 					++last;
@@ -250,29 +236,59 @@ class StaticRectangleAddRectangleSum {
 				if (update) ++size;
 				first = last;
 			}
+			endpoints.clear();
+			for (int i = 0; i < count; ++i) {
+				const auto &r = rectangle(i);
+				if (r.left == r.right || r.down == r.up) continue;
+				endpoints.push_back({r.left, 2 * i}); endpoints.push_back({r.right, 2 * i + 1});
+			}
+			radix_sort_detail::sort_by_key<11>(endpoints, [](const Endpoint &e) { return e.coordinate; });
+			while (!endpoints.empty() && endpoints.back().id < 2 * n) endpoints.pop_back();
+			events.reserve(endpoints.size());
+			for (const auto &endpoint : endpoints) {
+				int i = endpoint.id / 2;
+				bool right = endpoint.id & 1;
+				const auto &r = rectangle(i);
+				Value weight = i < n ? Value(updates_[i].value) : Value{};
+				int id = i < n ? 0 : i - n + 1;
+				events.push_back({Value(endpoint.coordinate), Value(r.down), Value(r.up), right ? Value{} - weight : weight,
+					ranks[2 * i], ranks[2 * i + 1], right ? id : -id});
+			}
 		}
-		events.reserve(2 * std::size_t(count));
-		for (int i = 0; i < count; ++i) {
-			const auto &r = rectangle(i);
-			if (r.left == r.right || r.down == r.up) continue;
-			T weight = i < n ? updates_[i].value : T{};
-			int id = i < n ? 0 : i - n + 1;
-			events.push_back({r.left, T(r.down), T(r.up), weight, ranks[2 * i], ranks[2 * i + 1], -id});
-			events.push_back({r.right, T(r.down), T(r.up), T{} - weight, ranks[2 * i], ranks[2 * i + 1], id});
-		}
-		radix_sort_detail::sort_by_key(events, [](const Event &e) { return e.x; });
-		FenwickSum<Node> tree(size);
+		std::vector<Node> tree(size);
 		for (const auto &event : events) {
-			T x(event.x);
+			const Value &x = event.x;
 			if (!event.id) {
-				tree.add_pair(event.low, Node::corner(x, event.down, event.weight), event.high, Node::corner(x, event.up, T{} - event.weight));
+				Node low = Node::corner(x, event.down, event.weight), high = Node::corner(x, event.up, Value{} - event.weight), both = low;
+				both += high;
+				unsigned a = event.low + 1, b = event.high + 1;
+				while (a != b && (a <= unsigned(size) || b <= unsigned(size))) {
+					if (a < b) { tree[a - 1] += low; a += a & -a; }
+					else { tree[b - 1] += high; b += b & -b; }
+				}
+				for (; a <= unsigned(size); a += a & -a) tree[a - 1] += both;
 			} else {
-				T value = tree.prefix(event.high).evaluate(x, event.up) - tree.prefix(event.low).evaluate(x, event.down);
+				Node low, high;
+				unsigned a = event.low, b = event.high;
+				if constexpr (std::is_unsigned_v<Value> || std::is_same_v<Value, __uint128_t> || requires { Value::mod(); }) {
+					unsigned common = a & (std::numeric_limits<unsigned>::max() << std::bit_width(a ^ b));
+					for (; a != common; a &= a - 1) low += tree[a - 1];
+					for (; b != common; b &= b - 1) high += tree[b - 1];
+					for (; common; common &= common - 1) {
+						const auto &node = tree[common - 1];
+						low.weight += node.weight; high.weight += node.weight;
+						low.x += node.x; high.x += node.x;
+					}
+				} else {
+					for (; a; a &= a - 1) low += tree[a - 1];
+					for (; b; b &= b - 1) high += tree[b - 1];
+				}
+				Value value = high.evaluate(x, event.up) - low.evaluate(x, event.down);
 				if (event.id < 0) answers[-event.id - 1] -= value;
 				else answers[event.id - 1] += value;
 			}
 		}
-		return answers;
+		return result();
 	}
 };
 

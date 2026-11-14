@@ -10,6 +10,7 @@ library_category: components/data_structure
 
 | 操作 | 内容・返り値 | 時間計算量 | 使用空間 |
 | --- | --- | --- | --- |
+| `Storage<T>::type` | 公開ライブラリの内部計算に使う型。組み込み整数型は 32 bit 以上で十分な幅の符号なし整数型、`__int128_t` は `__uint128_t`、それ以外は `T` | —（型） | —（型） |
 | `Polynomial<T>()` | 四つの係数を 0 にする | $$O(1)$$ | $$O(1)$$ |
 | `Polynomial<T>::corner(a,b,value)` | `value*(x-a)*(y-b)` を表す係数を返す。引数の型は全て `T` | $$O(1)$$ | $$O(1)$$ |
 | `operator+=` / `operator-=` | 各係数を加減し、自身への参照を返す | $$O(1)$$ | $$O(1)$$ |

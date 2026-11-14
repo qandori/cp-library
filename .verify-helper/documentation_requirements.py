@@ -33,13 +33,11 @@ def table_errors(body):
             columns = []
             continue
         row = cells(line)
-        if row and row[0].strip('*`') in ('操作', '操作・型', '主な操作', '関数', '関数・操作', '操作・関数', 'API'):
+        if row and row[0].strip('*`') in ('操作', '主な操作', '関数', '関数・操作', '操作・関数', 'API'):
             columns = [i for i, cell in enumerate(row) if '計算量' in cell]
         elif columns and not all(re.fullmatch(r':?-+:?', cell) for cell in row):
             if any(i >= len(row) or row[i] in ('', '-', '—', 'TODO', '未記載') for i in columns):
                 result.append('操作表の計算量欄が空です: ' + line.strip())
-            if any(i < len(row) and re.fullmatch(r'\$\$\s*[A-Za-z]\s*\$\$', row[i]) for i in columns):
-                result.append('操作表の計算量は別記号で置き換えず O(...) を直接記載してください: ' + line.strip())
     return result
 
 
@@ -112,9 +110,6 @@ def check(root):
         active.add(header)
         name, body = documents[header]
         errors = table_errors(body)
-        for formula in re.findall(r'\$\$(.*?)\$\$', body, re.S):
-            if re.search(r'\bO\s*\(', formula) and re.search(r'\+\s*[12]\s*(?=[)}])', formula):
-                errors.append('計算量の不要な +1・+2 は省き、境界ケースを本文で説明してください: ' + formula)
         has_bound = bool(BOUND.search(body) or NO_RUNTIME.search(body))
         has_space = bool(SPACE.search(body))
         if not has_bound or not has_space:

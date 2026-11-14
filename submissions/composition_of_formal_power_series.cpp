@@ -4849,6 +4849,9 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 	using F = FormalPowerSeries;
 	using Sparse = fps_detail::SparseSeries;
 	using base::base;
+	using base::begin;
+	using base::data;
+	using base::size;
 
 	FormalPowerSeries() = default;
 	FormalPowerSeries(base v) : base(std::move(v)) {}
@@ -4875,12 +4878,12 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 		return r;
 	}
 	F &operator+=(const F &g) {
-		if (this->size() < g.size()) this->resize(g.size());
+		if (size() < g.size()) this->resize(g.size());
 		for (std::size_t i = 0; i < g.size(); ++i) (*this)[i] += g[i];
 		return *this;
 	}
 	F &operator-=(const F &g) {
-		if (this->size() < g.size()) this->resize(g.size());
+		if (size() < g.size()) this->resize(g.size());
 		for (std::size_t i = 0; i < g.size(); ++i) (*this)[i] -= g[i];
 		return *this;
 	}
@@ -4905,13 +4908,13 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 
 	F &operator<<=(int d) {
 		assert(d >= 0);
-		auto edge = std::shift_right(this->begin(), this->end(), d);
-		std::fill(this->begin(), edge, T(0));
+		auto edge = std::shift_right(begin(), this->end(), d);
+		std::fill(begin(), edge, T(0));
 		return *this;
 	}
 	F &operator>>=(int d) {
 		assert(d >= 0);
-		auto edge = std::shift_left(this->begin(), this->end(), d);
+		auto edge = std::shift_left(begin(), this->end(), d);
 		std::fill(edge, this->end(), T(0));
 		return *this;
 	}
@@ -4965,14 +4968,14 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 
 	F pre(int n) const {
 		assert(n >= 0);
-		return F(this->begin(), this->begin() + std::min<int>(n, this->size()));
+		return F(begin(), begin() + std::min<int>(n, size()));
 	}
 	void shrink() { O::trim(*this); }
 	void trim() { shrink(); }
 
 	F div_series(const F &g, int deg = -1) const {
 		if constexpr (!std::is_same_v<T, mint>) return export_work(import_work(*this).div_series(import_work(g), deg));
-		if (deg < 0) deg = this->size();
+		if (deg < 0) deg = size();
 		assert(deg >= 0);
 		if (!deg) return {};
 		assert(!g.empty() && g[0] != T(0));
@@ -4981,7 +4984,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 		if constexpr (std::is_same_v<T, mint>) {
 			if (deg >= 129 && deg <= (1 << 23) && g.size() >= 64 && NTT::vectorized()) {
 				F r;
-				fps_detail::blocked_poly::native_div_series(this->data(), this->size(), g.data(), g.size(), r, deg);
+				fps_detail::blocked_poly::native_div_series(data(), size(), g.data(), g.size(), r, deg);
 				return r;
 			}
 		}
@@ -4994,11 +4997,11 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 	F inv(int deg = -1) const {
 		if constexpr (!std::is_same_v<T, mint>) return export_work(import_work(*this).inv(deg));
 		else {
-			if (deg < 0) deg = static_cast<int>(this->size());
+			if (deg < 0) deg = static_cast<int>(size());
 			assert(deg >= 0);
 			if (deg == 0) return {};
 			assert(!this->empty() && (*this)[0] != T(0));
-			auto terms = Sparse::collect(this->data(), this->size(), deg, 32);
+			auto terms = Sparse::collect(data(), size(), deg, 32);
 			int stride = 0;
 			for (auto term : terms) stride = std::gcd(stride, term.first);
 			if (terms.size() <= 32 && (deg <= 256 || terms.size() <= 12ULL * stride)) {
@@ -5013,13 +5016,13 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 				const int block = 1 << (std::bit_width(static_cast<unsigned>(deg)) - 1), tail = deg - block;
 				if (tail > 0 && tail <= 96) {
 					fps_detail::prepare_fps_output(result, deg);
-					fps_detail::blocked_poly::native_inverse(this->data(), this->size(), result, block);
+					fps_detail::blocked_poly::native_inverse(data(), size(), result, block);
 					result.resize(deg);
 					for (int i = block; i < deg; ++i)
-						result[i] = -result[0] * dot(this->data() + 1, result.data() + i - 1, std::min<int>(i, this->size() - 1));
+						result[i] = -result[0] * dot(data() + 1, result.data() + i - 1, std::min<int>(i, size() - 1));
 					return result;
 				}
-				fps_detail::blocked_poly::native_inverse(this->data(), this->size(), result, deg);
+				fps_detail::blocked_poly::native_inverse(data(), size(), result, deg);
 				return result;
 			}
 #endif
@@ -5028,7 +5031,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 			g.resize(std::min(deg, 32));
 			for (int i = 1; i < static_cast<int>(g.size()); ++i)
 				g[i] =
-					-g[0] * dot(this->data() + 1, g.data() + i - 1, std::min<int>(i, this->size() - 1));
+					-g[0] * dot(data() + 1, g.data() + i - 1, std::min<int>(i, size() - 1));
 #if CP_X86
 			fps_detail::FpsWords storage;
 			Word *a = nullptr, *b = nullptr;
@@ -5047,14 +5050,14 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 				if (m >= 32 && (deg - m <= 32 || (m >= 512 && deg - m <= 96))) {
 					g.resize(deg);
 					for (int i = m; i < deg; ++i) {
-						const int count = std::min<int>(i, this->size() - 1);
-						g[i] = -g[0] * dot(this->data() + 1, g.data() + i - 1, count);
+						const int count = std::min<int>(i, size() - 1);
+						g[i] = -g[0] * dot(data() + 1, g.data() + i - 1, count);
 					}
 					break;
 				}
 #if CP_X86
 				if (m >= 64 && n <= (1 << 23) && NTT::vectorized()) {
-					int lo = std::min<int>(n, this->size());
+					int lo = std::min<int>(n, size());
 					std::copy_n(words(*this), lo, a);
 					std::fill(a + lo, a + n, Word(0));
 					std::copy_n(words(g), m, b);
@@ -5091,9 +5094,9 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 	F sqrt(int deg = -1) const {
 		if constexpr (!std::is_same_v<T, mint>) return export_work(import_work(*this).sqrt(deg));
 		else {
-			if (deg < 0) deg = static_cast<int>(this->size());
+			if (deg < 0) deg = static_cast<int>(size());
 			assert(deg >= 0);
-			int last = static_cast<int>(std::min<std::size_t>(deg, this->size())), first = 0;
+			int last = static_cast<int>(std::min<std::size_t>(deg, size())), first = 0;
 			while (first < last && (*this)[first] == T(0)) ++first;
 			if (first == last) return F(deg);
 			if (first & 1) return {};
@@ -5107,7 +5110,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 			}
 			const int shift = first / 2, target = deg - shift;
 			if (target >= 256 && unsigned(target) < T::mod()) {
-				auto terms = Sparse::collect(this->data() + first, last - first, target);
+				auto terms = Sparse::collect(data() + first, last - first, target);
 				if (terms.size() <= 12) {
 					const T inverse = (*this)[first].inv();
 					for (auto &[j, x] : terms) x *= inverse;
@@ -5123,7 +5126,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 				result.resize(shift);
 				const int block = std::bit_floor(unsigned(target)), tail = target - block;
 				const int work = block >= 512 && tail <= 8 ? block : target;
-				fps_detail::blocked_poly::native_sqrt(this->data() + first, last - first, result, work, constant);
+				fps_detail::blocked_poly::native_sqrt(data() + first, last - first, result, work, constant);
 				if (work < target) {
 					result.resize(deg);
 					const T factor = (constant * T(2)).inv();
@@ -5133,7 +5136,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 				return result;
 			}
 #endif
-			F f(this->begin() + first, this->begin() + last);
+			F f(begin() + first, begin() + last);
 			f.resize(target);
 			const T half = T(2).inv(), scale = half / constant;
 			F g(std::min(target, 32));
@@ -5186,7 +5189,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 	}
 
 	[[nodiscard]] T eval(T x) const {
-		if constexpr (std::is_same_v<T, mint>) return fps_detail::horner(this->data(), this->size(), x);
+		if constexpr (std::is_same_v<T, mint>) return fps_detail::horner(data(), size(), x);
 		T ans = 0;
 		for (auto it = this->rbegin(); it != this->rend(); ++it) ans = ans * x + *it;
 		return ans;
@@ -5198,7 +5201,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 			*this *= T(1) + c;
 			return;
 		}
-		for (int i = (static_cast<int>(this->size())) - 1; i >= d; --i) (*this)[i] += (*this)[i - d] * c;
+		for (int i = (static_cast<int>(size())) - 1; i >= d; --i) (*this)[i] += (*this)[i - d] * c;
 	}
 	void onediv(int d, T c) {
 		assert(d >= 0);
@@ -5206,11 +5209,11 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 			*this /= T(1) + c;
 			return;
 		}
-		for (int i = d; i < static_cast<int>(this->size()); ++i) (*this)[i] -= (*this)[i - d] * c;
+		for (int i = d; i < static_cast<int>(size()); ++i) (*this)[i] -= (*this)[i - d] * c;
 	}
 
 	F diff() const {
-		const int n = static_cast<int>(this->size());
+		const int n = static_cast<int>(size());
 		F r(n);
 		if constexpr (std::is_same_v<T, mint>) {
 			if (n > 1) NTT::weighted(words(r), words(*this) + 1, n - 1, 1);
@@ -5219,7 +5222,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 		return r;
 	}
 	F integral() const {
-		const int n = static_cast<int>(this->size());
+		const int n = static_cast<int>(size());
 		assert(unsigned(n) < unsigned(T::mod()));
 		F r(n);
 		const auto &inv = inverses(n);
@@ -5233,12 +5236,12 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 	F log(int deg = -1) const {
 		if constexpr (!std::is_same_v<T, mint>) return export_work(import_work(*this).log(deg));
 		else {
-			if (deg < 0) deg = static_cast<int>(this->size());
+			if (deg < 0) deg = static_cast<int>(size());
 			assert(deg >= 0);
 			if (deg == 0) return {};
 			assert(!this->empty() && (*this)[0] == T(1));
 			if (deg >= 256 && unsigned(deg) < T::mod()) {
-				auto terms = Sparse::collect(this->data(), this->size(), deg);
+				auto terms = Sparse::collect(data(), size(), deg);
 				if (terms.size() <= 12) return F(Sparse::get<Sparse::Kind::logarithm>(std::move(terms), deg, T(0), T(0), inv_table));
 			}
 			return log_derivative(deg, true);
@@ -5254,7 +5257,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 		if constexpr (!std::is_same_v<T, mint>) return export_work(import_work(*this).pow(k));
 		else {
 			assert(k >= 0);
-			const int n = static_cast<int>(this->size());
+			const int n = static_cast<int>(size());
 			if (n == 0) return {};
 			if (k == 0) {
 				F r(n);
@@ -5269,7 +5272,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 			const int len = n - shift;
 			const T lead = (*this)[first];
 			if (unsigned(len) < T::mod()) {
-				auto terms = Sparse::collect(this->data() + first, this->size() - first, len);
+				auto terms = Sparse::collect(data() + first, size() - first, len);
 				if (terms.size() <= 12) {
 					const T inverse = lead.inv();
 					for (auto &[j, x] : terms) x *= inverse;
@@ -5286,11 +5289,11 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 #if CP_GCC_LINUX64
 			if (len >= 256 && len <= (1 << 24) && NTT::vectorized()) {
 				F r;
-				fps_detail::blocked_poly::native_power(this->data() + first, this->size() - first, r, len, T(k).val(), lead.pow(k), shift);
+				fps_detail::blocked_poly::native_power(data() + first, size() - first, r, len, T(k).val(), lead.pow(k), shift);
 				return r;
 			}
 #endif
-			F f(this->begin() + first, this->end());
+			F f(begin() + first, this->end());
 			f.resize(len);
 			f = f.log_derivative(len);
 			f *= T(k);
@@ -5307,7 +5310,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 			auto [q, r] = import_work(*this).divmod(import_work(divisor));
 			return {export_work(q), export_work(r)};
 		}
-		int n = static_cast<int>(this->size()), m = static_cast<int>(divisor.size());
+		int n = static_cast<int>(size()), m = static_cast<int>(divisor.size());
 		while (n && (*this)[n - 1] == T(0)) --n;
 		while (m && divisor[m - 1] == T(0)) --m;
 		assert(m);
@@ -5318,7 +5321,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 		if constexpr (std::is_same_v<T, mint>) {
 			if (m > 2 && (std::size_t)m * qn > 4096 && n <= (1 << 23) && NTT::vectorized()) {
 				F q, r;
-				fps_detail::blocked_poly::native_divide(this->data(), n, divisor.data(), m, q, r);
+				fps_detail::blocked_poly::native_divide(data(), n, divisor.data(), m, q, r);
 				q.trim(), r.trim();
 				return {std::move(q), std::move(r)};
 			}
@@ -5361,15 +5364,15 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 	F log_derivative(int deg, bool integrate = false) const {
 #if CP_GCC_LINUX64
 		if constexpr (std::is_same_v<T, mint>) {
-			if (deg >= 256 && deg <= (1 << 24) && this->size() >= 64 && NTT::vectorized()) {
+			if (deg >= 256 && deg <= (1 << 24) && size() >= 64 && NTT::vectorized()) {
 				F r;
-				fps_detail::blocked_poly::native_log(this->data(), this->size(), r, deg, integrate);
+				fps_detail::blocked_poly::native_log(data(), size(), r, deg, integrate);
 				return r;
 			}
 		}
 #endif
 
-		F derivative(std::min<int>(deg, this->size()));
+		F derivative(std::min<int>(deg, size()));
 		if (derivative.size() > 1) NTT::weighted(words(derivative) + 1, words(*this) + 1, derivative.size() - 1, 1);
 		F r = derivative.div_series(*this, deg);
 		if (integrate) {
@@ -5381,12 +5384,12 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 
 	template <bool differentiated>
 	F exp_impl(int deg) const {
-		if (deg < 0) deg = static_cast<int>(this->size());
+		if (deg < 0) deg = static_cast<int>(size());
 		assert(deg >= 0);
 		if (deg == 0) return {};
 		assert(this->empty() || (*this)[0] == T(0));
 		if constexpr (std::is_same_v<T, mint>) {
-			auto terms = Sparse::collect(this->data(), this->size(), deg, 64);
+			auto terms = Sparse::collect(data(), size(), deg, 64);
 			int stride = 0;
 			for (auto term : terms) stride = std::gcd(stride, term.first);
 			if (terms.size() <= 64 && (deg <= 256 || terms.size() <= 24ULL * stride)) {
@@ -5399,7 +5402,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 		if constexpr (std::is_same_v<T, mint>) {
 			if (deg >= 256 && deg <= (1 << 24) && NTT::vectorized()) {
 				F r;
-				fps_detail::blocked_poly::native_exp(this->data(), this->size(), r, deg, differentiated);
+				fps_detail::blocked_poly::native_exp(data(), size(), r, deg, differentiated);
 				return r;
 			}
 		}
@@ -5410,7 +5413,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 		g[0] = 1;
 		for (int i = 1; i < initial; ++i) {
 			T sum = 0;
-			for (int j = 1; j <= i && j < static_cast<int>(this->size()); ++j)
+			for (int j = 1; j <= i && j < static_cast<int>(size()); ++j)
 				sum += (differentiated ? (*this)[j] : T(j) * (*this)[j]) * g[i - j];
 			g[i] = sum * iv[i];
 		}
@@ -5422,7 +5425,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 		while (static_cast<int>(g.size()) < deg) {
 			const int m = static_cast<int>(g.size()), n = 2 * m;
 			if (deg - m <= 32) {
-				base derivative(std::min<int>(deg, this->size()));
+				base derivative(std::min<int>(deg, size()));
 				for (int i = 1; i < static_cast<int>(derivative.size()); ++i) derivative[i] = differentiated ? (*this)[i] : T(i) * (*this)[i];
 				derivative.resize(std::max<int>(1, derivative.size()));
 				g.resize(deg);
@@ -5443,7 +5446,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 			cache.resize(n);
 			ntt(cache);
 			std::fill(b.begin(), b.end(), T(0));
-			for (int i = 1; i < m && i < static_cast<int>(this->size()); ++i) b[i - 1] = differentiated ? (*this)[i] : T(i) * (*this)[i];
+			for (int i = 1; i < m && i < static_cast<int>(size()); ++i) b[i - 1] = differentiated ? (*this)[i] : T(i) * (*this)[i];
 			ntt(b);
 			pointwise(b, b, a, m);
 			ntt_inverse(b);
@@ -5453,7 +5456,7 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 			pointwise(error, error, cache, n);
 			ntt_inverse(error);
 			for (int i = (std::min(n, deg)) - 1; i >= m; --i)
-				error[i] = (i < static_cast<int>(this->size()) ? (*this)[i] * (differentiated ? iv[i] : T(1)) : T(0)) + error[i - 1] * in * iv[i];
+				error[i] = (i < static_cast<int>(size()) ? (*this)[i] * (differentiated ? iv[i] : T(1)) : T(0)) + error[i - 1] * in * iv[i];
 			std::fill(error.begin(), error.begin() + m, T(0));
 			std::fill(error.begin() + std::min(n, deg), error.end(), T(0));
 			ntt(error);

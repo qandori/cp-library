@@ -243,8 +243,9 @@
 | ファイル | 内容 | 使い方 |
 | --- | --- | --- |
 | `graph/max_flow.hpp` | 最大流・最小カット | [使い方](docs/max_flow.md) |
+| `graph/max_flow_lower_bound.hpp` | 下限付き最大流・最小流量・流量範囲 | [使い方](docs/max_flow_lower_bound.md) |
 | `graph/min_cost_flow.hpp` | 最小費用流・費用曲線 | [使い方](docs/min_cost_flow.md) |
-| `graph/min_cost_b_flow.hpp` | 下限付き最小費用流・頂点ごとの流量指定・流量範囲 | [使い方](docs/min_cost_b_flow.md) |
+| `graph/min_cost_b_flow.hpp` | 下限付き最小費用流・上限／下限のみの辺・頂点ごとの流量指定 | [使い方](docs/min_cost_b_flow.md) |
 | `graph/project_selection.hpp` | Project Selection（燃やす埋める） | [使い方](docs/project_selection.md) |
 
 ### graph/matching
@@ -577,6 +578,7 @@
 | ファイル | 内容 | 使い方 |
 | --- | --- | --- |
 | `components/flow_graph.hpp` | フローの残余グラフ | [使い方](docs/flow_graph.md) |
+| `components/flow_bounds.hpp` | 符号付き流量と上下限の差の変換 | [使い方](docs/flow_bounds.md) |
 | `components/undirected_csr.hpp` | 無向グラフの CSR | [使い方](docs/undirected_csr.md) |
 | `components/push_relabel.hpp` | Push-Relabel の内部演算 | [使い方](docs/push_relabel.md) |
 | `components/min_cost_circulation.hpp` | 最小費用流の容量スケーリング | [使い方](docs/min_cost_circulation.md) |

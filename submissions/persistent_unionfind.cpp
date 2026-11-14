@@ -25,6 +25,8 @@ class RollbackUnionFind {
 	void reserve(std::size_t updates) { history_.reserve(updates); }
 	int vertex_count() const { return static_cast<int>(parent_.size()); }
 	int component_count() const { return components_; }
+	int size() const { return vertex_count(); }
+	int count() const { return component_count(); }
 	int leader(int x) const {
 		assert(0 <= x && x < vertex_count());
 		while (parent_[x] >= 0) x = parent_[x];

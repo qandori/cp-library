@@ -1,24 +1,3 @@
-#line 1 "components/simd_capabilities.hpp"
-#ifndef SIMD_CAPABILITIES_HPP
-#define SIMD_CAPABILITIES_HPP
-
-#if (defined(__x86_64__) || defined(__i386__)) && defined(__GNUC__) && !defined(__clang__)
-_Pragma("GCC push_options")
-_Pragma("GCC target(\"no-avx512f,avx512f\")")
-#ifdef __AVX512F__
-#define CP_LIBRARY_AVX512 1
-#else
-#define CP_LIBRARY_AVX512 0
-#endif
-_Pragma("GCC pop_options")
-#elif (defined(__x86_64__) || defined(__i386__)) && defined(__clang__)
-#define CP_LIBRARY_AVX512 1
-#else
-#define CP_LIBRARY_AVX512 0
-#endif
-
-#endif
-
 #line 1 "test/matrix_solve.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/system_of_linear_equations"
 #line 1 "test/fixtures/matrix_common.hpp"
@@ -28,6 +7,34 @@ _Pragma("GCC pop_options")
 #line 1 "components/fast_io_bulk.hpp"
 
 
+
+#line 1 "components/compiler_features.hpp"
+
+
+
+#if defined(__x86_64__) || defined(__i386__)
+#define CP_X86 1
+#else
+#define CP_X86 0
+#endif
+#if CP_X86 && defined(__GNUC__) && !defined(__clang__)
+#define CP_GCC_X86 1
+#else
+#define CP_GCC_X86 0
+#endif
+#if CP_X86 && (defined(__GNUC__) || defined(__clang__))
+#define CP_GNU_X86 1
+#else
+#define CP_GNU_X86 0
+#endif
+#if CP_GCC_X86 && defined(__linux__) && defined(__x86_64__)
+#define CP_GCC_LINUX64 1
+#else
+#define CP_GCC_LINUX64 0
+#endif
+
+
+#line 5 "components/fast_io_bulk.hpp"
 
 #line 1 "components/fast_io_output.hpp"
 
@@ -343,11 +350,11 @@ void write_unsigned_records(FastOutput &output, std::size_t count, Read read) {
 }
 
 
-#line 6 "components/fast_io_bulk.hpp"
-#include <span>
 #line 8 "components/fast_io_bulk.hpp"
+#include <span>
+#line 10 "components/fast_io_bulk.hpp"
 
-#if defined(__linux__) && defined(__x86_64__) && defined(__GNUC__) && !defined(__clang__)
+#if CP_GCC_LINUX64
 #include <immintrin.h>
 #pragma GCC push_options
 _Pragma("GCC target(\"avx2\")")
@@ -366,24 +373,41 @@ struct BulkInput {
 		return unsigned(_mm256_movemask_epi8(_mm256_cmpeq_epi8(_mm256_max_epu8(bytes, _mm256_set1_epi8(' ')), _mm256_set1_epi8(' '))));
 	}
 
-	[[gnu::always_inline]] static __m256i two(const char *&p, __m256i &invalid) {
+	template <bool Signed = false>
+	[[gnu::always_inline]] static __m256i two(const char *&p, __m256i &invalid, unsigned *signs = nullptr) {
 		const auto bytes = _mm256_loadu_si256(reinterpret_cast<const __m256i *>(p));
 		const unsigned sep = separators(bytes), a = std::countr_zero(sep), b = std::countr_zero(sep & (sep - 1));
-		if (a < 1 || a > 10 || b <= a + 1 || b - a - 1 > 10) [[unlikely]] {
+		unsigned n0 = 0, n1 = 0;
+		if constexpr (Signed) {
+			if (a < 1 || a > 11 || b <= a + 1 || b - a - 1 > 11) [[unlikely]] {
+				invalid = _mm256_set1_epi32(-1);
+				p += std::min(b + 1, 32u);
+				*signs = 0;
+				return _mm256_setzero_si256();
+			}
+			n0 = p[0] == '-', n1 = p[a + 1] == '-';
+			*signs = n0 | (n1 << 1);
+		}
+		if (a < n0 + 1 || a - n0 > 10 || b <= a + n1 + 1 || b - a - n1 - 1 > 10) [[unlikely]] {
 			invalid = _mm256_set1_epi32(-1);
 			p += std::min(b + 1, 32u);
 			return _mm256_setzero_si256();
 		}
-		const auto window = _mm256_inserti128_si256(bytes, _mm_loadu_si128(reinterpret_cast<const __m128i *>(p + a + 1)), 1);
-		const auto control = _mm256_set_m128i(_mm_loadu_si128(reinterpret_cast<const __m128i *>(rows[b - a - 1].data())),
-			_mm_loadu_si128(reinterpret_cast<const __m128i *>(rows[a].data())));
+		auto window = bytes;
+		if constexpr (Signed) window = _mm256_set_m128i(_mm_loadu_si128(reinterpret_cast<const __m128i *>(p + a + 1 + n1)), _mm_loadu_si128(reinterpret_cast<const __m128i *>(p + n0)));
+		else window = _mm256_inserti128_si256(bytes, _mm_loadu_si128(reinterpret_cast<const __m128i *>(p + a + 1)), 1);
+		const auto control = _mm256_set_m128i(_mm_loadu_si128(reinterpret_cast<const __m128i *>(rows[b - a - n1 - 1].data())),
+			_mm_loadu_si128(reinterpret_cast<const __m128i *>(rows[a - n0].data())));
 		const auto digits = _mm256_shuffle_epi8(_mm256_sub_epi8(window, _mm256_set1_epi8('0')), control);
 		invalid = _mm256_or_si256(invalid, _mm256_subs_epu8(digits, _mm256_set1_epi8(9)));
 		p += b + 1;
 		return _mm256_madd_epi16(_mm256_maddubs_epi16(digits, _mm256_set1_epi16(0x010a)), _mm256_set1_epi32(0x00010064));
 	}
 
+	template <bool Signed = false>
 	static std::uint32_t one(const char *&p, bool &bad) {
+		bool negative = false;
+		if constexpr (Signed) negative = *p == '-', p += negative;
 		const auto bytes = _mm_loadu_si128(reinterpret_cast<const __m128i *>(p));
 		const auto spaces = _mm_cmpeq_epi8(_mm_max_epu8(bytes, _mm_set1_epi8(' ')), _mm_set1_epi8(' '));
 		const unsigned n = std::countr_zero(unsigned(_mm_movemask_epi8(spaces)) | 0x10000u);
@@ -399,9 +423,10 @@ struct BulkInput {
 		const auto groups = _mm_madd_epi16(_mm_maddubs_epi16(digits, _mm_set1_epi16(0x010a)), _mm_set1_epi32(0x00010064));
 		const auto halves = _mm_madd_epi16(_mm_packus_epi32(groups, groups), _mm_set1_epi32(0x00012710));
 		const std::uint64_t value = std::uint64_t(unsigned(_mm_cvtsi128_si32(halves))) * 100000000 + unsigned(_mm_extract_epi32(halves, 1));
-		bad |= value > 0xffffffffULL;
+		if constexpr (Signed) bad |= value > 2147483647ULL + negative;
+		else bad |= value > 0xffffffffULL;
 		p += n + 1;
-		return std::uint32_t(value);
+		return negative ? 0u - std::uint32_t(value) : std::uint32_t(value);
 	}
 
 	static const char *after_separator(const char *p) {
@@ -409,6 +434,7 @@ struct BulkInput {
 		return mask ? p + std::countr_zero(mask) + 1 : nullptr;
 	}
 
+	template <bool Signed = false>
 	static std::size_t lockstep(const char *(&streams)[4], const char *const (&end)[4], unsigned *const (&out)[4], __m256i &invalid) {
 		const char *p[4] = {streams[0], streams[1], streams[2], streams[3]};
 		std::size_t done = 0;
@@ -418,16 +444,27 @@ struct BulkInput {
 			const auto steps = std::min(left / 33, std::ptrdiff_t((kCapacity - done) / 2));
 			if (steps <= 0) break;
 			for (auto j = steps; j; --j, done += 2) {
-				const auto g0 = two(p[0], invalid), g1 = two(p[1], invalid), g2 = two(p[2], invalid), g3 = two(p[3], invalid);
+				unsigned signs0 = 0, signs1 = 0, signs2 = 0, signs3 = 0;
+				const auto g0 = two<Signed>(p[0], invalid, &signs0), g1 = two<Signed>(p[1], invalid, &signs1), g2 = two<Signed>(p[2], invalid, &signs2), g3 = two<Signed>(p[3], invalid, &signs3);
 				const auto k = _mm256_set1_epi32(0x00012710);
 				const auto h01 = _mm256_castsi256_ps(_mm256_madd_epi16(_mm256_packus_epi32(g0, g1), k));
 				const auto h23 = _mm256_castsi256_ps(_mm256_madd_epi16(_mm256_packus_epi32(g2, g3), k));
 				const auto high = _mm256_castps_si256(_mm256_shuffle_ps(h01, h23, 0x88));
 				const auto low = _mm256_castps_si256(_mm256_shuffle_ps(h01, h23, 0xdd));
-				const auto overflow = _mm256_or_si256(_mm256_cmpgt_epi32(high, _mm256_set1_epi32(42)),
-					_mm256_and_si256(_mm256_cmpeq_epi32(high, _mm256_set1_epi32(42)), _mm256_cmpgt_epi32(low, _mm256_set1_epi32(94967295))));
+				auto max_high = _mm256_set1_epi32(42), max_low = _mm256_set1_epi32(94967295);
+				auto signs = _mm256_setzero_si256();
+				if constexpr (Signed) {
+					signs = _mm256_setr_epi32(signs0 & 1, signs1 & 1, signs2 & 1, signs3 & 1, signs0 >> 1, signs1 >> 1, signs2 >> 1, signs3 >> 1);
+					max_high = _mm256_set1_epi32(21), max_low = _mm256_add_epi32(_mm256_set1_epi32(47483647), signs);
+				}
+				const auto overflow = _mm256_or_si256(_mm256_cmpgt_epi32(high, max_high),
+					_mm256_and_si256(_mm256_cmpeq_epi32(high, max_high), _mm256_cmpgt_epi32(low, max_low)));
 				invalid = _mm256_or_si256(invalid, overflow);
-				const auto value = _mm256_add_epi32(_mm256_mullo_epi32(high, _mm256_set1_epi32(100000000)), low);
+				auto value = _mm256_add_epi32(_mm256_mullo_epi32(high, _mm256_set1_epi32(100000000)), low);
+				if constexpr (Signed) {
+					const auto mask = _mm256_sub_epi32(_mm256_setzero_si256(), signs);
+					value = _mm256_sub_epi32(_mm256_xor_si256(value, mask), mask);
+				}
 				const auto q = _mm256_permutevar8x32_epi32(value, _mm256_setr_epi32(0, 4, 1, 5, 2, 6, 3, 7));
 				const auto q01 = _mm256_castsi256_si128(q), q23 = _mm256_extracti128_si256(q, 1);
 				_mm_storel_epi64(reinterpret_cast<__m128i *>(out[0] + done), q01);
@@ -440,7 +477,7 @@ struct BulkInput {
 		return done;
 	}
 
-	template <class Emit>
+	template <bool Signed = false, class Emit>
 	static std::size_t chunk_blocks(const char *&p, const char *limit, std::size_t count, unsigned *const (&out)[4], Emit &&emit) {
 		const auto bytes = std::min({kChunk, 2 * (count - 32), std::size_t(limit - p) - 64}) & ~std::size_t(3);
 		const std::size_t stream = bytes / 4;
@@ -449,12 +486,12 @@ struct BulkInput {
 		if (!p1 || !p2 || !p3 || !last) return 0;
 		const char *s[4] = {p, p1, p2, p3}, *const end[4] = {p1, p2, p3, last};
 		auto invalid = _mm256_setzero_si256();
-		const auto done = lockstep(s, end, out, invalid);
+		const auto done = lockstep<Signed>(s, end, out, invalid);
 		bool bad = !_mm256_testz_si256(invalid, invalid);
 		std::size_t n[4];
 		for (int k = 0; k < 4; ++k) {
 			n[k] = done;
-			while (s[k] < end[k] && n[k] < kCapacity) out[k][n[k]++] = one(s[k], bad);
+			while (s[k] < end[k] && n[k] < kCapacity) out[k][n[k]++] = one<Signed>(s[k], bad);
 			bad |= s[k] != end[k];
 		}
 		const auto parsed = n[0] + n[1] + n[2] + n[3];
@@ -475,7 +512,7 @@ struct BulkInput {
 		});
 	}
 
-	template <class Emit>
+	template <bool Signed = false, class Emit>
 	static void read_blocks(FastInput &in, std::size_t count, Emit emit) {
 		std::unique_ptr<unsigned[]> scratch;
 		std::size_t done = 0;
@@ -486,7 +523,7 @@ struct BulkInput {
 			while (chunks && count - done >= 1024 && in.end - p >= 1088) {
 				if (!scratch) scratch = std::make_unique_for_overwrite<unsigned[]>(4 * kCapacity);
 				unsigned *const out[4] = {scratch.get(), scratch.get() + kCapacity, scratch.get() + 2 * kCapacity, scratch.get() + 3 * kCapacity};
-				const auto parsed = chunk_blocks(p, in.end, count - done, out, emit);
+				const auto parsed = chunk_blocks<Signed>(p, in.end, count - done, out, emit);
 				if (!parsed) {
 					chunks = false;
 					break;
@@ -495,7 +532,7 @@ struct BulkInput {
 			}
 			unsigned tail[64];
 			std::size_t used = 0;
-			while (done + 2 <= count && in.end - p >= 32) {
+			while (!Signed && done + 2 <= count && in.end - p >= 32) {
 				const char *next = p;
 				auto invalid = _mm256_setzero_si256();
 				const auto groups = two(next, invalid);
@@ -516,9 +553,9 @@ struct BulkInput {
 			if (used) emit(tail, used);
 			in.current = p;
 			if (done < count) {
-				unsigned value = 0;
+				std::conditional_t<Signed, std::int32_t, unsigned> value = 0;
 				in.read(value);
-				emit(&value, 1);
+				emit(reinterpret_cast<unsigned *>(&value), 1);
 				++done;
 			}
 		}
@@ -538,15 +575,15 @@ struct BulkInput {
 
 
 namespace fast_io_detail {
-template <class Emit, std::size_t... I>
-void emit_record(Emit &emit, const std::uint32_t *values, std::index_sequence<I...>) {
+template <class Emit, class T, std::size_t... I>
+void emit_record(Emit &emit, const T *values, std::index_sequence<I...>) {
 	emit(values[I]...);
 }
 }
 
 template <class Emit>
 void read_unsigned_blocks(FastInput &input, std::size_t count, Emit emit) {
-#if defined(__linux__) && defined(__x86_64__) && defined(__GNUC__) && !defined(__clang__)
+#if CP_GCC_LINUX64
 	if (__builtin_cpu_supports("avx2")) {
 		fast_io_detail::BulkInput::read_blocks(input, count, emit);
 		return;
@@ -589,6 +626,46 @@ void read_unsigned_records(FastInput &input, std::size_t count, Emit emit) {
 	});
 }
 
+template <class Emit>
+void read_signed_blocks(FastInput &input, std::size_t count, Emit emit) {
+#if CP_GCC_LINUX64
+	if (__builtin_cpu_supports("avx2")) {
+		fast_io_detail::BulkInput::read_blocks<true>(input, count, [&](const unsigned *values, std::size_t n) {
+			emit(reinterpret_cast<const std::int32_t *>(values), n);
+		});
+		return;
+	}
+#endif
+	std::int32_t values[64];
+	while (count) {
+		const auto n = std::min<std::size_t>(count, 64);
+		for (std::size_t i = 0; i < n; ++i) input.read(values[i]);
+		emit(values, n);
+		count -= n;
+	}
+}
+
+template <std::size_t Fields, class Emit>
+void read_signed_records(FastInput &input, std::size_t count, Emit emit) {
+	static_assert(Fields > 0);
+	if (count > std::numeric_limits<std::size_t>::max() / Fields) throw std::length_error("input size");
+	std::array<std::int32_t, Fields> pending;
+	std::size_t used = 0;
+	constexpr auto indices = std::make_index_sequence<Fields>();
+	read_signed_blocks(input, count * Fields, [&](const std::int32_t *values, std::size_t n) {
+		std::size_t i = 0;
+		if (used) {
+			while (used < Fields && i < n) pending[used++] = values[i++];
+			if (used == Fields) {
+				fast_io_detail::emit_record(emit, pending.data(), indices);
+				used = 0;
+			}
+		}
+		for (; i < n && n - i >= Fields; i += Fields) fast_io_detail::emit_record(emit, values + i, indices);
+		while (i < n) pending[used++] = values[i++];
+	});
+}
+
 
 #line 1 "math/matrix.hpp"
 
@@ -596,6 +673,27 @@ void read_unsigned_records(FastInput &input, std::size_t count, Emit emit) {
 
 #line 1 "components/matrix_arithmetic.hpp"
 
+
+
+#line 1 "components/simd_capabilities.hpp"
+
+
+#line 4 "components/simd_capabilities.hpp"
+
+#if CP_GCC_X86
+_Pragma("GCC push_options")
+_Pragma("GCC target(\"no-avx512f,avx512f\")")
+#ifdef __AVX512F__
+#define CP_LIBRARY_AVX512 1
+#else
+#define CP_LIBRARY_AVX512 0
+#endif
+_Pragma("GCC pop_options")
+#elif CP_X86 && defined(__clang__)
+#define CP_LIBRARY_AVX512 1
+#else
+#define CP_LIBRARY_AVX512 0
+#endif
 
 
 #line 1 "components/matrix_base_arithmetic.hpp"
@@ -740,8 +838,8 @@ std::vector<T> basic_multiply(const std::vector<T> &a, const std::vector<T> &b, 
 
 
 
-#line 9 "components/field_arithmetic.hpp"
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+#line 10 "components/field_arithmetic.hpp"
+#if CP_GNU_X86
 #include <immintrin.h>
 #endif
 
@@ -760,7 +858,7 @@ template <class T>
 inline constexpr bool small_modint = SmallModint<T>::value;
 
 inline bool avx2() {
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__)) && !defined(FIELD_DISABLE_AVX2) && !defined(MATRIX_DISABLE_AVX2)
+#if CP_GNU_X86 && !defined(FIELD_DISABLE_AVX2) && !defined(MATRIX_DISABLE_AVX2)
 	static const bool enabled = __builtin_cpu_supports("avx2");
 	return enabled;
 #else
@@ -791,7 +889,7 @@ struct ModularField {
 		V r = a * x - V((std::uint64_t(a) * q) >> 32) * mod;
 		return r < mod ? r : r - mod;
 	}
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+#if CP_GNU_X86
 	__attribute__((target("avx2"))) static __m256i product8(__m256i a, __m256i x, __m256i q) {
 		__m256i p = _mm256_set1_epi32(mod);
 		__m256i even = _mm256_srli_epi64(_mm256_mul_epu32(a, q), 32);
@@ -850,7 +948,7 @@ struct ModularField {
 	template <bool add_to>
 	static void apply(V *a, const V *b, int n, V x) {
 		V q = (std::uint64_t(x) << 32) / mod;
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+#if CP_GNU_X86
 #if CP_LIBRARY_AVX512
 		if (n >= 64 && avx2() && __builtin_cpu_supports("avx512f")) { apply16<add_to>(a, b, n, x, q); return; }
 #endif
@@ -869,10 +967,10 @@ struct ModularField {
 }
 
 
-#line 6 "components/matrix_arithmetic.hpp"
+#line 7 "components/matrix_arithmetic.hpp"
 
-#line 15 "components/matrix_arithmetic.hpp"
-#if defined(__x86_64__) || defined(__i386__)
+#line 16 "components/matrix_arithmetic.hpp"
+#if CP_X86
 #include <immintrin.h>
 #endif
 
@@ -891,7 +989,7 @@ auto field(std::vector<T> &a, F &&f) {
 	} else return f.template operator()<Field<T>>(a);
 }
 
-#if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
+#if CP_GCC_X86
 #pragma GCC push_options
 #pragma GCC optimize("O3")
 #endif
@@ -913,7 +1011,7 @@ void product_scalar(const std::uint32_t *a, const std::uint32_t *b, std::uint32_
 	}
 }
 
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+#if CP_GNU_X86
 inline bool avx512_product() {
 #if CP_LIBRARY_AVX512
 	static const bool supported = __builtin_cpu_supports("avx512f") && __builtin_cpu_supports("avx512dq");
@@ -1031,7 +1129,6 @@ __attribute__((target("avx2"))) void product_packed_avx2(const std::int32_t *a, 
 	}
 }
 
-
 #endif
 
 template <class T>
@@ -1046,7 +1143,7 @@ std::vector<T> multiply(const std::vector<T> &a, const std::vector<T> &b, int n,
 	};
 	if constexpr (small_modint<T>) {
 		if (std::uint64_t(n) * m <= 128u / unsigned(inner)) { basic(); return c; }
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+#if CP_GNU_X86
 		if (inner >= 16 && m >= 8 && avx2()) {
 			const int block = avx512_product() ? 16 : 8;
 			std::vector<std::int32_t> x(a.size()), y(b.size());
@@ -1079,7 +1176,7 @@ std::vector<T> multiply(const std::vector<T> &a, const std::vector<T> &b, int n,
 	return c;
 }
 
-#if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
+#if CP_GCC_X86
 #pragma GCC pop_options
 #endif
 }
@@ -1093,7 +1190,7 @@ std::vector<T> multiply(const std::vector<T> &a, const std::vector<T> &b, int n,
 
 
 
-#line 6 "components/matrix_elimination_modular.hpp"
+#line 7 "components/matrix_elimination_modular.hpp"
 
 namespace matrix_detail {
 template <class Ops>
@@ -1116,7 +1213,7 @@ struct ModularElimination {
 	}
 
 	static constexpr int batch = int(std::min<std::uint64_t>(8, (std::numeric_limits<std::int64_t>::max() - (Ops::mod - 1)) / (std::uint64_t(Ops::mod - 1) * (Ops::mod - 1))));
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+#if CP_GNU_X86
 #if CP_LIBRARY_AVX512
 	__attribute__((target("avx512f,avx512dq"))) static __m512i reduce512(__m512i sum) {
 		constexpr V negative_inverse = [] { V v = Ops::mod; for (int i = 0; i < 4; ++i) v *= 2 - Ops::mod * v; return V(0) - v; }();
@@ -1192,7 +1289,7 @@ struct ModularElimination {
 	static void update(V *dst, const V *const *src, const V *coeff, int count, int first, int length) {
 		if (!count || !length || std::none_of(coeff, coeff + count, [](V x) { return x != 0; })) return;
 		if (count == 1) { if (coeff[0]) Ops::axpy(dst, src[0] + first, length, coeff[0]); return; }
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+#if CP_GNU_X86
 #if CP_LIBRARY_AVX512
 		if (length >= 32 && avx512_product()) { update512(dst, src, coeff, count, first, length); return; }
 #endif
@@ -1270,7 +1367,7 @@ struct ModularElimination {
 #line 7 "components/matrix_power.hpp"
 #include <optional>
 
-#if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
+#if CP_GCC_X86
 #pragma GCC push_options
 #pragma GCC optimize("O3")
 #endif
@@ -1313,7 +1410,7 @@ struct FrobeniusPower {
 	}
 	Row apply(const Row &x) const {
 		Row result(n);
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+#if CP_GNU_X86
 		if (block) {
 			std::vector<std::int32_t> centered(n);
 			for (int i = 0; i < n; ++i) centered[i] = center(x[i]);
@@ -1402,7 +1499,7 @@ struct FrobeniusPower {
 		return p;
 	}
 	std::optional<std::vector<Row>> decompose(bool diagonal = true) {
-#if (defined(__x86_64__) || defined(__i386__)) && (defined(__GNUC__) || defined(__clang__))
+#if CP_GNU_X86
 		if (n >= 32 && avx2()) {
 			block = avx512_product() ? 16 : 8;
 			packed.resize(transpose.size());
@@ -1534,7 +1631,7 @@ struct FrobeniusPower {
 };
 }
 
-#if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
+#if CP_GCC_X86
 #pragma GCC pop_options
 #endif
 
@@ -1603,38 +1700,44 @@ struct LinearSolution {
 
 namespace matrix_detail {
 template <class T> struct FastMatrixArithmetic;
+template <class T> struct PlainMatrixArithmetic;
+#ifdef CP_MATRIX_LIGHT_API
+template <class T> using DefaultMatrixArithmetic = PlainMatrixArithmetic<T>;
+#else
+template <class T> using DefaultMatrixArithmetic = FastMatrixArithmetic<T>;
+#endif
 }
 
-template <class T, class Arithmetic = matrix_detail::FastMatrixArithmetic<T>>
-class Matrix {
+template <class T, class Arithmetic = matrix_detail::DefaultMatrixArithmetic<T>>
+class [[nodiscard, gnu::warn_unused]] Matrix {
 	static_assert(!std::is_same_v<T, bool>);
 	int h = 0, w = 0;
 	std::vector<T> a;
 	std::pair<T, std::vector<int>> reduce(int columns, bool reduced, long double eps) {
 		assert(eps >= 0);
 		return Arithmetic::field(a, [&]<class Ops>(auto &work) {
-			auto result = [&] {
+			auto res = [&] {
 				if constexpr (requires { Arithmetic::template eliminate<Ops>(work, h, w, columns, reduced, eps); })
 					return Arithmetic::template eliminate<Ops>(work, h, w, columns, reduced, eps);
 				else return matrix_detail::eliminate<Ops, Arithmetic::modular>(work, h, w, columns, reduced, eps);
 			}();
-			return std::pair{T(result.determinant), std::move(result.pivots)};
+			return std::pair{T(res.determinant), std::move(res.pivots)};
 		});
 	}
-	static std::vector<std::vector<T>> nullspace(const Matrix &r, const std::vector<int> &pivots, int variables) {
-		std::vector<bool> pivot(variables);
-		for (int p : pivots) pivot[p] = true;
+	static std::vector<std::vector<T>> nullspace(const Matrix &r, const std::vector<int> &piv, int vars) {
+		std::vector<bool> pivot(vars);
+		for (int p : piv) pivot[p] = true;
 		std::vector<std::vector<T>> basis;
-		basis.reserve(variables - pivots.size());
-		for (int col = 0; col < variables; ++col) if (!pivot[col]) {
-			std::vector<T> v(variables, T(0));
+		basis.reserve(vars - piv.size());
+		for (int col = 0; col < vars; ++col) if (!pivot[col]) {
+			std::vector<T> v(vars, T(0));
 			v[col] = T{1};
-			for (int i = 0; i < int(pivots.size()); ++i) v[pivots[i]] = -r(i, col);
+			for (int i = 0; i < int(piv.size()); ++i) v[piv[i]] = -r(i, col);
 			basis.push_back(std::move(v));
 		}
 		return basis;
 	}
-	Matrix augmented_identity() const {
+	Matrix augment() const {
 		static_assert(!matrix_detail::integer<T>);
 		assert(h == w && w <= std::numeric_limits<int>::max() / 2);
 		Matrix work(h, w * 2);
@@ -1647,12 +1750,13 @@ class Matrix {
 
 	std::pair<Matrix, std::vector<int>> echelon(bool reduced, long double eps) const {
 		Matrix work = *this;
-		auto pivots = work.reduce(w, reduced, eps).second;
-		return {std::move(work), std::move(pivots)};
+		auto piv = work.reduce(w, reduced, eps).second;
+		return {std::move(work), std::move(piv)};
 	}
 
   public:
 	using value_type = T;
+	using Solution = LinearSolution<T>;
 	static constexpr long double default_epsilon = std::is_floating_point_v<T> ? 1e-12L : 0;
 	Matrix() = default;
 	explicit Matrix(int n) : Matrix(n, n) {}
@@ -1667,7 +1771,7 @@ class Matrix {
 			std::copy(row.begin(), row.end(), (*this)[i++].begin());
 		}
 	}
-	explicit Matrix(const std::vector<std::vector<T>> &values) : Matrix(int(values.size()), values.empty() ? 0 : int(values[0].size())) {
+	[[nodiscard]] explicit Matrix(const std::vector<std::vector<T>> &values) : Matrix(int(values.size()), values.empty() ? 0 : int(values[0].size())) {
 		for (int i = 0; i < h; ++i) {
 			assert(int(values[i].size()) == w);
 			std::copy(values[i].begin(), values[i].end(), (*this)[i].begin());
@@ -1681,35 +1785,35 @@ class Matrix {
 		return *this;
 	}
 	void swap(Matrix &other) noexcept { std::swap(h, other.h); std::swap(w, other.w); a.swap(other.a); }
-	int rows() const { return h; }
-	int cols() const { return w; }
-	bool empty() const { return !h || !w; }
-	T *data() { return a.data(); }
-	const T *data() const { return a.data(); }
-	std::span<T> operator[](int i) { assert(0 <= i && i < h); return {w ? a.data() + std::size_t(i) * w : a.data(), std::size_t(w)}; }
-	std::span<const T> operator[](int i) const { assert(0 <= i && i < h); return {w ? a.data() + std::size_t(i) * w : a.data(), std::size_t(w)}; }
-	T &operator()(int i, int j) { assert(0 <= i && i < h && 0 <= j && j < w); return a[std::size_t(i) * w + j]; }
-	const T &operator()(int i, int j) const { assert(0 <= i && i < h && 0 <= j && j < w); return a[std::size_t(i) * w + j]; }
-	bool operator==(const Matrix &) const = default;
+	[[nodiscard]] int rows() const { return h; }
+	[[nodiscard]] int cols() const { return w; }
+	[[nodiscard]] bool empty() const { return !h || !w; }
+	[[nodiscard]] T *data() { return a.data(); }
+	[[nodiscard]] const T *data() const { return a.data(); }
+	[[nodiscard]] std::span<T> operator[](int i) { assert(0 <= i && i < h); return {w ? a.data() + std::size_t(i) * w : a.data(), std::size_t(w)}; }
+	[[nodiscard]] std::span<const T> operator[](int i) const { assert(0 <= i && i < h); return {w ? a.data() + std::size_t(i) * w : a.data(), std::size_t(w)}; }
+	[[nodiscard]] T &operator()(int i, int j) { assert(0 <= i && i < h && 0 <= j && j < w); return a[std::size_t(i) * w + j]; }
+	[[nodiscard]] const T &operator()(int i, int j) const { assert(0 <= i && i < h && 0 <= j && j < w); return a[std::size_t(i) * w + j]; }
+	[[nodiscard]] bool operator==(const Matrix &) const = default;
 	static Matrix identity(int n) {
-		Matrix result(n);
-		for (int i = 0; i < n; ++i) result(i, i) = T{1};
-		return result;
+		Matrix res(n);
+		for (int i = 0; i < n; ++i) res(i, i) = T{1};
+		return res;
 	}
 	void fill(T value) { std::fill(a.begin(), a.end(), value); }
 	Matrix transpose() const {
-		Matrix result(w, h);
+		Matrix res(w, h);
 		for (int i = 0; i < h; i += 32) for (int j = 0; j < w; j += 32)
-			for (int x = i; x < std::min(h, i + 32); ++x) for (int y = j; y < std::min(w, j + 32); ++y) result(y, x) = (*this)(x, y);
-		return result;
+			for (int x = i; x < std::min(h, i + 32); ++x) for (int y = j; y < std::min(w, j + 32); ++y) res(y, x) = (*this)(x, y);
+		return res;
 	}
 	Matrix submatrix(int row_l, int row_r, int col_l, int col_r) const {
 		assert(0 <= row_l && row_l <= row_r && row_r <= h && 0 <= col_l && col_l <= col_r && col_r <= w);
-		Matrix result(row_r - row_l, col_r - col_l);
-		for (int i = row_l; i < row_r; ++i) std::copy((*this)[i].begin() + col_l, (*this)[i].begin() + col_r, result[i - row_l].begin());
-		return result;
+		Matrix res(row_r - row_l, col_r - col_l);
+		for (int i = row_l; i < row_r; ++i) std::copy((*this)[i].begin() + col_l, (*this)[i].begin() + col_r, res[i - row_l].begin());
+		return res;
 	}
-	Matrix operator-() const { Matrix result = *this; for (auto &x : result.a) x = -x; return result; }
+	Matrix operator-() const { Matrix res = *this; for (auto &x : res.a) x = -x; return res; }
 	Matrix &operator+=(const Matrix &b) { assert(h == b.h && w == b.w); for (std::size_t i = 0; i < a.size(); ++i) a[i] += b.a[i]; return *this; }
 	Matrix &operator-=(const Matrix &b) { assert(h == b.h && w == b.w); for (std::size_t i = 0; i < a.size(); ++i) a[i] -= b.a[i]; return *this; }
 	Matrix &operator*=(const Matrix &b) { return *this = *this * b; }
@@ -1719,37 +1823,37 @@ class Matrix {
 	friend Matrix operator-(Matrix a, const Matrix &b) { a -= b; return a; }
 	friend Matrix operator*(const Matrix &a, const Matrix &b) {
 		assert(a.w == b.h);
-		Matrix result;
-		result.h = a.h; result.w = b.w;
-		result.a = Arithmetic::multiply(a.a, b.a, a.h, a.w, b.w);
-		return result;
+		Matrix res;
+		res.h = a.h; res.w = b.w;
+		res.a = Arithmetic::multiply(a.a, b.a, a.h, a.w, b.w);
+		return res;
 	}
 	friend Matrix operator*(Matrix a, T x) { a *= x; return a; }
 	friend Matrix operator*(T x, Matrix a) { a *= x; return a; }
 	friend Matrix operator/(Matrix a, T x) { a /= x; return a; }
-	std::vector<T> operator*(const std::vector<T> &v) const {
+	[[nodiscard]] std::vector<T> operator*(const std::vector<T> &v) const {
 		assert(int(v.size()) == w);
 		return Arithmetic::multiply(a, v, h, w, 1);
 	}
 	Matrix pow(std::uint64_t exponent) const {
 		assert(h == w);
 		if (auto power = Arithmetic::power(a, h, exponent)) {
-			Matrix result(h);
-			result.a = std::move(*power);
-			return result;
+			Matrix res(h);
+			res.a = std::move(*power);
+			return res;
 		}
 		return pow(exponent, [](Matrix &) {});
 	}
 	template <class Normalize>
 	Matrix pow(std::uint64_t exponent, Normalize normalize) const {
 		assert(h == w);
-		Matrix result = identity(h), x = *this;
-		normalize(result);
+		Matrix res = identity(h), x = *this;
+		normalize(res);
 		normalize(x);
 		while (exponent) {
 			if (exponent & 1) {
-				result *= x;
-				normalize(result);
+				res *= x;
+				normalize(res);
 			}
 			exponent >>= 1;
 			if (exponent) {
@@ -1757,57 +1861,57 @@ class Matrix {
 				normalize(x);
 			}
 		}
-		return result;
+		return res;
 	}
-	T trace() const { assert(h == w); T result = T(0); for (int i = 0; i < h; ++i) result += (*this)(i, i); return result; }
-	T det(long double eps = default_epsilon) const {
+	[[nodiscard]] T trace() const { assert(h == w); T res = T(0); for (int i = 0; i < h; ++i) res += (*this)(i, i); return res; }
+	[[nodiscard]] T det(long double eps = default_epsilon) const {
 		assert(h == w);
 		if constexpr (matrix_detail::integer<T>) {
 			return matrix_detail::integer_determinant(a, h);
 		} else {
 			Matrix work = *this;
-			auto [value, pivots] = work.reduce(w, false, eps);
-			return int(pivots.size()) == h ? value : T(0);
+			auto [value, piv] = work.reduce(w, false, eps);
+			return int(piv.size()) == h ? value : T(0);
 		}
 	}
-	int rank(long double eps = default_epsilon) const { Matrix work = *this; return int(work.reduce(w, false, eps).second.size()); }
-	std::pair<Matrix, std::vector<int>> row_echelon(long double eps = default_epsilon) const { return echelon(false, eps); }
-	std::pair<Matrix, std::vector<int>> rref(long double eps = default_epsilon) const { return echelon(true, eps); }
+	[[nodiscard]] int rank(long double eps = default_epsilon) const { Matrix work = *this; return int(work.reduce(w, false, eps).second.size()); }
+	[[nodiscard]] std::pair<Matrix, std::vector<int>> row_echelon(long double eps = default_epsilon) const { return echelon(false, eps); }
+	[[nodiscard]] std::pair<Matrix, std::vector<int>> rref(long double eps = default_epsilon) const { return echelon(true, eps); }
 
-	std::optional<Matrix> inverse(long double eps = default_epsilon) const {
+	[[nodiscard]] std::optional<Matrix> inverse(long double eps = default_epsilon) const {
 		assert(h == w && eps >= 0);
 		if constexpr (requires { Arithmetic::inverse(a, h, false); }) if (auto fast = Arithmetic::inverse(a, h, false)) {
 			if (fast->second.empty()) return std::nullopt;
-			Matrix result(h);
-			result.a = std::move(fast->second);
-			return result;
+			Matrix res(h);
+			res.a = std::move(fast->second);
+			return res;
 		}
-		auto work = augmented_identity();
-		auto pivots = work.reduce(w, true, eps).second;
-		if (int(pivots.size()) < h) return std::nullopt;
+		auto work = augment();
+		auto piv = work.reduce(w, true, eps).second;
+		if (int(piv.size()) < h) return std::nullopt;
 		return work.submatrix(0, h, w, w * 2);
 	}
-	std::vector<std::vector<T>> kernel(long double eps = default_epsilon) const {
-		auto [work, pivots] = rref(eps);
-		return nullspace(work, pivots, w);
+	[[nodiscard]] std::vector<std::vector<T>> kernel(long double eps = default_epsilon) const {
+		auto [work, piv] = rref(eps);
+		return nullspace(work, piv, w);
 	}
-	std::optional<LinearSolution<T>> solve(const std::vector<T> &b, long double eps = default_epsilon) const {
+	[[nodiscard]] std::optional<LinearSolution<T>> solve(const std::vector<T> &b, long double eps = default_epsilon) const {
 		assert(int(b.size()) == h && w < std::numeric_limits<int>::max());
 		Matrix work(h, w + 1);
 		for (int i = 0; i < h; ++i) {
 			std::copy((*this)[i].begin(), (*this)[i].end(), work[i].begin());
 			work(i, w) = b[i];
 		}
-		auto pivots = work.reduce(w, true, eps).second;
-		for (int i = int(pivots.size()); i < h; ++i) if (!matrix_detail::Field<T>::zero(work(i, w), eps)) return std::nullopt;
-		LinearSolution<T> result{std::vector<T>(w, T(0)), nullspace(work, pivots, w)};
-		for (int i = 0; i < int(pivots.size()); ++i) result.particular[pivots[i]] = work(i, w);
-		return result;
+		auto piv = work.reduce(w, true, eps).second;
+		for (int i = int(piv.size()); i < h; ++i) if (!matrix_detail::Field<T>::zero(work(i, w), eps)) return std::nullopt;
+		LinearSolution<T> res{std::vector<T>(w, T(0)), nullspace(work, piv, w)};
+		for (int i = 0; i < int(piv.size()); ++i) res.particular[piv[i]] = work(i, w);
+		return res;
 	}
-	std::vector<T> characteristic_polynomial(long double eps = default_epsilon) const {
+	[[nodiscard]] std::vector<T> characteristic_polynomial(long double eps = default_epsilon) const {
 		assert(h == w && eps >= 0);
 		if constexpr (requires { Arithmetic::characteristic(a, h); })
-			if (auto result = Arithmetic::characteristic(a, h)) return std::move(*result);
+			if (auto res = Arithmetic::characteristic(a, h)) return std::move(*res);
 		auto work = a;
 		return Arithmetic::field(work, [&]<class Ops>(auto &b) {
 			using V = typename Ops::V;
@@ -1847,29 +1951,29 @@ class Matrix {
 					Ops::axpy(p[n].data(), p[i].data(), i + 1, Ops::neg(factor));
 				}
 			}
-			std::vector<T> result(h + 1);
-			for (int i = 0; i <= h; ++i) result[i] = T(p[h][i]);
-			return result;
+			std::vector<T> res(h + 1);
+			for (int i = 0; i <= h; ++i) res[i] = T(p[h][i]);
+			return res;
 		});
 	}
 	Matrix adjugate(long double eps = default_epsilon) const {
 		assert(h == w && eps >= 0);
 		if constexpr (requires { Arithmetic::inverse(a, h, true); }) if (auto fast = Arithmetic::inverse(a, h, true)) {
-			Matrix result(h);
-			result.a = std::move(fast->second);
-			return result;
+			Matrix res(h);
+			res.a = std::move(fast->second);
+			return res;
 		}
-		auto work = augmented_identity();
-		auto [determinant, pivots] = work.reduce(w, true, eps);
-		if (int(pivots.size()) == h) return work.submatrix(0, h, w, w * 2) * determinant;
-		Matrix result(h);
-		if (int(pivots.size()) + 1 < h) return result;
-		auto right = nullspace(work, pivots, w)[0];
+		auto work = augment();
+		auto [det, piv] = work.reduce(w, true, eps);
+		if (int(piv.size()) == h) return work.submatrix(0, h, w, w * 2) * det;
+		Matrix res(h);
+		if (int(piv.size()) + 1 < h) return res;
+		auto right = nullspace(work, piv, w)[0];
 		int col = 0;
-		while (std::find(pivots.begin(), pivots.end(), col) != pivots.end()) ++col;
-		if ((h - 1 - col) & 1) determinant = -determinant;
-		for (int i = 0; i < h; ++i) for (int j = 0; j < w; ++j) result(i, j) = determinant * right[i] * work(h - 1, w + j);
-		return result;
+		while (std::find(piv.begin(), piv.end(), col) != piv.end()) ++col;
+		if ((h - 1 - col) & 1) det = -det;
+		for (int i = 0; i < h; ++i) for (int j = 0; j < w; ++j) res(i, j) = det * right[i] * work(h - 1, w + j);
+		return res;
 	}
 };
 
@@ -1954,12 +2058,12 @@ std::optional<std::pair<T, std::vector<T>>> block_inverse(const std::vector<T> &
 #line 1 "math/mint.hpp"
 
 
-#line 4 "math/mint.hpp"
+#line 5 "math/mint.hpp"
 #include <istream>
 #include <ostream>
-#line 7 "math/mint.hpp"
+#line 8 "math/mint.hpp"
 
-#if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
+#if CP_GCC_X86
 #pragma GCC push_options
 #pragma GCC optimize("O3")
 #endif
@@ -1971,11 +2075,11 @@ constexpr bool mint_integral = std::is_integral_v<I>
 							   || std::is_same_v<I, __int128> || std::is_same_v<I, unsigned __int128>
 #endif
 	;
-struct Mint {
+struct [[gnu::warn_unused]] Mint {
 	using mint = Mint;
 	unsigned v = 0;
-	static constexpr unsigned mod() { return 998244353; }
-	[[gnu::always_inline]] static unsigned reduce(unsigned long long x) {
+	[[nodiscard]] static constexpr unsigned mod() { return 998244353; }
+	[[nodiscard, gnu::always_inline]] static unsigned reduce(unsigned long long x) {
 		return (x + (unsigned long long)(unsigned(x) * 998244351u) * mod()) >> 32;
 	}
 	[[gnu::always_inline]] Mint() = default;
@@ -1985,17 +2089,17 @@ struct Mint {
 		if (r < 0) r += mod();
 		v = reduce((unsigned long long)r * 932051910);
 	}
-	[[gnu::always_inline]] static Mint raw(unsigned x) {
+	[[nodiscard, gnu::always_inline]] static Mint raw(unsigned x) {
 		Mint a;
 		a.v = reduce((unsigned long long)x * 932051910);
 		return a;
 	}
-	[[gnu::always_inline]] static Mint word(unsigned x) {
+	[[nodiscard, gnu::always_inline]] static Mint word(unsigned x) {
 		Mint a;
 		a.v = x;
 		return a;
 	}
-	[[gnu::always_inline]] unsigned val() const {
+	[[nodiscard, gnu::always_inline]] unsigned val() const {
 		unsigned r = reduce(v);
 		return r < mod() ? r : r - mod();
 	}
@@ -2034,27 +2138,27 @@ struct Mint {
 		--*this;
 		return a;
 	}
-	[[gnu::always_inline]] Mint operator+() const { return *this; }
-	[[gnu::always_inline]] Mint operator-() const { return word(v ? 2 * mod() - v : 0); }
-	[[gnu::always_inline]] Mint operator+(Mint b) const { return Mint(*this) += b; }
-	[[gnu::always_inline]] Mint operator-(Mint b) const { return Mint(*this) -= b; }
-	[[gnu::always_inline]] Mint operator*(Mint b) const { return Mint(*this) *= b; }
-	Mint operator/(Mint b) const { return Mint(*this) /= b; }
-	[[gnu::always_inline]] bool operator==(Mint b) const { return (v < mod() ? v : v - mod()) == (b.v < mod() ? b.v : b.v - mod()); }
-	[[gnu::always_inline]] bool operator!=(Mint b) const { return !(*this == b); }
+	[[nodiscard, gnu::always_inline]] Mint operator+() const { return *this; }
+	[[nodiscard, gnu::always_inline]] Mint operator-() const { return word(v ? 2 * mod() - v : 0); }
+	[[nodiscard, gnu::always_inline]] Mint operator+(Mint b) const { return Mint(*this) += b; }
+	[[nodiscard, gnu::always_inline]] Mint operator-(Mint b) const { return Mint(*this) -= b; }
+	[[nodiscard, gnu::always_inline]] Mint operator*(Mint b) const { return Mint(*this) *= b; }
+	[[nodiscard]] Mint operator/(Mint b) const { return Mint(*this) /= b; }
+	[[nodiscard, gnu::always_inline]] bool operator==(Mint b) const { return (v < mod() ? v : v - mod()) == (b.v < mod() ? b.v : b.v - mod()); }
+	[[nodiscard, gnu::always_inline]] bool operator!=(Mint b) const { return !(*this == b); }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend Mint operator+(I a, Mint b) { return Mint(a) + b; }
+	[[nodiscard]] friend Mint operator+(I a, Mint b) { return Mint(a) + b; }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend Mint operator-(I a, Mint b) { return Mint(a) - b; }
+	[[nodiscard]] friend Mint operator-(I a, Mint b) { return Mint(a) - b; }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend Mint operator*(I a, Mint b) { return Mint(a) * b; }
+	[[nodiscard]] friend Mint operator*(I a, Mint b) { return Mint(a) * b; }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend Mint operator/(I a, Mint b) { return Mint(a) / b; }
+	[[nodiscard]] friend Mint operator/(I a, Mint b) { return Mint(a) / b; }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend bool operator==(I a, Mint b) { return Mint(a) == b; }
+	[[nodiscard]] friend bool operator==(I a, Mint b) { return Mint(a) == b; }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend bool operator!=(I a, Mint b) { return Mint(a) != b; }
-	Mint pow(long long n) const {
+	[[nodiscard]] friend bool operator!=(I a, Mint b) { return Mint(a) != b; }
+	[[nodiscard]] Mint pow(long long n) const {
 		assert(n >= 0);
 		if (!n) return Mint(1);
 		Mint r(1), a = *this;
@@ -2062,7 +2166,7 @@ struct Mint {
 			if (n & 1) r *= a;
 		return r * a;
 	}
-	[[gnu::noinline]] Mint inv() const {
+	[[nodiscard, gnu::noinline]] Mint inv() const {
 		assert(*this != Mint(0));
 		Mint a2 = *this * *this, a3 = a2 * *this;
 		Mint a7 = a3 * a3 * *this;
@@ -2086,7 +2190,7 @@ struct Mint {
 using mint = mint_detail::Mint;
 using fps_mint = mint;
 
-#if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
+#if CP_GCC_X86
 #pragma GCC pop_options
 #endif
 

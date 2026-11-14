@@ -20,6 +20,15 @@ int main() {
 	assert((product == fps{4, 13, 22, 15}));
 	assert(inverse.size() == 10 && inverse[0] == mint(1));
 	assert(logarithm.size() == 10 && logarithm[0] == mint(0));
+	assert((mint(2) + f == fps{3, 2, 3}));
+	assert((mint(2) - f == fps{1, -2, -3}));
+	assert((mint(2) * f == fps{2, 4, 6}));
+	fps padded{1, 0, 0};
+	padded.trim();
+	assert((padded == fps{1}));
+	padded.resize(3);
+	padded.shrink();
+	assert((padded == fps{1}));
 }
 ```
 
@@ -45,12 +54,13 @@ Codeforces などの小さいソースサイズ上限向けの FPS です。法�
 | `FormalPowerSeries<T>::multiply(f,g)` / `f * g` | 多項式の積 | $$O(n\log n)$$ |
 | `-f` / `f + g` / `f - g` | 符号反転／加減算 | $$O(n)$$ |
 | `f + c` / `f - c` / `f * c` / `f / c` | 定数項への加減算／全係数の定数倍・除算。除数は非零 | $$O(n)$$ |
+| `c + f` / `c - f` / `c * f` | 定数を左に置いた加算／減算／定数倍。`c` は係数型の値で、結果を新しい係数列で返す | 時間・追加空間とも $$O(n)$$ |
 | `f += g` / `f -= g` | 係数列との加減算を自身へ代入 | $$O(n)$$ |
 | `f *= g` / `f /= g` / `f %= g` | 乗算・級数除算・剰余を自身へ代入 | $$O(n\log n)$$ |
 | `f += c` / `f -= c` / `f *= c` / `f /= c` | 定数との演算を自身へ代入。除数は非零 | 定数項の加減算: $$O(1)$$、全係数の定数倍・除算: $$O(n)$$ |
 | `f << d` / `f >> d` / `f <<= d` / `f >>= d` | 係数をずらして元の長さで打ち切る。`d >= 0` | $$O(n)$$ |
 | `f.pre(n)` | 先頭から高々 `n` 係数を返す。`n >= 0` | $$O(n)$$ |
-| `f.shrink()` / `f.trim()` | 末尾の零を除く。零多項式は空配列になる | $$O(n)$$ |
+| `f.shrink()` / `f.trim()` | 自身の末尾の零を除く同じ操作。返り値は `void`。零多項式は空配列になり、空列は変わらない。確保済み容量は保持する | 時間 $$O(n)$$、追加空間 $$O(1)$$ |
 | `f / g` / `f.div_series(g,deg = -1)` | 級数除算。$$g_0\ne0$$ | $$O(n\log n)$$ |
 | `f.divmod(g)` / `f % g` | 多項式の商と余り。除数は零多項式でない | $$O(n\log n)$$ |
 | `f.inv(deg = -1)` | 逆数。$$f_0\ne0$$ | $$O(n\log n)$$ |

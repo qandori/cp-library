@@ -13,7 +13,7 @@ library_category: data_structure/rectangle_query
 int main() {
 	StaticRectangleAddRectangleSum<long long> grid;
 	grid.add_rectangle(0, 0, 4, 3, 2);
-	grid.add_rectangle(1, 1, 3, 4, -1);
+	grid.add(1, 1, 3, 4, -1);
 	int id = grid.add_query(0, 0, 4, 4);
 	auto answers = grid.solve();
 	assert(answers[id] == 18);
@@ -22,7 +22,7 @@ int main() {
 
 テンプレート引数は `StaticRectangleAddRectangleSum<T = std::int64_t, Coordinate = std::int64_t>` です。引数の順序は左・下・右・上です。加算値を指定する場合は最後に渡します。`add_query` は 0 始まりの問い合わせ番号を返し、`solve` は同じ順序の `std::vector<T>` を返します。重複する加算は全て加算し、重複する問い合わせも別々の答えを返します。
 
-加算と問い合わせは任意の順序で登録できます。`solve` は、問い合わせを登録した時点に関係なく、登録済みの**全ての加算**を反映します。`solve` は登録内容を変更せず、繰り返し呼べます。その後に登録内容を追加してから再度呼ぶこともできます。
+`add_rectangle` と `add` は同じ操作です。加算と問い合わせは任意の順序で登録できます。`solve` は、問い合わせを登録した時点に関係なく、登録済みの**全ての加算**を反映します。`solve` は登録内容を変更せず、繰り返し呼べます。その後に登録内容を追加してから再度呼ぶこともできます。
 
 矩形は `left <= right`、`down <= up` を満たす必要があります。幅または高さが 0 の加算は何もせず、そのような問い合わせの答えは 0 です。加算がなければ全て 0、問い合わせがなければ空配列を返します。
 
@@ -33,7 +33,7 @@ int main() {
 | 操作 | 内容・返り値 | 時間計算量 | 追加空間 |
 | --- | --- | --- | --- |
 | `StaticRectangleAddRectangleSum<T,Coordinate>()` | 空の構造を作る | $$O(1)$$ | $$O(1)$$ |
-| `add_rectangle(left,down,right,up,value)` | 各マスに `T value` を加える矩形を登録。返り値は `void` | 償却 $$O(1)$$ | 償却 $$O(1)$$ |
+| `add_rectangle(left,down,right,up,value)` / `add(left,down,right,up,value)` | 各マスに `T value` を加える矩形を登録。返り値は `void` | 償却 $$O(1)$$ | 償却 $$O(1)$$ |
 | `add_query(left,down,right,up)` | 問い合わせを登録し、番号を `int` で返す | 償却 $$O(1)$$ | 償却 $$O(1)$$ |
 | `solve() const` | 全問い合わせの答えを `std::vector<T>` で返す | $$O((N+Q)\log(N+Q))$$ | $$O(N+Q)$$ |
 

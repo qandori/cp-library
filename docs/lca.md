@@ -10,16 +10,21 @@ library_category: tree/query
 
 ```cpp
 #include "lib/tree/lca.hpp"
+#include <cassert>
 
-LCA tree(3);
-tree.add_edge(0, 1);
-tree.add_edge(1, 2);
-tree.build();
-int v = tree.lca(0, 2); // 0
-int distance = tree.dist(0, 2); // 2
-auto [l, r] = tree.subtree(1);
-int count = r - l; // 2
+int main() {
+	LCA tree(3);
+	tree.add_edge(0, 1);
+	tree.add_edge(1, 2);
+	tree.build();
+	int v = tree.lca(0, 2);
+	int distance = tree.distance(0, 2);
+	auto [l, r] = tree.subtree(1);
+	assert(v == 0 && distance == 2 && r - l == 2);
+}
 ```
+
+以下の $$n$$ は頂点数です。
 
 | 操作 | 内容・返り値 | 計算量 |
 | --- | --- | --- |
@@ -28,7 +33,7 @@ int count = r - l; // 2
 | `build(root = 0)` | 指定した根で前処理 | $$O(n\log n)$$ |
 | `build_from_parents(parents)` | 親配列から木を構築して前処理 | $$O(n\log n)$$ |
 | `lca(u,v)` | 最小共通祖先 | $$O(1)$$ |
-| `dist(u,v)` | 経路の辺数 | $$O(1)$$ |
+| `dist(u,v)` / `distance(u,v)` | 経路の辺数を `int` で返す。どちらも同じ操作 | $$O(1)$$ 時間・追加空間 |
 | `is_ancestor(u,v)` | `u` が `v` の祖先か。自身も含む | $$O(1)$$ |
 | `subtree(v)` | DFS の行きがけ順での部分木の半開区間 `[l,r)`。`l` は `v` の位置 | $$O(1)$$ |
 | `parent[v]` / `depth[v]` | 親（根は -1）／根からの辺数 | $$O(1)$$ |

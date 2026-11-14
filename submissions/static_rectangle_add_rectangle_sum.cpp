@@ -186,6 +186,9 @@ class StaticRectangleAddRectangleSum {
 		check_count();
 		updates_.push_back({{left, down, right, up}, value});
 	}
+	void add(Coordinate left, Coordinate down, Coordinate right, Coordinate up, const T &value) {
+		add_rectangle(left, down, right, up, value);
+	}
 	int add_query(Coordinate left, Coordinate down, Coordinate right, Coordinate up) {
 		assert(left <= right && down <= up);
 		check_count();

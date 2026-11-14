@@ -14,14 +14,21 @@ redirect_from:
 
 ```cpp
 #include "lib/tree/hld.hpp"
+#include <cassert>
 
-HLD tree(3);
-tree.add_edge(0, 1);
-tree.add_edge(1, 2);
-tree.build();
-auto segments = tree.path(2, 0);
-auto [l, r] = tree.subtree(1);
+int main() {
+	HLD tree(3);
+	tree.add_edge(0, 1);
+	tree.add_edge(1, 2);
+	tree.build();
+	auto segments = tree.path(2, 0);
+	auto [l, r] = tree.subtree(1);
+	assert(!segments.empty() && r - l == 2);
+	assert(tree.distance(0, 2) == 2);
+}
 ```
+
+以下の $$n$$ は頂点数です。
 
 | 操作 | 内容・返り値 | 計算量 |
 | --- | --- | --- |
@@ -29,7 +36,8 @@ auto [l, r] = tree.subtree(1);
 | `add_edge(u,v)` | 無向辺を追加し、辺 ID を返す | 償却 $$O(1)$$ |
 | `build(root = 0)` | 指定した根で木を分解 | $$O(n)$$ |
 | `build_from_parents(parents)` | 親配列から木を構築し、分解 | $$O(n)$$ |
-| `lca(u,v)` / `dist(u,v)` | 最小共通祖先／経路の辺数 | $$O(\log n)$$ |
+| `lca(u,v)` | 最小共通祖先を `int` で返す | $$O(\log n)$$ |
+| `dist(u,v)` / `distance(u,v)` | 経路の辺数を `int` で返す。どちらも同じ操作 | $$O(\log n)$$ 時間・$$O(1)$$ 追加空間 |
 | `is_ancestor(u,v)` | `u` が `v` の祖先か。自身も含む | $$O(1)$$ |
 | `ancestor(v,k)` | `k` 個上の祖先。範囲外は -1 | $$O(\log n)$$ |
 | `jump(u,v,k)` | `u` を 0 番目とする経路上の頂点。範囲外は -1 | $$O(\log n)$$ |
@@ -70,8 +78,8 @@ tree.for_each_path(u, v, [&](int l, int r, bool) { answer += seg.prod(l, r); });
 
 辺値は `in[tree.edge_vertex(id)]` に置き、`edge = true` を指定します。`id` は `add_edge` の返り値です。`subtree(v,edge = false)` は部分木の区間を返し、辺の場合は `v` と親の辺を除きます。
 
-`lca(u,v)`・`dist(u,v)`・`is_ancestor(u,v)`、`ancestor(v,k)`（`k` 個上の祖先）・`jump(u,v,k)`（経路の 0 始まり `k` 番目の頂点）が使えます。`ancestor`・`jump` は範囲外なら `-1` です。
+`lca(u,v)`・`dist(u,v)`・`distance(u,v)`・`is_ancestor(u,v)`、`ancestor(v,k)`（`k` 個上の祖先）・`jump(u,v,k)`（経路の 0 始まり `k` 番目の頂点）が使えます。`ancestor`・`jump` は範囲外なら `-1` です。
 
 構築後の各配列は参照用です。`parent[v]` は親（根は `-1`）、`depth[v]` は深さ、`size[v]` は部分木サイズ、`heavy[v]` は重い子（なければ `-1`）、`head[v]` は連鎖の先頭です。`in[v]`・`out[v]` は部分木の区間、`order[i]` は添字 `i` の頂点です。
 
-頂点数を $$n$$ として、構築・空間は $$O(n)$$、`lca`・`dist`・`ancestor`・`jump`・パス分解は $$O(\log n)$$、それ以外のクエリは $$O(1)$$ です。`for_each_path` は $$O(\log n)$$ 回 `f` を呼び、その処理時間を別に加えます。表では `f` の 1 回の実行を $$O(1)$$ とします。分解される区間数は $$O(\log n)$$、Segtree と組み合わせたパスクエリは $$O(\log^2 n)$$ です。
+頂点数を $$n$$ として、構築・空間は $$O(n)$$、`lca`・`dist`・`distance`・`ancestor`・`jump`・パス分解は $$O(\log n)$$、それ以外のクエリは $$O(1)$$ です。`for_each_path` は $$O(\log n)$$ 回 `f` を呼び、その処理時間を別に加えます。表では `f` の 1 回の実行を $$O(1)$$ とします。分解される区間数は $$O(\log n)$$、Segtree と組み合わせたパスクエリは $$O(\log^2 n)$$ です。

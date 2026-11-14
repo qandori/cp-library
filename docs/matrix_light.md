@@ -12,6 +12,7 @@ redirect_from:
 ```cpp
 #include "lib/math/matrix_light.hpp"
 #include "lib/fps/fps_light.hpp"
+#include <cassert>
 
 int main() {
 	using M = Matrix<fps>;
@@ -23,6 +24,9 @@ int main() {
 			for (auto &f : m[i])
 				if (f.size() > std::size_t(degree)) f.resize(degree);
 	});
+	assert(b.rows() == 2 && b.cols() == 2);
+	for (int i = 0; i < b.rows(); ++i)
+		for (const auto &f : b[i]) assert(f.size() <= std::size_t(degree));
 }
 ```
 
@@ -66,8 +70,9 @@ int main() {
 | `kernel(eps = default_epsilon)` | $$Ax=0$$ の解空間の基底。各要素が列ベクトル | $$O(nm\min(n,m)+m^2)$$ |
 | `characteristic_polynomial(eps = default_epsilon)` | $$\det(xI-A)$$ の係数を定数項から返す | $$O(n^3)$$ |
 | `adjugate(eps = default_epsilon)` | 余因子行列の転置。特異行列にも対応 | $$O(n^3)$$ |
+| `Matrix<T>::Solution` | `LinearSolution<T>` の型別名 | 実行時処理・追加空間なし |
 
-`solve` の右辺 `b` は長さが行数の `vector<T>` です。返す `LinearSolution<T>` の `particular` は解を 1 つ表す長さ $$m$$ のベクトル、`basis` は `Ax=0` を満たすベクトル全体をその定数倍の和で表せる基底です。全ての解は、`particular` に `basis` の各ベクトルを任意の定数倍して足すことで表せます。これらの操作は元の行列を変更しません。
+`solve` の右辺 `b` は長さが行数の `vector<T>` です。返り値は `optional<Matrix<T>::Solution>` で、`Matrix<T>::Solution` は `LinearSolution<T>` と同じ型です。`particular` は解を 1 つ表す長さ $$m$$ のベクトル、`basis` は `Ax=0` を満たすベクトル全体をその定数倍の和で表せる基底です。全ての解は、`particular` に `basis` の各ベクトルを任意の定数倍して足すことで表せます。これらの操作は元の行列を変更しません。
 
 `T` に `bool` は使えません。加減算・乗算・累乗には整数・modint・多項式などを使えます。除算・逆行列・階数・掃き出し・方程式・核・特性多項式・余因子行列では、0 以外の全要素で割れる型を使います。例えば素数法の modint に対応し、通常の整数型は使えません。例外として符号付き整数の `det` は厳密に計算しますが、途中の積・差・商は `__int128_t`、結果は `T` に収まる必要があります。浮動小数点の `eps` は非負とし、既定値は `1e-12L`、それ以外の型は 0 です。行階段形などの用語や、型に関する詳しい条件は [通常版](matrix.md) を参照してください。
 

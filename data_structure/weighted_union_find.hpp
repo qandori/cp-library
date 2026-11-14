@@ -8,13 +8,20 @@
 
 template <class T = std::int64_t>
 struct WeightedUnionFind {
+  private:
+	int count_ = 0;
+  public:
 	std::vector<int> parent;
 	std::vector<T> delta;
-	explicit WeightedUnionFind(int n) {
+	explicit WeightedUnionFind(int n) : count_(n) {
 		assert(n >= 0);
 		parent.assign(n, -1);
 		delta.resize(n);
 	}
+	int size() const { return static_cast<int>(parent.size()); }
+	int vertex_count() const { return size(); }
+	int count() const { return count_; }
+	int component_count() const { return count(); }
 	int leader(int x) {
 		assert(0 <= x && x < static_cast<int>(parent.size()));
 		int p = parent[x];
@@ -43,6 +50,7 @@ struct WeightedUnionFind {
 		parent[rx] += parent[ry];
 		parent[ry] = rx;
 		delta[ry] = w;
+		--count_;
 		return true;
 	}
 };

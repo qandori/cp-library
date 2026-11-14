@@ -11,15 +11,26 @@ library_category: data_structure/union_find
 
 ```cpp
 #include "lib/data_structure/weighted_union_find.hpp"
+#include <cassert>
 
-WeightedUnionFind<std::int64_t> uf(3);
-bool ok = uf.merge(0, 1, 5); // true
-auto value = uf.diff(0, 1); // 5
+int main() {
+	WeightedUnionFind<std::int64_t> uf(3);
+	assert(uf.merge(0, 1, 5));
+	assert(uf.diff(0, 1) == 5);
+	assert(uf.size() == 3 && uf.vertex_count() == 3);
+	assert(uf.count() == 2 && uf.component_count() == 2);
+	assert(!uf.merge(0, 1, 4));
+	assert(uf.component_count() == 2);
+}
 ```
+
+以下では頂点数を $$n$$ とします。$$\alpha(n)$$ は逆アッカーマン関数で、増加が非常に遅く、実用的な頂点数では 5 以下です。`T` の演算・コピーは定数時間とします。
 
 | 操作 | 内容・返り値 | 計算量 |
 | --- | --- | --- |
 | `WeightedUnionFind<T>(n)` | `n` 頂点を独立した成分として構築 | $$O(n)$$ |
+| `size()` / `vertex_count()` | 全頂点数を `int` で返す同じ操作 | 時間・追加空間とも $$O(1)$$ |
+| `count()` / `component_count()` | 現在の連結成分数を `int` で返す同じ操作 | 時間・追加空間とも $$O(1)$$ |
 | `merge(x,y,w)` | $$\mathrm{potential}[y]-\mathrm{potential}[x]=w$$ を追加。矛盾時に false | 償却 $$O(\alpha(n))$$ |
 | `same(x,y)` | 連結判定 | 償却 $$O(\alpha(n))$$ |
 | `leader(x)` / `size(x)` | 代表元／連結成分の頂点数 | 償却 $$O(\alpha(n))$$ |
@@ -34,6 +45,6 @@ auto value = uf.diff(0, 1); // 5
 
 例では頂点 1 の値が頂点 0 より 5 大きいという関係を登録しています。絶対的な値を指定する必要はありません。`diff` の前に `same` で連結を確認してください。既存の関係と矛盾する `merge` は false を返し、関係を変更しません。
 
-頂点数を $$n$$ として、構築・空間は $$O(n)$$、各操作は償却 $$O(\alpha(n))$$ です。$$\alpha$$ は逆アッカーマン関数で、増加が非常に遅く、実用的な頂点数では 5 以下です。`T` の演算・コピーは $$O(1)$$ とします。
+構築・空間は $$O(n)$$、頂点数・成分数の取得は $$O(1)$$ 時間・追加空間です。その他の操作は償却 $$O(\alpha(n))$$ です。
 
 「償却」は、一連の操作にかかる合計時間から求めた、1 回あたりの計算量を表します。

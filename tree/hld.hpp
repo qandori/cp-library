@@ -145,6 +145,7 @@ class HLD {
 		int w = lca(u, v);
 		return depth[u] + depth[v] - 2 * depth[w];
 	}
+	int distance(int u, int v) const { return dist(u, v); }
 	bool is_ancestor(int u, int v) const {
 		check(u), check(v);
 		return in[u] <= in[v] && in[v] < out[u];

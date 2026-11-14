@@ -1,6 +1,6 @@
 #line 1 "test/hld_jump.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/jump_on_tree"
-#line 1 "data_structure/hld.hpp"
+#line 1 "tree/hld.hpp"
 
 
 
@@ -148,6 +148,7 @@ class HLD {
 		int w = lca(u, v);
 		return depth[u] + depth[v] - 2 * depth[w];
 	}
+	int distance(int u, int v) const { return dist(u, v); }
 	bool is_ancestor(int u, int v) const {
 		check(u), check(v);
 		return in[u] <= in[v] && in[v] < out[u];
@@ -258,6 +259,34 @@ class HLD {
 #line 1 "components/fast_io_bulk.hpp"
 
 
+
+#line 1 "components/compiler_features.hpp"
+
+
+
+#if defined(__x86_64__) || defined(__i386__)
+#define CP_X86 1
+#else
+#define CP_X86 0
+#endif
+#if CP_X86 && defined(__GNUC__) && !defined(__clang__)
+#define CP_GCC_X86 1
+#else
+#define CP_GCC_X86 0
+#endif
+#if CP_X86 && (defined(__GNUC__) || defined(__clang__))
+#define CP_GNU_X86 1
+#else
+#define CP_GNU_X86 0
+#endif
+#if CP_GCC_X86 && defined(__linux__) && defined(__x86_64__)
+#define CP_GCC_LINUX64 1
+#else
+#define CP_GCC_LINUX64 0
+#endif
+
+
+#line 5 "components/fast_io_bulk.hpp"
 
 #line 1 "components/fast_io_output.hpp"
 
@@ -570,11 +599,11 @@ void write_unsigned_records(FastOutput &output, std::size_t count, Read read) {
 }
 
 
-#line 6 "components/fast_io_bulk.hpp"
-#include <span>
 #line 8 "components/fast_io_bulk.hpp"
+#include <span>
+#line 10 "components/fast_io_bulk.hpp"
 
-#if defined(__linux__) && defined(__x86_64__) && defined(__GNUC__) && !defined(__clang__)
+#if CP_GCC_LINUX64
 #include <immintrin.h>
 #pragma GCC push_options
 _Pragma("GCC target(\"avx2\")")
@@ -593,24 +622,41 @@ struct BulkInput {
 		return unsigned(_mm256_movemask_epi8(_mm256_cmpeq_epi8(_mm256_max_epu8(bytes, _mm256_set1_epi8(' ')), _mm256_set1_epi8(' '))));
 	}
 
-	[[gnu::always_inline]] static __m256i two(const char *&p, __m256i &invalid) {
+	template <bool Signed = false>
+	[[gnu::always_inline]] static __m256i two(const char *&p, __m256i &invalid, unsigned *signs = nullptr) {
 		const auto bytes = _mm256_loadu_si256(reinterpret_cast<const __m256i *>(p));
 		const unsigned sep = separators(bytes), a = std::countr_zero(sep), b = std::countr_zero(sep & (sep - 1));
-		if (a < 1 || a > 10 || b <= a + 1 || b - a - 1 > 10) [[unlikely]] {
+		unsigned n0 = 0, n1 = 0;
+		if constexpr (Signed) {
+			if (a < 1 || a > 11 || b <= a + 1 || b - a - 1 > 11) [[unlikely]] {
+				invalid = _mm256_set1_epi32(-1);
+				p += std::min(b + 1, 32u);
+				*signs = 0;
+				return _mm256_setzero_si256();
+			}
+			n0 = p[0] == '-', n1 = p[a + 1] == '-';
+			*signs = n0 | (n1 << 1);
+		}
+		if (a < n0 + 1 || a - n0 > 10 || b <= a + n1 + 1 || b - a - n1 - 1 > 10) [[unlikely]] {
 			invalid = _mm256_set1_epi32(-1);
 			p += std::min(b + 1, 32u);
 			return _mm256_setzero_si256();
 		}
-		const auto window = _mm256_inserti128_si256(bytes, _mm_loadu_si128(reinterpret_cast<const __m128i *>(p + a + 1)), 1);
-		const auto control = _mm256_set_m128i(_mm_loadu_si128(reinterpret_cast<const __m128i *>(rows[b - a - 1].data())),
-			_mm_loadu_si128(reinterpret_cast<const __m128i *>(rows[a].data())));
+		auto window = bytes;
+		if constexpr (Signed) window = _mm256_set_m128i(_mm_loadu_si128(reinterpret_cast<const __m128i *>(p + a + 1 + n1)), _mm_loadu_si128(reinterpret_cast<const __m128i *>(p + n0)));
+		else window = _mm256_inserti128_si256(bytes, _mm_loadu_si128(reinterpret_cast<const __m128i *>(p + a + 1)), 1);
+		const auto control = _mm256_set_m128i(_mm_loadu_si128(reinterpret_cast<const __m128i *>(rows[b - a - n1 - 1].data())),
+			_mm_loadu_si128(reinterpret_cast<const __m128i *>(rows[a - n0].data())));
 		const auto digits = _mm256_shuffle_epi8(_mm256_sub_epi8(window, _mm256_set1_epi8('0')), control);
 		invalid = _mm256_or_si256(invalid, _mm256_subs_epu8(digits, _mm256_set1_epi8(9)));
 		p += b + 1;
 		return _mm256_madd_epi16(_mm256_maddubs_epi16(digits, _mm256_set1_epi16(0x010a)), _mm256_set1_epi32(0x00010064));
 	}
 
+	template <bool Signed = false>
 	static std::uint32_t one(const char *&p, bool &bad) {
+		bool negative = false;
+		if constexpr (Signed) negative = *p == '-', p += negative;
 		const auto bytes = _mm_loadu_si128(reinterpret_cast<const __m128i *>(p));
 		const auto spaces = _mm_cmpeq_epi8(_mm_max_epu8(bytes, _mm_set1_epi8(' ')), _mm_set1_epi8(' '));
 		const unsigned n = std::countr_zero(unsigned(_mm_movemask_epi8(spaces)) | 0x10000u);
@@ -626,9 +672,10 @@ struct BulkInput {
 		const auto groups = _mm_madd_epi16(_mm_maddubs_epi16(digits, _mm_set1_epi16(0x010a)), _mm_set1_epi32(0x00010064));
 		const auto halves = _mm_madd_epi16(_mm_packus_epi32(groups, groups), _mm_set1_epi32(0x00012710));
 		const std::uint64_t value = std::uint64_t(unsigned(_mm_cvtsi128_si32(halves))) * 100000000 + unsigned(_mm_extract_epi32(halves, 1));
-		bad |= value > 0xffffffffULL;
+		if constexpr (Signed) bad |= value > 2147483647ULL + negative;
+		else bad |= value > 0xffffffffULL;
 		p += n + 1;
-		return std::uint32_t(value);
+		return negative ? 0u - std::uint32_t(value) : std::uint32_t(value);
 	}
 
 	static const char *after_separator(const char *p) {
@@ -636,6 +683,7 @@ struct BulkInput {
 		return mask ? p + std::countr_zero(mask) + 1 : nullptr;
 	}
 
+	template <bool Signed = false>
 	static std::size_t lockstep(const char *(&streams)[4], const char *const (&end)[4], unsigned *const (&out)[4], __m256i &invalid) {
 		const char *p[4] = {streams[0], streams[1], streams[2], streams[3]};
 		std::size_t done = 0;
@@ -645,16 +693,27 @@ struct BulkInput {
 			const auto steps = std::min(left / 33, std::ptrdiff_t((kCapacity - done) / 2));
 			if (steps <= 0) break;
 			for (auto j = steps; j; --j, done += 2) {
-				const auto g0 = two(p[0], invalid), g1 = two(p[1], invalid), g2 = two(p[2], invalid), g3 = two(p[3], invalid);
+				unsigned signs0 = 0, signs1 = 0, signs2 = 0, signs3 = 0;
+				const auto g0 = two<Signed>(p[0], invalid, &signs0), g1 = two<Signed>(p[1], invalid, &signs1), g2 = two<Signed>(p[2], invalid, &signs2), g3 = two<Signed>(p[3], invalid, &signs3);
 				const auto k = _mm256_set1_epi32(0x00012710);
 				const auto h01 = _mm256_castsi256_ps(_mm256_madd_epi16(_mm256_packus_epi32(g0, g1), k));
 				const auto h23 = _mm256_castsi256_ps(_mm256_madd_epi16(_mm256_packus_epi32(g2, g3), k));
 				const auto high = _mm256_castps_si256(_mm256_shuffle_ps(h01, h23, 0x88));
 				const auto low = _mm256_castps_si256(_mm256_shuffle_ps(h01, h23, 0xdd));
-				const auto overflow = _mm256_or_si256(_mm256_cmpgt_epi32(high, _mm256_set1_epi32(42)),
-					_mm256_and_si256(_mm256_cmpeq_epi32(high, _mm256_set1_epi32(42)), _mm256_cmpgt_epi32(low, _mm256_set1_epi32(94967295))));
+				auto max_high = _mm256_set1_epi32(42), max_low = _mm256_set1_epi32(94967295);
+				auto signs = _mm256_setzero_si256();
+				if constexpr (Signed) {
+					signs = _mm256_setr_epi32(signs0 & 1, signs1 & 1, signs2 & 1, signs3 & 1, signs0 >> 1, signs1 >> 1, signs2 >> 1, signs3 >> 1);
+					max_high = _mm256_set1_epi32(21), max_low = _mm256_add_epi32(_mm256_set1_epi32(47483647), signs);
+				}
+				const auto overflow = _mm256_or_si256(_mm256_cmpgt_epi32(high, max_high),
+					_mm256_and_si256(_mm256_cmpeq_epi32(high, max_high), _mm256_cmpgt_epi32(low, max_low)));
 				invalid = _mm256_or_si256(invalid, overflow);
-				const auto value = _mm256_add_epi32(_mm256_mullo_epi32(high, _mm256_set1_epi32(100000000)), low);
+				auto value = _mm256_add_epi32(_mm256_mullo_epi32(high, _mm256_set1_epi32(100000000)), low);
+				if constexpr (Signed) {
+					const auto mask = _mm256_sub_epi32(_mm256_setzero_si256(), signs);
+					value = _mm256_sub_epi32(_mm256_xor_si256(value, mask), mask);
+				}
 				const auto q = _mm256_permutevar8x32_epi32(value, _mm256_setr_epi32(0, 4, 1, 5, 2, 6, 3, 7));
 				const auto q01 = _mm256_castsi256_si128(q), q23 = _mm256_extracti128_si256(q, 1);
 				_mm_storel_epi64(reinterpret_cast<__m128i *>(out[0] + done), q01);
@@ -667,7 +726,7 @@ struct BulkInput {
 		return done;
 	}
 
-	template <class Emit>
+	template <bool Signed = false, class Emit>
 	static std::size_t chunk_blocks(const char *&p, const char *limit, std::size_t count, unsigned *const (&out)[4], Emit &&emit) {
 		const auto bytes = std::min({kChunk, 2 * (count - 32), std::size_t(limit - p) - 64}) & ~std::size_t(3);
 		const std::size_t stream = bytes / 4;
@@ -676,12 +735,12 @@ struct BulkInput {
 		if (!p1 || !p2 || !p3 || !last) return 0;
 		const char *s[4] = {p, p1, p2, p3}, *const end[4] = {p1, p2, p3, last};
 		auto invalid = _mm256_setzero_si256();
-		const auto done = lockstep(s, end, out, invalid);
+		const auto done = lockstep<Signed>(s, end, out, invalid);
 		bool bad = !_mm256_testz_si256(invalid, invalid);
 		std::size_t n[4];
 		for (int k = 0; k < 4; ++k) {
 			n[k] = done;
-			while (s[k] < end[k] && n[k] < kCapacity) out[k][n[k]++] = one(s[k], bad);
+			while (s[k] < end[k] && n[k] < kCapacity) out[k][n[k]++] = one<Signed>(s[k], bad);
 			bad |= s[k] != end[k];
 		}
 		const auto parsed = n[0] + n[1] + n[2] + n[3];
@@ -702,7 +761,7 @@ struct BulkInput {
 		});
 	}
 
-	template <class Emit>
+	template <bool Signed = false, class Emit>
 	static void read_blocks(FastInput &in, std::size_t count, Emit emit) {
 		std::unique_ptr<unsigned[]> scratch;
 		std::size_t done = 0;
@@ -713,7 +772,7 @@ struct BulkInput {
 			while (chunks && count - done >= 1024 && in.end - p >= 1088) {
 				if (!scratch) scratch = std::make_unique_for_overwrite<unsigned[]>(4 * kCapacity);
 				unsigned *const out[4] = {scratch.get(), scratch.get() + kCapacity, scratch.get() + 2 * kCapacity, scratch.get() + 3 * kCapacity};
-				const auto parsed = chunk_blocks(p, in.end, count - done, out, emit);
+				const auto parsed = chunk_blocks<Signed>(p, in.end, count - done, out, emit);
 				if (!parsed) {
 					chunks = false;
 					break;
@@ -722,7 +781,7 @@ struct BulkInput {
 			}
 			unsigned tail[64];
 			std::size_t used = 0;
-			while (done + 2 <= count && in.end - p >= 32) {
+			while (!Signed && done + 2 <= count && in.end - p >= 32) {
 				const char *next = p;
 				auto invalid = _mm256_setzero_si256();
 				const auto groups = two(next, invalid);
@@ -743,9 +802,9 @@ struct BulkInput {
 			if (used) emit(tail, used);
 			in.current = p;
 			if (done < count) {
-				unsigned value = 0;
+				std::conditional_t<Signed, std::int32_t, unsigned> value = 0;
 				in.read(value);
-				emit(&value, 1);
+				emit(reinterpret_cast<unsigned *>(&value), 1);
 				++done;
 			}
 		}
@@ -765,15 +824,15 @@ struct BulkInput {
 
 
 namespace fast_io_detail {
-template <class Emit, std::size_t... I>
-void emit_record(Emit &emit, const std::uint32_t *values, std::index_sequence<I...>) {
+template <class Emit, class T, std::size_t... I>
+void emit_record(Emit &emit, const T *values, std::index_sequence<I...>) {
 	emit(values[I]...);
 }
 }
 
 template <class Emit>
 void read_unsigned_blocks(FastInput &input, std::size_t count, Emit emit) {
-#if defined(__linux__) && defined(__x86_64__) && defined(__GNUC__) && !defined(__clang__)
+#if CP_GCC_LINUX64
 	if (__builtin_cpu_supports("avx2")) {
 		fast_io_detail::BulkInput::read_blocks(input, count, emit);
 		return;
@@ -803,6 +862,46 @@ void read_unsigned_records(FastInput &input, std::size_t count, Emit emit) {
 	std::size_t used = 0;
 	constexpr auto indices = std::make_index_sequence<Fields>();
 	read_unsigned_blocks(input, count * Fields, [&](const std::uint32_t *values, std::size_t n) {
+		std::size_t i = 0;
+		if (used) {
+			while (used < Fields && i < n) pending[used++] = values[i++];
+			if (used == Fields) {
+				fast_io_detail::emit_record(emit, pending.data(), indices);
+				used = 0;
+			}
+		}
+		for (; i < n && n - i >= Fields; i += Fields) fast_io_detail::emit_record(emit, values + i, indices);
+		while (i < n) pending[used++] = values[i++];
+	});
+}
+
+template <class Emit>
+void read_signed_blocks(FastInput &input, std::size_t count, Emit emit) {
+#if CP_GCC_LINUX64
+	if (__builtin_cpu_supports("avx2")) {
+		fast_io_detail::BulkInput::read_blocks<true>(input, count, [&](const unsigned *values, std::size_t n) {
+			emit(reinterpret_cast<const std::int32_t *>(values), n);
+		});
+		return;
+	}
+#endif
+	std::int32_t values[64];
+	while (count) {
+		const auto n = std::min<std::size_t>(count, 64);
+		for (std::size_t i = 0; i < n; ++i) input.read(values[i]);
+		emit(values, n);
+		count -= n;
+	}
+}
+
+template <std::size_t Fields, class Emit>
+void read_signed_records(FastInput &input, std::size_t count, Emit emit) {
+	static_assert(Fields > 0);
+	if (count > std::numeric_limits<std::size_t>::max() / Fields) throw std::length_error("input size");
+	std::array<std::int32_t, Fields> pending;
+	std::size_t used = 0;
+	constexpr auto indices = std::make_index_sequence<Fields>();
+	read_signed_blocks(input, count * Fields, [&](const std::int32_t *values, std::size_t n) {
 		std::size_t i = 0;
 		if (used) {
 			while (used < Fields && i < n) pending[used++] = values[i++];

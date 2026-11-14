@@ -11,13 +11,14 @@ library_category: math/linear_algebra
 #include "lib/math/matrix.hpp"
 #include "lib/math/mint.hpp"
 #include <cassert>
+#include <optional>
 
 int main() {
 	Matrix<mint> a = { {1, 2}, {3, 4} };
 	auto det = a.det();
 	auto inverse = a.inverse();
 	auto power = a.pow(10);
-	auto solution = a.solve({5, 11});
+	std::optional<Matrix<mint>::Solution> solution = a.solve({5, 11});
 	auto polynomial = a.characteristic_polynomial();
 	assert(det == mint(-2));
 	assert(inverse && a * *inverse == Matrix<mint>::identity(2));
@@ -67,8 +68,9 @@ int main() {
 | `kernel(eps = default_epsilon)` | $$Ax=0$$ の解空間の基底。各要素が列ベクトル | $$O(nm\min(n,m)+m^2)$$ |
 | `characteristic_polynomial(eps = default_epsilon)` | $$\det(xI-A)$$ の係数を定数項から返す | $$O(n^3)$$ |
 | `adjugate(eps = default_epsilon)` | 余因子行列の転置。特異行列にも対応 | $$O(n^3)$$ |
+| `Matrix<T>::Solution` | `LinearSolution<T>` の型別名 | 実行時処理・追加空間なし |
 
-`solve` は `optional<LinearSolution<T>>` を返します。`b` の長さは行数とします。
+`solve` は `optional<Matrix<T>::Solution>` を返します。`Matrix<T>::Solution` は `LinearSolution<T>` と同じ型です。`b` の長さは行数とします。
 
 | フィールド | 内容 |
 | --- | --- |

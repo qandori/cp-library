@@ -42,6 +42,28 @@ void check(GeneralMatching &g, const std::vector<std::vector<unsigned char>> &ad
 	assert(g.build() == expected);
 }
 int main() {
+	{
+		GeneralMatching graph(6);
+		assert(graph.size() == 6 && graph.matching_size() == 0);
+		assert(graph.maximum_matching().empty());
+		graph.add_edge(0, 1);
+		assert(graph.matching_size() == 1);
+		graph.add_edge(1, 2);
+		graph.add_edge(0, 3);
+		assert(graph.edges().size() == 1);
+		auto pairs = graph.maximum_matching();
+		assert(pairs.size() == 2 && graph.matching_size() == 2);
+		assert((pairs == std::vector<std::pair<int, int>>{{0, 3}, {1, 2}}));
+		graph.add_edge(2, 4);
+		graph.add_edge(3, 5);
+		assert(graph.matching_size() == 3);
+		pairs = graph.maximum_matching();
+		assert((pairs == std::vector<std::pair<int, int>>{{0, 1}, {2, 4}, {3, 5}}));
+		assert(graph.matching_size() == int(pairs.size()) && graph.edges() == pairs);
+		GeneralMatching empty(0);
+		assert(empty.size() == 0 && empty.matching_size() == 0);
+		assert(empty.maximum_matching().empty());
+	}
 	for (int n = 0; n <= 6; ++n) {
 		int m = n * (n - 1) / 2;
 		for (unsigned mask = 0; mask < (1U << m); ++mask) {

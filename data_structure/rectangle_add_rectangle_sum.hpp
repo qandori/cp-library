@@ -144,6 +144,9 @@ class RectangleAddRectangleSum {
 		add_edge(left, down, up, Value(value));
 		add_edge(right, down, up, Value{} - Value(value));
 	}
+	void add_rectangle(Coordinate left, Coordinate down, Coordinate right, Coordinate up, const T &value) {
+		add(left, down, right, up, value);
+	}
 	T prefix_sum(Coordinate x, Coordinate y) const {
 		assert(built_);
 		return T(prefix(x, y).evaluate(Value(x), Value(y)));

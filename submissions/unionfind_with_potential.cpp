@@ -11,13 +11,20 @@
 
 template <class T = std::int64_t>
 struct WeightedUnionFind {
+  private:
+	int count_ = 0;
+  public:
 	std::vector<int> parent;
 	std::vector<T> delta;
-	explicit WeightedUnionFind(int n) {
+	explicit WeightedUnionFind(int n) : count_(n) {
 		assert(n >= 0);
 		parent.assign(n, -1);
 		delta.resize(n);
 	}
+	int size() const { return static_cast<int>(parent.size()); }
+	int vertex_count() const { return size(); }
+	int count() const { return count_; }
+	int component_count() const { return count(); }
 	int leader(int x) {
 		assert(0 <= x && x < static_cast<int>(parent.size()));
 		int p = parent[x];
@@ -46,6 +53,7 @@ struct WeightedUnionFind {
 		parent[rx] += parent[ry];
 		parent[ry] = rx;
 		delta[ry] = w;
+		--count_;
 		return true;
 	}
 };
@@ -54,12 +62,38 @@ struct WeightedUnionFind {
 #line 1 "math/mint.hpp"
 
 
-#line 4 "math/mint.hpp"
+#line 1 "components/compiler_features.hpp"
+
+
+
+#if defined(__x86_64__) || defined(__i386__)
+#define CP_X86 1
+#else
+#define CP_X86 0
+#endif
+#if CP_X86 && defined(__GNUC__) && !defined(__clang__)
+#define CP_GCC_X86 1
+#else
+#define CP_GCC_X86 0
+#endif
+#if CP_X86 && (defined(__GNUC__) || defined(__clang__))
+#define CP_GNU_X86 1
+#else
+#define CP_GNU_X86 0
+#endif
+#if CP_GCC_X86 && defined(__linux__) && defined(__x86_64__)
+#define CP_GCC_LINUX64 1
+#else
+#define CP_GCC_LINUX64 0
+#endif
+
+
+#line 5 "math/mint.hpp"
 #include <istream>
 #include <ostream>
 #include <type_traits>
 
-#if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
+#if CP_GCC_X86
 #pragma GCC push_options
 #pragma GCC optimize("O3")
 #endif
@@ -71,11 +105,11 @@ constexpr bool mint_integral = std::is_integral_v<I>
 							   || std::is_same_v<I, __int128> || std::is_same_v<I, unsigned __int128>
 #endif
 	;
-struct Mint {
+struct [[gnu::warn_unused]] Mint {
 	using mint = Mint;
 	unsigned v = 0;
-	static constexpr unsigned mod() { return 998244353; }
-	[[gnu::always_inline]] static unsigned reduce(unsigned long long x) {
+	[[nodiscard]] static constexpr unsigned mod() { return 998244353; }
+	[[nodiscard, gnu::always_inline]] static unsigned reduce(unsigned long long x) {
 		return (x + (unsigned long long)(unsigned(x) * 998244351u) * mod()) >> 32;
 	}
 	[[gnu::always_inline]] Mint() = default;
@@ -85,17 +119,17 @@ struct Mint {
 		if (r < 0) r += mod();
 		v = reduce((unsigned long long)r * 932051910);
 	}
-	[[gnu::always_inline]] static Mint raw(unsigned x) {
+	[[nodiscard, gnu::always_inline]] static Mint raw(unsigned x) {
 		Mint a;
 		a.v = reduce((unsigned long long)x * 932051910);
 		return a;
 	}
-	[[gnu::always_inline]] static Mint word(unsigned x) {
+	[[nodiscard, gnu::always_inline]] static Mint word(unsigned x) {
 		Mint a;
 		a.v = x;
 		return a;
 	}
-	[[gnu::always_inline]] unsigned val() const {
+	[[nodiscard, gnu::always_inline]] unsigned val() const {
 		unsigned r = reduce(v);
 		return r < mod() ? r : r - mod();
 	}
@@ -134,27 +168,27 @@ struct Mint {
 		--*this;
 		return a;
 	}
-	[[gnu::always_inline]] Mint operator+() const { return *this; }
-	[[gnu::always_inline]] Mint operator-() const { return word(v ? 2 * mod() - v : 0); }
-	[[gnu::always_inline]] Mint operator+(Mint b) const { return Mint(*this) += b; }
-	[[gnu::always_inline]] Mint operator-(Mint b) const { return Mint(*this) -= b; }
-	[[gnu::always_inline]] Mint operator*(Mint b) const { return Mint(*this) *= b; }
-	Mint operator/(Mint b) const { return Mint(*this) /= b; }
-	[[gnu::always_inline]] bool operator==(Mint b) const { return (v < mod() ? v : v - mod()) == (b.v < mod() ? b.v : b.v - mod()); }
-	[[gnu::always_inline]] bool operator!=(Mint b) const { return !(*this == b); }
+	[[nodiscard, gnu::always_inline]] Mint operator+() const { return *this; }
+	[[nodiscard, gnu::always_inline]] Mint operator-() const { return word(v ? 2 * mod() - v : 0); }
+	[[nodiscard, gnu::always_inline]] Mint operator+(Mint b) const { return Mint(*this) += b; }
+	[[nodiscard, gnu::always_inline]] Mint operator-(Mint b) const { return Mint(*this) -= b; }
+	[[nodiscard, gnu::always_inline]] Mint operator*(Mint b) const { return Mint(*this) *= b; }
+	[[nodiscard]] Mint operator/(Mint b) const { return Mint(*this) /= b; }
+	[[nodiscard, gnu::always_inline]] bool operator==(Mint b) const { return (v < mod() ? v : v - mod()) == (b.v < mod() ? b.v : b.v - mod()); }
+	[[nodiscard, gnu::always_inline]] bool operator!=(Mint b) const { return !(*this == b); }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend Mint operator+(I a, Mint b) { return Mint(a) + b; }
+	[[nodiscard]] friend Mint operator+(I a, Mint b) { return Mint(a) + b; }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend Mint operator-(I a, Mint b) { return Mint(a) - b; }
+	[[nodiscard]] friend Mint operator-(I a, Mint b) { return Mint(a) - b; }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend Mint operator*(I a, Mint b) { return Mint(a) * b; }
+	[[nodiscard]] friend Mint operator*(I a, Mint b) { return Mint(a) * b; }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend Mint operator/(I a, Mint b) { return Mint(a) / b; }
+	[[nodiscard]] friend Mint operator/(I a, Mint b) { return Mint(a) / b; }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend bool operator==(I a, Mint b) { return Mint(a) == b; }
+	[[nodiscard]] friend bool operator==(I a, Mint b) { return Mint(a) == b; }
 	template <class I, std::enable_if_t<mint_integral<I>, int> = 0>
-	friend bool operator!=(I a, Mint b) { return Mint(a) != b; }
-	Mint pow(long long n) const {
+	[[nodiscard]] friend bool operator!=(I a, Mint b) { return Mint(a) != b; }
+	[[nodiscard]] Mint pow(long long n) const {
 		assert(n >= 0);
 		if (!n) return Mint(1);
 		Mint r(1), a = *this;
@@ -162,7 +196,7 @@ struct Mint {
 			if (n & 1) r *= a;
 		return r * a;
 	}
-	[[gnu::noinline]] Mint inv() const {
+	[[nodiscard, gnu::noinline]] Mint inv() const {
 		assert(*this != Mint(0));
 		Mint a2 = *this * *this, a3 = a2 * *this;
 		Mint a7 = a3 * a3 * *this;
@@ -186,7 +220,7 @@ struct Mint {
 using mint = mint_detail::Mint;
 using fps_mint = mint;
 
-#if defined(__GNUC__) && !defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
+#if CP_GCC_X86
 #pragma GCC pop_options
 #endif
 

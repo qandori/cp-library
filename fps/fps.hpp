@@ -137,6 +137,9 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 		r /= x;
 		return r;
 	}
+	friend F operator+(T x, F f) { return f += x; }
+	friend F operator-(T x, const F &f) { return -f + x; }
+	friend F operator*(T x, F f) { return f *= x; }
 	F operator<<(int d) const {
 		F r(*this);
 		r <<= d;
@@ -152,6 +155,8 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 		assert(n >= 0);
 		return F(this->begin(), this->begin() + std::min<int>(n, this->size()));
 	}
+	void shrink() { O::trim(*this); }
+	void trim() { shrink(); }
 
 	F div_series(const F &g, int deg = -1) const {
 		if constexpr (!std::is_same_v<T, mint>) return export_work(import_work(*this).div_series(import_work(g), deg));
@@ -649,8 +654,6 @@ struct [[nodiscard, gnu::warn_unused]] FormalPowerSeries : std::vector<T>, priva
 	}
 
 	static const mint *inv_table(int n) { return fps_detail::Operations<mint>::inverses(n).data(); }
-
-	void trim() { O::trim(*this); }
 
 };
 

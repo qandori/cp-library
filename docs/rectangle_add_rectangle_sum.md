@@ -19,7 +19,7 @@ int main() {
 	grid.build();
 	grid.add(0, 0, 4, 3, 2);
 	assert(grid.sum(0, 0, 4, 3) == 24);
-	grid.add(1, 1, 3, 4, -1);
+	grid.add_rectangle(1, 1, 3, 4, -1);
 	assert(grid.sum(0, 0, 4, 4) == 18);
 	assert(grid.sum(1, 1, 2, 2) == 1);
 	assert(grid.prefix_sum(2, 2) == 7);
@@ -30,7 +30,7 @@ int main() {
 
 テンプレート引数は `RectangleAddRectangleSum<T = std::int64_t, Coordinate = std::int64_t>` です。`T` が加算値と答えの型、`Coordinate` が両軸の座標型です。座標は負でも構いません。座標の範囲に比例する領域は確保しません。
 
-`reserve` は最初の `build` より前に呼びます。重複した登録も可能です。`add` では、登録した矩形、または 4 隅が登録済みの矩形を使ってください。`build` 後に新しい更新座標は追加できません。`build` を再度呼ぶと、登録座標を保ったまま値を全て 0 に戻します。
+`reserve` は最初の `build` より前に呼びます。重複した登録も可能です。`add` と `add_rectangle` は同じ操作です。登録した矩形、または 4 隅が登録済みの矩形を使ってください。`build` 後に新しい更新座標は追加できません。`build` を再度呼ぶと、登録座標を保ったまま値を全て 0 に戻します。
 
 どの矩形も `left <= right`、`down <= up` を満たす必要があります。幅または高さが 0 の矩形は、登録・加算では何もせず、和は 0 です。登録がなくても `build` してから問い合わせれば 0 を返します。
 
@@ -47,7 +47,7 @@ int main() {
 | `RectangleAddRectangleSum<T,Coordinate>()` | 空の構造を作る | $$O(1)$$ | $$O(1)$$ |
 | `reserve(left,down,right,up)` | 更新用の 4 隅を登録。返り値は `void` | 償却 $$O(1)$$ | 償却 $$O(1)$$ |
 | `build()` | 登録座標を準備し、全ての値を 0 にする。返り値は `void` | $$O(R\log R)$$ | $$O(R+S)$$ |
-| `add(left,down,right,up,value)` | 矩形の各マスに `T value` を加える。返り値は `void` | $$O(\log^2 K)$$ | $$O(1)$$ |
+| `add(left,down,right,up,value)` / `add_rectangle(left,down,right,up,value)` | 矩形の各マスに `T value` を加える。返り値は `void` | $$O(\log^2 K)$$ | $$O(1)$$ |
 | `sum(left,down,right,up) const` | 矩形内の総和を `T` で返す | $$O(\log^2 K)$$ | $$O(1)$$ |
 | `prefix_sum(x,y) const` | `a < x, b < y` の総和を `T` で返す | $$O(\log^2 K)$$ | $$O(1)$$ |
 | `clear_values()` | 登録座標を保ったまま全ての値を 0 にする。返り値は `void` | $$O(S)$$ | $$O(1)$$ |

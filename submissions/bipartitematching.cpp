@@ -377,6 +377,8 @@ public:
 		dirty_ = false;
 		return size_;
 	}
+	int matching_size() { return build(); }
+	std::vector<std::pair<int, int>> maximum_matching() { return edges(); }
 	const std::vector<int>& left_mates() { build(); return left_; }
 	const std::vector<int>& right_mates() { build(); return right_; }
 	bool covers_left() { return build() == l_; }

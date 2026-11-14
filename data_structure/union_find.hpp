@@ -16,6 +16,8 @@ class UnionFind {
 	}
 	[[nodiscard]] int size() const { return static_cast<int>(parent_.size()); }
 	[[nodiscard]] int count() const { return count_; }
+	[[nodiscard]] int vertex_count() const { return size(); }
+	[[nodiscard]] int component_count() const { return count(); }
 	[[nodiscard]] int leader(int v) {
 		assert(0 <= v && v < size());
 		while (parent_[v] >= 0) {

@@ -133,6 +133,7 @@ class GeneralMatching {
 public:
 	std::vector<int> mate;
 	explicit GeneralMatching(int n) : n(n), mate(n, -1) { assert(n >= 0); }
+	int size() const { return n; }
 	void reserve(std::size_t m) { input.reserve(m); }
 	void add_edge(int u, int v) {
 		assert(0 <= u && u < n && 0 <= v && v < n);
@@ -167,6 +168,8 @@ public:
 		}
 		return cardinality;
 	}
+	int matching_size() { return build(); }
+	std::vector<std::pair<int, int>> maximum_matching() { build(); return edges(); }
 	std::vector<std::pair<int, int>> edges() const {
 		std::vector<std::pair<int, int>> result;
 		result.reserve(cardinality);

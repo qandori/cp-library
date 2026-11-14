@@ -140,6 +140,26 @@ void check(int l, int r, const std::vector<std::pair<int, int>>& edges, bool inc
 }
 
 int main() {
+	{
+		BipartiteMatching graph(3, 3);
+		graph.add_edge(0, 1);
+		require(graph.matching_size() == 1);
+		graph.add_edge(0, 0);
+		graph.add_edge(1, 1);
+		auto pairs = graph.maximum_matching();
+		require(pairs.size() == 2 && graph.matching_size() == 2);
+		require((pairs == std::vector<std::pair<int, int>>{{0, 0}, {1, 1}}));
+		graph.add_edge(1, 2);
+		graph.add_edge(2, 1);
+		require(graph.matching_size() == 3);
+		pairs = graph.maximum_matching();
+		require((pairs == std::vector<std::pair<int, int>>{{0, 0}, {1, 2}, {2, 1}}));
+		require(graph.matching_size() == int(pairs.size()) && graph.edges() == pairs);
+		graph.clear();
+		require(graph.matching_size() == 0 && graph.maximum_matching().empty());
+		BipartiteMatching empty(0, 3);
+		require(empty.matching_size() == 0 && empty.maximum_matching().empty());
+	}
 	for (int l = 0; l <= 4; ++l) for (int r = 0; r <= 4; ++r) if (l * r <= 12) {
 		for (int mask = 0; mask < (1 << (l * r)); ++mask) {
 			std::vector<std::pair<int, int>> edges;

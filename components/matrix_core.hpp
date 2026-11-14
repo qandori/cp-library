@@ -78,6 +78,7 @@ class [[nodiscard, gnu::warn_unused]] Matrix {
 
   public:
 	using value_type = T;
+	using Solution = LinearSolution<T>;
 	static constexpr long double default_epsilon = std::is_floating_point_v<T> ? 1e-12L : 0;
 	Matrix() = default;
 	explicit Matrix(int n) : Matrix(n, n) {}

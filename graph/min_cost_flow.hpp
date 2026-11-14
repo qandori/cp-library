@@ -99,6 +99,8 @@ class MinCostFlow {
 	}
 
   public:
+	using capacity_type = Cap;
+	using cost_type = Cost;
 	using total_type = Total;
 	struct Edge { int from, to; Cap cap, flow; Cost cost; };
 	explicit MinCostFlow(int n = 0) : graph_(n) {}

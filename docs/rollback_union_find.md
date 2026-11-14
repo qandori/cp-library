@@ -15,6 +15,7 @@ library_category: data_structure/union_find
 
 int main() {
 	RollbackUnionFind uf(4);
+	assert(uf.size() == 4 && uf.vertex_count() == 4);
 	uf.merge(0, 1);
 	auto state = uf.snapshot();
 	uf.merge(1, 2);
@@ -26,15 +27,19 @@ int main() {
 	assert(uf.same(0, 1));
 	uf.undo();
 	assert(uf.component_count() == 4);
+	assert(uf.count() == 4);
 }
 ```
+
+以下では、頂点数を $$n$$、保持中の `merge` の回数を $$H$$、`rollback` で取り消す回数を $$k$$ とします。
 
 | 操作 | 内容・返り値 | 計算量 |
 | --- | --- | --- |
 | `RollbackUnionFind(n=0)` | `n` 頂点を独立した成分として構築 | $$O(n)$$ |
 | `reset(n)` | 頂点数を変更して、全頂点を独立に戻す。履歴も削除 | $$O(n+H)$$ |
 | `reserve(updates)` | 保持する `merge` の回数を目安に履歴領域を確保。呼び出しは任意 | $$O(H)$$ |
-| `vertex_count()` / `component_count()` | 頂点数／現在の連結成分数 | $$O(1)$$ |
+| `size()` / `vertex_count()` | 全頂点数を `int` で返す同じ操作 | 時間・追加空間とも $$O(1)$$ |
+| `count()` / `component_count()` | 現在の連結成分数を `int` で返す同じ操作 | 時間・追加空間とも $$O(1)$$ |
 | `leader(x)` / `same(x,y)` / `size(x)` | 代表元／連結判定／`x` の連結成分の頂点数 | $$O(\log n)$$ |
 | `merge(x,y)` | 2頂点を併合。異なる成分を併合したときだけ true | 償却 $$O(\log n)$$ |
 | `snapshot()` | 現在の履歴の長さを `size_t` で返す | $$O(1)$$ |
@@ -56,6 +61,6 @@ int main() {
 
 利用例：[Persistent Unionfind の検証コード](../test/rollback_union_find.test.cpp)。クエリを先読みしてバージョンの木を作り、併合して下の状態を調べ、戻るときに `undo` します。このドライバーも再帰を使いません。Rollback Union Find 単体の利用では、クエリの先読みは不要です。
 
-頂点数を $$n$$、保持中の `merge` の回数を $$H$$、`rollback` で取り消す回数を $$k$$ とします。構築は $$O(n)$$ 時間、使用中のデータは $$O(n+H)$$ 空間です。`leader`・`same`・`size`・`merge` は $$O(\log n)$$ 時間で、`merge` の履歴確保だけは償却です。`undo` は $$O(1)$$、`rollback` は $$O(k)$$ 時間、`snapshot` は $$O(1)$$ 時間・追加空間です。`groups` は $$O(n\log n)$$ 時間・$$O(n)$$ 追加空間です。空の状態の構築や何もしない巻き戻しにも定数時間かかります。
+構築は $$O(n)$$ 時間、使用中のデータは $$O(n+H)$$ 空間です。`leader`・`same`・`size`・`merge` は $$O(\log n)$$ 時間で、`merge` の履歴確保だけは償却です。`undo` は $$O(1)$$、`rollback` は $$O(k)$$ 時間、`snapshot` は $$O(1)$$ 時間・追加空間です。`groups` は $$O(n\log n)$$ 時間・$$O(n)$$ 追加空間です。空の状態の構築や何もしない巻き戻しにも定数時間かかります。
 
 「償却」は、一連の操作にかかる合計時間から求めた、1 回あたりの計算量を表します。

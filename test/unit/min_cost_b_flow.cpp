@@ -1,11 +1,13 @@
 #include "graph/min_cost_b_flow.hpp"
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <functional>
 #include <limits>
 #include <map>
 #include <numeric>
 #include <random>
+#include <utility>
 
 struct InputEdge {
 	int from, to, lower, upper, cost;
@@ -114,7 +116,7 @@ template<class Cap, class Cost> void random_check(int trials) {
 		int s = rng() % n, t = (s + 1 + rng() % (n - 1)) % n;
 		expected = enumerate(n, edges, supply, s, t);
 		int amount = int(rng() % 13) - 6;
-		auto fixed = input.flow(s, t, Cap(amount));
+		auto fixed = input.solve(s, t, Cap(amount));
 		assert(bool(fixed) == expected.contains(amount));
 		if (fixed) {
 			assert(fixed->value == amount && fixed->cost == expected.at(amount));
@@ -124,7 +126,7 @@ template<class Cap, class Cost> void random_check(int trials) {
 		auto first = expected.lower_bound(lower), last = expected.upper_bound(upper);
 		bool feasible = first != last;
 		auto range = input.flow_range(s, t, Cap(lower), Cap(upper));
-		auto optimum = input.flow(s, t, Cap(lower), Cap(upper));
+		auto optimum = input.solve(s, t, Cap(lower), Cap(upper));
 		auto minimum = input.min_flow(s, t, Cap(lower), Cap(upper));
 		auto maximum = input.max_flow(s, t, Cap(lower), Cap(upper));
 		assert(bool(range) == feasible && bool(optimum) == feasible);
@@ -178,7 +180,7 @@ template<class Cap> void one_sided_check() {
 		}
 		expected = enumerate(3, edges, supply, 0, 2);
 		for (int f = -6; f <= 6; ++f) {
-			auto fixed = input.flow(0, 2, Cap(f));
+			auto fixed = input.solve(0, 2, Cap(f));
 			assert(bool(fixed) == expected.contains(f));
 			if (fixed) {
 				assert(fixed->value == f && fixed->cost == expected.at(f));
@@ -187,7 +189,7 @@ template<class Cap> void one_sided_check() {
 		}
 		auto first = expected.lower_bound(-6), last = expected.upper_bound(6);
 		auto range = input.flow_range(0, 2, Cap(-6), Cap(6));
-		auto optimum = input.flow(0, 2, Cap(-6), Cap(6));
+		auto optimum = input.solve(0, 2, Cap(-6), Cap(6));
 		auto minimum = input.min_flow(0, 2, Cap(-6), Cap(6));
 		auto maximum = input.max_flow(0, 2, Cap(-6), Cap(6));
 		assert(bool(range) == (first != last) && bool(optimum) == (first != last));
@@ -222,7 +224,7 @@ template<class Cap> void one_sided_check() {
 	assert(maximum && maximum->value == largest && maximum->cost == largest);
 	validate(span, *minimum, 0, 1);
 	validate(span, *maximum, 0, 1);
-	auto fixed = span.flow(0, 1, smallest);
+	auto fixed = span.solve(0, 1, smallest);
 	assert(fixed && fixed->flow[0] == smallest && fixed->cost == smallest);
 	validate(span, *fixed, 0, 1);
 	Graph loops(1);
@@ -239,7 +241,7 @@ template<class Cap> void one_sided_check() {
 	auto no_flow = star.solve();
 	assert(no_flow && no_flow->cost == 0 && no_flow->flow == std::vector<Cap>(3));
 	validate(star, *no_flow);
-	auto star_best = star.flow(0, 1, Cap(-2), Cap(2));
+	auto star_best = star.solve(0, 1, Cap(-2), Cap(2));
 	assert(star_best && star_best->value == 2 && star_best->cost == -2);
 	validate(star, *star_best, 0, 1);
 	Graph costly_star(4);
@@ -248,7 +250,7 @@ template<class Cap> void one_sided_check() {
 	auto no_cost = costly_star.solve();
 	assert(no_cost && no_cost->cost == 0 && no_cost->flow == std::vector<Cap>(3));
 	validate(costly_star, *no_cost);
-	auto costly_fixed = costly_star.flow(0, 1, Cap(2));
+	auto costly_fixed = costly_star.solve(0, 1, Cap(2));
 	assert(costly_fixed && costly_fixed->value == 2 && costly_fixed->cost == -__int128_t(cost_limit) * 2);
 	validate(costly_star, *costly_fixed, 0, 1);
 	Graph negative_loops(1);
@@ -280,7 +282,7 @@ template<class Cap> void one_sided_check() {
 		}
 		expected = enumerate(4, edges, supply, 1, 2);
 		auto first = expected.lower_bound(-2), last = expected.upper_bound(2);
-		auto best = cycles.flow(1, 2, Cap(-2), Cap(2));
+		auto best = cycles.solve(1, 2, Cap(-2), Cap(2));
 		assert(bool(best) == (first != last));
 		if (best) {
 			long long cost = first->second;
@@ -331,8 +333,8 @@ void boundary_check() {
 	MinCostBFlow<> interval(2);
 	interval.add_edge(0, 1, 0, 1, -3);
 	interval.add_edge(0, 1, 0, 1, 4);
-	assert(interval.flow(0, 1, 0, 2)->value == 1);
-	assert(interval.flow(0, 1, 0, 2)->cost == -3);
+	assert(interval.solve(0, 1, 0, 2)->value == 1);
+	assert(interval.solve(0, 1, 0, 2)->cost == -3);
 	assert(interval.max_flow(0, 1)->value == 2);
 	assert(interval.max_flow(0, 1)->cost == 1);
 	assert(interval.min_flow(0, 1)->value == 0);
@@ -356,7 +358,7 @@ void boundary_check() {
 	signed_interval.add_edge(0, 1, -2, 3, 2);
 	constexpr auto smallest = std::numeric_limits<std::int64_t>::min();
 	constexpr auto largest = std::numeric_limits<std::int64_t>::max();
-	auto signed_best = signed_interval.flow(0, 1, smallest, largest);
+	auto signed_best = signed_interval.solve(0, 1, smallest, largest);
 	assert(signed_best && signed_best->value == -2 && signed_best->cost == -4);
 	validate(signed_interval, *signed_best, 0, 1);
 	assert((signed_interval.flow_range(0, 1, smallest, largest) == std::pair<std::int64_t, std::int64_t>{-2, 3}));
@@ -378,18 +380,277 @@ void boundary_check() {
 	validate(large, *wide);
 	MinCostBFlow<> many(2);
 	for (int i = 0; i < 40; ++i) many.add_edge(0, 1, 0, 1, i);
-	auto full = many.flow(0, 1, 40);
+	auto full = many.solve(0, 1, 40);
 	assert(full && full->cost == 780);
 	validate(many, *full, 0, 1);
 	auto copy = many;
 	copy.change_edge(0, 0, 1, -100);
-	assert(copy.flow(0, 1, 40)->cost == 680);
-	assert(many.flow(0, 1, 40)->cost == 780);
+	assert(copy.solve(0, 1, 40)->cost == 680);
+	assert(many.solve(0, 1, 40)->cost == 780);
 	MinCostBFlow<std::int64_t, std::int64_t, std::int64_t> custom_total(2);
 	custom_total.add_edge(0, 1, 0, 5, -7);
 	auto custom = custom_total.max_flow(0, 1, 0, 5);
 	assert(custom && custom->value == 5 && custom->cost == -35);
 	validate(custom_total, *custom, 0, 1);
+}
+
+template<class Graph> void validate_state(const Graph& graph, const std::vector<int>& expected, __int128_t cost) {
+	assert(graph.potentials().size() == std::size_t(graph.size()));
+	std::vector<__int128_t> balance(graph.size());
+	__int128_t total = 0;
+	auto listed = graph.edges();
+	for (int i = 0; i < graph.edge_count(); ++i) {
+		auto edge = graph.get_edge(i);
+		assert(edge.cap == edge.upper && listed[i].flow == edge.flow);
+		assert(edge.lower <= edge.flow && edge.flow <= edge.upper);
+		balance[edge.from] += edge.flow, balance[edge.to] -= edge.flow;
+		total += __int128_t(edge.flow) * edge.cost;
+		auto reduced = __int128_t(edge.cost) + graph.potentials()[edge.from] - graph.potentials()[edge.to];
+		if (edge.flow < edge.upper) assert(reduced >= 0);
+		if (edge.lower < edge.flow) assert(reduced <= 0);
+	}
+	assert(total == cost);
+	for (int v = 0; v < graph.size(); ++v) assert(balance[v] == expected[v]);
+}
+
+template<class Cap> void continuation_check(int trials) {
+	using Graph = MinCostBFlow<Cap>;
+	std::mt19937_64 rng(319057);
+	for (int trial = 0; trial < trials; ++trial) {
+		int n = 2 + rng() % 3, m = rng() % 8;
+		Graph graph(n);
+		std::vector<InputEdge> edges;
+		std::vector<int> supply(n);
+		for (int i = 0; i < m; ++i) {
+			int from = rng() % n, to = rng() % n;
+			int lower = int(rng() % 3) - 1, upper = lower + rng() % 3;
+			int cost = int(rng() % 9) - 4;
+			graph.add_edge(from, to, Cap(lower), Cap(upper), cost);
+			edges.push_back({from, to, lower, upper, cost});
+			int flow = lower + rng() % (upper - lower + 1);
+			supply[from] += flow, supply[to] -= flow;
+		}
+		if (trial % 3 == 0) {
+			for (auto& value : supply) value = int(rng() % 7) - 3;
+			supply.back() -= std::accumulate(supply.begin(), supply.end(), 0);
+		}
+		for (int v = 0; v < n; ++v) graph.set_supply(v, Cap(supply[v]));
+		assert(graph.potentials().empty());
+		for (auto edge : graph.edges()) assert(edge.flow == 0 && edge.cap == edge.upper);
+		std::vector<int> current = supply;
+		long long total = 0;
+		for (int step = 0; step < 6; ++step) {
+			int from = rng() % n, to = (from + 1 + rng() % (n - 1)) % n;
+			int limit = rng() % 5;
+			auto expected = enumerate(n, edges, current, from, to);
+			auto first = expected.lower_bound(0), last = expected.upper_bound(limit);
+			auto before = graph.edges();
+			auto potential = graph.potentials();
+			auto actual = graph.flow(from, to, Cap(limit));
+			assert(bool(actual) == (first != last));
+			if (actual) {
+				auto best = std::prev(last);
+				assert(actual->first == best->first && actual->second == best->second - total);
+				total = best->second;
+				current[from] += actual->first, current[to] -= actual->first;
+				validate_state(graph, current, total);
+			} else {
+				for (int i = 0; i < m; ++i) assert(graph.get_edge(i).flow == before[i].flow);
+				assert(graph.potentials() == potential);
+			}
+		}
+		auto snapshot = graph.edges();
+		auto independent = graph.solve();
+		auto expected = enumerate(n, edges, supply);
+		assert(bool(independent) == expected.contains(0));
+		if (independent) assert(independent->cost == expected.at(0));
+		for (int i = 0; i < m; ++i) assert(graph.get_edge(i).flow == snapshot[i].flow);
+		graph.reset_flow();
+		assert(graph.potentials().empty());
+		for (auto edge : graph.edges()) assert(edge.flow == 0);
+		auto full = enumerate(n, edges, supply, 0, n - 1);
+		auto first = full.lower_bound(0);
+		auto actual = graph.flow(0, n - 1);
+		assert(bool(actual) == (first != full.end()));
+		if (actual) {
+			auto best = std::prev(full.end());
+			assert(actual->first == best->first && actual->second == best->second);
+		}
+	}
+}
+
+template<class Cap> void continuation_boundary_check() {
+	using Graph = MinCostBFlow<Cap>;
+	constexpr Cap largest = std::numeric_limits<Cap>::max();
+	constexpr Cap smallest = std::numeric_limits<Cap>::min();
+	Graph large(2);
+	for (int cost = 1; cost <= 3; ++cost) large.add_edge(0, 1, largest, cost);
+	for (int cost = 1; cost <= 3; ++cost) {
+		auto sent = large.flow(0, 1);
+		assert(sent && sent->first == largest && sent->second == __int128_t(largest) * cost);
+	}
+	for (auto edge : large.edges()) assert(edge.flow == largest);
+	auto exhausted = large.flow(0, 1);
+	assert(exhausted && exhausted->first == 0 && exhausted->second == 0);
+	large.add_edge(0, 1, largest, 4);
+	assert(large.get_edge(0).flow == largest && large.get_edge(3).flow == 0);
+	assert(large.potentials().empty());
+	auto extra = large.flow(0, 1);
+	assert(extra && extra->first == largest && extra->second == __int128_t(largest) * 4);
+	for (auto edge : large.edges()) assert(edge.flow == largest);
+	auto backward = large.flow(1, 0);
+	assert(backward && backward->first == largest && backward->second == -__int128_t(largest) * 4);
+	assert(large.get_edge(3).flow == 0);
+	Graph original_supply(2);
+	for (int cost = 1; cost <= 3; ++cost) original_supply.add_edge(0, 1, largest, cost);
+	original_supply.set_supply(0, largest), original_supply.set_supply(1, Cap(-largest));
+	auto initial = original_supply.flow(0, 1);
+	assert(initial && initial->first == largest && initial->second == __int128_t(largest) * 3);
+	auto next = original_supply.flow(0, 1);
+	assert(next && next->first == largest && next->second == __int128_t(largest) * 3);
+	for (auto edge : original_supply.edges()) assert(edge.flow == largest);
+	Graph full_width(2);
+	full_width.add_edge(0, 1, smallest, largest, 1);
+	auto zero = full_width.flow(0, 1, Cap(0));
+	assert(zero && zero->first == 0 && zero->second == 0);
+	auto reverse = full_width.flow(1, 0);
+	assert(reverse && reverse->first == largest && reverse->second == -__int128_t(largest));
+	auto last = full_width.flow(1, 0, Cap(1));
+	assert(last && last->first == 1 && last->second == -1);
+	assert(full_width.get_edge(0).flow == smallest);
+}
+
+void continuation_mutation_check() {
+	MinCostBFlow<> graph(3);
+	graph.add_edge(0, 1, 2, 3);
+	auto first = graph.flow(0, 1, 1);
+	assert(first && first->first == 1 && first->second == 3);
+	graph.add_edge(1, 2, 1, 1, 4);
+	assert(graph.get_edge(0).flow == 1 && graph.get_edge(1).flow == 0);
+	auto failed = graph.flow(0, 1, 0);
+	assert(!failed);
+	assert(graph.get_edge(0).flow == 1 && graph.get_edge(1).flow == 0);
+	graph.add_edge(2, 1, 1, 2);
+	auto repaired = graph.flow(0, 1, 0);
+	assert(repaired && repaired->first == 0 && repaired->second == 6);
+	validate_state(graph, {1, -1, 0}, 9);
+	auto copy = graph;
+	auto more = copy.flow(0, 1);
+	assert(more && more->first == 1 && more->second == 3);
+	assert(graph.get_edge(0).flow == 1);
+	graph.change_edge(0, 0, 2, 4);
+	for (auto edge : graph.edges()) assert(edge.flow == 0);
+	assert(graph.potentials().empty());
+	auto changed = graph.flow(0, 1, 1);
+	assert(changed && changed->first == 1 && changed->second == 10);
+	graph.set_supply(0, 1), graph.set_supply(1, -1);
+	assert(graph.get_edge(0).flow == 0);
+	auto specified = graph.flow(0, 1, 0);
+	assert(specified && specified->first == 0 && specified->second == 10);
+	graph.add_supply(0, 1), graph.add_supply(1, -1);
+	assert(graph.get_edge(0).flow == 0);
+	auto added = graph.flow(0, 1, 0);
+	assert(added && added->first == 0 && added->second == 14);
+	graph.reset_supply();
+	assert(graph.get_edge(0).flow == 0);
+	auto circulation = graph.flow(0, 1, 0);
+	assert(circulation && circulation->first == 0 && circulation->second == 6);
+	graph.reset_flow();
+	assert(graph.potentials().empty());
+	for (auto edge : graph.edges()) assert(edge.flow == 0);
+	MinCostBFlow<> lower(2);
+	lower.add_edge(0, 1, 3, 5, 2);
+	assert(!lower.flow(0, 1, 2));
+	assert(lower.get_edge(0).flow == 0);
+	auto limited = lower.flow(0, 1, 4);
+	assert(limited && limited->first == 4 && limited->second == 8);
+	auto less = lower.flow(0, 1, 3);
+	assert(less && less->first == 1 && less->second == 2);
+	auto backward = lower.flow(1, 0, 10);
+	assert(backward && backward->first == 2 && backward->second == -4);
+	assert(lower.get_edge(0).flow == 3);
+	MinCostBFlow<> negative(3);
+	negative.add_edge(0, 1, 1, 3, 2);
+	negative.add_edge(1, 0, 1, 3, 1);
+	negative.add_edge(2, 2, -1, 2, -7);
+	auto base = negative.flow(0, 1, 0);
+	assert(base && base->first == 0 && base->second == -11);
+	auto unchanged = negative.flow(0, 1, 0);
+	assert(unchanged && unchanged->first == 0 && unchanged->second == 0);
+	validate_state(negative, {0, 0, 0}, -11);
+	MinCostBFlow<> reroute(2);
+	reroute.add_edge(0, 1, 3, 5);
+	auto expensive = reroute.flow(0, 1, 1);
+	assert(expensive && expensive->first == 1 && expensive->second == 5);
+	reroute.add_edge(0, 1, 3, 1);
+	auto cheaper = reroute.flow(0, 1, 1);
+	assert(cheaper && cheaper->first == 1 && cheaper->second == -3);
+	assert(reroute.get_edge(0).flow == 0 && reroute.get_edge(1).flow == 2);
+	reroute.add_edge(0, 0, 2, -7);
+	auto negative_cycle = reroute.flow(0, 1, 0);
+	assert(negative_cycle && negative_cycle->first == 0 && negative_cycle->second == -14);
+	validate_state(reroute, {2, -2}, -12);
+	MinCostBFlow<std::int64_t, std::int64_t, std::int64_t> custom(2);
+	custom.add_edge(0, 1, 5, -7);
+	auto custom_first = custom.flow(0, 1, 2);
+	auto custom_more = custom.flow(0, 1, 5);
+	assert(custom_first && custom_first->first == 2 && custom_first->second == -14);
+	assert(custom_more && custom_more->first == 3 && custom_more->second == -21);
+	MinCostBFlow<> ordinary(4);
+	MinCostFlow<> reference(4);
+	for (auto [from, to, cap, cost] : std::vector<std::array<int, 4>>{
+		{0, 1, 2, 3}, {1, 3, 2, 1}, {0, 2, 3, 1}, {2, 3, 3, 1}, {1, 2, 2, 0}}) {
+		ordinary.add_edge(from, to, cap, cost);
+		reference.add_edge(from, to, cap, cost);
+	}
+	for (auto [from, to, limit] : std::vector<std::array<int, 3>>{
+		{0, 3, 1}, {0, 3, 2}, {3, 0, 2}, {1, 2, 1}, {0, 3, 9}}) {
+		auto actual = ordinary.flow(from, to, limit);
+		auto expected = reference.flow(from, to, limit);
+		assert(actual && *actual == expected);
+	}
+}
+
+void continuation_copy_check() {
+	MinCostBFlow<> source(2);
+	source.add_edge(0, 1, 3, 2);
+	assert(source.flow(0, 1, 1)->second == 2);
+	auto copied = source;
+	assert(source.flow(0, 1, 1)->second == 2);
+	assert(source.get_edge(0).flow == 2 && copied.get_edge(0).flow == 1);
+	assert(copied.flow(1, 0, 1)->second == -2);
+	assert(copied.get_edge(0).flow == 0 && source.get_edge(0).flow == 2);
+	auto& copied_alias = copied;
+	copied = copied_alias;
+	assert(copied.flow(0, 1, 1)->second == 2);
+	source.reset_flow();
+	auto inactive = source;
+	assert(inactive.get_edge(0).flow == 0 && inactive.potentials().empty());
+	assert(inactive.flow(0, 1, 1)->second == 2);
+	MinCostBFlow<> assigned(3);
+	assigned.add_edge(0, 2, 4, 7);
+	assert(assigned.flow(0, 2, 2)->second == 14);
+	assigned = source;
+	assert(assigned.size() == 2 && assigned.get_edge(0).flow == 0 && assigned.potentials().empty());
+	auto initial = assigned.flow(0, 1);
+	assert(initial && initial->first == 3 && initial->second == 6);
+	source.clear();
+	assigned = source;
+	assert(assigned.edge_count() == 0 && assigned.potentials().empty());
+	auto empty = assigned.flow(0, 1);
+	assert(empty && empty->first == 0 && empty->second == 0);
+	auto moved = std::move(copied);
+	assert(moved.get_edge(0).flow == 1);
+	assert(moved.flow(0, 1, 1)->second == 2);
+	assigned = std::move(moved);
+	assert(assigned.get_edge(0).flow == 2);
+	assert(assigned.flow(1, 0, 1)->second == -2);
+	auto inactive_moved = std::move(source);
+	assert(inactive_moved.edge_count() == 0);
+	auto& inactive_alias = inactive_moved;
+	inactive_moved = inactive_alias;
+	auto zero = inactive_moved.flow(0, 1);
+	assert(zero && zero->first == 0 && zero->second == 0);
 }
 
 int main() {
@@ -401,4 +662,12 @@ int main() {
 	one_sided_check<std::int32_t>();
 	one_sided_check<std::int64_t>();
 	boundary_check();
+	continuation_check<std::int8_t>(100);
+	continuation_check<std::int64_t>(150);
+	continuation_boundary_check<std::int8_t>();
+	continuation_boundary_check<std::int16_t>();
+	continuation_boundary_check<std::int32_t>();
+	continuation_boundary_check<std::int64_t>();
+	continuation_mutation_check();
+	continuation_copy_check();
 }

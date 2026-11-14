@@ -10,18 +10,29 @@
 using namespace std;
 
 int main() {
+	WeightedUnionFind<> empty(0);
+	assert(empty.size() == 0 && empty.vertex_count() == 0);
+	assert(empty.count() == 0 && empty.component_count() == 0);
 	WeightedUnionFind<> uf(6);
+	assert(uf.size() == 6 && uf.vertex_count() == 6 && uf.count() == 6);
 	assert(uf.merge(0, 1, 3));
 	assert(uf.merge(1, 2, -5));
 	assert(uf.diff(0, 2) == -2 && uf.diff(2, 0) == 2);
 	assert(uf.merge(0, 2, -2));
 	assert(!uf.merge(0, 2, 0));
+	assert(uf.component_count() == 4);
 	assert(uf.diff(0, 2) == -2 && uf.size(1) == 3);
 	assert(uf.merge(3, 4, 7));
 	assert(uf.merge(3, 0, -9));
 	assert(uf.diff(3, 2) == -11 && uf.diff(4, 0) == -16);
 	assert(uf.size(4) == 5 && !uf.same(0, 5));
 	assert(uf.merge(5, 5, 0) && !uf.merge(5, 5, 1));
+	assert(uf.count() == 2);
+	auto copy = uf;
+	assert(copy.merge(0, 5, 1) && copy.component_count() == 1);
+	assert(uf.component_count() == 2);
+	empty = copy;
+	assert(empty.size() == 6 && empty.count() == 1);
 	WeightedUnionFind<mint> modular(3);
 	assert(modular.merge(0, 1, mint(-1)));
 	assert(modular.merge(1, 2, mint(2)));
@@ -36,6 +47,7 @@ int main() {
 	for (int repeat_index = 0; repeat_index < 200; ++repeat_index) {
 		int n = 1 + random() % 25;
 		WeightedUnionFind<> current(n);
+		int components = n;
 		vector<vector<pair<int, int64_t>>> g(n);
 		for (int repeat_index = 0; repeat_index < 300; ++repeat_index) {
 			int x = random() % n, y = random() % n;
@@ -60,9 +72,12 @@ int main() {
 			bool valid = !seen[y] || distance[y] == w;
 			assert(current.merge(x, y, w) == valid);
 			if (valid && !seen[y]) {
+				--components;
 				g[x].emplace_back(y, w);
 				g[y].emplace_back(x, -w);
 			}
+			assert(current.size() == n && current.vertex_count() == n);
+			assert(current.count() == components && current.component_count() == components);
 		}
 	}
 	WeightedUnionFind<> chain(100000);

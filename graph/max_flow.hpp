@@ -13,6 +13,7 @@ template<class Cap = std::int64_t> class MaxFlow {
 	int index(int i) const { assert(0 <= i && std::size_t(i) < graph_.arcs.size() / 2); return 2 * i; }
 
   public:
+	using capacity_type = Cap;
 	struct Edge { int from, to; Cap cap, flow; };
 	explicit MaxFlow(int n = 0) : graph_(n) {}
 	int size() const { return graph_.n; }

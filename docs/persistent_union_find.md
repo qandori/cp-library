@@ -15,6 +15,7 @@ library_category: data_structure/persistent
 
 int main() {
 	PersistentUnionFind uf(5);
+	assert(uf.size() == 5 && uf.vertex_count() == 5);
 	auto v0 = uf.initial_root();
 	auto v1 = uf.merge(v0, 0, 1);
 	auto v2 = uf.merge(v1, 1, 2);
@@ -22,10 +23,13 @@ int main() {
 	assert(!uf.same(v0, 0, 1) && uf.same(v2, 0, 2));
 	assert(uf.size(v1, 0) == 2 && uf.size(v2, 0) == 3);
 	assert(uf.component_count(v3) == 4);
+	assert(uf.count(v3) == 4);
 }
 ```
 
 保存した各状態を版と呼び、その状態を指定する `root_type` の値をルートと呼びます。各更新は新しい版のルートを返し、引数で指定した版は変更しません。`initial_root()` が最初の版です。ルートをコピーするだけなら時間・追加領域ともに $$O(1)$$ で、任意の過去版から分岐できます。同じオブジェクトから得たルートだけを渡してください。版ごとのノード解放は行いません。オブジェクト自体のコピーは全ノードの複製になります。
+
+以下では、頂点数を $$n$$ とします。
 
 | 操作 | 内容 | 計算量 |
 | --- | --- | --- |
@@ -34,8 +38,8 @@ int main() {
 | `leader(root,x)` | 成分の代表頂点 | $$O(\log^2 n)$$ |
 | `same(root,a,b)` | 同じ成分か | $$O(\log^2 n)$$ |
 | `size(root,x)` | `x` の成分の頂点数 | $$O(\log^2 n)$$ |
-| `component_count(root)` | 成分数 | $$O(1)$$ |
-| `vertex_count()` | 全頂点数 | $$O(1)$$ |
+| `count(root)` / `component_count(root)` | 指定した版の連結成分数を `int` で返す同じ操作 | 時間・追加空間とも $$O(1)$$ |
+| `size()` / `vertex_count()` | 全頂点数を `int` で返す同じ操作 | 時間・追加空間とも $$O(1)$$ |
 | `groups(root)` | 各成分の頂点リスト | $$O(n\log^2 n)$$ |
 
 `0 <= n <= INT_MAX`、頂点は `0 <= x < n` とします。`root_type` は親配列のルートと成分数をまとめた値です。自分で中身を書き換えず、そのまま保存してください。

@@ -11,14 +11,16 @@ redirect_from:
 
 ```cpp
 #include "lib/graph/bipartite_matching.hpp"
+#include <cassert>
 
 int main() {
 	BipartiteMatching graph(3, 2);
 	graph.add_edge(0, 0);
 	graph.add_edge(1, 0);
 	graph.add_edge(1, 1);
-	assert(graph.build() == 2);
-	auto matching = graph.edges();
+	assert(graph.matching_size() == 2);
+	auto matching = graph.maximum_matching();
+	assert(matching.size() == 2);
 	auto cover = graph.minimum_vertex_cover();
 	auto independent = graph.maximum_independent_set();
 	auto witness = graph.hall_witness_left();
@@ -28,7 +30,9 @@ int main() {
 }
 ```
 
-$$L,R$$ を左右の頂点数、$$N=L+R$$、$$M$$ を追加した辺数、$$K=\min(L,R)$$ とします。表の計算量は最新の最大マッチングを計算済みの場合です。結果を取得する操作は、必要なら最初に `build()` を呼びます。
+`matching_size()` は最新の最大マッチングの本数、`maximum_matching()` はその頂点対の一覧を返します。辺を追加した後も、そのまま呼び出せます。引数・返り値の形は [二部グラフ（自動色分け）](bipartite_graph.md) の同名の操作と共通です。
+
+$$L,R$$ を左右の頂点数、$$N=L+R$$、$$M$$ を追加した辺数、$$K=\min(L,R)$$ とします。`matching_size()`・`maximum_matching()` の計算量には、最大マッチングの計算を含めています。それ以外の結果取得操作は、最新の最大マッチングを計算済みの場合の計算量です。結果取得時に未計算なら、先に `build()` の計算量が加わります。最大マッチング計算の式は $$K\geq1$$ の場合で、左右のいずれかが空の場合は計算不要です。
 
 | 操作 | 内容・返り値 | 計算量 |
 | --- | --- | --- |
@@ -39,6 +43,8 @@ $$L,R$$ を左右の頂点数、$$N=L+R$$、$$M$$ を追加した辺数、$$K=\m
 | `add_edge(u,v)` | 左 `u` と右 `v` を結び、辺 ID を返す | 償却 $$O(1)$$ |
 | `get_edge(id)` | 入力辺の頂点対 `(左,右)` | $$O(1)$$ |
 | `build()` | 最大マッチングの本数を返す。辺追加後も呼べる | $$O((N+M)\sqrt K)$$ |
+| `matching_size()` | 最新の最大マッチングの本数を `int` で返す | 時間 $$O((N+M)\sqrt K)$$、追加空間 $$O(N+M)$$ |
+| `maximum_matching()` | 最新の最大マッチングの頂点対 `(左,右)` を `vector<pair<int,int>>` で返す | 時間 $$O((N+M)\sqrt K)$$、追加空間 $$O(N+M)$$ |
 | `left_mates()` / `right_mates()` | 相手の番号の `const vector<int>&`。未対応は -1 | $$O(1)$$ |
 | `covers_left()` / `covers_right()` | 左／右の全頂点を対応付けられるか | $$O(1)$$ |
 | `edges()` | 最大マッチングの頂点対 `(左,右)` の一覧 | $$O(L)$$ |
@@ -51,9 +57,9 @@ $$L,R$$ を左右の頂点数、$$N=L+R$$、$$M$$ を追加した辺数、$$K=\m
 | `edge_classification()` | 各入力辺が最大マッチングに使えるか・必須かを返す | $$O(N+M)$$ |
 | `clear()` | 頂点数を維持し、全辺・マッチング・解析結果を削除 | $$O(N+M)$$ |
 
-`add_edge(u,v)` の ID は 0 から追加順です。多重辺も使えます。頂点数は非負で和が `INT_MAX` 未満、辺数は `INT_MAX` 以下にします。辺を追加してから結果取得の操作を呼ぶと、新しいグラフで最大マッチングを更新します。辺追加のない `build()` は $$O(1)$$ です。辺のないグラフも扱えます。
+`add_edge(u,v)` の ID は 0 から追加順です。多重辺も使えます。頂点数は非負で和が `INT_MAX` 未満、辺数は `INT_MAX` 以下にします。辺を追加してから結果取得の操作を呼ぶと、新しいグラフで最大マッチングを更新します。辺追加のない `build()`・`matching_size()` は $$O(1)$$ 時間・追加空間、計算済みの `maximum_matching()` は $$O(L)$$ 時間・返り値を含め $$O(K)$$ 追加空間です。左右のいずれかが空の場合も同じです。辺のないグラフも扱え、マッチングの本数は 0、一覧は空配列になります。
 
-`edges()` と `matching_edge_ids()` は左頂点の昇順に対応します。`left_mates()[u]` は左 `u` の相手、`right_mates()[v]` は右 `v` の相手です。左右の全頂点を覆う完全マッチングが存在する条件は、`covers_left() && covers_right()` です。
+`maximum_matching()`・`edges()`・`matching_edge_ids()` は左頂点の昇順に対応します。`maximum_matching()` と `edges()` は同じ内容を返し、配列は以降の辺追加や計算によって書き換わりません。`left_mates()[u]` は左 `u` の相手、`right_mates()[v]` は右 `v` の相手です。左右の全頂点を覆う完全マッチングが存在する条件は、`covers_left() && covers_right()` です。
 
 `VertexSet` は `left`・`right` という `vector<int>` を持ち、それぞれの側の頂点番号を昇順で返します。最小頂点被覆の頂点数は最大マッチングの本数と等しく、最大独立集合は返した最小頂点被覆の補集合です。
 

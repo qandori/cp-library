@@ -16,6 +16,15 @@ int main() {
 	fps inverse = f.inv(10);
 	assert((product == fps{4, 13, 22, 15}));
 	assert(inverse.size() == 10 && inverse[0] == mint(1));
+	assert((mint(2) + f == fps{3, 2, 3}));
+	assert((mint(2) - f == fps{1, -2, -3}));
+	assert((mint(2) * f == fps{2, 4, 6}));
+	fps padded{1, 0, 0};
+	padded.trim();
+	assert((padded == fps{1}));
+	padded.resize(3);
+	padded.shrink();
+	assert((padded == fps{1}));
 }
 ```
 
@@ -40,6 +49,8 @@ wc -c submit.cpp
 
 `pre(n)` は高次の係数を切り落とすだけで、零を補って長くする操作ではありません。長さを伸ばすときは `resize(n)` を使います。加減算は長い方の入力長、定数との加減算は空列なら長さ 1 になり、それ以外は元の長さを保ちます。`divmod` の商・余りは末尾の零を除き、零多項式は空配列で返します。
 
+表の $$n$$ は、操作に渡す係数列と返す係数列の最大長です。`pre(n)`・`resize(n)` の引数も、この最大長に含めます。係数の四則演算とコピーを定数時間とします。
+
 | 操作 | 内容・返り値 | 計算量 |
 | --- | --- | --- |
 | `fps()` / `fps(n)` / `fps{a0,a1,...}` / `fps(vector<mint>)` | 空列／長さ指定／係数列から構築 | 空: $$O(1)$$、長さ指定: $$O(n)$$ |
@@ -48,9 +59,11 @@ wc -c submit.cpp
 | `fps::multiply(f,g)` / `f * g` | 多項式の積 | $$O(n\log n)$$ |
 | `-f` / `f + g` / `f - g` | 符号反転／加算／減算 | $$O(n)$$ |
 | `f + c` / `f - c` / `f * c` / `f / c` | 定数項への加減算／全係数の定数倍・除算。除数は非零 | $$O(n)$$ |
+| `c + f` / `c - f` / `c * f` | 定数を左に置いた加算／減算／定数倍。`c` は係数型の値で、結果を新しい係数列で返す | 時間・追加空間とも $$O(n)$$ |
 | `f += g` / `f -= g` / `f *= g` / `f /= g` / `f %= g` | 演算結果を代入。定数との複合代入も利用可 | 加減算: $$O(n)$$、乗除算・剰余: $$O(n\log n)$$、定数項の加減算: $$O(1)$$ |
 | `f << d` / `f >> d` / `f <<= d` / `f >>= d` | 係数列をずらし、元のサイズを保つ。`d >= 0` | $$O(n)$$ |
 | `f.pre(n)` | 先頭から高々 `n` 個の係数を返す。`n >= 0` | $$O(n)$$ |
+| `f.shrink()` / `f.trim()` | 自身の末尾の零を除く同じ操作。返り値は `void`。零多項式は空配列になり、空列は変わらない。確保済み容量は保持する | 時間 $$O(n)$$、追加空間 $$O(1)$$ |
 | `f / g` / `f.div_series(g,deg = -1)` | 級数の除算。$$g_0 \ne 0$$ | $$O(n\log n)$$ |
 | `f.divmod(g)` / `f % g` | 多項式の商と余り／余り。$$g \ne 0$$ | $$O(n\log n)$$ |
 | `f.inv(deg = -1)` | 逆数。$$f_0 \ne 0$$ | $$O(n\log n)$$ |
@@ -69,12 +82,10 @@ wc -c submit.cpp
 
 [Bostan–Mori](https://qandori.github.io/cp-library/fps/bostan_mori.hpp.html)、[線形漸化式](https://qandori.github.io/cp-library/fps/linear_recurrence.hpp.html)、[合成](https://qandori.github.io/cp-library/fps/compose.hpp.html)、[合成逆元](https://qandori.github.io/cp-library/fps/compositional_inverse.hpp.html)、[多点評価](https://qandori.github.io/cp-library/fps/multipoint_eval.hpp.html)、[補間](https://qandori.github.io/cp-library/fps/interpolate.hpp.html)、[Taylor shift](https://qandori.github.io/cp-library/fps/taylor_shift.hpp.html) の使い方は、各ページを参照してください。
 
-入力・出力の最大係数数を $$n$$ とします。
-
 | 操作 | 時間計算量 |
 | --- | --- |
 | 加減算・定数との演算・`diff`・`integral`・`onemul`・`onediv`・一点評価 | $$O(n)$$ |
 | 乗算・級数除算・多項式除算・`inv`・`log`・`exp`・`sqrt` | $$O(n \log n)$$ |
 | `pow(k)` | $$O(n \log n + \log k)$$ |
 
-追加空間は $$O(n)$$ です。共有する NTT と整数逆元の表は、それまでに使った最大の長さに応じて領域を保持します。
+追加空間は $$O(n)$$ です。`shrink`・`trim` は $$O(1)$$ の追加空間で処理し、係数列の確保済み容量を減らしません。共有する NTT と整数逆元の表は、それまでに使った最大の長さに応じて領域を保持します。

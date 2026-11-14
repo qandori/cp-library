@@ -27,11 +27,13 @@ class PersistentUnionFind {
   public:
 	explicit PersistentUnionFind(int n = 0) : parent(n, -1) {}
 	int vertex_count() const { return parent.size(); }
+	int size() const { return vertex_count(); }
 	root_type initial_root() const { return {parent.initial_root(), vertex_count()}; }
 	int leader(root_type root, int x) const { return leader_size(root, x).first; }
 	bool same(root_type root, int a, int b) const { return leader(root, a) == leader(root, b); }
 	int size(root_type root, int x) const { return -leader_size(root, x).second; }
 	int component_count(root_type root) const { return root.components; }
+	int count(root_type root) const { return component_count(root); }
 	root_type merge(root_type root, int a, int b) {
 		auto [u, x] = leader_size(root, a);
 		auto [v, y] = leader_size(root, b);

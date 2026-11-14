@@ -244,7 +244,7 @@
 | --- | --- | --- |
 | `graph/max_flow.hpp` | 最大流・最小カット | [使い方](docs/max_flow.md) |
 | `graph/min_cost_flow.hpp` | 最小費用流・費用曲線 | [使い方](docs/min_cost_flow.md) |
-| `graph/min_cost_b_flow.hpp` | 下限付き最小費用流・頂点の需給・流量範囲 | [使い方](docs/min_cost_b_flow.md) |
+| `graph/min_cost_b_flow.hpp` | 下限付き最小費用流・頂点ごとの流量指定・流量範囲 | [使い方](docs/min_cost_b_flow.md) |
 | `graph/project_selection.hpp` | Project Selection（燃やす埋める） | [使い方](docs/project_selection.md) |
 
 ### graph/matching

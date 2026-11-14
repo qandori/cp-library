@@ -1,4 +1,5 @@
 #include "graph/max_flow_lower_bound.hpp"
+#include <algorithm>
 #include <array>
 #include <cassert>
 #include <functional>
@@ -466,6 +467,101 @@ void continuation_copy_check() {
 	assert(inactive_moved.flow(0, 1) == 0);
 }
 
+template<class Cap> void incremental_edges_check(int trials) {
+	std::mt19937_64 rng(870191);
+	for (int trial = 0; trial < trials; ++trial) {
+		int n = 2 + rng() % 3;
+		MaxFlowLowerBound<Cap> graph(n);
+		std::vector<InputEdge> edges;
+		std::vector<int> current(n);
+		for (int step = 0; step < 10; ++step) {
+			if (edges.size() < 7 && (step < 2 || rng() % 3)) {
+				int from = rng() % n, to = rng() % n;
+				int lower = int(rng() % 5) - 2, upper = lower + rng() % 3;
+				graph.add_edge(from, to, Cap(lower), Cap(upper));
+				edges.push_back({from, to, lower, upper});
+			}
+			if (step == 7 && trial % 3 == 0) {
+				graph.reset_flow();
+				std::fill(current.begin(), current.end(), 0);
+			}
+			int s = rng() % n, t = (s + 1 + rng() % (n - 1)) % n;
+			int limit = rng() % 4;
+			auto expected = enumerate(n, edges, current, s, t);
+			auto first = expected.lower_bound(0), last = expected.upper_bound(limit);
+			auto before = graph.edges();
+			auto actual = graph.flow(s, t, Cap(limit));
+			assert(bool(actual) == (first != last));
+			if (actual) {
+				assert(*actual == *std::prev(last));
+				current[s] += *actual, current[t] -= *actual;
+				validate_state(graph, current);
+			} else {
+				for (int i = 0; i < graph.edge_count(); ++i) assert(graph.get_edge(i).flow == before[i].flow);
+			}
+			if (step == 4 && trial % 25 == 0) {
+				auto saved = graph.edges();
+				auto independent = enumerate(n, edges, std::vector<int>(n), 0, n - 1);
+				check_interval(graph, independent, 0, n - 1, -4, 4);
+				for (int i = 0; i < graph.edge_count(); ++i) assert(graph.get_edge(i).flow == saved[i].flow);
+			}
+		}
+	}
+}
+
+void negative_upper_continuation_check() {
+	MaxFlowLowerBound<> graph(3);
+	graph.add_edge(0, 1, 4);
+	assert(graph.flow(0, 1, 2) == 2);
+	graph.add_edge(1, 2, -3, -1);
+	assert(!graph.flow(0, 1, 0));
+	assert(graph.get_edge(0).flow == 2 && graph.get_edge(1).flow == 0);
+	auto retry = graph;
+	assert(retry.flow(2, 1, 1) == 1);
+	validate_state(retry, {2, -3, 1});
+	assert(graph.get_edge(0).flow == 2 && graph.get_edge(1).flow == 0);
+	graph.add_edge(1, 2, 3);
+	assert(graph.flow(0, 1, 0) == 0);
+	validate_state(graph, {2, -2, 0});
+	assert(graph.flow(0, 1, 3) == 2);
+	assert(graph.flow(1, 0, 3) == 3);
+	validate_state(graph, {1, -1, 0});
+}
+
+void configuration_reset_check() {
+	MaxFlowLowerBound<> graph(2);
+	graph.add_edge(0, 1, 4);
+	graph.change_edge(0, 1, 4);
+	assert(!graph.flow(0, 1, 0));
+	auto copied = graph;
+	assert(!copied.flow(0, 1, 0));
+	MaxFlowLowerBound<> assigned(3);
+	assigned = graph;
+	assert(!assigned.flow(0, 1, 0));
+	graph.change_edge(0, -4, -1);
+	assert(!graph.flow(0, 1, 2));
+	assert(graph.flow(1, 0, 2) == 2);
+	graph.change_edge(0, -4, 4);
+	graph.set_supply(0, 1);
+	assert(!graph.flow(0, 1, 2));
+	auto unbalanced = graph;
+	assert(!unbalanced.flow(0, 1, 2));
+	graph.set_supply(1, -1);
+	assert(graph.flow(0, 1, 0) == 0);
+	validate_state(graph, {1, -1});
+	graph.reset_supply();
+	assert(graph.flow(0, 1, 0) == 0);
+	validate_state(graph, {0, 0});
+	graph.add_supply(0, 1), graph.add_supply(0, -1);
+	assert(graph.flow(0, 1, 0) == 0);
+	graph.clear();
+	graph.add_edge(0, 1, 2, 3);
+	assert(!graph.flow(0, 1, 1));
+	graph.add_edge(1, 0, 2);
+	assert(graph.flow(0, 1, 0) == 0);
+	validate_state(graph, {0, 0});
+}
+
 int main() {
 	random_check<std::int8_t>(200);
 	random_check<std::int16_t>(200);
@@ -484,4 +580,8 @@ int main() {
 	continuation_boundary_check<std::int64_t>();
 	continuation_mutation_check();
 	continuation_copy_check();
+	incremental_edges_check<std::int8_t>(150);
+	incremental_edges_check<std::int64_t>(150);
+	negative_upper_continuation_check();
+	configuration_reset_check();
 }

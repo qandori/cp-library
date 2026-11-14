@@ -275,6 +275,10 @@ class MinCostBFlow {
 	std::optional<std::pair<Cap, Total>> flow(int s, int t, Cap limit = std::numeric_limits<Cap>::max()) {
 		vertex(s), vertex(t);
 		assert(s != t && limit >= 0);
+		if (active_ && state_->potential.size() == std::size_t(size()) && !limit) {
+			state_->value = 0;
+			return std::pair<Cap, Total>{Cap(0), Total(0)};
+		}
 		std::vector<Wide> values;
 		if (active_) {
 			values.assign(supply_.begin(), supply_.end());
@@ -284,6 +288,10 @@ class MinCostBFlow {
 		const auto* initial = active_ ? &state_->flow : nullptr;
 		auto maximum = solve_impl(s, t, Cap(0), limit, -1, balance, initial);
 		if (!maximum) return std::nullopt;
+		if (active_ && state_->potential.size() == std::size_t(size()) && !maximum->value) {
+			state_->value = 0;
+			return std::pair<Cap, Total>{Cap(0), Total(0)};
+		}
 		auto result = solve_impl(s, t, maximum->value, maximum->value, 0, balance, initial);
 		assert(result);
 		Cap sent = result->value;
@@ -306,6 +314,7 @@ class MinCostBFlow {
 		assert(lower <= upper);
 		auto first = solve_impl(s, t, lower, upper, 1);
 		if (!first) return std::nullopt;
+		if (lower == upper) return std::pair<Cap, Cap>{first->value, first->value};
 		auto last = solve_impl(s, t, lower, upper, -1);
 		assert(last);
 		return std::pair<Cap, Cap>{first->value, last->value};

@@ -653,6 +653,198 @@ void continuation_copy_check() {
 	assert(zero && zero->first == 0 && zero->second == 0);
 }
 
+template<class Graph> void independent_queries_check(const Graph& graph, const std::vector<InputEdge>& edges) {
+	using Cap = typename Graph::capacity_type;
+	int s = 0, t = graph.size() - 1;
+	auto expected = enumerate(graph.size(), edges, std::vector<int>(graph.size()), s, t);
+	auto first = expected.lower_bound(-4), last = expected.upper_bound(4);
+	bool feasible = first != last;
+	auto before = graph.edges();
+	auto potential = graph.potentials();
+	auto interval = graph.flow_range(s, t, Cap(-4), Cap(4));
+	auto minimum = graph.min_flow(s, t, Cap(-4), Cap(4));
+	auto maximum = graph.max_flow(s, t, Cap(-4), Cap(4));
+	auto cheapest = graph.solve(s, t, Cap(-4), Cap(4));
+	assert(bool(interval) == feasible && bool(minimum) == feasible);
+	assert(bool(maximum) == feasible && bool(cheapest) == feasible);
+	if (feasible) {
+		auto end = std::prev(last);
+		long long cost = first->second;
+		for (auto it = first; it != last; ++it) cost = std::min(cost, it->second);
+		assert(interval->first == first->first && interval->second == end->first);
+		assert(minimum->value == first->first && minimum->cost == first->second);
+		assert(maximum->value == end->first && maximum->cost == end->second);
+		assert(cheapest->cost == cost && expected.at(cheapest->value) == cost);
+		validate(graph, *minimum, s, t);
+		validate(graph, *maximum, s, t);
+		validate(graph, *cheapest, s, t);
+	}
+	for (int i = 0; i < graph.edge_count(); ++i) assert(graph.get_edge(i).flow == before[i].flow);
+	assert(graph.potentials() == potential);
+}
+
+template<class Cap> void incremental_edges_check(int trials) {
+	std::mt19937_64 rng(460291);
+	for (int trial = 0; trial < trials; ++trial) {
+		int n = 2 + rng() % 3;
+		MinCostBFlow<Cap> graph(n);
+		std::vector<InputEdge> edges;
+		std::vector<int> current(n);
+		long long total = 0;
+		for (int step = 0; step < 10; ++step) {
+			if (edges.size() < 7 && (step < 2 || rng() % 3)) {
+				int from = rng() % n, to = rng() % n;
+				int lower = int(rng() % 5) - 2, upper = lower + rng() % 3;
+				int cost = int(rng() % 9) - 4;
+				graph.add_edge(from, to, Cap(lower), Cap(upper), cost);
+				edges.push_back({from, to, lower, upper, cost});
+			}
+			if (step == 7 && trial % 3 == 0) {
+				graph.reset_flow();
+				std::fill(current.begin(), current.end(), 0);
+				total = 0;
+			}
+			int s = rng() % n, t = (s + 1 + rng() % (n - 1)) % n;
+			int limit = rng() % 4;
+			auto expected = enumerate(n, edges, current, s, t);
+			auto first = expected.lower_bound(0), last = expected.upper_bound(limit);
+			auto before = graph.edges();
+			auto potential = graph.potentials();
+			auto actual = graph.flow(s, t, Cap(limit));
+			assert(bool(actual) == (first != last));
+			if (actual) {
+				auto best = std::prev(last);
+				assert(actual->first == best->first && actual->second == best->second - total);
+				total = best->second;
+				current[s] += actual->first, current[t] -= actual->first;
+				validate_state(graph, current, total);
+			} else {
+				for (int i = 0; i < graph.edge_count(); ++i) assert(graph.get_edge(i).flow == before[i].flow);
+				assert(graph.potentials() == potential);
+			}
+			if (step == 4 && trial % 25 == 0) independent_queries_check(graph, edges);
+		}
+	}
+}
+
+void negative_upper_continuation_check() {
+	MinCostBFlow<> graph(3);
+	graph.add_edge(0, 1, 4, 5);
+	auto first = graph.flow(0, 1, 2);
+	assert(first && first->first == 2 && first->second == 10);
+	graph.add_edge(1, 2, -3, -1, 7);
+	assert(!graph.flow(0, 1, 0));
+	assert(graph.get_edge(0).flow == 2 && graph.get_edge(1).flow == 0);
+	auto retry = graph;
+	auto after_failure = retry.flow(2, 1, 1);
+	assert(after_failure && after_failure->first == 1 && after_failure->second == -7);
+	validate_state(retry, {2, -3, 1}, 3);
+	assert(graph.get_edge(0).flow == 2 && graph.get_edge(1).flow == 0);
+	graph.add_edge(1, 2, 3, 1);
+	auto repaired = graph.flow(0, 1, 0);
+	assert(repaired && repaired->first == 0 && repaired->second == -18);
+	assert(graph.get_edge(1).flow == -3 && graph.get_edge(2).flow == 3);
+	validate_state(graph, {2, -2, 0}, -8);
+	auto more = graph.flow(0, 1, 3);
+	assert(more && more->first == 2 && more->second == 10);
+	auto backward = graph.flow(1, 0, 3);
+	assert(backward && backward->first == 3 && backward->second == -15);
+	validate_state(graph, {1, -1, 0}, -13);
+}
+
+template<class Cost> void sentinel_continuation_check() {
+	using Graph = MinCostBFlow<std::int64_t, Cost>;
+	constexpr Cost largest = std::numeric_limits<Cost>::max();
+	for (bool split : {false, true}) {
+		int n = split ? 6 : 4;
+		Graph graph(n);
+		if (split) {
+			graph.add_edge(0, 4, 1, 0);
+			graph.add_edge(4, 1, 1, 0);
+		} else graph.add_edge(0, 1, 1, 0);
+		graph.add_edge(2, 1, 1, Cost(-largest));
+		graph.add_edge(3, 1, 1, Cost(-4));
+		if (split) graph.add_edge(5, 4, 1, Cost(-(largest / 2)));
+		auto initial = graph.flow(0, 1, 0);
+		assert(initial && initial->first == 0 && initial->second == 0);
+		validate_state(graph, std::vector<int>(n), 0);
+		auto sent = graph.flow(0, 1, 1);
+		assert(sent && sent->first == 1 && sent->second == 0);
+		std::vector<int> balance(n);
+		balance[0] = 1, balance[1] = -1;
+		validate_state(graph, balance, 0);
+		auto exhausted = graph.flow(0, 1, 1);
+		assert(exhausted && exhausted->first == 0 && exhausted->second == 0);
+		auto backward = graph.flow(1, 0, 1);
+		assert(backward && backward->first == 1 && backward->second == 0);
+		validate_state(graph, std::vector<int>(n), 0);
+	}
+	Graph fixed(3);
+	fixed.add_edge(0, 1, 2, Cost(-largest));
+	fixed.add_edge(2, 1, 2, Cost(-4));
+	fixed.add_edge(1, 0, 0, 0, Cost(-largest));
+	fixed.set_supply(2, 1), fixed.set_supply(1, -1);
+	auto first = fixed.flow(0, 1, 1);
+	assert(first && first->first == 1 && first->second == -__int128_t(largest) - 4);
+	validate_state(fixed, {1, -2, 1}, -__int128_t(largest) - 4);
+	auto more = fixed.flow(0, 1, 1);
+	assert(more && more->first == 1 && more->second == -__int128_t(largest));
+	validate_state(fixed, {2, -3, 1}, -__int128_t(largest) * 2 - 4);
+	auto backward = fixed.flow(1, 0, 1);
+	assert(backward && backward->first == 1 && backward->second == largest);
+	validate_state(fixed, {1, -2, 1}, -__int128_t(largest) - 4);
+}
+
+template<class Total> void many_path_continuation_check() {
+	MinCostBFlow<std::int64_t, std::int64_t, Total> graph(2);
+	for (int cost = 1; cost <= 40; ++cost) graph.add_edge(0, 1, 1, cost);
+	auto first = graph.flow(0, 1, 1);
+	assert(first && first->first == 1 && first->second == 1);
+	auto forward = graph.flow(0, 1, 35);
+	assert(forward && forward->first == 35 && forward->second == 665);
+	validate_state(graph, {36, -36}, 666);
+	auto backward = graph.flow(1, 0, 20);
+	assert(backward && backward->first == 20 && backward->second == -530);
+	validate_state(graph, {16, -16}, 136);
+	auto remainder = graph.flow(0, 1, 100);
+	assert(remainder && remainder->first == 24 && remainder->second == 684);
+	validate_state(graph, {40, -40}, 820);
+}
+
+void zero_cost_continuation_check() {
+	MinCostBFlow<> graph(3);
+	graph.add_edge(0, 1, 1, 4, 0);
+	assert(!graph.flow(0, 1, 0));
+	auto first = graph.flow(0, 1, 3);
+	assert(first && first->first == 3 && first->second == 0);
+	auto more = graph.flow(0, 1, 100);
+	assert(more && more->first == 1 && more->second == 0);
+	auto backward = graph.flow(1, 0, 2);
+	assert(backward && backward->first == 2 && backward->second == 0);
+	validate_state(graph, {2, -2, 0}, 0);
+	graph.add_edge(1, 2, 1, 1, 0);
+	assert(!graph.flow(0, 1, 0));
+	assert(graph.get_edge(0).flow == 2 && graph.get_edge(1).flow == 0);
+	graph.add_edge(2, 1, 1, 0);
+	auto repaired = graph.flow(0, 1, 0);
+	assert(repaired && repaired->first == 0 && repaired->second == 0);
+	validate_state(graph, {2, -2, 0}, 0);
+	auto minimum = graph.min_flow(0, 1, 3, 3);
+	auto maximum = graph.max_flow(0, 1, 3, 3);
+	assert(minimum && minimum->value == 3 && minimum->cost == 0);
+	assert(maximum && maximum->value == 3 && maximum->cost == 0);
+	assert((graph.flow_range(0, 1, 3, 3) == std::pair<std::int64_t, std::int64_t>{3, 3}));
+	assert(graph.get_edge(0).flow == 2);
+	graph.change_edge(0, 1, 4, 3);
+	auto positive = graph.flow(0, 1, 2);
+	assert(positive && positive->first == 2 && positive->second == 6);
+	validate_state(graph, {2, -2, 0}, 6);
+	graph.change_edge(0, 1, 4, 0);
+	auto free = graph.flow(0, 1, 2);
+	assert(free && free->first == 2 && free->second == 0);
+	validate_state(graph, {2, -2, 0}, 0);
+}
+
 int main() {
 	random_check<int, int>(650);
 	random_check<std::int64_t, std::int64_t>(650);
@@ -670,4 +862,12 @@ int main() {
 	continuation_boundary_check<std::int64_t>();
 	continuation_mutation_check();
 	continuation_copy_check();
+	incremental_edges_check<std::int8_t>(150);
+	incremental_edges_check<std::int64_t>(150);
+	negative_upper_continuation_check();
+	sentinel_continuation_check<std::int32_t>();
+	sentinel_continuation_check<std::int64_t>();
+	many_path_continuation_check<std::int64_t>();
+	many_path_continuation_check<__int128_t>();
+	zero_cost_continuation_check();
 }

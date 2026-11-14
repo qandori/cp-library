@@ -2,6 +2,7 @@
 title: "NTT（法指定）"
 documentation_of: //components/ntt_mod.hpp
 redirect_from: /convolution/ntt_mod.hpp.html
+library_category: components
 ---
 
 NTT は、素数を法として係数列を別の値の列へ変換する方法です。長さを $$n$$、$$\omega=\mathrm{root}^{(\mathrm{mod}-1)/n}$$ とすると、順変換は $$\displaystyle A_k=\sum_{j=0}^{n-1}a_j\omega^{jk}$$ です。逆変換で元の係数列に戻せます。

@@ -1,6 +1,7 @@
 ---
 title: "疎 FPS の共通演算"
 documentation_of: //components/fps_sparse.hpp
+library_category: components/fps
 ---
 
 `fps_detail::SparseSeries` は、非零係数が少ない FPS の逆数・対数・指数・冪を計算する通常版 FPS の内部部品です。係数型は `mint` です。軽量版では [小さな疎演算の部品](fps_sparse_scalar.md) を使います。

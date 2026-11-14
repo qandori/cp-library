@@ -1,6 +1,7 @@
 ---
 title: "多変数の切り捨て畳み込み"
 documentation_of: //convolution/multivariate_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

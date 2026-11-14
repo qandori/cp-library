@@ -1,6 +1,7 @@
 ---
 title: 多点評価・補間の内部処理
 documentation_of: //components/fps_evaluation.hpp
+library_category: components/fps
 ---
 
 多点評価・補間の内部部品をまとめて読み込みます。通常は `fps/multipoint_eval.hpp` または `fps/interpolate.hpp` を使います。それぞれ必要な処理だけを読み込みます。Linux x86_64 / GCC で定義され、呼び出し側が AVX2（複数の整数をまとめて処理する CPU 命令）対応を確認します。

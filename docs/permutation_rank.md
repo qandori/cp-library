@@ -1,6 +1,7 @@
 ---
 title: 順列の辞書順順位・復元
 documentation_of: //sequence/permutation_rank.hpp
+library_category: sequence
 ---
 
 `0, ..., n-1` の順列について、辞書順で何番目かを求め、順位から元の順列を復元します。順位は **0 始まり**です。入力は変更しません。

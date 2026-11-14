@@ -2,6 +2,7 @@
 title: "Dynamic Bit Vector"
 documentation_of: //components/dynamic_bit_vector.hpp
 redirect_from: /data_structure/dynamic_bit_vector.hpp.html
+library_category: components/data_structure
 ---
 
 ```cpp

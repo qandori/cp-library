@@ -3,6 +3,7 @@ title: 全方位木 DP
 documentation_of: //tree/rerooting.hpp
 redirect_from:
 - /graph/rerooting.hpp.html
+library_category: tree
 ---
 
 全頂点をそれぞれ根にした木 DP を計算します。[全方位木 DP の抽象化](https://trap.jp/post/1702/)と同じように、辺の寄与 `E`、頂点の値 `V`、4 つの関数をテンプレート引数に指定します。

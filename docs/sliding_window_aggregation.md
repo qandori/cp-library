@@ -1,6 +1,7 @@
 ---
 title: Sliding Window Aggregation
 documentation_of: //data_structure/sliding_window_aggregation.hpp
+library_category: data_structure/range_query
 ---
 
 末尾への追加・先頭の削除ができるキューです。キュー全体の値を、先頭から末尾の順に `op` でまとめた結果（集約値）を取得できます。文字列連結のように順番で結果が変わる演算にも対応します。

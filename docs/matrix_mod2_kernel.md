@@ -1,6 +1,7 @@
 ---
 title: mod 2 行列の内部処理
 documentation_of: //components/matrix_mod2_kernel.hpp
+library_category: components/math
 ---
 
 [mod 2 専用行列](matrix_mod2.md)の内部部品です。通常は `math/matrix_mod2.hpp` の `MatrixMod2` を使います。和を XOR、積を AND として、64 個の成分を 1 個の整数にまとめて処理します。

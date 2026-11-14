@@ -1,6 +1,7 @@
 ---
 title: "整数幾何の点・ベクトル・偏角順"
 documentation_of: //integer_geometry/point.hpp
+library_category: integer_geometry
 ---
 
 ```cpp

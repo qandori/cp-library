@@ -1,6 +1,7 @@
 ---
 title: 最小シュタイナー木
 documentation_of: //graph/steiner_tree.hpp
+library_category: graph/spanning_tree
 ---
 
 非負重みの無向グラフで、指定した端点を全て連結にする最小コストの木を求めます。指定していない頂点も利用できます。厳密解を求めるため、端点数が小さい場合に使います。

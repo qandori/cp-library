@@ -1,6 +1,7 @@
 ---
 title: 対称群 Fourier 変換
 documentation_of: //components/symmetric_group_fft.hpp
+library_category: components/convolution
 ---
 
 $$n$$ 要素の全ての順列を集めたものを対称群と呼びます。各順列に対応する係数を並べた配列を、いくつかの正方行列へ変換します。変換後は行列ごとに積を取り、逆変換すると順列上の畳み込みを求められます。合成の規約と入力順は [対称群上の畳み込み](symmetric_group_convolution.md) と共通です。通常は畳み込み関数から使いますが、変換後の行列を保存して繰り返し使うこともできます。

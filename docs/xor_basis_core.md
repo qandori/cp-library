@@ -1,6 +1,7 @@
 ---
 title: XOR 基底の内部演算
 documentation_of: //components/xor_basis_core.hpp
+library_category: components/data_structure
 ---
 
 `math/xor_basis.hpp` が使う固定サイズの内部表現です。通常は公開側の [XorBasis](xor_basis.md) を使います。XOR 基底は、元の整数列と同じ部分集合 XOR を作れるように選んだ整数の組です。各基底要素は、他の基底要素の XOR では作れません。

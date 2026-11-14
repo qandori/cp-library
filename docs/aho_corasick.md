@@ -1,6 +1,7 @@
 ---
 title: Aho–Corasick
 documentation_of: //string/aho_corasick.hpp
+library_category: string/pattern_matching
 ---
 
 複数のパターンを登録し、本文を1回走査して一致を調べます。重なる出現も数えます。

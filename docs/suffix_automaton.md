@@ -1,6 +1,7 @@
 ---
 title: "Suffix Automaton（接尾辞オートマトン）"
 documentation_of: //string/suffix_automaton.hpp
+library_category: string/substring
 ---
 
 末尾へ文字を追加しながら、部分文字列の検索、出現回数、相異なる部分文字列の数を求めます。NUL・128 以上の値を含む全 256 種類のバイトに対応します。

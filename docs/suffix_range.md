@@ -1,6 +1,7 @@
 ---
 title: Suffix Range Core
 documentation_of: //components/suffix_range.hpp
+library_category: components/string
 ---
 
 固定した本文の接尾辞配列上で、パターンの出現区間を結合・切り出しする内部部品です。`DynamicPatternMatching` の断片の照合に使います。編集可能なパターン全体の管理には `DynamicPatternMatching` を使います。

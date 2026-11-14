@@ -1,6 +1,7 @@
 ---
 title: ワイルドカード付きパターンマッチング
 documentation_of: //string/wildcard_pattern_matching.hpp
+library_category: string/pattern_matching
 ---
 
 本文 `text` の中で、パターン `pattern` が一致する位置を求めます。ワイルドカードは任意の **1 バイト** に一致します。長さの異なる文字列に一致する機能ではありません。本文・パターンの双方にワイルドカードを含められ、判定に誤差や乱数による誤判定はありません。

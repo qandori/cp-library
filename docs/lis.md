@@ -3,6 +3,7 @@ title: "Longest Increasing Subsequence"
 documentation_of: //sequence/lis.hpp
 redirect_from:
 - /string/lis.hpp.html
+library_category: sequence
 ---
 
 列から要素を順序通りに選び、値が増加する部分列の最大長と、そのような部分列の 1 つを求めます。元の列で連続している必要はありません。数値以外の要素や独自の比較にも対応します。

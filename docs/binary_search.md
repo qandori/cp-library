@@ -1,6 +1,7 @@
 ---
 title: "条件を満たす添字の二分探索"
 documentation_of: //components/binary_search.hpp
+library_category: components/util
 ---
 
 ```cpp

@@ -1,6 +1,7 @@
 ---
 title: "Lazy Reversible Sequence（ブロック化された遅延伝搬・反転可能列）"
 documentation_of: //data_structure/lazy_reversible_sequence.hpp
+library_category: data_structure/sequence
 ---
 
 数列への挿入・削除、区間更新・反転、区間の計算結果の取得を扱います。ここで「集約」は、区間内の値を左から右の順に `op` でまとめることです。

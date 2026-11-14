@@ -1,6 +1,7 @@
 ---
 title: 三角形列挙
 documentation_of: //graph/enumerate_triangles.hpp
+library_category: graph
 ---
 
 無向単純グラフに含まれる三角形を、それぞれ1回ずつ列挙します。三角形とは、相異なる3頂点の全ての組に辺がある部分グラフです。

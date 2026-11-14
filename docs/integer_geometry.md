@@ -1,6 +1,7 @@
 ---
 title: "整数幾何"
 documentation_of: //integer_geometry/geometry.hpp
+library_category: integer_geometry
 ---
 
 固定幅整数で判定・計算する平面幾何の一括 include です。通常の [幾何](geometry.md) とは別の `integer_geometry` 名前空間を使います。

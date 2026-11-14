@@ -1,6 +1,7 @@
 ---
 title: FPS の指数・冪の内部変換
 documentation_of: //components/fps_exp_blocked.hpp
+library_category: components/fps
 ---
 
 `fps::exp()`・`fps::pow()` と形式的合成逆関数が使う内部部品です。Linux x86_64 / GCC で定義されます。呼び出し側は AVX2（複数の整数をまとめて処理する CPU 命令）対応を実行時に確認します。他の環境では公開 FPS の既存実装を使います。以下では $$p=998244353$$、係数数を $$n\ge1$$ とします。

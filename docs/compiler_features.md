@@ -1,6 +1,7 @@
 ---
 title: コンパイラとアーキテクチャの共通条件
 documentation_of: //components/compiler_features.hpp
+library_category: components/util
 ---
 
 ライブラリ内部のコンパイル対象の判定を共有します。各ライブラリから自動で読み込まれ、実行 CPU の命令対応は別に判定します。

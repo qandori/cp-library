@@ -1,6 +1,7 @@
 ---
 title: Range LIS の前計算
 documentation_of: //components/range_lis.hpp
+library_category: components/data_structure
 ---
 
 [Range LIS Query](range_lis_query.md) が使う前計算部品です。通常は `RangeLISQuery` を利用してください。

@@ -2,6 +2,7 @@
 title: "Predecessor Set（64 分木）"
 documentation_of: //components/predecessor_set.hpp
 redirect_from: /data_structure/fast_set.hpp.html
+library_category: components/data_structure
 ---
 
 ```cpp

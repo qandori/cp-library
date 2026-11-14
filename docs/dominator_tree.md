@@ -1,6 +1,7 @@
 ---
 title: Dominator Tree
 documentation_of: //graph/dominator_tree.hpp
+library_category: graph/connectivity
 ---
 
 有向グラフの始点からある頂点へ至る全ての経路が頂点 `u` を通るとき、`u` はその頂点を支配するといいます。到達可能な各頂点の直接支配頂点を求め、支配関係を表す木を構築します。

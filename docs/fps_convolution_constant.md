@@ -1,6 +1,7 @@
 ---
 title: FPS の定数係数畳み込み
 documentation_of: //components/fps_convolution_constant.hpp
+library_category: components/fps
 ---
 
 Linux x86_64 / GCC の AVX2（複数の整数をまとめて処理する CPU 命令）用内部部品です。公開の `fps::multiply` と `convolution` が、両入力の全係数がそれぞれ一定の場合に利用します。

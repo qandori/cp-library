@@ -1,6 +1,7 @@
 ---
 title: Subset Convolution Modular Core
 documentation_of: //components/subset_convolution_modular.hpp
+library_category: components/convolution
 ---
 
 [Subset 畳み込み](subset_convolution.md)の modint 用の内部処理です。通常は `subset_convolution(a,b)` を使います。

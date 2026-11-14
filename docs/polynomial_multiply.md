@@ -1,6 +1,7 @@
 ---
 title: 多項式の積・打ち切り積の共通処理
 documentation_of: //components/polynomial_multiply.hpp
+library_category: components/fps
 ---
 
 `polynomial_detail::Products<F,Limit>` は、積の木と FPS 合成が共有する内部部品です。`F` は `F::multiply` を持つ多項式型、`Limit` はその畳み込みの最大係数数です。

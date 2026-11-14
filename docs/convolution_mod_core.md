@@ -1,6 +1,7 @@
 ---
 title: 任意法畳み込みの共通部品
 documentation_of: //components/convolution_mod_core.hpp
+library_category: components/convolution
 ---
 
 [任意法・整数畳み込み](https://qandori.github.io/cp-library/convolution/convolution_mod.hpp.html) と[軽量版畳み込み](https://qandori.github.io/cp-library/convolution/convolution_light.hpp.html) が共有する内部部品です。通常は公開ヘッダーを使います。

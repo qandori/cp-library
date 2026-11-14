@@ -1,6 +1,7 @@
 ---
 title: "多角形の面積・内外判定・切断"
 documentation_of: //geometry/polygon.hpp
+library_category: geometry
 ---
 
 ```cpp

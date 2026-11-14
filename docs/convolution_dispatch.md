@@ -1,6 +1,7 @@
 ---
 title: 畳み込みの型別振り分け
 documentation_of: //components/convolution_dispatch.hpp
+library_category: components/convolution
 ---
 
 [畳み込み](convolution.md)と派生する畳み込みが共有する部品です。通常は `convolution/convolution.hpp` を読み込みます。

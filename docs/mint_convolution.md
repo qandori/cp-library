@@ -1,6 +1,7 @@
 ---
 title: modint998244353 の共有畳み込み
 documentation_of: //components/mint_convolution.hpp
+library_category: components/convolution
 ---
 
 [FPS](fps.md)と[畳み込み](convolution.md)が共有する、法 998244353 の積の計算です。通常は公開側のライブラリを使います。

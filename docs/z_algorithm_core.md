@@ -1,6 +1,7 @@
 ---
 title: Z algorithm（補助部品）
 documentation_of: //components/z_algorithm.hpp
+library_category: components/string
 ---
 
 一致長を計算する関数を受け取り、Z 配列や接頭辞との一致長を列挙する内部部品です。Z 配列は、各位置から始まる列と列全体の先頭が何要素一致するかを並べた配列です。

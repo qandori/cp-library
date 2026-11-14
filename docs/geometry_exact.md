@@ -1,6 +1,7 @@
 ---
 title: "任意精度による厳密な平面幾何"
 documentation_of: //geometry/exact.hpp
+library_category: geometry/exact
 ---
 
 ```cpp

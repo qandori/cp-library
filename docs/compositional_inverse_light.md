@@ -1,6 +1,7 @@
 ---
 title: "軽量 FPS の合成逆元"
 documentation_of: //fps/compositional_inverse_light.hpp
+library_category: fps
 ---
 
 ```cpp

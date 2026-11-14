@@ -1,6 +1,7 @@
 ---
 title: "円・接線・最小包含円"
 documentation_of: //geometry/circle.hpp
+library_category: geometry
 ---
 
 ```cpp

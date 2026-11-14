@@ -1,6 +1,7 @@
 ---
 title: "Fast I/O"
 documentation_of: //components/fast_io.hpp
+library_category: components/util
 ---
 
 ```cpp

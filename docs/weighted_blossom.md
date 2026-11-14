@@ -1,6 +1,7 @@
 ---
 title: Weighted Blossom（最大重みマッチングの内部部品）
 documentation_of: //components/weighted_blossom.hpp
+library_category: components/graph
 ---
 
 一般グラフの最大重みマッチングを計算する内部部品です。通常は `graph/general_weighted_matching.hpp` の `GeneralWeightedMatching` を使います。

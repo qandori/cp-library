@@ -1,6 +1,7 @@
 ---
 title: 整数商の列挙・添字
 documentation_of: //components/floor_quotients.hpp
+library_category: components/math
 ---
 
 ```cpp

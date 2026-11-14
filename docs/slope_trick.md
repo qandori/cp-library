@@ -1,6 +1,7 @@
 ---
 title: "Slope Trick"
 documentation_of: //data_structure/slope_trick.hpp
+library_category: data_structure
 ---
 
 傾きが左から右へ減少しない折れ線の関数を保持します。絶対値関数の加算や横方向への移動を行い、関数の最小値とその位置を求められます。

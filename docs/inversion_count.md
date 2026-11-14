@@ -1,6 +1,7 @@
 ---
 title: 転倒数
 documentation_of: //sequence/inversion_count.hpp
+library_category: sequence
 ---
 
 数列の転倒数、すなわち $$i<j$$ かつ $$a_i>a_j$$ を満たす添字の組の個数を返します。同じ値の組は数えません。入力は変更しません。

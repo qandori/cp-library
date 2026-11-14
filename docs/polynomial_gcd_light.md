@@ -1,6 +1,7 @@
 ---
 title: "多項式 GCD（軽量版）"
 documentation_of: //fps/polynomial_gcd_light.hpp
+library_category: fps
 ---
 
 ```cpp

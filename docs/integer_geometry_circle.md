@@ -1,6 +1,7 @@
 ---
 title: "整数幾何の円の内外・交差・位置関係"
 documentation_of: //integer_geometry/circle.hpp
+library_category: integer_geometry
 ---
 
 ```cpp

@@ -1,6 +1,7 @@
 ---
 title: "幾何の任意精度整数・有理数座標"
 documentation_of: //geometry/rational.hpp
+library_category: geometry/exact
 ---
 
 ```cpp

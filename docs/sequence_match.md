@@ -1,6 +1,7 @@
 ---
 title: "列の一致比較"
 documentation_of: //components/sequence_match.hpp
+library_category: components/string
 ---
 
 ```cpp

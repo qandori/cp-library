@@ -1,6 +1,7 @@
 ---
 title: Dijkstra Topological
 documentation_of: //components/dijkstra_topological.hpp
+library_category: components/graph
 ---
 
 [Dijkstra](https://qandori.github.io/cp-library/graph/dijkstra.hpp.html) のトポロジカル前処理です。通常は `graph/dijkstra.hpp` を include し、`dijkstra<true>` または `dijkstra_path<true>` で有効にします。既定の `dijkstra`・`dijkstra_path` では使いません。

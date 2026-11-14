@@ -1,6 +1,7 @@
 ---
 title: 文字列結合の辞書順比較・並べ替え
 documentation_of: //string/concatenation_order.hpp
+library_category: string
 ---
 
 文字列を並べ替えて結合したときに、辞書順最小・最大となる順序や文字列を求めます。

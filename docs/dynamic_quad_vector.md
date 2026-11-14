@@ -1,6 +1,7 @@
 ---
 title: Dynamic Quad Vector
 documentation_of: //components/dynamic_quad_vector.hpp
+library_category: components/data_structure
 ---
 
 [Dynamic Wavelet Matrix](https://qandori.github.io/cp-library/data_structure/dynamic_wavelet_matrix.hpp.html) の内部部品です。`dynamic_wavelet_detail::QuadVector<Block,Branch>` は 0・1・2・3 の列を保持し、任意位置への挿入・削除・代入と、指定位置より前にある各値の個数の取得を行います。通常は公開クラスの `DynamicWaveletMatrix` を使います。

@@ -1,6 +1,7 @@
 ---
 title: 有理 FPS の区間係数取得の共通処理
 documentation_of: //components/rational_fps_coefficients.hpp
+library_category: components/fps
 ---
 
 通常版と軽量版で共有する、有理式 $$p(x)/q(x)$$ を形式的冪級数として展開した係数を求める処理です。通常は [有理 FPS の区間係数取得](rational_fps_coefficients.md) を使います。

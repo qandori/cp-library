@@ -1,6 +1,7 @@
 ---
 title: modint998244353 の階乗・逆階乗生成
 documentation_of: //components/mint_factorials.hpp
+library_category: components/math
 ---
 
 FPS と二項係数の前計算で共有する内部処理です。NTT には依存せず、共通の剰余演算を使います。通常は [階乗・逆階乗と二項係数](https://qandori.github.io/cp-library/math/comb.hpp.html) を利用します。

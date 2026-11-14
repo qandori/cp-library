@@ -1,6 +1,7 @@
 ---
 title: FPS の合成の汎用実装
 documentation_of: //components/fps_compose_generic.hpp
+library_category: components/fps
 ---
 
 `fps_detail::composition_fallback::compose(outer,inner,deg = -1)` は、FPS 型 `F` の2つの列から `outer(inner(x)) mod x^deg` を `F` で返します。通常は [合成](compose.md) の公開ヘッダーを使います。

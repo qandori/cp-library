@@ -1,6 +1,7 @@
 ---
 title: 両端優先度付きキュー
 documentation_of: //data_structure/double_ended_priority_queue.hpp
+library_category: data_structure
 ---
 
 最小値・最大値を取得し、どちら側からも削除できるキューです。挿入する値を事前に集める必要はありません。重複した値は別々の要素として保持します。

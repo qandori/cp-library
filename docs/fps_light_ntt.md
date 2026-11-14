@@ -1,6 +1,7 @@
 ---
 title: "軽量 FPS の NTT"
 documentation_of: //components/fps_light_ntt.hpp
+library_category: components
 ---
 
 通常は [軽量 FPS](https://qandori.github.io/cp-library/fps/fps_light.hpp.html) を利用します。法 998244353 の共有 `mint` と小さい NTT を使う内部部品です。軽量 FPS と軽量畳み込みが共有し、このヘッダー単体では FPS 本体を読み込みません。通常版 FPS の変換処理は読み込みません。

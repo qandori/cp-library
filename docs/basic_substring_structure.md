@@ -1,6 +1,7 @@
 ---
 title: Basic Substring Structure
 documentation_of: //string/basic_substring_structure.hpp
+library_category: string/substring
 ---
 
 固定した文字列の異なる非空部分文字列を、階段状のブロックのセルへ一意に配置します。同じブロックの部分文字列は出現回数が等しく、先頭・末尾の 1 バイト削除をセル間の移動で扱えます。全セルを展開せず、ブロックと行・列の情報を線形空間で保持します。

@@ -133,5 +133,9 @@ def check(root):
 
 
 if __name__ == '__main__':
-    count = check(Path(__file__).resolve().parents[1])
+    root = Path(__file__).resolve().parents[1]
+    from library_categories import check as check_categories
+    categories = check_categories(root)
+    print(f'Checked explicit categories for {len(categories)} libraries')
+    count = check(root)
     print(f'Checked complexity descriptions for {count} libraries')

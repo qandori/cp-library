@@ -1,6 +1,7 @@
 ---
 title: "軽量 FPS の合成"
 documentation_of: //fps/compose_light.hpp
+library_category: fps
 ---
 
 ```cpp

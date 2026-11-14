@@ -1,6 +1,7 @@
 ---
 title: "Power Projection"
 documentation_of: //fps/power_projection.hpp
+library_category: fps
 ---
 
 $$[x^j]h(x)$$ は $$h(x)$$ の $$x^j$$ の係数を表します。各冪 $$f(x)^0,f(x)^1,\ldots$$ から指定した係数、または重み付きの和を取り出して並べる操作です。

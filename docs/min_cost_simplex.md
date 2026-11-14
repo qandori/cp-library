@@ -1,6 +1,7 @@
 ---
 title: 最小費用流の Network Simplex
 documentation_of: //components/min_cost_simplex.hpp
+library_category: components/graph
 ---
 
 [最小費用流](min_cost_flow.md)の内部部品です。通常は `MinCostFlow` を使います。

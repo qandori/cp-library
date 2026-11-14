@@ -1,6 +1,7 @@
 ---
 title: 挿入のみの区間和・個数（補助部品）
 documentation_of: //components/insert_only_prefix_count_sum.hpp
+library_category: components/data_structure
 ---
 
 [値の上限付き区間和](offline_range_sum.md)で使う、値の挿入と区間の和・個数の集計部品です。局所的な集計値が 64 bit に収まることを確認してから利用します。

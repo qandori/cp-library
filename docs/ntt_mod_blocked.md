@@ -1,6 +1,7 @@
 ---
 title: 任意法畳み込みのブロック変換
 documentation_of: //components/ntt_mod_blocked.hpp
+library_category: components/convolution
 ---
 
 [任意法・整数畳み込み](https://qandori.github.io/cp-library/convolution/convolution_mod.hpp.html) が使う内部部品です。通常は `convolution_mod(a,b,mod)` または `convolution_integer(a,b)` を使います。

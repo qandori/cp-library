@@ -1,6 +1,7 @@
 ---
 title: 法指定NTTの共通部品
 documentation_of: //components/ntt_mod_core.hpp
+library_category: components/convolution
 ---
 
 [法指定 NTT](https://qandori.github.io/cp-library/components/ntt_mod.hpp.html) と任意法畳み込みが共有する内部部品です。通常は `ntt_mod.hpp` の公開関数を使います。

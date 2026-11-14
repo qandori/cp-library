@@ -1,6 +1,7 @@
 ---
 title: "FPS の合成の専用変換"
 documentation_of: //components/fps_compose_blocked.hpp
+library_category: components/fps
 ---
 
 [合成](https://qandori.github.io/cp-library/fps/compose.hpp.html)が使う Linux x86_64 / GCC 向けの内部実装です。呼び出し側で AVX2（複数の整数をまとめて処理する CPU 命令）対応を確認して使います。[合成・射影の共通変換](fps_composition_common.md)を読み込み、射影専用の処理は読み込みません。

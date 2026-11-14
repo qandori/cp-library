@@ -1,6 +1,7 @@
 ---
 title: 区間加算・最小値のノード演算
 documentation_of: //components/range_add_min_node.hpp
+library_category: components/data_structure
 ---
 
 [区間加算・区間最小値](range_add_range_min.md)の 8 子ノードを処理する内部部品です。通常は `data_structure/range_add_range_min.hpp` を include します。

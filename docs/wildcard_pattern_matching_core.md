@@ -1,6 +1,7 @@
 ---
 title: ワイルドカード照合の内部部品
 documentation_of: //components/wildcard_pattern_matching.hpp
+library_category: components/string
 ---
 
 [ワイルドカード付きパターンマッチング](https://qandori.github.io/cp-library/string/wildcard_pattern_matching.hpp.html) の内部部品です。通常は公開ヘッダーを使います。

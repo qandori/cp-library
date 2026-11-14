@@ -1,6 +1,7 @@
 ---
 title: 線形漸化式の復元（Berlekamp–Massey）
 documentation_of: //fps/berlekamp_massey.hpp
+library_category: fps
 ---
 
 初めの $$d$$ 項を初期値とし、それ以降の各項を直前の $$d$$ 項の定数倍の和で表す漸化式を求めます。この $$d$$ を位数と呼び、位数が最小になるものを 1 つ返します。

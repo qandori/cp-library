@@ -1,6 +1,7 @@
 ---
 title: Suffix Array Core
 documentation_of: //components/suffix_array.hpp
+library_category: components/string
 ---
 
 [Suffix Tree](suffix_tree.md) で使う接尾辞配列の構築です。接尾辞配列は、各位置から末尾までの列を辞書順に並べ、その開始位置を格納した配列です。

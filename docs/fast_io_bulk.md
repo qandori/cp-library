@@ -1,6 +1,7 @@
 ---
 title: "整数の一括入出力"
 documentation_of: //components/fast_io_bulk.hpp
+library_category: components/util
 ---
 
 `uint32_t`・`int32_t` の整数をまとめて読み込みます。出力には [非負整数の一括出力](fast_io_output.md) を読み込みます。出力だけが必要なら、その部品を直接 include できます。

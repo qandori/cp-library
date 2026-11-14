@@ -1,6 +1,7 @@
 ---
 title: トポロジカルソート
 documentation_of: //graph/topological_sort.hpp
+library_category: graph
 ---
 
 有向グラフの全頂点を、各辺の始点が終点より前になるように並べます。閉路がある場合は `std::nullopt` を返します。

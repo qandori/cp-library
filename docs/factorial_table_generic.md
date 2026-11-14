@@ -1,6 +1,7 @@
 ---
 title: 汎用 modint の階乗・逆階乗生成
 documentation_of: //components/factorial_table_generic.hpp
+library_category: components/math
 ---
 
 通常版・軽量版の[二項係数](comb.md)が共有する表の生成処理です。利用者向けの階乗・逆階乗は二項係数ライブラリから取得できます。

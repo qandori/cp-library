@@ -1,6 +1,7 @@
 ---
 title: FPS の結果配列への一括変換
 documentation_of: //components/fps_output.hpp
+library_category: components/fps
 ---
 
 Linux x86_64 / GCC 用の内部部品です。呼び出し側が AVX2（複数の整数をまとめて処理する CPU 命令）対応を実行時に確認します。

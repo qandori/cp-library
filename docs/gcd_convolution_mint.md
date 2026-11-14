@@ -1,6 +1,7 @@
 ---
 title: modint998244353 の GCD 畳み込み
 documentation_of: //components/gcd_convolution_mint.hpp
+library_category: components/convolution
 ---
 
 [GCD・LCM 畳み込み](gcd_lcm_convolution.md)が使用する `mint` 用の計算部品です。通常は `convolution/gcd_lcm_convolution.hpp` を読み込み、`gcd_convolution(a,b)` を使います。

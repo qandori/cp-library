@@ -1,6 +1,7 @@
 ---
 title: 辺の値を扱う Link Cut Tree
 documentation_of: //tree/edge_link_cut_tree.hpp
+library_category: tree/dynamic
 ---
 
 辺の追加・削除・値の更新を行いながら、経路上の辺の値を順にまとめます。各辺には、通る方向ごとに別の値を指定できます。頂点に値を持たせる場合は [Link Cut Tree](link_cut_tree.md) を使います。

@@ -1,6 +1,7 @@
 ---
 title: 静的矩形和（クエリ先読み）
 documentation_of: //data_structure/offline_rectangle_sum.hpp
+library_category: data_structure/rectangle_query
 ---
 
 重み付きの点と矩形を登録し、各半開矩形に含まれる点の重みの和をまとめて求めます。

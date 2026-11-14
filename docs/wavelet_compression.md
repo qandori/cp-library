@@ -1,6 +1,7 @@
 ---
 title: "Wavelet Matrix の座標圧縮"
 documentation_of: //components/wavelet_compression.hpp
+library_category: components/util
 ---
 
 通常の Wavelet Matrix と重み付き Wavelet Matrix が共有する内部の座標圧縮です。Wavelet Matrix 本体やビット列には依存しません。

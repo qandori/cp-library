@@ -1,6 +1,7 @@
 ---
 title: 多点評価の専用処理
 documentation_of: //components/fps_multipoint.hpp
+library_category: components/fps
 ---
 
 `fps_detail::evaluation_poly` の多点評価用の内部部品です。通常は [多点評価](multipoint_eval.md) を使います。Linux x86_64 / GCC で定義され、AVX2（複数の整数をまとめて処理する CPU 命令）が必要です。

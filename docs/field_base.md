@@ -1,6 +1,7 @@
 ---
 title: 体の基本演算
 documentation_of: //components/field_base.hpp
+library_category: components/math
 ---
 
 要素型 `T` の演算をそのまま使う `field_detail::Field<T>` です。行列などの内部で使います。

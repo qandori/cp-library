@@ -1,6 +1,7 @@
 ---
 title: Stern–Brocot Tree の圧縮経路
 documentation_of: //components/stern_brocot_path.hpp
+library_category: components/math
 ---
 
 [Stern–Brocot Tree](https://qandori.github.io/cp-library/math/stern_brocot_tree.hpp.html) の内部部品です。同じ方向への連続移動を、その方向と移動回数にまとめて順に取り出します。

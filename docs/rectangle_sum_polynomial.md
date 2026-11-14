@@ -1,6 +1,7 @@
 ---
 title: 矩形和の四つの係数
 documentation_of: //components/rectangle_sum_polynomial.hpp
+library_category: components/data_structure
 ---
 
 [矩形加算・矩形和](rectangle_add_rectangle_sum.md) と [一括処理版](static_rectangle_add_rectangle_sum.md) の内部部品です。通常は公開ヘッダーを使います。

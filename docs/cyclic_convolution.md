@@ -1,6 +1,7 @@
 ---
 title: "巡回・負巡回畳み込み"
 documentation_of: //convolution/cyclic_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

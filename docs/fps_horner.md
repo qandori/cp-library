@@ -1,6 +1,7 @@
 ---
 title: FPS の一点評価
 documentation_of: //components/fps_horner.hpp
+library_category: components/fps
 ---
 
 `fps_detail::horner(a,n,x)` は、`Mint` の係数配列で表された多項式を一点 `x` で評価する内部部品です。通常は公開関数 `fps::eval(x)` を使います。係数は定数項から並べます。空の多項式は 0 を返し、`x=0` のときは定数項を返します。入力は変更せず、追加の先頭アドレスの配置条件や末尾の余分な領域を要求しません。

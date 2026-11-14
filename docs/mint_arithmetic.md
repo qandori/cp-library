@@ -1,6 +1,7 @@
 ---
 title: "modint998244353 の共通剰余演算"
 documentation_of: //components/mint_arithmetic.hpp
+library_category: components/math
 ---
 
 `mint` 用の階乗生成・多項式評価・NTT が共有する内部演算です。通常は [modint998244353](https://qandori.github.io/cp-library/math/mint.hpp.html) を利用します。NTT の変換処理や変換表には依存しません。

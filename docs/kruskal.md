@@ -1,6 +1,7 @@
 ---
 title: Kruskal（最小全域木）
 documentation_of: //graph/kruskal.hpp
+library_category: graph/spanning_tree
 ---
 
 重み付き無向グラフの最小全域木を求めます。非連結グラフでは、各連結成分の最小全域木を合わせた最小全域森を返します。

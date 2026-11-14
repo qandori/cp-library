@@ -1,6 +1,7 @@
 ---
 title: "Oct Bit Vector"
 documentation_of: //components/oct_bit_vector.hpp
+library_category: components/data_structure
 ---
 
 ```cpp

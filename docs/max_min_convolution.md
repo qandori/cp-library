@@ -1,6 +1,7 @@
 ---
 title: "max-min・min-max 畳み込み"
 documentation_of: //convolution/max_min_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

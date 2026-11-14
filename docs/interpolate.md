@@ -1,6 +1,7 @@
 ---
 title: "多項式補間"
 documentation_of: //fps/interpolate.hpp
+library_category: fps
 ---
 
 ```cpp

@@ -1,6 +1,7 @@
 ---
 title: "二項係数の累積和の差分更新部品"
 documentation_of: //components/binomial_prefix_incremental_core.hpp
+library_category: components/math
 ---
 
 [二項係数の累積和（差分更新）](binomial_prefix_sum_incremental.md) と [軽量版](binomial_prefix_sum_incremental_light.md) の共通部品です。通常は公開ライブラリを使います。

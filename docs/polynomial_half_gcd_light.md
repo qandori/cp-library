@@ -1,6 +1,7 @@
 ---
 title: "多項式 Half-GCD（軽量版）"
 documentation_of: //components/polynomial_half_gcd_light.hpp
+library_category: components/fps
 ---
 
 `fps_light_detail::PolynomialHalfGCD<T>` は、[軽量多項式 GCD](https://qandori.github.io/cp-library/fps/polynomial_gcd_light.hpp.html) が使う内部部品です。通常は公開する多項式 GCD のヘッダーを使います。`F` は `LightFormalPowerSeries<T>`、係数の法は 998244353 です。

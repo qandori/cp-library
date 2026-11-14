@@ -1,6 +1,7 @@
 ---
 title: Cartesian Tree
 documentation_of: //tree/cartesian_tree.hpp
+library_category: sequence
 ---
 
 数列の添字を頂点とする二分木を構築します。左の部分木、自分、右の部分木の順にたどると元の添字順に並び、親の値が子の値以下になります。既定では最小値が根になり、同じ値では左側の添字を優先します。

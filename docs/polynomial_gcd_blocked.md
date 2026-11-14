@@ -1,6 +1,7 @@
 ---
 title: 多項式 Half-GCD の専用変換
 documentation_of: //components/polynomial_gcd_blocked.hpp
+library_category: components/fps
 ---
 
 `polynomial_gcd.hpp` が使う Linux x86_64 / GCC 用の内部部品です。通常は公開関数 `polynomial_gcd()`、`polynomial_extended_gcd()`、`polynomial_inv_mod()` を使います。専用経路を呼ぶ前に `fps_detail::NTT::vectorized()` を確認します。他の環境では既存の Half-GCD へ戻ります。

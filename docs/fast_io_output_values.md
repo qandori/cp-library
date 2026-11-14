@@ -1,6 +1,7 @@
 ---
 title: "非負整数列の一括出力"
 documentation_of: //components/fast_io_output_values.hpp
+library_category: components/util
 ---
 
 [FastOutput](fast_io.md) を使い、非負整数の列を空白区切りなどでまとめて出力します。64 bit の符号なし整数の最大値まで扱えます。この機能を使うときは `fast_io_output_values.hpp` を include します。

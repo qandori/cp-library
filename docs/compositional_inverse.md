@@ -1,6 +1,7 @@
 ---
 title: "形式的冪級数の合成逆元"
 documentation_of: //fps/compositional_inverse.hpp
+library_category: fps
 ---
 
 ```cpp

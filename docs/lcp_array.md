@@ -1,6 +1,7 @@
 ---
 title: LCP Array
 documentation_of: //string/lcp_array.hpp
+library_category: string/substring
 ---
 
 ```cpp

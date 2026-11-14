@@ -1,6 +1,7 @@
 ---
 title: "Rolling Hash"
 documentation_of: //string/rolling_hash.hpp
+library_category: string/pattern_matching
 ---
 
 ```cpp

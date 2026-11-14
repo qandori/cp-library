@@ -1,6 +1,7 @@
 ---
 title: FPS の合成・射影の内部処理
 documentation_of: //components/fps_composition.hpp
+library_category: components/fps
 ---
 
 Linux x86_64 / GCC 向けの内部部品です。呼び出し側で AVX2（複数の整数をまとめて処理する CPU 命令）の実行時判定を行います。通常は公開 API の [合成](https://qandori.github.io/cp-library/fps/compose.hpp.html)・[power projection](https://qandori.github.io/cp-library/fps/power_projection.hpp.html) を使ってください。他の環境では[汎用実装](fps_composition_generic.md)へ戻ります。法は $$p=998244353$$ です。

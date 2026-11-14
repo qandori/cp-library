@@ -1,6 +1,7 @@
 ---
 title: "軽量 FPS の積木"
 documentation_of: //components/fps_light_product_tree.hpp
+library_category: components/fps
 ---
 
 ```cpp

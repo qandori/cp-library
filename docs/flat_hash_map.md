@@ -1,6 +1,7 @@
 ---
 title: Flat Hash Map
 documentation_of: //data_structure/flat_hash_map.hpp
+library_category: data_structure/associative
 ---
 
 キーに対応する値を追加・更新・削除する連想配列です。

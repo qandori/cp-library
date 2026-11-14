@@ -1,6 +1,7 @@
 ---
 title: "整数幾何の凸包・最近点対・最遠点対"
 documentation_of: //integer_geometry/convex.hpp
+library_category: integer_geometry
 ---
 
 ```cpp

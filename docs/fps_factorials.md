@@ -1,6 +1,7 @@
 ---
 title: 階乗・逆階乗生成
 documentation_of: //components/fps_factorials.hpp
+library_category: components/fps
 ---
 
 旧 `fps_detail` 名を利用するコード向けの互換ヘッダーです。FPS 本体を含むライブラリ内部では `mint_detail` の共通部品を直接使います。実装は [modint998244353 の階乗・逆階乗生成](https://qandori.github.io/cp-library/components/mint_factorials.hpp.html) と共有し、NTT には依存しません。通常は [階乗・逆階乗と二項係数](https://qandori.github.io/cp-library/math/comb.hpp.html) や [Taylor Shift](https://qandori.github.io/cp-library/fps/taylor_shift.hpp.html) を利用します。`factorials` には `mint*` または法 998244353 の内部 Montgomery 表現の整数値へのポインタを渡せます。

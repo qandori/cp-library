@@ -1,6 +1,7 @@
 ---
 title: 最長共通部分文字列
 documentation_of: //string/longest_common_substring.hpp
+library_category: string/substring
 ---
 
 2 つの文字列の最長共通**部分文字列**を 1 つ求めます。選ぶ文字は連続している必要があります。飛び飛びの文字も選べる[最長共通部分列](lcs.md)とは異なります。

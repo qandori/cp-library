@@ -1,6 +1,7 @@
 ---
 title: SIMD 命令のコンパイル可否
 documentation_of: //components/simd_capabilities.hpp
+library_category: components/util
 ---
 
 SIMD を使う内部部品が共有する設定です。通常は各ライブラリから自動的に読み込まれます。

@@ -1,6 +1,7 @@
 ---
 title: Functional Graph
 documentation_of: //graph/functional_graph.hpp
+library_category: graph
 ---
 
 各頂点から出る辺がちょうど 1 本の有向グラフを、閉路とその閉路へ流れ込む木に分解します。閉路の列挙、閉路までの距離、k 回移動した先、到達距離などを求められます。自己ループと複数の連結成分に対応します。

@@ -1,6 +1,7 @@
 ---
 title: "多点評価"
 documentation_of: //fps/multipoint_eval.hpp
+library_category: fps
 ---
 
 ```cpp

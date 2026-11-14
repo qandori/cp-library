@@ -1,6 +1,7 @@
 ---
 title: FPS の合成逆元の内部処理
 documentation_of: //components/fps_reversion.hpp
+library_category: components/fps
 ---
 
 `compositional_inverse` が使う内部部品です。Linux x86_64 / GCC でのみ定義され、呼び出し側が AVX2（複数の整数をまとめて処理する CPU 命令）対応を実行時に確認します。法は $$p=998244353$$ です。

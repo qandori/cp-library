@@ -1,6 +1,7 @@
 ---
 title: 軽量な二項係数の累積和の内部演算
 documentation_of: //components/binomial_prefix_core_light.hpp
+library_category: components/math
 ---
 
 [軽量な二項係数の累積和](binomial_prefix_sum_light.md)と[差分更新版](binomial_prefix_sum_incremental_light.md)の共通部品です。通常版 FPS の依存を持たず、`light_binomial_prefix_detail::Table<Mint>` を使います。

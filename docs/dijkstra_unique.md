@@ -1,6 +1,7 @@
 ---
 title: Dijkstra の一意経路の探索
 documentation_of: //components/dijkstra_unique.hpp
+library_category: components/graph
 ---
 
 [Dijkstra](https://qandori.github.io/cp-library/graph/dijkstra.hpp.html) が内部で使う、各頂点の入次数が高々 1 の場合の探索です。通常は `graph/dijkstra.hpp` を include し、[隣接辺を連続配列に保存する DirectedCSR](directed_csr.md) に対して `dijkstra_path(g,start,target)` を呼びます。条件の判定と使い分けは自動で行います。

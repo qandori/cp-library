@@ -1,6 +1,7 @@
 ---
 title: Z algorithm
 documentation_of: //string/z_algorithm.hpp
+library_category: string/pattern_matching
 ---
 
 ```cpp

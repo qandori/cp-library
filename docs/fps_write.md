@@ -1,6 +1,7 @@
 ---
 title: FPS の一括出力
 documentation_of: //components/fps_write.hpp
+library_category: components/fps
 ---
 
 法 998244353 の共有 `mint` の係数列を [Fast I/O](fast_io.md) でまとめて出力します。通常版・軽量版 FPS のどちらでも使え、FPS 本体を読み込まずにこの部品だけを include することもできます。

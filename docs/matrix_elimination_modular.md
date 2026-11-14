@@ -1,6 +1,7 @@
 ---
 title: "固定法の行列消去"
 documentation_of: //components/matrix_elimination_modular.hpp
+library_category: components/math
 ---
 
 [行列](matrix.md) が使う固定法の消去処理です。通常は `Matrix<T>` の行列式・階数・逆行列・連立一次方程式を使います。

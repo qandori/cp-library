@@ -1,6 +1,7 @@
 ---
 title: "modint998244353"
 documentation_of: //math/mint.hpp
+library_category: math
 ---
 
 整数を 998244353 で割った余りとして保持し、その法で四則演算する型です。`val()` は 0 以上 998244353 未満の整数を返します。

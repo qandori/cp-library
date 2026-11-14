@@ -53,3 +53,52 @@ exclude:
   - test/README.md
   - test/verify.py
   - test/verify_edit_distance_simd.py
+
+library_categories:
+  - components
+  - components/convolution
+  - components/data_structure
+  - components/fps
+  - components/geometry
+  - components/graph
+  - components/math
+  - components/string
+  - components/tree
+  - components/util
+  - convolution
+  - data_structure
+  - data_structure/advanced
+  - data_structure/associative
+  - data_structure/li_chao_tree
+  - data_structure/persistent
+  - data_structure/range_query
+  - data_structure/rectangle_query
+  - data_structure/segment_tree
+  - data_structure/sequence
+  - data_structure/union_find
+  - data_structure/wavelet_matrix
+  - fps
+  - geometry
+  - geometry/exact
+  - graph
+  - graph/connectivity
+  - graph/flow
+  - graph/matching
+  - graph/shortest_path
+  - graph/spanning_tree
+  - integer_geometry
+  - math
+  - math/combinatorics
+  - math/floor_sum
+  - math/linear_algebra
+  - math/number_theory
+  - math/util
+  - sequence
+  - string
+  - string/distance
+  - string/palindrome
+  - string/pattern_matching
+  - string/substring
+  - tree
+  - tree/dynamic
+  - tree/query

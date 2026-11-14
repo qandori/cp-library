@@ -1,6 +1,7 @@
 ---
 title: 定数時間 mod 演算の内部部品
 documentation_of: //components/mod_fast_core.hpp
+library_category: components/math
 ---
 
 [ModInv](https://qandori.github.io/cp-library/math/mod_inv.hpp.html) と [ModPow](https://qandori.github.io/cp-library/math/mod_pow.hpp.html) が使う内部部品です。通常は各ライブラリのヘッダーを include します。名前空間は `mod_fast_detail` です。

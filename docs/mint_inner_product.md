@@ -1,6 +1,7 @@
 ---
 title: mint の積和部品
 documentation_of: //components/mint_inner_product.hpp
+library_category: components/math
 ---
 
 既定の `mint` の配列の内積を求める内部部品です。`mint_detail` 名前空間で使い、長い積和は利用可能な命令に応じて AVX-512F・AVX2 で計算します。それ以外の環境にも対応します。

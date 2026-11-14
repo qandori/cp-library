@@ -1,6 +1,7 @@
 ---
 title: "凸・凹 min-plus / max-plus 畳み込み"
 documentation_of: //convolution/min_plus_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

@@ -1,6 +1,7 @@
 ---
 title: "多項式の共通積木"
 documentation_of: //components/polynomial_product_tree.hpp
+library_category: components/fps
 ---
 
 `polynomial_detail::ProductTree<F>` は、FPS の型 `F` を受け取る多点評価・補間の内部部品です。[高速 FPS の積木](fps_product_tree.md)と[軽量 FPS の積木](fps_light_product_tree.md)が共有します。通常は各版の多点評価・補間の公開関数を使ってください。

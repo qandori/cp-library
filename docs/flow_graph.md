@@ -1,6 +1,7 @@
 ---
 title: "フローの残余グラフ"
 documentation_of: //components/flow_graph.hpp
+library_category: components/graph
 ---
 
 `flow_detail::Graph<Cap>` は最大流・最小費用流で使う残余グラフです。残余グラフは、各辺にまだ追加で流せる量を持ち、流した分を取り消すための逆向きの辺も持つグラフです。元の向きの辺を正辺、取り消す向きの辺を逆辺と呼び、両者を連続して保存します。

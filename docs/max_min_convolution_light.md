@@ -1,6 +1,7 @@
 ---
 title: "max-min・min-max 畳み込み（軽量実装）"
 documentation_of: //convolution/max_min_convolution_light.hpp
+library_category: convolution
 ---
 
 通常版と同じ関数名で呼び出します。同じ機能は通常版か軽量版のいずれか一方を include してください。法 998244353 の計算には軽量 FPS を使います。

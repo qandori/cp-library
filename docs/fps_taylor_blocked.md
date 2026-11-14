@@ -1,6 +1,7 @@
 ---
 title: Taylor Shift の中間積
 documentation_of: //components/fps_taylor_blocked.hpp
+library_category: components/fps
 ---
 
 `fps/taylor_shift.hpp` が使う内部部品です。Linux x86_64 / GCC で定義され、呼び出し側が AVX2（複数の整数をまとめて処理する CPU 命令）対応を確認します。

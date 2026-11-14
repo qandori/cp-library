@@ -1,6 +1,7 @@
 ---
 title: 連長圧縮（RLE）
 documentation_of: //sequence/run_length_encoding.hpp
+library_category: sequence
 ---
 
 連続する同じ値をまとめ、`(値, 連続する個数)` の順に返します。文字列と数列で共通して使え、入力は変更しません。

@@ -1,6 +1,7 @@
 ---
 title: "幾何の直線・線分"
 documentation_of: //geometry/linear.hpp
+library_category: geometry
 ---
 
 ```cpp

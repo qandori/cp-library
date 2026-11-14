@@ -1,6 +1,7 @@
 ---
 title: "Taylor Shift"
 documentation_of: //fps/taylor_shift.hpp
+library_category: fps
 ---
 
 ```cpp

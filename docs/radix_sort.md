@@ -1,6 +1,7 @@
 ---
 title: 64 bit キーの安定基数ソート
 documentation_of: //components/radix_sort.hpp
+library_category: components/util
 ---
 
 ```cpp

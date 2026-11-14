@@ -1,6 +1,7 @@
 ---
 title: FPS と多項式除算の内部変換
 documentation_of: //components/fps_division_blocked.hpp
+library_category: components/fps
 ---
 
 `fps_detail::blocked_poly` の除算用内部部品です。通常は `fps::div_series()`、`fps::divmod()`、`polynomial_inv_mod()` から使います。Linux x86_64 / GCC でのみ定義され、呼び出す前に `fps_detail::NTT::vectorized()` が真であることを確認します。他の環境では公開 FPS 関数が既存の実装を使います。

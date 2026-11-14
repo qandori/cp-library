@@ -1,6 +1,7 @@
 ---
 title: "強連結成分分解の共通部品"
 documentation_of: //components/scc_core.hpp
+library_category: components/graph
 ---
 
 ```cpp

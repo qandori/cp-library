@@ -1,6 +1,7 @@
 ---
 title: 行列の基本演算
 documentation_of: //components/matrix_base_arithmetic.hpp
+library_category: components/math
 ---
 
 通常版・軽量版が共有する、要素型の演算を使う行列積・消去・整数行列式です。

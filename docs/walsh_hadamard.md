@@ -2,6 +2,7 @@
 title: "Walsh–Hadamard Transform"
 documentation_of: //components/walsh_hadamard.hpp
 redirect_from: /convolution/walsh_hadamard.hpp.html
+library_category: components
 ---
 
 ```cpp

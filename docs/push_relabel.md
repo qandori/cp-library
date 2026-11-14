@@ -1,6 +1,7 @@
 ---
 title: Push-Relabel の内部演算
 documentation_of: //components/push_relabel.hpp
+library_category: components/graph
 ---
 
 [最大流](https://qandori.github.io/cp-library/graph/max_flow.hpp.html) の内部部品です。始点以外の各頂点で一時的に余る流量（入る量から出る量を引いた値）は 128 bit で保持します。

@@ -1,6 +1,7 @@
 ---
 title: Trie
 documentation_of: //string/trie.hpp
+library_category: string
 ---
 
 文字列を先頭から1文字ずつたどる木で、共通する先頭部分を共有して文字列の重複付き集合を管理します。接頭辞ごとの個数、辞書順の順位・選択、LCP（先頭から一致する最長の長さ）の集計に加え、各頂点に任意のデータを持たせて木 DP に使えます。

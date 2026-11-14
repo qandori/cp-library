@@ -1,6 +1,7 @@
 ---
 title: 区間辺グラフ
 documentation_of: //graph/range_edge_graph.hpp
+library_category: graph
 ---
 
 番号が連続する頂点集合への有向辺をまとめて追加します。頂点から区間、区間から頂点、区間から区間への辺を扱えます。

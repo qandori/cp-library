@@ -1,6 +1,7 @@
 ---
 title: "軽量 FPS の追加演算"
 documentation_of: //fps/fps_light_algorithms.hpp
+library_category: fps
 ---
 
 表の $$[x^k]h(x)$$ は、$$h(x)$$ の $$x^k$$ の係数を表します。

@@ -1,6 +1,7 @@
 ---
 title: "32 bit Barrett 演算"
 documentation_of: //components/barrett32.hpp
+library_category: components/math
 ---
 
 ```cpp

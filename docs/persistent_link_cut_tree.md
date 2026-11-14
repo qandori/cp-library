@@ -1,6 +1,7 @@
 ---
 title: 永続 Link Cut Tree
 documentation_of: //tree/persistent_link_cut_tree.hpp
+library_category: data_structure/persistent
 ---
 
 頂点値を持つ無向森について、辺の追加・削除、頂点値の更新、経路の順に頂点値を `op` でまとめた結果を求めます。各操作は新しい版を返し、以前の版からも更新・照会できます。[Link Cut Tree](link_cut_tree.md) の頂点状態を [永続配列](persistent_array.md) に保存します。

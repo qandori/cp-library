@@ -1,6 +1,7 @@
 ---
 title: "共通接頭辞・接尾辞の比較"
 documentation_of: //components/sequence_compare.hpp
+library_category: components/string
 ---
 
 ```cpp

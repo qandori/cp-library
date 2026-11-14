@@ -1,6 +1,7 @@
 ---
 title: "多点評価の内部直接計算"
 documentation_of: //components/fps_direct_eval.hpp
+library_category: components/fps
 ---
 
 `fps_detail::evaluate_direct(dst,f,n,points,m)` は [多点評価](https://qandori.github.io/cp-library/fps/multipoint_eval.hpp.html) が使う内部処理です。通常は `fps/multipoint_eval.hpp` を include して `multipoint_eval` を利用してください。

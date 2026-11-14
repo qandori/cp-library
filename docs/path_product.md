@@ -1,6 +1,7 @@
 ---
 title: Tree Path Product
 documentation_of: //tree/path_product.hpp
+library_category: tree/query
 ---
 
 固定した木の頂点値を更新し、2 頂点を結ぶ経路上の値を `op` で順にまとめた結果（経路積）を求めます。`op(a,b)` と `op(b,a)` が異なる演算にも使えます。

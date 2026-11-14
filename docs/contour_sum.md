@@ -1,6 +1,7 @@
 ---
 title: Tree Contour Sum
 documentation_of: //tree/contour_sum.hpp
+library_category: tree/query
 ---
 
 無重みの木で頂点値を更新し、指定した頂点からの距離が区間に入る頂点の値の和を求めます。

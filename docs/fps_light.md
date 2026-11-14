@@ -1,6 +1,7 @@
 ---
 title: "軽量な形式的冪級数"
 documentation_of: //fps/fps_light.hpp
+library_category: fps
 ---
 
 形式的冪級数（FPS）は、$$f_0+f_1x+f_2x^2+\cdots$$ を係数列として扱うものです。必要な個数まで係数を計算し、実数の無限和の収束は考えません。

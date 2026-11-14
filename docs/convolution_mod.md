@@ -1,6 +1,7 @@
 ---
 title: "任意 mod・整数の畳み込み"
 documentation_of: //convolution/convolution_mod.hpp
+library_category: convolution
 ---
 
 ```cpp

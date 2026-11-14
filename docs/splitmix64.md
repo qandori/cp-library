@@ -2,6 +2,7 @@
 title: "SplitMix64"
 documentation_of: //components/splitmix64.hpp
 redirect_from: /math/splitmix64.hpp.html
+library_category: components/util
 ---
 
 ```cpp

@@ -1,6 +1,7 @@
 ---
 title: Dynamic Bitset
 documentation_of: //data_structure/dynamic_bitset.hpp
+library_category: data_structure
 ---
 
 長さを実行時に指定するビット集合です。64 bit ごとの論理演算・シフト、区間の更新、立っているビットの列挙、集合間の個数計算を扱います。添字 `i` が整数としての $$2^i$$ のビットに対応します。

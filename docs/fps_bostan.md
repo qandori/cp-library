@@ -1,6 +1,7 @@
 ---
 title: Bostan–Mori の NTT 倍長化
 documentation_of: //components/fps_bostan.hpp
+library_category: components/fps
 ---
 
 Linux x86_64 / GCC で AVX2（複数の整数をまとめて処理する CPU 命令）を使う内部部品です。通常は公開関数 [Bostan–Mori](https://qandori.github.io/cp-library/fps/bostan_mori.hpp.html) または [線形漸化式](https://qandori.github.io/cp-library/fps/linear_recurrence.hpp.html) を使います。

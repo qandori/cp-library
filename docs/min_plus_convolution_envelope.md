@@ -1,6 +1,7 @@
 ---
 title: 凹列と任意列の畳み込み（補助部品）
 documentation_of: //components/min_plus_convolution_envelope.hpp
+library_category: components/convolution
 ---
 
 [凸・凹 min-plus / max-plus 畳み込み](min_plus_convolution.md)の整数向け処理です。

@@ -1,7 +1,7 @@
 ---
 title: 一般化 CRT
 documentation_of: //math/crt.hpp
-library_category: math/util
+library_category: math/number_theory
 redirect_from:
 - /math/util/crt.hpp.html
 - /lightweight/math/util/crt.hpp.html

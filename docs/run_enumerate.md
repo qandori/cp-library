@@ -1,6 +1,7 @@
 ---
 title: "Run 列挙"
 documentation_of: //string/run_enumerate.hpp
+library_category: string/substring
 ---
 
 周期的な並びが2周期分以上続き、その周期のまま左右へ延ばせない区間（run）を列挙します。周期 `p` とは、区間内で `p` だけ離れた要素が全て等しくなる正の整数です。

@@ -1,6 +1,7 @@
 ---
 title: FPS のブロック変換
 documentation_of: //components/fps_blocked.hpp
+library_category: components/fps
 ---
 
 FPS の逆数・対数・指数・冪・平方根・除算と各専用アルゴリズムが共有する内部部品です。公開 API から利用します。Linux x86_64 / GCC 用に定義され、呼び出し側が AVX2（複数の整数をまとめて処理する CPU 命令）対応を実行時に確認します。他の環境では既存の FPS 実装を使います。

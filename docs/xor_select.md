@@ -1,6 +1,7 @@
 ---
 title: 64 bit 内の XOR 順位選択
 documentation_of: //components/xor_select.hpp
+library_category: components/data_structure
 ---
 
 [Predecessor Set](predecessor_set.md)・[XOR の整数集合](xor_set.md)が共有する内部処理です。

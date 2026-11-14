@@ -1,6 +1,7 @@
 ---
 title: "Online Monge Minima"
 documentation_of: //components/online_monge_minima.hpp
+library_category: components/data_structure
 ---
 
 各行で最小値を取る列を、行番号の順に求めます。行 `row` では列 `[0,row)` を対象にし、選んだ列での値から次の行以降の計算に使う値を決められます。結果は利用者が指定する関数 `set(row,best_col)` で受け取ります。

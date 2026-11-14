@@ -1,6 +1,7 @@
 ---
 title: "AND・OR・XOR 畳み込み"
 documentation_of: //convolution/bitwise_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

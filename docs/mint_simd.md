@@ -1,6 +1,7 @@
 ---
 title: "modint998244353 の共通 SIMD 演算"
 documentation_of: //components/mint_simd.hpp
+library_category: components/math
 ---
 
 NTT と多変数畳み込みが共有する内部演算です。通常は [modint998244353](https://qandori.github.io/cp-library/math/mint.hpp.html) や各畳み込みライブラリを利用します。

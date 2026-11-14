@@ -1,6 +1,7 @@
 ---
 title: "軽量 FPS の合成・射影の共通実装"
 documentation_of: //components/fps_composition_light.hpp
+library_category: components/fps
 ---
 
 [軽量 FPS の合成](https://qandori.github.io/cp-library/fps/compose_light.hpp.html)、[power projection](https://qandori.github.io/cp-library/fps/power_projection_light.hpp.html)、[合成逆元](https://qandori.github.io/cp-library/fps/compositional_inverse_light.hpp.html)で共有する実装です。通常は各公開ヘッダーを include してください。

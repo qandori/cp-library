@@ -1,6 +1,7 @@
 ---
 title: Top Tree
 documentation_of: //tree/top_tree.hpp
+library_category: tree/dynamic
 ---
 
 辺の追加・削除で形が変わる森の木 DP を管理します。経路をつなぐ `compress` と、同じ頂点へ接続する枝をまとめる `rake` を定義します。結合を取り消す逆演算は不要で、部分木の最小値・直径・独立集合の数なども扱えます。

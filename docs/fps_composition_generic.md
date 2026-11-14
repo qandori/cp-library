@@ -1,6 +1,7 @@
 ---
 title: "FPS の合成・射影の汎用実装"
 documentation_of: //components/fps_composition_generic.hpp
+library_category: components/fps
 ---
 
 合成・power projection・合成逆元を FPS の型で共通化した内部実装です。軽量 FPS と、通常版 FPS で CPU 固有の専用処理を使わない場合に共有します。通常は各演算の公開ヘッダーを include してください。

@@ -1,6 +1,7 @@
 ---
 title: 木の直径
 documentation_of: //tree/tree_diameter.hpp
+library_category: tree
 ---
 
 重み付き無向木で、重みの合計が最大になる単純パスと、その長さを求めます。負の重みも扱えます。

@@ -1,6 +1,7 @@
 ---
 title: DSU on Tree
 documentation_of: //tree/dsu_on_tree.hpp
+library_category: tree
 ---
 
 各頂点を根とする部分木について、色の種類数・最頻値などをまとめて求めます。部分木の頂点数が最大の子を 1 つ選んで、その子の集計を残し、それ以外の子だけを追加し直します。Union-Find を使うライブラリではありません。

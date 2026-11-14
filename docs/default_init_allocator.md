@@ -2,6 +2,7 @@
 title: "Default Init Allocator"
 documentation_of: //components/default_init_allocator.hpp
 redirect_from: /data_structure/default_init_allocator.hpp.html
+library_category: components/util
 ---
 
 `std::vector` などのメモリ確保と要素の構築を担当する部品（アロケータ）です。整数型では、領域を確保した後の 0 埋めを省きます。

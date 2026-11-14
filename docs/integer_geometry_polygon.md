@@ -1,6 +1,7 @@
 ---
 title: "整数幾何の多角形・面積・内外判定"
 documentation_of: //integer_geometry/polygon.hpp
+library_category: integer_geometry
 ---
 
 ```cpp

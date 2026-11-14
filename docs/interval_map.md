@@ -1,6 +1,7 @@
 ---
 title: "Interval Map"
 documentation_of: //data_structure/interval_map.hpp
+library_category: data_structure/associative
 ---
 
 整数の半開区間 $$[l,r)$$ に値を代入するデータ構造です。重なった部分は上書きし、隣接する同じ値の区間は自動で結合します。値が設定されていない場所も扱えます。

@@ -2,6 +2,7 @@
 title: "Divisor Zeta / Möbius Transform"
 documentation_of: //components/divisor_zeta.hpp
 redirect_from: /convolution/divisor_zeta.hpp.html
+library_category: components
 ---
 
 ```cpp

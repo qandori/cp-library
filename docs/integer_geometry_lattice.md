@@ -1,6 +1,7 @@
 ---
 title: "整数幾何の格子点数・方向ベクトルの約分"
 documentation_of: //integer_geometry/lattice.hpp
+library_category: integer_geometry
 ---
 
 ```cpp

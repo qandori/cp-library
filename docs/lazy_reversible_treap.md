@@ -1,6 +1,7 @@
 ---
 title: "Lazy Reversible Treap（遅延伝搬・反転可能乱択平衡二分木）"
 documentation_of: //data_structure/lazy_reversible_treap.hpp
+library_category: data_structure/sequence
 ---
 
 挿入・削除・区間更新・反転ができる数列です。区間内の値を左から右の順に `op` でまとめた結果（集約値）を取得できます。

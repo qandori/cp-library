@@ -3,6 +3,7 @@ title: Link Cut Tree
 documentation_of: //tree/link_cut_tree.hpp
 redirect_from:
 - /data_structure/link_cut_tree.hpp.html
+library_category: tree/dynamic
 ---
 
 頂点に値を持たせる Link Cut Tree です。辺の値を扱う場合や、辺を通る方向ごとに異なる値を使う場合は [辺の値を扱う Link Cut Tree](edge_link_cut_tree.md) を使います。

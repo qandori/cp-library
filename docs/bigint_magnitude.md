@@ -1,6 +1,7 @@
 ---
 title: "多倍長整数の絶対値演算"
 documentation_of: //components/bigint_magnitude.hpp
+library_category: components/math
 ---
 
 [BigInt](https://qandori.github.io/cp-library/math/bigint.hpp.html) の符号を持たない内部演算です。通常は `BigInt` を使用し、桁配列を直接扱う場合にこの部品を使います。

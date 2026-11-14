@@ -1,6 +1,7 @@
 ---
 title: 有向グラフの CSR
 documentation_of: //components/directed_csr.hpp
+library_category: components/graph
 ---
 
 `DirectedCSR<T>` は、各頂点の出辺を一つの連続配列にまとめて保存する有向グラフです。辺の重みを `T` で保存します。

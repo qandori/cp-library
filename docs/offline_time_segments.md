@@ -1,6 +1,7 @@
 ---
 title: オフラインの時間区間処理
 documentation_of: //components/offline_time_segments.hpp
+library_category: components/data_structure
 ---
 
 各操作が有効な半開区間 `[left,right)` を登録し、各時刻に有効な操作だけを適用した状態を調べます。途中の状態を保存する `snapshot()` と、保存した状態へ戻す `rollback()` を持つ型を渡します。全ての操作区間を先に登録してから処理するため、入力を先読みできる動的連結性などに使います。

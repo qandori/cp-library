@@ -1,6 +1,7 @@
 ---
 title: Link Cut Tree の共通処理
 documentation_of: //components/link_cut_tree_core.hpp
+library_category: components/tree
 ---
 
 [頂点値を扱う版](link_cut_tree.md)と[辺値を扱う版](edge_link_cut_tree.md)が共有する内部処理です。通常はそれぞれの公開ヘッダーを使います。

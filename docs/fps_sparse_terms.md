@@ -1,6 +1,7 @@
 ---
 title: 疎 FPS の項収集・演算種別
 documentation_of: //components/fps_sparse_terms.hpp
+library_category: components/fps
 ---
 
 `fps_detail::SparseTerms` は、通常版と軽量版の疎 FPS が共有する内部部品です。

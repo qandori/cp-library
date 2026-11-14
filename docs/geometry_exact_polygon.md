@@ -1,6 +1,7 @@
 ---
 title: "厳密な多角形の面積・重心・切断"
 documentation_of: //geometry/exact_polygon.hpp
+library_category: geometry/exact
 ---
 
 ```cpp

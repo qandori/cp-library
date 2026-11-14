@@ -1,6 +1,7 @@
 ---
 title: "形式的冪級数の合成"
 documentation_of: //fps/compose.hpp
+library_category: fps
 ---
 
 ```cpp

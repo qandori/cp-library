@@ -1,6 +1,7 @@
 ---
 title: ワーシャルフロイド法の内部演算
 documentation_of: //components/warshall_floyd_kernel.hpp
+library_category: components/util
 ---
 
 [ワーシャルフロイド法](https://qandori.github.io/cp-library/graph/warshall_floyd.hpp.html)の内部部品です。通常は数値範囲の判定と変換を行う `WarshallFloyd` を使います。

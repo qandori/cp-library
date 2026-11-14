@@ -1,6 +1,7 @@
 ---
 title: Common Substring Seed Search
 documentation_of: //components/substring_seed.hpp
+library_category: components/string
 ---
 
 [最長共通部分文字列](longest_common_substring.md)の内部部品です。通常は `longest_common_substring(s,t)` を使います。

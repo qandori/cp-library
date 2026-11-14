@@ -1,6 +1,7 @@
 ---
 title: FPS の一括入出力
 documentation_of: //components/fps_io.hpp
+library_category: components/fps
 ---
 
 法 998244353 の共有 `mint` の係数列をまとめて読み書きする部品です。出力には [FPS の一括出力](fps_write.md) を読み込みます。出力だけが必要なら `components/fps_write.hpp` を直接 include すると、入力処理を読み込まずに使えます。

@@ -1,6 +1,7 @@
 ---
 title: Priority Search Tree（三辺矩形内の点の列挙）
 documentation_of: //data_structure/priority_search_tree.hpp
+library_category: data_structure/rectangle_query
 ---
 
 二次元の点について、`left <= x < right` かつ `y < upper` を満たす点を列挙します。x 区間内で y が最小の点の検索、点の挿入・削除、y 座標の変更にも対応します。

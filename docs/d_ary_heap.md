@@ -2,6 +2,7 @@
 title: "D-ary Heap"
 documentation_of: //components/d_ary_heap.hpp
 redirect_from: /data_structure/d_ary_heap.hpp.html
+library_category: components/data_structure
 ---
 
 値の追加と最大値の取り出しを行う優先度付きキューです。`D` は木の各節点が持つ子の最大数を表します。

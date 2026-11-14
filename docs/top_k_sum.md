@@ -1,6 +1,7 @@
 ---
 title: "Top K Sum"
 documentation_of: //data_structure/top_k_sum.hpp
+library_category: data_structure/associative
 ---
 
 値の追加・削除ができる多重集合です。小さい順／大きい順の `k` 番目の値、下位／上位 `k` 個の和、値を指定した境界検索に対応します。重複する値は個数分だけ数えます。

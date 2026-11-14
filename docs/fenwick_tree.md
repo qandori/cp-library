@@ -1,6 +1,7 @@
 ---
 title: "Fenwick Tree"
 documentation_of: //data_structure/fenwick_tree.hpp
+library_category: data_structure/range_query
 ---
 
 ```cpp

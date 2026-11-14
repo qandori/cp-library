@@ -1,6 +1,7 @@
 ---
 title: Manacher（回文半径）
 documentation_of: //string/manacher.hpp
+library_category: string/palindrome
 ---
 
 各位置を中心とする最長の回文を線形時間で求めます。前計算後は、任意の区間が回文かを定数時間で判定できます。

@@ -1,6 +1,7 @@
 ---
 title: "Edit Distance"
 documentation_of: //string/edit_distance.hpp
+library_category: string/distance
 ---
 
 ```cpp

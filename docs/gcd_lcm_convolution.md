@@ -1,6 +1,7 @@
 ---
 title: "GCD-plus・LCM-plus 畳み込み"
 documentation_of: //convolution/gcd_lcm_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

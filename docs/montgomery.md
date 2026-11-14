@@ -2,6 +2,7 @@
 title: "Montgomery 64"
 documentation_of: //components/montgomery.hpp
 redirect_from: /math/montgomery.hpp.html
+library_category: components/math
 ---
 
 奇数の法で加算・乗算・累乗を行う部品です。法を $$m$$、$$R=2^{64}$$ として、整数 $$a$$ を $$aR\bmod m$$ に変換した値を「Montgomery 表現」と呼びます。`in` でこの表現へ変換し、そのまま `add`・`mul`・`pow` で計算してから、`reduce` で通常の余りに戻します。

@@ -1,6 +1,7 @@
 ---
 title: 辺追加に対応する最小全域森
 documentation_of: //graph/incremental_msf.hpp
+library_category: graph/spanning_tree
 ---
 
 重み付き無向グラフに辺を追加しながら、最小全域森とその重みの総和を管理します。最小全域森は、各連結成分を木でつなぐ辺の選び方のうち、重みの総和が最小のものです。グラフ全体が連結なら最小全域木になります。

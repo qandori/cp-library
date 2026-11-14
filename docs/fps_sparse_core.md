@@ -1,6 +1,7 @@
 ---
 title: "疎 FPS の次数圧縮・前処理"
 documentation_of: //components/fps_sparse_core.hpp
+library_category: components/fps
 ---
 
 `fps_detail::SparseBase<Engine>` は、疎 FPS の次数の最大公約数による圧縮・小さな整数冪の計算を行う内部部品です。[通常版の疎演算](https://qandori.github.io/cp-library/components/fps_sparse.hpp.html) から使います。項の型・収集処理は [fps_sparse_terms.hpp](fps_sparse_terms.md) で軽量版と共有します。

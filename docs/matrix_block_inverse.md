@@ -1,6 +1,7 @@
 ---
 title: 行列のブロック逆行列・余因子行列
 documentation_of: //components/matrix_block_inverse.hpp
+library_category: components/math
 ---
 
 [行列](matrix.md)が使う、素数法の modint 向けの補助部品です。通常は `Matrix<T>::inverse()`・`adjugate()` を利用します。

@@ -1,6 +1,7 @@
 ---
 title: "整数幾何の直線・線分・交差判定"
 documentation_of: //integer_geometry/linear.hpp
+library_category: integer_geometry
 ---
 
 ```cpp

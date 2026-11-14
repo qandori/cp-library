@@ -1,6 +1,7 @@
 ---
 title: "i < j 制約付き畳み込み"
 documentation_of: //convolution/ordered_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

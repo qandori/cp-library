@@ -1,6 +1,7 @@
 ---
 title: 対称群上の畳み込み
 documentation_of: //convolution/symmetric_group_convolution.hpp
+library_category: convolution
 ---
 
 長さ $$n$$ の全順列を添字とする配列の畳み込みを求めます。通常の加算や XOR の代わりに、順列の合成を用います。全順列の集合にこの合成を組み合わせたものを対称群と呼びます。

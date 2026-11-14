@@ -1,6 +1,7 @@
 ---
 title: FPS の融合畳み込み
 documentation_of: //components/fps_convolution.hpp
+library_category: components/fps
 ---
 
 Linux x86_64 / GCC の `fps::multiply` と `convolution(vector<mint>,vector<mint>)` が使う内部部品です。公開 API から利用し、呼び出し側が AVX2（複数の整数をまとめて処理する CPU 命令）対応を実行時に確認します。

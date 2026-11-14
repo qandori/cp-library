@@ -1,6 +1,7 @@
 ---
 title: 二部マッチングの内部演算
 documentation_of: //components/bipartite_matching_core.hpp
+library_category: components/graph
 ---
 
 通常は [二部マッチング](https://qandori.github.io/cp-library/graph/bipartite_matching.hpp.html) を使います。この部品は隣接頂点の保存、増加道探索、交互グラフの解析を共有します。名前空間は `bipartite_matching_detail` です。

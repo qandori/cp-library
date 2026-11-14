@@ -1,6 +1,7 @@
 ---
 title: Static Threshold Search
 documentation_of: //data_structure/static_threshold_search.hpp
+library_category: data_structure/range_query
 ---
 
 固定した整数列で、しきい値を満たす最初・最後の添字を検索します。標準の `next_ge(l,x)` は `l <= i` かつ `A[i] >= x` を満たす最小の `i` を返します。比較条件・検索方向を型で選びます。`strict` の付いた操作は等号を含めずに比較します。

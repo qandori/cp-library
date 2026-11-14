@@ -4,6 +4,7 @@ documentation_of: //tree/auxiliary_tree.hpp
 redirect_from:
 - /graph/virtual_tree.hpp.html
 - /graph/auxiliary_tree.hpp.html
+library_category: tree
 ---
 
 大きな木から、指定した頂点と、それらをつなぐために必要な LCA だけを残した小さな木を作ります。通常は、元の木を `build()` してから `AuxiliaryTree` を作り、`vt.build(vertices)` に使いたい頂点番号を渡します。入力の順番を気にする必要はありません。

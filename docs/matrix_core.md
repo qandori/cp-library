@@ -1,6 +1,7 @@
 ---
 title: 行列の共通クラス
 documentation_of: //components/matrix_core.hpp
+library_category: components/math
 ---
 
 [通常版の行列](matrix.md) と [軽量版の行列](matrix_light.md) が共有するクラスです。利用するときは、それぞれの公開ヘッダーを include してください。

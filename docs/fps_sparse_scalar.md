@@ -1,6 +1,7 @@
 ---
 title: "軽量 FPS の疎演算"
 documentation_of: //components/fps_sparse_scalar.hpp
+library_category: components/fps
 ---
 
 `fps_detail::ScalarSparseSeries` は、非零係数が少ない FPS の逆数・対数・指数・冪を計算する内部部品です。軽量版 FPS から利用します。

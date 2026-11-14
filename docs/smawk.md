@@ -2,6 +2,7 @@
 title: "SMAWK"
 documentation_of: //components/smawk.hpp
 redirect_from: /math/smawk.hpp.html
+library_category: components/data_structure
 ---
 
 ```cpp

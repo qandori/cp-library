@@ -1,6 +1,7 @@
 ---
 title: 軽量な階乗・逆階乗テーブル
 documentation_of: //components/factorial_table_light.hpp
+library_category: components/math
 ---
 
 [軽量な二項係数](comb_light.md)の共通部品です。通常版 FPS を読み込まず、`light_factorial_detail::Table<Mint>(max_n)` で階乗・逆階乗を計算します。

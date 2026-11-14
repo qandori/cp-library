@@ -1,6 +1,7 @@
 ---
 title: "多倍長整数"
 documentation_of: //math/bigint.hpp
+library_category: math
 ---
 
 符号付きの任意精度整数です。四則演算・剰余・比較と、10 進文字列との相互変換を扱います。

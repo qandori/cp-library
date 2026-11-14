@@ -1,6 +1,7 @@
 ---
 title: 木ハッシュの共通部品
 documentation_of: //components/tree_hash_core.hpp
+library_category: components/tree
 ---
 
 [根付き木のハッシュ](rooted_tree_hash.md)・[木のハッシュ](tree_hash.md) で使う共通部品です。通常は各公開ヘッダーを include してください。

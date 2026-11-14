@@ -1,6 +1,7 @@
 ---
 title: "Interval Set"
 documentation_of: //data_structure/interval_set.hpp
+library_category: data_structure/associative
 ---
 
 ```cpp

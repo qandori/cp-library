@@ -1,6 +1,7 @@
 ---
 title: "素数 mod 上の乗法畳み込み"
 documentation_of: //convolution/multiplicative_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

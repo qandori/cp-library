@@ -3,6 +3,7 @@ title: LCA
 documentation_of: //tree/lca.hpp
 redirect_from:
 - /graph/lca.hpp.html
+library_category: tree/query
 ---
 
 根付き木の 2 頂点に対し、両方の祖先で最も深い頂点を求めます。`add_edge` で木の辺を全て追加し、`build` を呼んでから問い合わせます。

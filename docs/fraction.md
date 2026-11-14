@@ -1,6 +1,7 @@
 ---
 title: "有理数（Fraction）"
 documentation_of: //math/fraction.hpp
+library_category: math
 ---
 
 ```cpp

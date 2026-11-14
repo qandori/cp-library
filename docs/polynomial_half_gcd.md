@@ -1,6 +1,7 @@
 ---
 title: "多項式 Half-GCD"
 documentation_of: //components/polynomial_half_gcd.hpp
+library_category: components/fps
 ---
 
 `fps_detail::PolynomialHalfGCD` は、多項式 GCD・拡張 GCD で共有する内部処理です。通常は [多項式 GCD](https://qandori.github.io/cp-library/fps/polynomial_gcd.hpp.html) のヘッダーを使います。係数型は内部の `mint`、法は 998244353 です。

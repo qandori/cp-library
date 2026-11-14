@@ -1,6 +1,7 @@
 ---
 title: "AND-OR などの論理畳み込み"
 documentation_of: //convolution/boolean_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

@@ -1,6 +1,7 @@
 ---
 title: 行列の内部演算
 documentation_of: //components/matrix_arithmetic.hpp
+library_category: components/math
 ---
 
 `math/matrix.hpp` が使う連続配列の行列積・消去処理です。通常は公開側の `Matrix<T>` を使います。体の演算・内積・配列の定数倍と加算は [体の内部演算](field_arithmetic.md) と共有しています。

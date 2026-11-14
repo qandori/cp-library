@@ -1,6 +1,7 @@
 ---
 title: 二項係数の累積和の内部演算
 documentation_of: //components/binomial_prefix_core.hpp
+library_category: components/math
 ---
 
 [二項係数の累積和](https://qandori.github.io/cp-library/math/binomial_prefix_sum.hpp.html) の共通部品です。`binomial_prefix_detail::Table<Mint>` を使います。

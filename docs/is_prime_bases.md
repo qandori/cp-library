@@ -1,6 +1,7 @@
 ---
 title: 素数判定の基数表
 documentation_of: //components/is_prime_bases.hpp
+library_category: components/math
 ---
 
 [素数判定](is_prime.md)で使う Bradley Berg の基数表です。ここでの基数は、Miller–Rabin 法の累乗による判定に使う底のことです。32 bit 用の 256 要素と 64 bit 用の 16,384 要素を持ち、各要素は `std::uint16_t` です。通常は公開ヘッダーを include してください。

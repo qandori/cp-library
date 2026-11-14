@@ -1,6 +1,7 @@
 ---
 title: Suffix Locus Index
 documentation_of: //components/suffix_locus.hpp
+library_category: components/string
 ---
 
 構築済みの `SuffixTree` に対して、本文中の半開区間 `[l,r)` が表す部分文字列の位置を求める内部部品です。文字列の比較やハッシュを使わず、木の上で目的の部分文字列の長さに対応する位置を探します。

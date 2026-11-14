@@ -1,6 +1,7 @@
 ---
 title: "Online Convolution"
 documentation_of: //convolution/online_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

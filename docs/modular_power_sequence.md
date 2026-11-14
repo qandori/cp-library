@@ -1,6 +1,7 @@
 ---
 title: 剰余を取った冪の列
 documentation_of: //components/modular_power_sequence.hpp
+library_category: components/math
 ---
 
 乗法畳み込みで使用する内部部品です。通常は [乗法畳み込み](multiplicative_convolution.md) を使ってください。

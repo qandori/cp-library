@@ -1,6 +1,7 @@
 ---
 title: 部分木の区間番号
 documentation_of: //tree/subtree_index.hpp
+library_category: tree/query
 ---
 
 親配列から、各部分木を連続した半開区間に対応付けます。部分木の集計と祖先判定に使えます。

@@ -1,6 +1,7 @@
 ---
 title: "Subset 畳み込み"
 documentation_of: //convolution/subset_convolution.hpp
+library_category: convolution
 ---
 
 ```cpp

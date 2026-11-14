@@ -1,6 +1,7 @@
 ---
 title: 根付き木のハッシュ
 documentation_of: //tree/rooted_tree_hash.hpp
+library_category: tree
 ---
 
 無向木を指定した頂点で根付きにし、各頂点を根とする部分木の形のハッシュを求めます。頂点番号と隣接リストの順序に依存しません。辺・頂点に付けた値や重みは扱いません。

@@ -1,6 +1,7 @@
 ---
 title: "整数幾何の座標変換"
 documentation_of: //components/integer_geometry_bridge.hpp
+library_category: components/geometry
 ---
 
 `integer_geometry_detail` 名前空間の内部部品です。整数幾何の各ヘッダーから使われるため、通常は直接 include する必要はありません。

@@ -1,6 +1,7 @@
 ---
 title: Bitset Word Operations
 documentation_of: //components/bitset_ops.hpp
+library_category: components/data_structure
 ---
 
 64 bit 整数（ワード）の配列に対して、集合演算と立っているビット数の合計を求める内部部品です。`DynamicBitset` の論理演算・個数計算に使います。

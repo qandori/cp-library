@@ -1,6 +1,7 @@
 ---
 title: 区間アフィン変換・区間和の共通実装
 documentation_of: //components/range_affine_sum_simd.hpp
+library_category: components/data_structure
 ---
 
 [区間アフィン変換・区間和](range_affine_range_sum.md)が使う内部処理です。通常は公開クラス `RangeAffineRangeSum` を使います。

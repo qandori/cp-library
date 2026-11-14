@@ -1,6 +1,7 @@
 ---
 title: 最小費用流の容量スケーリング
 documentation_of: //components/min_cost_circulation.hpp
+library_category: components/graph
 ---
 
 [最小費用流](https://qandori.github.io/cp-library/graph/min_cost_flow.hpp.html) の内部部品です。容量を 2 進数の上位 bit から順に扱う、容量スケーリング法の処理を共有します。通常は `MinCostFlow` を使います。

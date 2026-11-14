@@ -1,6 +1,7 @@
 ---
 title: min-plus / max-plus 畳み込みの整数用共通実装
 documentation_of: //components/min_plus_convolution_integral.hpp
+library_category: components/convolution
 ---
 
 [凸・凹 min-plus / max-plus 畳み込み](min_plus_convolution.md)が使う整数型用の内部処理です。通常は公開ヘッダーの関数を使います。

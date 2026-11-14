@@ -1,6 +1,7 @@
 ---
 title: FPS の作業領域
 documentation_of: //components/fps_workspace.hpp
+library_category: components/fps
 ---
 
 FPS 内部で使う、先頭アドレスが 64 byte の倍数となるように配置した `unsigned int` の作業領域です。

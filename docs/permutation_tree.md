@@ -3,6 +3,7 @@ title: Permutation Tree
 documentation_of: //tree/permutation_tree.hpp
 redirect_from:
 - /data_structure/permutation_tree.hpp.html
+library_category: sequence
 ---
 
 ```cpp

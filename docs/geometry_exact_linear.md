@@ -1,6 +1,7 @@
 ---
 title: "厳密な直線・線分の交点・射影・距離二乗"
 documentation_of: //geometry/exact_linear.hpp
+library_category: geometry/exact
 ---
 
 ```cpp

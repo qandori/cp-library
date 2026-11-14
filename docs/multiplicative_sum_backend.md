@@ -1,6 +1,7 @@
 ---
 title: 乗法的関数の和の内部処理
 documentation_of: //components/multiplicative_sum_backend.hpp
+library_category: components/math
 ---
 
 [乗法的関数の累積和](../math/multiplicative_prefix_sum.hpp.html) が、大きい上限での素数和と乗法的関数の和に使う補助部品です。通常は直接使う必要はありません。

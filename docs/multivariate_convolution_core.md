@@ -1,6 +1,7 @@
 ---
 title: 多変数畳み込みの共通実装
 documentation_of: //components/multivariate_convolution_core.hpp
+library_category: components/convolution
 ---
 
 [多変数の切り捨て畳み込み](multivariate_convolution.md)と[軽量版](multivariate_convolution_light.md)が共有する mod 998244353 用の内部処理です。通常は公開関数 `multivariate_convolution(a,b,dimensions)` を使います。

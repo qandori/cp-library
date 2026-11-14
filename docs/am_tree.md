@@ -1,6 +1,7 @@
 ---
 title: 辺追加に対応する最小全域森の内部処理
 documentation_of: //components/am_tree.hpp
+library_category: components/tree
 ---
 
 [辺追加に対応する最小全域森](incremental_msf.md)の内部部品です。通常は `graph/incremental_msf.hpp` の `IncrementalMSF` を使います。

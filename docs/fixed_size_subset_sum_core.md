@@ -1,6 +1,7 @@
 ---
 title: 個数指定の部分和集合の内部処理
 documentation_of: //components/fixed_size_subset_sum.hpp
+library_category: components/math
 ---
 
 [個数指定の部分和集合](fixed_size_subset_sum.md)の内部部品です。集合からちょうど $$K$$ 個の異なる要素を選んで作れる和を求めます。通常は `math/fixed_size_subset_sum.hpp` を include してください。入力条件・返り値は公開ページと同じです。

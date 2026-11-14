@@ -1,6 +1,7 @@
 ---
 title: "軽量 FPS の基本演算"
 documentation_of: //components/fps_light_core.hpp
+library_category: components/fps
 ---
 
 [軽量 FPS](fps_light.md) の型 `FormalPowerSeries<T>` と別名 `fps` を提供する内部部品です。軽量版を明示する名前 `LightFormalPowerSeries<T>`・`light_fps`・`LightFPS` も使えます。係数型・各演算の引数・返り値・計算量は公開ページを参照してください。

@@ -1,6 +1,7 @@
 ---
 title: Dynamic Pattern Matching (固定本文)
 documentation_of: //string/dynamic_pattern_matching.hpp
+library_category: string/pattern_matching
 ---
 
 固定した本文に対して、パターンを編集しながら出現回数と出現位置を求めます。文字の挿入・削除・置換、部分文字列の削除・移動・コピーに対応します。照合は厳密で、ハッシュの衝突はありません。

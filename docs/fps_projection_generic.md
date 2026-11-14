@@ -1,6 +1,7 @@
 ---
 title: FPS の射影の汎用実装
 documentation_of: //components/fps_projection_generic.hpp
+library_category: components/fps
 ---
 
 `fps_detail::composition_fallback` の内部部品です。通常は [power projection](power_projection.md) の公開ヘッダーを使います。引数は同じ FPS 型 `F` とし、入力は変更しません。

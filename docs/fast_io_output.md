@@ -1,6 +1,7 @@
 ---
 title: "非負整数の一括出力"
 documentation_of: //components/fast_io_output.hpp
+library_category: components/util
 ---
 
 `uint32_t` の整数を、決まった個数ずつまとめて出力します。[Fast I/O](fast_io.md) の `FastOutput` を使い、Mac を含むすべての対応環境で利用できます。出力する組は、利用者が渡した関数（コールバック）で指定します。入力処理も必要なら [一括入出力](fast_io_bulk.md) を include すると、この部品も読み込まれます。

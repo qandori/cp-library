@@ -1,6 +1,7 @@
 ---
 title: 行列累乗・特性多項式の内部演算
 documentation_of: //components/matrix_power.hpp
+library_category: components/math
 ---
 
 固定の素数法を持つ modint 用の行列累乗・特性多項式です。通常は [行列](matrix.md) の `Matrix<T>::pow(k)`・`characteristic_polynomial()` を使います。

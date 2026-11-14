@@ -1,6 +1,7 @@
 ---
 title: 整数演算の共通部品
 documentation_of: //components/integer_arithmetic.hpp
+library_category: components/math
 ---
 
 [整数除算](integer_division.md) と [等比数列の和](geometric_sum.md) が使う内部部品です。通常は各ライブラリの公開 API を使ってください。

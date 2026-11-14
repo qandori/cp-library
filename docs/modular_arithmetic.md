@@ -1,7 +1,7 @@
 ---
 title: 剰余累乗・逆元
 documentation_of: //math/modular_arithmetic.hpp
-library_category: math/util
+library_category: math/number_theory
 redirect_from:
 - /math/util/modular_arithmetic.hpp.html
 - /lightweight/math/util/modular_arithmetic.hpp.html

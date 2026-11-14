@@ -1,6 +1,7 @@
 ---
 title: "Fenwick Sum"
 documentation_of: //components/fenwick_sum.hpp
+library_category: components/data_structure
 ---
 
 ```cpp

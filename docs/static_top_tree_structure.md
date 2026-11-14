@@ -1,6 +1,7 @@
 ---
 title: "Static Top Tree の構造"
 documentation_of: //components/static_top_tree_structure.hpp
+library_category: components/tree
 ---
 
 `static_top_tree_detail::Structure` は Static Top Tree のクラスタ構造を作る内部部品です。クラスタは、木の一部をまとめて計算する単位を指します。DP の値には依存しません。構築済みの HLD を渡します。

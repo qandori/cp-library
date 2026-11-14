@@ -1,6 +1,7 @@
 ---
 title: "Online Convolution（軽量実装）"
 documentation_of: //convolution/online_convolution_light.hpp
+library_category: convolution
 ---
 
 通常版と同じ `OnlineConvolution` で利用でき、操作と境界条件も同じです。同じ機能は通常版か軽量版のいずれか一方を include してください。`LightOnlineConvolution` でも軽量版を明示できます。

@@ -2,6 +2,7 @@
 title: "NTT（998244353）"
 documentation_of: //components/ntt.hpp
 redirect_from: /convolution/ntt.hpp.html
+library_category: components
 ---
 
 NTT は、係数列を素数を法とした値の列へ変換し、多項式の積などを計算しやすくする方法です。法を $$p=998244353$$、長さを $$n$$、$$\omega=3^{(p-1)/n}$$ とすると、順変換は $$\displaystyle A_k=\sum_{j=0}^{n-1}a_j\omega^{jk}$$ です。逆変換で元の係数列に戻せます。

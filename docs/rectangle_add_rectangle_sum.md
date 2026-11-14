@@ -1,6 +1,7 @@
 ---
 title: 矩形加算・矩形和
 documentation_of: //data_structure/rectangle_add_rectangle_sum.hpp
+library_category: data_structure/rectangle_query
 ---
 
 整数座標のマスに対して、矩形内への加算と矩形内の総和を交互に行います。初期値は全て 0 です。矩形は `[left,right) × [down,up)` で、`left <= x < right`、`down <= y < up` の整数の組 `(x,y)` が対象です。

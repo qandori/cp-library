@@ -1,6 +1,7 @@
 ---
 title: "厳密な円の判定・外接円・最小包含円"
 documentation_of: //geometry/exact_circle.hpp
+library_category: geometry/exact
 ---
 
 ```cpp

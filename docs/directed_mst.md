@@ -1,6 +1,7 @@
 ---
 title: 有向最小全域木
 documentation_of: //graph/directed_mst.hpp
+library_category: graph/spanning_tree
 ---
 
 指定した根から全頂点へ到達できる有向木のうち、辺の重みの総和が最小のものを求めます。根以外の各頂点には、採用した入辺がちょうど1本あります。

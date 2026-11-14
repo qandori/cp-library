@@ -1,6 +1,7 @@
 ---
 title: 体の内部演算
 documentation_of: //components/field_arithmetic.hpp
+library_category: components/math
 ---
 
 行列と線形漸化式の復元で共有する、加減乗算・0 以外での除算と連続配列の計算です。このような除算ができる数の型を「体」と呼びます。素数を法とする modint や分数が使えます。

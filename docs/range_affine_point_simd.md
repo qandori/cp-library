@@ -1,6 +1,7 @@
 ---
 title: 区間アフィン変換・一点取得の共通実装
 documentation_of: //components/range_affine_point_simd.hpp
+library_category: components/data_structure
 ---
 
 [区間アフィン変換・一点取得](range_affine_point_get.md)が使う内部処理です。通常は公開クラス `RangeAffinePointGet` を使います。

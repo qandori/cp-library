@@ -1,6 +1,7 @@
 ---
 title: Shortest Path SCC
 documentation_of: //components/shortest_path_scc.hpp
+library_category: components/graph
 ---
 
 負辺最短路で使う、始点から到達可能な部分の強連結成分分解です。`DirectedCSR<W>` または `(行き先,重み)` の隣接リストを受け取ります。重みは読みません。再帰を使わない Tarjan 法です。

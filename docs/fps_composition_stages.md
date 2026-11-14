@@ -1,6 +1,7 @@
 ---
 title: FPS の合成・射影の共通段
 documentation_of: //components/fps_composition_stages.hpp
+library_category: components/fps
 ---
 
 `fps_detail::composition_fallback` の内部部品です。通常は [合成](compose.md)・[power projection](power_projection.md)・[合成逆元](compositional_inverse.md) の公開ヘッダーを使います。

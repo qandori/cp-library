@@ -1,6 +1,7 @@
 ---
 title: XOR の最小値・最大値を求める整数集合
 documentation_of: //data_structure/xor_set.hpp
+library_category: data_structure/associative
 ---
 
 整数の追加・削除と、指定値との XOR が最小／最大になる要素の取得に対応する集合です。同じ値を追加しても重複しません。

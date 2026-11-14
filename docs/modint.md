@@ -1,6 +1,7 @@
 ---
 title: 任意の法の modint
 documentation_of: //math/modint.hpp
+library_category: math
 ---
 
 整数を正の法 `m` で割った余りとして保持し、その法で加減乗算・除算する型です。「正規化」は、法で割った余りが同じ 0 以上 `m` 未満の整数へ直すことを指します。

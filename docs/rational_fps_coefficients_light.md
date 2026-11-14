@@ -1,6 +1,7 @@
 ---
 title: 有理 FPS の区間係数取得（軽量実装）
 documentation_of: //fps/rational_fps_coefficients_light.hpp
+library_category: fps
 ---
 
 $$[x^k]h(x)$$ は、$$h(x)$$ の $$x^k$$ の係数を表します。ここでは多項式の商 $$p(x)/q(x)$$ を、$$q(x)$$ と掛けると $$p(x)$$ になる係数列として扱います。

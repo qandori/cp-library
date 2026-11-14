@@ -1,6 +1,7 @@
 ---
 title: FPS の合成逆元の汎用実装
 documentation_of: //components/fps_reversion_generic.hpp
+library_category: components/fps
 ---
 
 `fps_detail::composition_fallback::compositional_inverse(f,deg = -1)` は、`f(g(x)) = x mod x^deg` を満たす `g` を、長さ `deg` の FPS 型 `F` で返します。通常は [合成逆元](compositional_inverse.md) の公開ヘッダーを使います。

@@ -1,6 +1,7 @@
 ---
 title: "一般の環の畳み込み"
 documentation_of: //convolution/convolution_ring.hpp
+library_category: convolution
 ---
 
 整数・modint などのように、加減算・乗算ができる係数型を使います。加算と乗算は括弧の位置を変えても結果が変わらず、加算は順序を入れ替えられ、乗算は和に分配できる必要があります。このような演算を持つ型を環と呼び、除算は要求しません。

@@ -2,6 +2,7 @@
 title: "Radix Heap"
 documentation_of: //components/RadixHeap.hpp
 redirect_from: /data_structure/RadixHeap.hpp.html
+library_category: components/data_structure
 ---
 
 ```cpp

@@ -1,6 +1,7 @@
 ---
 title: Kinetic Tournament Core
 documentation_of: //components/kinetic_tournament_monoid.hpp
+library_category: components/data_structure
 ---
 
 区間更新版 `KineticTournament` が `SegtreeBeats` に渡す内部処理です。通常は `KineticTournament` を使い、この部品を直接呼ぶ必要はありません。

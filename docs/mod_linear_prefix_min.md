@@ -1,6 +1,7 @@
 ---
 title: Mod of Linear の Prefix Minimum の内部走査
 documentation_of: //components/mod_linear_prefix_min.hpp
+library_category: components/math
 ---
 
 | 操作 | 内容・返り値 | 計算量 |

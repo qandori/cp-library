@@ -6,7 +6,7 @@ redirect_from:
 - /lightweight/math/number_theory/linear_congruence.hpp.html
 - /math/util/linear_congruence.hpp.html
 - /lightweight/math/util/linear_congruence.hpp.html
-library_category: math/util
+library_category: math/number_theory
 ---
 
 $$ax\equiv b\pmod m$$ を満たす整数 $$x$$ を求めます。法は素数でなくてもよく、$$a,b$$ は負でも構いません。前計算は不要です。

@@ -1,6 +1,7 @@
 ---
 title: "無向グラフの CSR"
 documentation_of: //components/undirected_csr.hpp
+library_category: components/graph
 ---
 
 各頂点の隣接辺を 1 本の配列に続けて格納し、頂点ごとの開始位置を別の配列で持つ形式（CSR）です。

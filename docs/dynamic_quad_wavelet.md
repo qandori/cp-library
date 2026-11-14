@@ -1,6 +1,7 @@
 ---
 title: Dynamic Wavelet Matrix の4値の内部演算
 documentation_of: //components/dynamic_quad_wavelet.hpp
+library_category: components/util
 ---
 
 [Dynamic Wavelet Matrix](https://qandori.github.io/cp-library/data_structure/dynamic_wavelet_matrix.hpp.html) の既定実装で使う内部部品です。`dynamic_wavelet_detail::QuadMatrix<T,Bits,Block,Branch>` は、一段で 2 bit を処理する動的 Wavelet Matrix です。通常は `DynamicWaveletMatrix<T,Bits>` を使います。

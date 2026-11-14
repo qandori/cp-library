@@ -1,6 +1,7 @@
 ---
 title: 型を指定する階乗・逆階乗テーブル
 documentation_of: //components/factorial_table.hpp
+library_category: components/math
 ---
 
 modint 型ごとに階乗・逆階乗を構築する内部部品です。通常は[二項係数ライブラリ](comb.md)を利用します。

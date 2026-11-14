@@ -1,6 +1,7 @@
 ---
 title: "Eertree（回文木）"
 documentation_of: //string/eertree.hpp
+library_category: string/palindrome
 ---
 
 ```cpp

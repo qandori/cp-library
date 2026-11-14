@@ -1,6 +1,7 @@
 ---
 title: "整数幾何の動的凸包（点追加）"
 documentation_of: //integer_geometry/dynamic_convex_hull.hpp
+library_category: integer_geometry
 ---
 
 整数座標の点を順不同に追加し、凸包を維持します。凸包の辺上の中間点・内部点・重複点は頂点列に残しません。点の削除には対応しません。

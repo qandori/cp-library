@@ -1,6 +1,7 @@
 ---
 title: "2-SAT の共通部品"
 documentation_of: //components/two_sat_core.hpp
+library_category: components/graph
 ---
 
 [TwoSAT](https://qandori.github.io/cp-library/graph/two_sat.hpp.html) の内部部品です。変数 `x[i]` またはその否定 `!x[i]` をリテラルと呼びます。リテラル `u` が真なら `v` も真という条件（含意）を辺 `u -> v` で表したグラフを処理します。通常は条件を追加できる `TwoSAT` を使用し、このグラフを直接用意する場合にこの部品を使います。

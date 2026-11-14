@@ -1,6 +1,7 @@
 ---
 title: "Static Range Min"
 documentation_of: //components/static_range_min.hpp
+library_category: components/data_structure
 ---
 
 ```cpp

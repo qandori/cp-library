@@ -1,7 +1,7 @@
 ---
 title: 区間制約付き一次不定方程式
 documentation_of: //math/linear_diophantine.hpp
-library_category: math/util
+library_category: math/number_theory
 redirect_from:
 - /math/util/linear_diophantine.hpp.html
 - /lightweight/math/util/linear_diophantine.hpp.html

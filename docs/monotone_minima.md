@@ -1,6 +1,7 @@
 ---
 title: "Monotone Minima"
 documentation_of: //components/monotone_minima.hpp
+library_category: components/data_structure
 ---
 
 ```cpp

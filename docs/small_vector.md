@@ -1,6 +1,7 @@
 ---
 title: "Small Vector"
 documentation_of: //components/small_vector.hpp
+library_category: components/data_structure
 ---
 
 ```cpp

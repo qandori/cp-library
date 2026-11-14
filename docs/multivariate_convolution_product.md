@@ -1,6 +1,7 @@
 ---
 title: 同じ長さの畳み込みの作業領域
 documentation_of: //components/multivariate_convolution_product.hpp
+library_category: components/convolution
 ---
 
 [多変数の切り捨て畳み込み](multivariate_convolution.md)が使う内部処理です。通常は公開関数 `multivariate_convolution(a,b,dimensions)` を使います。

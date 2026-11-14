@@ -1,6 +1,7 @@
 ---
 title: "2-SAT"
 documentation_of: //graph/two_sat.hpp
+library_category: graph
 ---
 
 `true`・`false` を取る変数について、`(x[i] == f) || (x[j] == g)` の形の条件を全て満たす値の組を求めます。この形の条件 1 つを節と呼びます。

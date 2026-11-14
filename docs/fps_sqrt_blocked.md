@@ -1,6 +1,7 @@
 ---
 title: FPS 平方根のブロック変換
 documentation_of: //components/fps_sqrt_blocked.hpp
+library_category: components/fps
 ---
 
 `fps::sqrt()` が使う内部部品です。通常は公開 FPS API から利用します。Linux x86_64 / GCC 用に定義され、呼び出し側で AVX2（複数の整数をまとめて処理する CPU 命令）対応を実行時に確認します。他の環境では既存の FPS 実装を使います。

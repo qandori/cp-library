@@ -1,6 +1,7 @@
 ---
 title: "凸包・凸多角形・最近点対・最遠点対"
 documentation_of: //geometry/convex.hpp
+library_category: geometry
 ---
 
 ```cpp

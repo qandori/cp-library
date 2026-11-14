@@ -1,6 +1,7 @@
 ---
 title: Suffix Array
 documentation_of: //string/suffix_array.hpp
+library_category: string/substring
 ---
 
 ```cpp

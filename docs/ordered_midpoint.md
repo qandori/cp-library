@@ -1,6 +1,7 @@
 ---
 title: 順序付き整数の中点
 documentation_of: //components/ordered_midpoint.hpp
+library_category: components/math
 ---
 
 小さい端点 `l` と大きい端点 `r` の中点を求めます。

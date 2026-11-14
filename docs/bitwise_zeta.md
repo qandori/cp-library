@@ -2,6 +2,7 @@
 title: "Bitwise Zeta / Möbius Transform"
 documentation_of: //components/bitwise_zeta.hpp
 redirect_from: /convolution/bitwise_zeta.hpp.html
+library_category: components
 ---
 
 ```cpp

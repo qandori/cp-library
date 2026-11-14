@@ -2,6 +2,7 @@
 title: "FFT"
 documentation_of: //components/fft.hpp
 redirect_from: /convolution/fft.hpp.html
+library_category: components
 ---
 
 複素数列の高速フーリエ変換（FFT）を行います。多項式の畳み込みなどに使う変換です。

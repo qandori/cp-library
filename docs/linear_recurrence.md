@@ -1,6 +1,7 @@
 ---
 title: "線形漸化式の第 k 項"
 documentation_of: //fps/linear_recurrence.hpp
+library_category: fps
 ---
 
 ```cpp

@@ -1,6 +1,7 @@
 ---
 title: "多点評価・補間の内部木"
 documentation_of: //components/fps_product_tree.hpp
+library_category: components/fps
 ---
 
 `fps_detail::ProductTree<T>` は [多点評価](https://qandori.github.io/cp-library/fps/multipoint_eval.hpp.html)・[補間](https://qandori.github.io/cp-library/fps/interpolate.hpp.html)が共有する内部部品です。通常は各関数の公開ヘッダーを include してください。

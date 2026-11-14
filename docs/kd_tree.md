@@ -1,6 +1,7 @@
 ---
 title: Kd-tree（最近傍・矩形範囲検索）
 documentation_of: //data_structure/kd_tree.hpp
+library_category: data_structure/rectangle_query
 ---
 
 静的な点集合から最近傍、距離順の上位 `k` 点、軸に平行な矩形内の点を検索します。次元はコンパイル時に指定し、既定は 2 次元です。

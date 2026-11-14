@@ -1,6 +1,7 @@
 ---
 title: 二項係数の累積和のオンライン処理部品
 documentation_of: //components/binomial_prefix_online.hpp
+library_category: components/math
 ---
 
 [二項係数の累積和](https://qandori.github.io/cp-library/math/binomial_prefix_sum.hpp.html) の通常版・軽量版で共有する内部実装です。利用するときは公開ヘッダーを include してください。

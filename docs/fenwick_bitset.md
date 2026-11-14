@@ -1,6 +1,7 @@
 ---
 title: 更新可能ビット列の区間個数（補助部品）
 documentation_of: //components/fenwick_bitset.hpp
+library_category: components/data_structure
 ---
 
 `FenwickBitset(n)` は長さ `n` の全要素が `false` のビット列を作ります。`set(p,value)` で一点を代入し、`contains(p)` で値、`count(l,r)` で半開区間 `[l,r)` の `true` の個数を返します。`size()` は列長です。

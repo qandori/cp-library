@@ -1,6 +1,7 @@
 ---
 title: LCM 畳み込みの固定 mod 用処理
 documentation_of: //components/lcm_convolution_mint.hpp
+library_category: components/convolution
 ---
 
 `lcm_convolution_mint_detail` 名前空間の内部部品です。通常は [LCM 畳み込み](gcd_lcm_convolution.md) から使います。

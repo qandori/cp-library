@@ -1,6 +1,7 @@
 ---
 title: "軽量 FPS の共通実装"
 documentation_of: //components/fps_light_backend.hpp
+library_category: components/fps
 ---
 
 軽量 FPS と追加演算の共通部品です。通常は公開ヘッダーを include してください。

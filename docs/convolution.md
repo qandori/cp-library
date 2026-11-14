@@ -1,6 +1,7 @@
 ---
 title: "通常の畳み込み"
 documentation_of: //convolution/convolution.hpp
+library_category: convolution
 ---
 
 2 つの係数列から、多項式の積の係数を求めます。NTT は素数を法とした変換、FFT は複素数などを使う変換で、係数列を変換してから要素ごとに掛け、逆変換して多項式の積を求めます。CRT は、複数の法での余りを同時に満たす値を求める中国剰余定理です。

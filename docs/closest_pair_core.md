@@ -1,6 +1,7 @@
 ---
 title: Closest Pair Core
 documentation_of: //components/closest_pair.hpp
+library_category: components/geometry
 ---
 
 [最近点対](geometry_convex.md)の整数座標用の内部処理です。通常は `geometry::closest_pair(points)` を使います。

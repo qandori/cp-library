@@ -1,6 +1,7 @@
 ---
 title: "Longest Common Subsequence"
 documentation_of: //string/lcs.hpp
+library_category: string/distance
 ---
 
 ```cpp

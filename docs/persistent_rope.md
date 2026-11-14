@@ -1,6 +1,7 @@
 ---
 title: Persistent Rope Core
 documentation_of: //components/persistent_rope.hpp
+library_category: components/string
 ---
 
 文字列などの断片を並べた列を管理し、以前の列を残したまま分割・連結・更新できる内部部品です。このように過去の状態を残す性質を「永続」と呼びます。[永続 deque](persistent_deque.md) の更新や、[動的パターン照合](dynamic_pattern_matching.md) の部分文字列の分割・連結・コピーに使います。

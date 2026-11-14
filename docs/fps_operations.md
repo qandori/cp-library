@@ -1,6 +1,7 @@
 ---
 title: "FPS の内部演算"
 documentation_of: //components/fps_operations.hpp
+library_category: components/fps
 ---
 
 `fps_detail::Operations<T>` は FPS と独立した多項式関数で共有する内部処理です。通常は `fps/fps.hpp` や各関数のヘッダーから利用します。`F` は `FormalPowerSeries<T>`、`W` は内部係数型の FPS、`base` は `vector<T>`、`Word` は内部の 32 bit 整数です。

@@ -6,6 +6,7 @@ redirect_from:
 - /lightweight/data_structure/range_query/tree_mo.hpp.html
 - /data_structure/tree_mo.hpp.html
 - /lightweight/data_structure/tree_mo.hpp.html
+library_category: tree/query
 ---
 
 木の経路に含まれる頂点・辺を追加／削除して、経路上の異なる値の個数や頻度などを一括計算します。木と値は処理中に変更しません。追加・削除する順番によらず答えが同じになるものを扱います。

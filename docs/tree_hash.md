@@ -1,6 +1,7 @@
 ---
 title: 木のハッシュ
 documentation_of: //tree/tree_hash.hpp
+library_category: tree
 ---
 
 根を持たない無向木全体の形のハッシュを求めます。頂点番号と隣接リストの順序に依存せず、頂点番号を付け替えると同じ辺集合になるか（木の同型）を調べるために使えます。

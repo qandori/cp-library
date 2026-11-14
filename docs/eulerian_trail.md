@@ -1,6 +1,7 @@
 ---
 title: 有向・無向 Euler 路
 documentation_of: //graph/eulerian_trail.hpp
+library_category: graph
 ---
 
 全ての辺をちょうど 1 回ずつ通る Euler 路を求めます。始点と終点が同じ Euler 閉路も含みます。自己辺・多重辺に対応し、元の辺 ID と頂点列を返します。

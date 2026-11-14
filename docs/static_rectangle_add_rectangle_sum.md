@@ -1,6 +1,7 @@
 ---
 title: 静的な矩形加算・矩形和
 documentation_of: //data_structure/static_rectangle_add_rectangle_sum.hpp
+library_category: data_structure/rectangle_query
 ---
 
 整数座標のマスに矩形加算を行った後、複数の矩形和をまとめて求めます。初期値は全て 0 です。矩形は `[left,right) × [down,up)` で、条件を満たす整数座標のマスが対象です。加算と問い合わせを交互に実行する場合は [矩形加算・矩形和](rectangle_add_rectangle_sum.md) を使います。

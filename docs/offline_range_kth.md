@@ -1,6 +1,7 @@
 ---
 title: 区間順位の一括処理（補助部品）
 documentation_of: //components/offline_range_kth.hpp
+library_category: components/data_structure
 ---
 
 [区間の k 番目の値](offline_range_kth_smallest.md)で使う、圧縮済み整数列の順位問い合わせの共通処理です。

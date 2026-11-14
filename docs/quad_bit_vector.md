@@ -2,6 +2,7 @@
 title: "Quad Bit Vector"
 documentation_of: //components/quad_bit_vector.hpp
 redirect_from: /data_structure/quad_bit_vector.hpp.html
+library_category: components/data_structure
 ---
 
 各整数から連続する 2 bit を取り出し、0〜3 の列として個数を調べる部品です。64 要素ごとの区画をブロックと呼びます。

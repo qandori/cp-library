@@ -22,6 +22,27 @@ class DocumentationRequirements(unittest.TestCase):
         self.document('a', '構築は $$O(n)$$ 時間、使用空間は $$O(n)$$ です。')
         self.assertEqual(check(self.root), 1)
 
+    def test_complexity_table_cannot_defer_to_a_symbol(self):
+        self.document('a', '| 操作 | 時間計算量 | 使用空間 |\n| --- | --- | --- |\n'
+                      '| solve() | $$T$$ | $$O(n)$$ |\n\nT は末尾で定義します。$$T=O(n)$$ です。')
+        with self.assertRaisesRegex(AssertionError, '別記号'):
+            check(self.root)
+
+    def test_complexity_table_with_explicit_bound(self):
+        self.document('a', 'n は頂点数です。\n\n| 操作 | 時間計算量 | 使用空間 |\n'
+                      '| --- | --- | --- |\n| solve() | $$O(n^2)$$ | $$O(n)$$ |')
+        self.assertEqual(check(self.root), 1)
+
+    def test_asymptotic_padding_is_rejected(self):
+        for bound in ('O(n+1)', r'O(n\log(n+2))'):
+            self.document('a', f'時間は $${bound}$$、使用空間は $$O(n)$$ です。')
+            with self.assertRaisesRegex(AssertionError, '不要な'):
+                check(self.root)
+
+    def test_exact_counts_and_nonconstant_terms_are_preserved(self):
+        self.document('a', '補助頂点を含む個数は $$n+2$$ です。時間は $$O(n+2^k)$$、使用空間は $$O(n)$$ です。')
+        self.assertEqual(check(self.root), 1)
+
     def test_example_and_comment_are_not_explanations(self):
         self.document('a', '```cpp\n// O(n) 時間・空間\n```\n<!-- O(n) 空間 -->')
         with self.assertRaisesRegex(AssertionError, '計算量'):

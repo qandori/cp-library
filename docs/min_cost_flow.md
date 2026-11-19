@@ -1,16 +1,18 @@
 ---
 title: 最小費用流
-documentation_of: //graph/min_cost_flow.hpp
+documentation_of: //flow/min_cost_flow.hpp
 redirect_from:
+- /graph/min_cost_flow.hpp.html
+- /lightweight/graph/min_cost_flow.hpp.html
 - /graph/flow/min_cost_flow.hpp.html
 - /lightweight/graph/flow/min_cost_flow.hpp.html
-library_category: graph/flow
+library_category: flow
 ---
 
 容量と単位費用を持つ有向グラフで、指定した始点から終点へ流す量と、その最小費用を求めます。`flow(s,t,limit)` は `limit` 以下で可能な最大の追加流量と、その最小費用を返します。辺に下限を付ける場合や、頂点ごとに出る量と入る量の差を指定する場合は [MinCostBFlow](min_cost_b_flow.md) を使います。
 
 ```cpp
-#include "lib/graph/min_cost_flow.hpp"
+#include "lib/flow/min_cost_flow.hpp"
 #include <cassert>
 
 int main() {

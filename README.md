@@ -245,11 +245,11 @@
 
 | ファイル | 内容 | 使い方 |
 | --- | --- | --- |
-| `graph/max_flow.hpp` | 最大流・最小カット | [使い方](docs/max_flow.md) |
-| `graph/max_flow_lower_bound.hpp` | 下限付き最大流・最小流量・流量範囲 | [使い方](docs/max_flow_lower_bound.md) |
-| `graph/min_cost_flow.hpp` | 最小費用流・費用曲線 | [使い方](docs/min_cost_flow.md) |
-| `graph/min_cost_b_flow.hpp` | 下限付き最小費用流・上限／下限のみの辺・頂点ごとの流量指定 | [使い方](docs/min_cost_b_flow.md) |
-| `graph/project_selection.hpp` | Project Selection（燃やす埋める） | [使い方](docs/project_selection.md) |
+| `flow/max_flow.hpp` | 最大流・最小カット | [使い方](docs/max_flow.md) |
+| `flow/max_flow_lower_bound.hpp` | 下限付き最大流・最小流量・流量範囲 | [使い方](docs/max_flow_lower_bound.md) |
+| `flow/min_cost_flow.hpp` | 最小費用流・費用曲線 | [使い方](docs/min_cost_flow.md) |
+| `flow/min_cost_b_flow.hpp` | 下限付き最小費用流・上限／下限のみの辺・頂点ごとの流量指定 | [使い方](docs/min_cost_b_flow.md) |
+| `flow/project_selection.hpp` | Project Selection（燃やす埋める） | [使い方](docs/project_selection.md) |
 
 ### graph/matching
 

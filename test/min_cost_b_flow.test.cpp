@@ -1,5 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/min_cost_b_flow"
-#include "graph/min_cost_b_flow.hpp"
+#include "flow/min_cost_b_flow.hpp"
 #include "components/fast_io.hpp"
 
 int main() {

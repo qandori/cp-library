@@ -4,8 +4,9 @@
 
 | フォルダ | 内容 |
 | --- | --- |
+| `flow/` | 最大流、最小費用流、Project Selection |
 | `tree/` | 木の分解、経路・部分木クエリ、木 DP、動的木 |
-| `graph/` | 一般のグラフの最短路、連結性、フロー、マッチングなど |
+| `graph/` | 一般のグラフの最短路、連結性、マッチングなど |
 | `data_structure/` | 集合・区間の更新や問い合わせ。セグメント木、Union-Find、永続データ構造、Wavelet Matrix、区間 Mo など |
 | `math/` | modint、整数論、二項係数、Floor Sum、行列など |
 | `convolution/` | 畳み込み |
@@ -23,7 +24,7 @@ Block Cut Tree のように一般のグラフを入力にするものは `graph/
 
 ```cpp
 #include "lib/math/comb.hpp"
-#include "lib/graph/max_flow.hpp"
+#include "lib/flow/max_flow.hpp"
 #include "lib/graph/dijkstra.hpp"
 #include "lib/data_structure/persistent_segtree.hpp"
 #include "lib/data_structure/union_find.hpp"

@@ -1,10 +1,10 @@
 #line 1 "test/min_cost_b_flow.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/min_cost_b_flow"
-#line 1 "graph/min_cost_b_flow.hpp"
+#line 1 "flow/min_cost_b_flow.hpp"
 
 
 
-#line 1 "graph/min_cost_flow.hpp"
+#line 1 "flow/min_cost_flow.hpp"
 
 
 
@@ -607,7 +607,7 @@ class RadixHeap {
 };
 
 
-#line 11 "graph/min_cost_flow.hpp"
+#line 11 "flow/min_cost_flow.hpp"
 
 template<class Cap = std::int64_t, class Cost = std::int64_t, class Total = __int128_t>
 class MinCostFlow {
@@ -783,7 +783,7 @@ struct CapacityBounds {
 }
 
 
-#line 7 "graph/min_cost_b_flow.hpp"
+#line 7 "flow/min_cost_b_flow.hpp"
 
 template<class Cap = std::int64_t, class Cost = std::int64_t, class Total = __int128_t>
 class MinCostBFlow {

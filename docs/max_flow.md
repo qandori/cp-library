@@ -1,16 +1,18 @@
 ---
 title: 最大流
-documentation_of: //graph/max_flow.hpp
+documentation_of: //flow/max_flow.hpp
 redirect_from:
+- /graph/max_flow.hpp.html
+- /lightweight/graph/max_flow.hpp.html
 - /graph/flow/max_flow.hpp.html
 - /lightweight/graph/flow/max_flow.hpp.html
-library_category: graph/flow
+library_category: flow
 ---
 
 有向グラフで、始点から終点へ送れる最大の流量を求めます。`flow(s,t,limit)` は `limit` 以下で可能な最大の追加流量を返します。辺に下限を付ける場合や、頂点ごとに出る量と入る量の差を指定する場合は [MaxFlowLowerBound](max_flow_lower_bound.md) を使います。
 
 ```cpp
-#include "lib/graph/max_flow.hpp"
+#include "lib/flow/max_flow.hpp"
 #include <cassert>
 
 int main() {

@@ -1,5 +1,5 @@
 #define PROBLEM "https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=GRL_6_A"
-#include "graph/max_flow_lower_bound.hpp"
+#include "flow/max_flow_lower_bound.hpp"
 #include "components/fast_io.hpp"
 
 int main() {

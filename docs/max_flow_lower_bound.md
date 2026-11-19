@@ -1,13 +1,16 @@
 ---
 title: 下限付き最大流
-documentation_of: //graph/max_flow_lower_bound.hpp
-library_category: graph/flow
+documentation_of: //flow/max_flow_lower_bound.hpp
+library_category: flow
+redirect_from:
+- /graph/max_flow_lower_bound.hpp.html
+- /lightweight/graph/max_flow_lower_bound.hpp.html
 ---
 
 各辺の流量に下限・上限を指定できる最大流です。[MaxFlow](max_flow.md) と同じく、`flow(s,t,limit)` は `limit` 以下で可能な最大の追加流量を返します。自己辺・多重辺・負の下限・負の上限に対応します。費用も指定する場合は [MinCostBFlow](min_cost_b_flow.md) を使います。
 
 ```cpp
-#include "lib/graph/max_flow_lower_bound.hpp"
+#include "lib/flow/max_flow_lower_bound.hpp"
 #include <cassert>
 
 int main() {
@@ -39,7 +42,7 @@ int main() {
 保存した流れを使わず、設定した辺と `b[v]` から独立に計算するには `solve`・`min_flow`・`max_flow`・`flow_range` を使います。これらは `const` で、保存した流れを参照・変更しません。
 
 ```cpp
-#include "lib/graph/max_flow_lower_bound.hpp"
+#include "lib/flow/max_flow_lower_bound.hpp"
 #include <cassert>
 
 int main() {

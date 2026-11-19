@@ -1,4 +1,4 @@
-#include "graph/max_flow.hpp"
+#include "flow/max_flow.hpp"
 #include <random>
 
 template<class Cap> void check() {

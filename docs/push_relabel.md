@@ -4,7 +4,7 @@ documentation_of: //components/push_relabel.hpp
 library_category: components/graph
 ---
 
-[最大流](https://qandori.github.io/cp-library/graph/max_flow.hpp.html) の内部部品です。容量型を超える一時的な流量にも対応します。
+[最大流](https://qandori.github.io/cp-library/flow/max_flow.hpp.html) の内部部品です。容量型を超える一時的な流量にも対応します。
 
 $$N$$ を頂点数、$$M$$ を辺数とします。
 

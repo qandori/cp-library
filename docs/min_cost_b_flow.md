@@ -1,13 +1,16 @@
 ---
 title: 下限付き最小費用流（最小費用 b-flow）
-documentation_of: //graph/min_cost_b_flow.hpp
-library_category: graph/flow
+documentation_of: //flow/min_cost_b_flow.hpp
+library_category: flow
+redirect_from:
+- /graph/min_cost_b_flow.hpp.html
+- /lightweight/graph/min_cost_b_flow.hpp.html
 ---
 
 各辺の流量に下限・上限を指定できる最小費用流です。[MinCostFlow](min_cost_flow.md) と同じく、`flow(s,t,limit)` は `limit` 以下で可能な最大の追加流量と、その最小費用を返します。自己辺・多重辺・負の下限・負の上限・負の費用・有限の負閉路に対応します。
 
 ```cpp
-#include "lib/graph/min_cost_b_flow.hpp"
+#include "lib/flow/min_cost_b_flow.hpp"
 #include <cassert>
 
 int main() {
@@ -48,7 +51,7 @@ int main() {
 保存した流れを使わず、設定した辺と `b[v]` から独立に計算するには `solve`・`min_flow`・`max_flow`・`flow_range` を使います。これらは `const` で、保存した流れを参照・変更しません。
 
 ```cpp
-#include "lib/graph/min_cost_b_flow.hpp"
+#include "lib/flow/min_cost_b_flow.hpp"
 #include <cassert>
 
 int main() {

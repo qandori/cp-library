@@ -1,4 +1,4 @@
-#include "graph/min_cost_b_flow.hpp"
+#include "flow/min_cost_b_flow.hpp"
 #include <algorithm>
 #include <array>
 #include <cassert>

@@ -1,8 +1,10 @@
 ---
 title: Project Selection（燃やす埋める）
-documentation_of: //graph/project_selection.hpp
-library_category: graph/flow
+documentation_of: //flow/project_selection.hpp
+library_category: flow
 redirect_from:
+- /graph/project_selection.hpp.html
+- /lightweight/graph/project_selection.hpp.html
 - /graph/flow/project_selection.hpp.html
 - /lightweight/graph/flow/project_selection.hpp.html
 ---
@@ -10,7 +12,7 @@ redirect_from:
 各頂点を選ぶ・選ばないの 2 通りに分け、費用の総和を最小化します。選択を `true`（1、燃やす）、非選択を `false`（0、埋める）とします。利益は負の費用として指定します。例えば、選ぶと費用 4 なら `add_cost(v,4)`、選ぶと利益 10 なら `add_cost(v,-10)` です。
 
 ```cpp
-#include "lib/graph/project_selection.hpp"
+#include "lib/flow/project_selection.hpp"
 #include <cassert>
 
 int main() {
@@ -69,7 +71,7 @@ int main() {
 例えば、次の例では `0,2` と `1,3` を別々の反転指定にしています。
 
 ```cpp
-#include "lib/graph/project_selection.hpp"
+#include "lib/flow/project_selection.hpp"
 #include <cassert>
 
 int main() {
@@ -115,7 +117,7 @@ int main() {
 列に 2 項目以上あり、`cost != 0` の場合は、列内の反転指定を全て同じにします。この場合、`add_all_cost` は `cost < 0`、`add_any_cost` は `cost > 0` にしてください。空または 1 項目の列では、反転指定・費用の符号に制限はありません。重複頂点を渡しても条件の意味は変わりませんが、処理量と列の長さの条件には重複も数えます。補助頂点は最大 1 個、辺は最大 `k` 本追加します。
 
 ```cpp
-#include "lib/graph/project_selection.hpp"
+#include "lib/flow/project_selection.hpp"
 #include <cassert>
 
 int main() {

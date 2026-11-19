@@ -1,5 +1,5 @@
 #define PROBLEM "https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=GRL_6_A"
-#include "graph/project_selection.hpp"
+#include "flow/project_selection.hpp"
 #include "components/fast_io.hpp"
 
 int main() {

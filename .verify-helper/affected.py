@@ -14,7 +14,7 @@ MODE = "affected-no-cache-v1"
 BINDING_PATH = ".verify-helper/affected-binding.json"
 BINDING_DOMAIN = "qandori/cp-library/affected-push-binding-v1"
 GROUPS = ("headers", "unit", "sanitize", "verification", "bundles")
-LIBRARIES = {"components", "convolution", "fps", "data_structure", "graph", "tree", "math", "sequence", "string", "geometry", "integer_geometry"}
+LIBRARIES = {"components", "convolution", "fps", "data_structure", "graph", "flow", "tree", "math", "sequence", "string", "geometry", "integer_geometry"}
 CHECK_INPUTS = {
     "test/verify.py", "test/requirements.txt", ".verify-helper/config.toml",
     ".verify-helper/check-docs.py", ".verify-helper/documentation.py",

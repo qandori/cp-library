@@ -1,5 +1,5 @@
 #include "graph/bipartite_matching.hpp"
-#include "graph/max_flow.hpp"
+#include "flow/max_flow.hpp"
 #include <algorithm>
 #include <cstdlib>
 #include <numeric>

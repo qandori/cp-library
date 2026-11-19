@@ -1,5 +1,5 @@
 #define PROBLEM "https://yukicoder.me/problems/no/3668"
-#include "graph/max_flow.hpp"
+#include "flow/max_flow.hpp"
 #include "components/fast_io.hpp"
 
 int main() {

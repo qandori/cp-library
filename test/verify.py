@@ -25,7 +25,7 @@ if args.selection and not args.unit_only:
     parser.error("--selection requires --unit-only; use .verify-helper/ci.py judge for Library Checker tests")
 selection = json.loads(args.selection.read_text()) if args.selection else None
 headers = ([root / path for path in selection["headers"]] if selection is not None else
-           sorted(path for folder in ("components", "convolution", "fps", "data_structure", "graph", "tree", "math", "sequence", "string", "geometry", "integer_geometry")
+           sorted(path for folder in ("components", "convolution", "fps", "data_structure", "graph", "flow", "tree", "math", "sequence", "string", "geometry", "integer_geometry")
                   for path in (root / folder).rglob("*.hpp")))
 source_group = "sanitize" if args.sanitize and selection is not None and "sanitize" in selection else "unit"
 sources = ([root / path for path in selection[source_group]] if selection is not None else

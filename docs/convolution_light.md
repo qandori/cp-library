@@ -17,6 +17,8 @@ auto c = convolution(a, b); // {4,13,22,15}
 
 | 操作 | 内容・返り値 | 計算量 |
 | --- | --- | --- |
+| `cp_acl::convolution<Mod>(a,b)` / `cp_acl::convolution(a,b)` | 整数列の畳み込みを法 `Mod`（既定は 998244353）で求める。静的 modint の列ではその型の法を使い、`Mod` を指定するなら同じ値にする | $$O(L\log L)$$ |
+| `cp_acl::convolution_ll(a,b)` | `std::vector<long long>` の整数畳み込み。全係数が `long long` に収まること | $$O(L\log L)$$ |
 | `convolution(a,b)` | 通常の畳み込み $$\displaystyle c_k=\sum_{i+j=k}a_ib_j$$ を返す。係数型から実装を選ぶ | NTT・CRT・FFT: $$O(L\log L)$$、一般の環: $$O(L^{\log_2 3})$$ |
 
 $$\displaystyle c_k = \sum_{i+j=k} a_i b_j$$ を返します。
@@ -30,6 +32,8 @@ $$\displaystyle c_k = \sum_{i+j=k} a_i b_j$$ を返します。
 | 64 bit 以下の整数 | CRT による厳密計算。結果が係数型に収まること。出力長 $$\le 2^{24}$$ |
 | 浮動小数点・`std::complex` | FFT による近似計算 |
 | その他の環 | 積を小さい積に分割する Karatsuba 法。`T(0)`・`+=`・`-=`・`*` が必要 |
+
+ACL 形式の関数でも返り値は入力と同じ係数型の `std::vector` です。整数列に法を指定する場合は、正の 32 bit の法を選び、余りが要素型で表せるようにします。整数列の出力長は $$2^{24}$$ 以下です。
 
 表の「その他の環」は、整数・modint と同じような加減算・乗算ができる型です。加算・乗算の結合法則、加算の交換法則、分配法則を満たす必要があります。除算は要求しません。
 

@@ -75,6 +75,14 @@ template<class Cap, class Cost> void check() {
 }
 
 int main() {
+	cp_acl::mcf_graph<int, long long> acl_graph(2);
+	int edge_id = acl_graph.add_edge(0, 1, 4, 2);
+	std::pair<int, long long> acl_result = acl_graph.flow(0, 1, 2);
+	assert((acl_result == std::pair{2, 4LL}));
+	const cp_acl::mcf_graph<int, long long>::edge edge = acl_graph.get_edge(edge_id);
+	assert(edge.flow == 2);
+	const std::vector<std::pair<int, long long>> slope = acl_graph.slope(0, 1);
+	assert((slope == std::vector{std::pair{0, 0LL}, std::pair{2, 4LL}}));
 	check<int, std::int8_t>();
 	check<int, std::int16_t>();
 	check<int, int>();

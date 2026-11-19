@@ -53,8 +53,8 @@ int main() {
 | `prod(root,l,r)` | `[l,r)` の積。空区間は `e()` | $$O(\log n)$$ |
 | `all_prod(root)` | 全体の積 | $$O(1)$$ |
 | `copy_range(root,source,l,r)` | `[l,r)` を `source` の同じ区間で置換したバージョン | 償却 $$O(\log n)$$ |
-| `max_right(root,l,f)` | `f(prod(root,l,r))` が真となる最大の右端 | $$O(\log n)$$ |
-| `min_left(root,r,f)` | `f(prod(root,l,r))` が真となる最小の左端 | $$O(\log n)$$ |
+| `max_right(root,l,f)` / `max_right<f>(root,l)` | `f(prod(root,l,r))` が真となる最大の右端 | $$O(\log n)$$ |
+| `min_left(root,r,f)` / `min_left<f>(root,r)` | `f(prod(root,l,r))` が真となる最小の左端 | $$O(\log n)$$ |
 | `size()` / `empty()` | 固定長／長さが 0 か | $$O(1)$$ |
 
 `0 <= n <= INT_MAX`、一点操作は `0 <= p < n`、区間操作は `0 <= l <= r <= n` とします。境界探索の `f` は区間の計算結果を 1 つ受け取り、条件を満たせば `true`、満たさなければ `false` を返す関数です。同じ引数には同じ結果を返すようにします。`f(e()) == true` が必要です。区間を伸ばして一度 `false` になったら、その後は `true` に戻らない条件を使ってください。空区間・同じバージョン・全区間のコピーはノードを作りません。取得・区間積・境界探索もノードを作りません。

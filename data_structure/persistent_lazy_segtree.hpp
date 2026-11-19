@@ -208,11 +208,13 @@ class PersistentLazySegtree {
 		if (l == 0 && r == n_) return source;
 		return copy(root, source, 0, n_, l, r, id(), id(), false, false);
 	}
+	template <auto f> int max_right(root_type root, int l) const { return max_right(root, l, f); }
 	template <class Pred> int max_right(root_type root, int l, Pred f) const {
 		check(root); assert(0 <= l && l <= n_ && f(e()));
 		S value = e();
 		return l == n_ ? n_ : search<true>(root, 0, n_, l, id(), false, value, f);
 	}
+	template <auto f> int min_left(root_type root, int r) const { return min_left(root, r, f); }
 	template <class Pred> int min_left(root_type root, int r, Pred f) const {
 		check(root); assert(0 <= r && r <= n_ && f(e()));
 		S value = e();

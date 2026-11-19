@@ -50,4 +50,8 @@ std::vector<int> suffix_array(const std::vector<int, Allocator> &s, int upper) {
 	return suffix_array(std::span<const int>(s.data(), s.size()), upper);
 }
 
+namespace cp_acl {
+using ::suffix_array;
+}
+
 #endif

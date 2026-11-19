@@ -185,12 +185,14 @@ class PersistentSegtree {
 		if (!l && r == n_) return source;
 		return copy_impl(root, source, 0, capacity(), l, r);
 	}
+	template <auto f> int max_right(root_type root, int l) const { return max_right(root, l, f); }
 	template <class Pred> int max_right(root_type root, int l, Pred f) const {
 		check(root); assert(0 <= l && l <= n_ && f(e()));
 		S value = e();
 		auto result = l == n_ ? static_cast<std::uint64_t>(n_) : search<true>(root, 0, capacity(), l, value, f);
 		return result < static_cast<unsigned>(n_) ? static_cast<int>(result) : n_;
 	}
+	template <auto f> int min_left(root_type root, int r) const { return min_left(root, r, f); }
 	template <class Pred> int min_left(root_type root, int r, Pred f) const {
 		check(root); assert(0 <= r && r <= n_ && f(e()));
 		S value = e();

@@ -51,8 +51,8 @@ int main() {
 | `prod(root,l,r)` | バージョン `root` の半開区間 `[l,r)` の積。空区間は `e()` | $$O(\log n)$$ |
 | `all_prod(root)` | バージョン `root` の全体の積 | $$O(1)$$ |
 | `copy_range(root,source,l,r)` | `root` の `[l,r)` を `source` の同じ区間で置き換えた新しいルート ID | 償却 $$O(\log n)$$ |
-| `max_right(root,l,f)` | `f(prod(root,l,r))` が真である最大の右端 `r` | $$O(\log n)$$ |
-| `min_left(root,r,f)` | `f(prod(root,l,r))` が真である最小の左端 `l` | $$O(\log n)$$ |
+| `max_right(root,l,f)` / `max_right<f>(root,l)` | `f(prod(root,l,r))` が真である最大の右端 `r` | $$O(\log n)$$ |
+| `min_left(root,r,f)` / `min_left<f>(root,r)` | `f(prod(root,l,r))` が真である最小の左端 `l` | $$O(\log n)$$ |
 | `size()` / `empty()` | 配列の長さ／長さが 0 か | $$O(1)$$ |
 | `reserve(count)` | 空ノードを除くノード `count` 個分の容量を予約。既存のルート ID は変わらない | 再確保時は現在のノード数に比例 |
 | `node_count()` | 空ノードを除く、全バージョンで作成したノード数 | $$O(1)$$ |

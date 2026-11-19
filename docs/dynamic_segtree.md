@@ -31,7 +31,7 @@ auto r = seg.max_right(0, [](long long s) { return s <= 10; });
 | `multiply(p,x)` | `op(現在値,x)` に更新 | 償却 $$O(\min(B,k))$$ |
 | `get(p)` | 1 点の値。未更新なら `e()` | $$O(\min(B,k))$$ |
 | `prod(l,r)` / `all_prod()` | $$[l,r)$$／全体の積 | prod: $$O(\min(B,k))$$、all_prod: $$O(1)$$ |
-| `max_right(l,f)` / `min_left(r,f)` | 区間積が `f` を満たす最大の右端／最小の左端 | $$O(\min(B,k))$$ |
+| `max_right(l,f)` / `min_left(r,f)` / `max_right<f>(l)` / `min_left<f>(r)` | 区間積が `f` を満たす最大の右端／最小の左端 | $$O(\min(B,k))$$ |
 | `size()` / `left_bound()` / `right_bound()` | 座標範囲の長さ／左端／右端 | $$O(1)$$ |
 | `node_count()` | 更新済みの異なる座標数 | $$O(1)$$ |
 | `reserve(k)` / `clear()` | 領域予約／容量を残して全座標を単位元に戻す | $$O(k)$$ |

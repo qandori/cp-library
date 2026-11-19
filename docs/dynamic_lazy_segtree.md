@@ -69,7 +69,7 @@ int main() {
 | `set(p,x)` | 一点を `x` に代入 | 償却 $$O(\log W)$$ |
 | `prod(l,r)` / `get(p)` | 区間積 / 一点の値を返す。`const` で呼べる | $$O(\log W)$$ |
 | `all_prod()` | 全体の積。空なら `e()` | $$O(1)$$ |
-| `max_right(l,f)` / `min_left(r,f)` | 条件を満たす最大の右端 / 最小の左端。`const` で呼べる | $$O(\log W)$$ |
+| `max_right(l,f)` / `min_left(r,f)` / `max_right<f>(l)` / `min_left<f>(r)` | 条件を満たす最大の右端 / 最小の左端。`const` で呼べる | $$O(\log W)$$ |
 | `size()` / `empty()` | 範囲の長さを `Coord` の符号なし型で返す / 空かどうか | $$O(1)$$ |
 | `left_bound()` / `right_bound()` | 構築範囲の左端 / 右端 | $$O(1)$$ |
 | `node_count()` / `memory_usage()` | 作成済みノード数 / 確保済みノード領域のバイト数 | $$O(1)$$ |

@@ -85,6 +85,7 @@ template<class S, auto op, auto e> class Segtree {
 		}
 		return op(std::move(left), std::move(right));
 	}
+	template<auto f> [[nodiscard]] int max_right(int l) const { return max_right(l, f); }
 	template<class Pred> [[nodiscard]] int max_right(int l, Pred f) const {
 		assert(0 <= l && l <= n_ && f(e()));
 		if (l == n_) return n_;
@@ -106,6 +107,7 @@ template<class S, auto op, auto e> class Segtree {
 		} while ((k & -k) != k);
 		return n_;
 	}
+	template<auto f> [[nodiscard]] int min_left(int r) const { return min_left(r, f); }
 	template<class Pred> [[nodiscard]] int min_left(int r, Pred f) const {
 		assert(0 <= r && r <= n_ && f(e()));
 		if (!r) return 0;
@@ -128,5 +130,9 @@ template<class S, auto op, auto e> class Segtree {
 		return 0;
 	}
 };
+
+namespace cp_acl {
+template<class S, auto op, auto e> using segtree = Segtree<S, op, e>;
+}
 
 #endif

@@ -35,7 +35,9 @@ constexpr std::optional<CRTSolution> crt(std::int64_t r0, std::int64_t m0, std::
 	return CRTSolution{std::int64_t(r0 + __int128_t(m0) * solution->residue), std::int64_t(modulus)};
 }
 
-inline std::optional<CRTSolution> crt(const std::vector<std::int64_t> &residues, const std::vector<std::int64_t> &moduli) {
+namespace crt_detail {
+template<class I>
+std::optional<CRTSolution> solve(const std::vector<I> &residues, const std::vector<I> &moduli) {
 	if (residues.size() != moduli.size()) throw std::invalid_argument("crt size");
 	for (auto m : moduli) if (m <= 0) throw std::invalid_argument("crt modulus");
 	CRTSolution result{0, 1};
@@ -45,6 +47,18 @@ inline std::optional<CRTSolution> crt(const std::vector<std::int64_t> &residues,
 		result = *next;
 	}
 	return result;
+}
+}
+
+inline std::optional<CRTSolution> crt(const std::vector<std::int64_t> &residues, const std::vector<std::int64_t> &moduli) {
+	return crt_detail::solve(residues, moduli);
+}
+
+namespace cp_acl {
+inline std::pair<long long, long long> crt(const std::vector<long long> &r, const std::vector<long long> &m) {
+	if (auto result = crt_detail::solve(r, m)) return {result->residue, result->modulus};
+	return {0, 0};
+}
 }
 
 #endif

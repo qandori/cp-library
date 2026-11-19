@@ -38,7 +38,11 @@ class TwoSAT {
 		solved_ = true;
 		return valid_;
 	}
-	std::vector<bool> answer() const { assert(valid_); return answer_; }
+	std::vector<bool> answer() const { return answer_; }
 };
+
+namespace cp_acl {
+using two_sat = TwoSAT;
+}
 
 #endif

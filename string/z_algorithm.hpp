@@ -32,4 +32,8 @@ std::vector<int> z_algorithm(const std::vector<T, Allocator> &sequence) {
 	return z_algorithm(std::span<const T>(sequence.data(), sequence.size()));
 }
 
+namespace cp_acl {
+using ::z_algorithm;
+}
+
 #endif

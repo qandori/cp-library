@@ -20,12 +20,14 @@ redirect_from:
 
 long long op(long long a, long long b) { return a + b; }
 long long e() { return 0; }
+bool at_most_six(long long x) { return x <= 6; }
 
 int main() {
 	Segtree<long long, op, e> tree(std::vector<long long>{1, 2, 3});
 	tree.set(1, 5);
 	assert(tree.prod(0, 3) == 9);
-	assert(tree.max_right(0, [](long long x) { return x <= 6; }) == 2);
+	assert(tree.max_right<at_most_six>(0) == 2);
+	assert(tree.min_left<at_most_six>(3) == 2);
 	tree.multiply(1, 2);
 	assert(tree.get(1) == 7);
 }
@@ -41,8 +43,10 @@ int main() {
 | `multiply(p,value)` | `a[p]` を `op(a[p],value)` に置き換える。返り値は `void` | $$O(\log n)$$ |
 | `prod(l,r)` | 左から右の順の区間積を取得。空区間なら `e()` | $$O(\log n)$$ |
 | `all_prod()` | 全体の積。空列なら `e()` | $$O(1)$$ |
-| `max_right(l,pred)` | `pred(prod(l,r)) == true` となる最大の `r` | $$O(\log n)$$ |
-| `min_left(r,pred)` | `pred(prod(l,r)) == true` となる最小の `l` | $$O(\log n)$$ |
+| `max_right(l,pred)` / `max_right<pred>(l)` | `pred(prod(l,r)) == true` となる最大の `r` | $$O(\log n)$$ |
+| `min_left(r,pred)` / `min_left<pred>(r)` | `pred(prod(l,r)) == true` となる最小の `l` | $$O(\log n)$$ |
+
+`<pred>` には関数名やキャプチャのないラムダ式を指定できます。実行時の値をキャプチャするラムダは `max_right(l,pred)`・`min_left(r,pred)` に渡します。
 
 `pred` は区間の計算結果を 1 つ受け取り、条件を満たせば `true`、満たさなければ `false` を返す関数です。同じ引数には同じ結果を返し、`pred(e()) == true` が必要です。`max_right` では右へ、`min_left` では左へ区間を伸ばして、一度 `false` になったら `true` に戻らない条件を使います。
 

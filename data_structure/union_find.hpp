@@ -51,4 +51,8 @@ class UnionFind {
 	}
 };
 
+namespace cp_acl {
+using dsu = UnionFind;
+}
+
 #endif

@@ -192,6 +192,7 @@ class DynamicLazySegtree {
 		if (l != r) root = update(root, first, last, l, r, f);
 	}
 	void apply(Coord p, const F &f) { assert(first <= p && p < last); apply(p, Coord(p + 1), f); }
+	template <auto f> Coord max_right(Coord l) const { return max_right(l, f); }
 	template<class Pred>
 	Coord max_right(Coord l, Pred f) const {
 		assert(first <= l && l <= last && f(e()));
@@ -199,6 +200,7 @@ class DynamicLazySegtree {
 		if (l != last) { S acc = e(); search<true>(root, first, last, l, acc, nullptr, f, answer); }
 		return answer;
 	}
+	template <auto f> Coord min_left(Coord r) const { return min_left(r, f); }
 	template<class Pred>
 	Coord min_left(Coord r, Pred f) const {
 		assert(first <= r && r <= last && f(e()));

@@ -53,6 +53,10 @@ struct OtherMod {
 };
 
 int main() {
+	assert(cp_acl::convolution(std::vector{-1}, std::vector{2}) == (std::vector{998244351}));
+	assert(cp_acl::convolution<17>(std::vector{-1, 2}, std::vector{3}) == (std::vector{14, 6}));
+	assert(cp_acl::convolution<998244353>(std::vector<mint>{1, 2}, std::vector<mint>{3}) == (std::vector<mint>{3, 6}));
+	assert(cp_acl::convolution_ll({-1, 2}, {3}) == (std::vector{-3LL, 6LL}));
 #ifdef LIGHT_FIRST
 #if LIGHT_FIRST
 	static_assert(std::is_same_v<convolution_mod_detail::DefaultBackend, convolution_mod_detail::PortableBackend>);

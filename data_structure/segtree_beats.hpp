@@ -119,6 +119,7 @@ class SegtreeBeats {
 		}
 		pull_range(first, last);
 	}
+	template <auto f> int max_right(int l) { return max_right(l, f); }
 	template <class Predicate>
 	int max_right(int l, Predicate predicate) {
 		assert(0 <= l && l <= n_ && predicate(e()));
@@ -143,6 +144,7 @@ class SegtreeBeats {
 		} while ((k & -k) != k);
 		return n_;
 	}
+	template <auto f> int min_left(int r) { return min_left(r, f); }
 	template <class Predicate>
 	int min_left(int r, Predicate predicate) {
 		assert(0 <= r && r <= n_ && predicate(e()));

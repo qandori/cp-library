@@ -6,10 +6,16 @@
 
 long long add(long long a, long long b) { return a + b; }
 long long zero() { return 0; }
+bool at_most_six(long long x) { return x <= 6; }
 std::string concatenate(std::string a, const std::string &b) { return a + b; }
 std::string empty() { return {}; }
 
 int main() {
+	const cp_acl::segtree<long long, add, zero> acl_tree({1, 5, 3});
+	assert(acl_tree.max_right<at_most_six>(0) == 2);
+	assert(acl_tree.min_left<at_most_six>(3) == 2);
+	assert(acl_tree.max_right<at_most_six>(3) == 3);
+	assert(acl_tree.min_left<at_most_six>(0) == 0);
 	std::mt19937 random(47);
 	for (int n = 0; n <= 160; ++n) {
 		std::vector<long long> values(n);

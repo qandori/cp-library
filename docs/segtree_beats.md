@@ -88,8 +88,8 @@ int main() {
 | `get(p)` | 1 点の値を `S` で返す | $$O(\log n+E_i)$$ |
 | `prod(l,r)` | `[l,r)` の区間積。空なら `e()` | $$O(\log n+E_i)$$ |
 | `all_prod()` | 全体の積。空なら `e()` | $$O(1)$$ |
-| `max_right(l,predicate)` | `predicate(prod(l,r))` が true である最大の `r` | $$O(\log n+E_i)$$ |
-| `min_left(r,predicate)` | `predicate(prod(l,r))` が true である最小の `l` | $$O(\log n+E_i)$$ |
+| `max_right(l,predicate)` / `max_right<predicate>(l)` | `predicate(prod(l,r))` が true である最大の `r` | $$O(\log n+E_i)$$ |
+| `min_left(r,predicate)` / `min_left<predicate>(r)` | `predicate(prod(l,r))` が true である最小の `l` | $$O(\log n+E_i)$$ |
 | `values()` | 遅延を伝播し、全葉の値を `vector<S>` で返す | $$O(n+E_i)$$ |
 | `size()` / `empty()` | 要素数／空か | $$O(1)$$ |
 

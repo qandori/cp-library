@@ -26,6 +26,7 @@ assert(!crt(1, 2, 0, 4));
 | 操作・型 | 引数・返り値 | 計算量 |
 | --- | --- | --- |
 | `crt(r0, m0, r1, m1)` | `std::int64_t` の 2 組の剰余・法を渡す。`std::optional<CRTSolution>` を返す。`constexpr` 対応 | $$O(\log\min(m_0,m_1))$$ |
+| `cp_acl::crt(r,m)` | `std::vector<long long>` の剰余列・法の列を受け取り、`std::pair<long long,long long>` で剰余・法を返す。解がなければ `(0,0)`、空列は `(0,1)` | $$O(n\log M)$$ |
 | `crt(residues, moduli)` | `const std::vector<std::int64_t>&` の剰余列と法の列を渡す。同じ添字の組を合同式とし、`std::optional<CRTSolution>` を返す | $$O(n\log M)$$ |
 | `solution.residue` | 最小非負解。型は `std::int64_t` | $$O(1)$$ |
 | `solution.modulus` | 全解の周期で、全ての法の最小公倍数。型は `std::int64_t` | $$O(1)$$ |

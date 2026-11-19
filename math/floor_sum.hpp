@@ -79,4 +79,10 @@ constexpr T floor_sum(std::uint64_t n, std::uint64_t m, A a, B b) {
 	return static_cast<T>(result);
 }
 
+namespace cp_acl {
+constexpr long long floor_sum(long long n, long long m, long long a, long long b) {
+	return ::floor_sum<long long>(n, m, a, b);
+}
+}
+
 #endif

@@ -258,6 +258,7 @@ class DynamicSegtree {
 		return result;
 	}
 	S all_prod() const { return root ? product(root) : e(); }
+	template <auto f> Coord max_right(Coord l) const { return max_right(l, f); }
 	template <class Pred>
 	Coord max_right(Coord l, Pred f) const {
 		assert(first <= l && l <= last && f(e()));
@@ -265,6 +266,7 @@ class DynamicSegtree {
 		if (root && l != last) { S value = e(); search_right(root, encode(first), encode(l), value, f, answer); }
 		return answer;
 	}
+	template <auto f> Coord min_left(Coord r) const { return min_left(r, f); }
 	template <class Pred>
 	Coord min_left(Coord r, Pred f) const {
 		assert(first <= r && r <= last && f(e()));

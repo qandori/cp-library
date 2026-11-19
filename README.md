@@ -241,7 +241,7 @@
 | `graph/two_edge_connected_components.hpp` | 二辺連結成分分解・橋の森 | [使い方](docs/two_edge_connected_components.md) |
 | `graph/block_cut_tree.hpp` | 二重頂点連結成分・Block Cut Tree | [使い方](docs/block_cut_tree.md) |
 
-### graph/flow
+### flow
 
 | ファイル | 内容 | 使い方 |
 | --- | --- | --- |

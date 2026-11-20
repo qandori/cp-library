@@ -235,7 +235,7 @@
 | --- | --- | --- |
 | `graph/dynamic_connectivity.hpp` | Online Dynamic Connectivity | [使い方](docs/dynamic_connectivity.md) |
 | `graph/offline_dynamic_connectivity.hpp` | Offline Dynamic Connectivity（クエリ先読み） | [使い方](docs/offline_dynamic_connectivity.md) |
-| `graph/scc.hpp` | 強連結成分分解（反復 SCC） | [使い方](docs/scc.md) |
+| `graph/scc.hpp` | 強連結成分分解・縮約 DAG | [使い方](docs/scc.md) |
 | `graph/dominator_tree.hpp` | Dominator Tree・直接支配頂点・支配関係 | [使い方](docs/dominator_tree.md) |
 | `graph/low_link.hpp` | Low-Link | [使い方](docs/low_link.md) |
 | `graph/two_edge_connected_components.hpp` | 二辺連結成分分解・橋の森 | [使い方](docs/two_edge_connected_components.md) |

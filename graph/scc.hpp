@@ -21,6 +21,10 @@ class SCCGraph {
 			return {vertices.data() + offset[component], std::size_t(offset[component + 1] - offset[component])};
 		}
 	};
+	struct Condensation {
+		std::vector<std::vector<int>> dag;
+		std::vector<int> id;
+	};
 	explicit SCCGraph(int n = 0) : n_(n) { assert(n >= 0); }
 	int size() const { return n_; }
 	std::size_t edge_count() const { return edges_.size(); }
@@ -34,6 +38,29 @@ class SCCGraph {
 		edges_.emplace_back(from, to);
 	}
 	std::pair<int, std::vector<int>> scc_ids() const { return scc_detail::ids(n_, edges_); }
+	Condensation scc_dag() const {
+		auto [count, id] = scc_ids();
+		Condensation result{std::vector<std::vector<int>>(count), std::move(id)};
+		if (count <= 1 || edges_.empty()) return result;
+		const auto &component = result.id;
+		std::vector<int> offset(std::size_t(count) + 1);
+		for (auto [u, v] : edges_) if (component[u] != component[v]) ++offset[component[u]];
+		for (int c = 0; c < count; ++c) offset[c + 1] += offset[c];
+		std::vector<int> targets(offset.back()), seen(count, -1);
+		for (auto [u, v] : edges_) {
+			int from = component[u], to = component[v];
+			if (from != to) targets[--offset[from]] = to;
+		}
+		for (int from = 0; from < count; ++from) {
+			for (int i = offset[from]; i < offset[from + 1]; ++i) {
+				int to = targets[i];
+				if (seen[to] == from) continue;
+				seen[to] = from;
+				result.dag[from].push_back(to);
+			}
+		}
+		return result;
+	}
 	Components decomposition() const {
 		auto [count, id] = scc_ids();
 		Components result;

@@ -23,6 +23,17 @@ void check(int n, const std::vector<std::pair<int, int>> &edges) {
 		assert((result.id[u] == result.id[v]) == (reaches[u][v] && reaches[v][u]));
 		if (reaches[u][v]) assert(result.id[u] <= result.id[v]);
 	}
+	auto [dag, component] = graph.scc_dag();
+	assert(dag.size() == std::size_t(result.size()) && component == result.id);
+	std::vector<std::vector<bool>> expected(dag.size(), std::vector<bool>(dag.size()));
+	for (auto [u, v] : edges) if (component[u] != component[v]) expected[component[u]][component[v]] = true;
+	for (int from = 0; from < result.size(); ++from) {
+		for (int to : dag[from]) {
+			assert(from < to && to < result.size() && expected[from][to]);
+			expected[from][to] = false;
+		}
+		assert(std::none_of(expected[from].begin(), expected[from].end(), [](bool exists) { return exists; }));
+	}
 	if (n % 2 == 0) {
 		bool conflict = false;
 		for (int v = 0; v < n; v += 2) conflict |= reaches[v][v ^ 1] && reaches[v ^ 1][v];
@@ -46,6 +57,7 @@ int main() {
 		for (int u = 0; u < 3; ++u) for (int v = 0; v < 3; ++v) if ((mask >> (u * 3 + v)) & 1) edges.emplace_back(u, v);
 		check(3, edges);
 	}
+	check(5, { {0, 1}, {1, 0}, {0, 0}, {0, 2}, {1, 3}, {1, 3}, {2, 3}, {3, 2}, {2, 4} });
 	std::mt19937 random(29);
 	for (int repeat = 0; repeat < 500; ++repeat) {
 		int n = random() % 35;

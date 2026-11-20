@@ -5,7 +5,7 @@
 #include "../components/convolution_dispatch.hpp"
 
 #ifndef CP_MODULAR_CONVOLUTION_API
-#define CP_MODULAR_CONVOLUTION_API
+#define CP_MODULAR_CONVOLUTION_API 1
 template<unsigned Mod, class T>
 std::vector<T> convolution(const std::vector<T> &a, const std::vector<T> &b) {
 	if constexpr (std::is_integral_v<T>) {

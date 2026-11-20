@@ -33,18 +33,3 @@ Block Cut Tree のように一般のグラフを入力にするものは `graph/
 通常版と軽量版は同じフォルダに配置し、実装が異なる場合はファイル名の `_light` で区別します。
 
 サイトの一覧では「最短路」「フロー」「永続データ構造」「整数論」などの細分類から探せます。
-
-## AtCoder Library 形式での呼び出し
-
-対応するヘッダーを include したうえで `cp_acl::` を付けると、[AtCoder Library の公開操作](https://atcoder.github.io/ac-library/production/document_ja/) と同じ名前・引数順で呼び出せます。使用条件と計算量はリンク先の各ライブラリを参照してください。
-
-| `cp_acl::` から使える名前 | include するライブラリ |
-| --- | --- |
-| `segtree<S,op,e>`、`lazy_segtree<S,op,e,F,mapping,composition,id>` | [セグメント木](segtree.md)、[遅延セグメント木](lazy_segtree.md) |
-| `fenwick_tree<T>`、`dsu` | [Fenwick Tree](fenwick_tree.md)、[Union-Find](union_find.md) |
-| `mf_graph<Cap>`、`mcf_graph<Cap,Cost>` | [最大流](max_flow.md)、[最小費用流](min_cost_flow.md) |
-| `scc_graph`、`two_sat` | [強連結成分分解](scc.md)、[2-SAT](two_sat.md) |
-| `static_modint<Mod>`、`dynamic_modint<Id>`、`modint998244353`、`modint1000000007`、`modint` | [modint](modint.md) |
-| `pow_mod(x,n,m)`、`inv_mod(x,m)`、`crt(r,m)`、`floor_sum(n,m,a,b)` | [累乗・逆元](modular_arithmetic.md)、[CRT](crt.md)、[Floor Sum](floor_sum.md) |
-| `convolution<Mod>(a,b)`、`convolution(a,b)`、`convolution_ll(a,b)` | [畳み込み](convolution.md) または [軽量版](convolution_light.md) |
-| `suffix_array`、`lcp_array`、`z_algorithm` | [Suffix Array](suffix_array.md)、[LCP Array](lcp_array.md)、[Z Algorithm](z_algorithm.md) |

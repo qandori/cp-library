@@ -37,8 +37,4 @@ std::vector<int> lcp_array(const std::vector<T, Allocator> &s, const std::vector
 template <class T, std::size_t Extent>
 std::vector<int> lcp_array(std::span<T, Extent> s, const std::vector<int> &sa) { return lcp_array_detail::build(s, sa); }
 
-namespace cp_acl {
-using ::lcp_array;
-}
-
 #endif

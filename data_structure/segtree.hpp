@@ -131,8 +131,4 @@ template<class S, auto op, auto e> class Segtree {
 	}
 };
 
-namespace cp_acl {
-template<class S, auto op, auto e> using segtree = Segtree<S, op, e>;
-}
-
 #endif

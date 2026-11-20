@@ -18,9 +18,4 @@ constexpr std::int64_t inv_mod(std::int64_t x, std::int64_t m) {
 	return result->residue;
 }
 
-namespace cp_acl {
-inline long long pow_mod(long long x, long long n, int m) { return ::pow_mod(x, n, m); }
-constexpr long long inv_mod(long long x, long long m) { return ::inv_mod(x, m); }
-}
-
 #endif

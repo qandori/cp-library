@@ -12,8 +12,8 @@
 
 static_assert(StaticModint<17>(-2).pow(3).val() == 9);
 static_assert(inv_mod(3, 8) == 3);
-static_assert(cp_acl::inv_mod(3, 8) == 3 && cp_acl::floor_sum(3, 5, -2, 1) == -2);
-static_assert(cp_acl::modint1000000007(-1).val() == 1000000006);
+static_assert(inv_mod(3, 8) == 3 && floor_sum(3, 5, -2, 1) == -2);
+static_assert(StaticModint<1000000007>(-1).val() == 1000000006);
 
 template <class M> void check(unsigned m) {
 	std::mt19937_64 rng(m);
@@ -35,14 +35,13 @@ template <class M> void check(unsigned m) {
 }
 
 int main() {
-	assert(cp_acl::pow_mod(-2, 3, 5) == 2);
-	assert((cp_acl::crt({2, 5}, {6, 9}) == std::pair{14LL, 18LL}));
-	assert((cp_acl::crt({0, 1}, {2, 2}) == std::pair{0LL, 0LL}));
-	assert((cp_acl::crt({}, {}) == std::pair{0LL, 1LL}));
-	const auto sa_example = cp_acl::suffix_array("aba");
+	assert(pow_mod(-2, 3, 5) == 2);
+	const std::vector<long long> residues{2, 5}, moduli{6, 9};
+	assert((crt(residues, moduli) == CRTSolution{14, 18}));
+	const auto sa_example = suffix_array("aba");
 	assert(sa_example == (std::vector{2, 0, 1}));
-	assert(cp_acl::lcp_array("aba", sa_example) == (std::vector{1, 0}));
-	assert(cp_acl::z_algorithm("aba") == (std::vector{3, 0, 1}));
+	assert(lcp_array("aba", sa_example) == (std::vector{1, 0}));
+	assert(z_algorithm("aba") == (std::vector{3, 0, 1}));
 	check<StaticModint<1>>(1); check<StaticModint<17>>(17); check<StaticModint<1000000007>>(1000000007); check<StaticModint<4294967295U>>(4294967295U);
 	for (unsigned m : {1U, 2U, 12U, 998244353U, 4294967295U}) { DynamicModint<>::set_mod(m); check<DynamicModint<>>(m); }
 	DynamicModint<1>::set_mod(7); assert(DynamicModint<1>::mod() == 7 && DynamicModint<>::mod() == 4294967295U);

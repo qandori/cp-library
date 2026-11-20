@@ -105,7 +105,6 @@ class MinCostFlow {
 	using cost_type = Cost;
 	using total_type = Total;
 	struct Edge { int from, to; Cap cap, flow; Cost cost; };
-	using edge = Edge;
 	explicit MinCostFlow(int n = 0) : graph_(n) {}
 	int size() const { return graph_.n; }
 	int edge_count() const { return int(cost_.size() / 2); }
@@ -154,23 +153,5 @@ class MinCostFlow {
 		return result;
 	}
 };
-
-namespace cp_acl {
-template<class Cap, class Cost> class mcf_graph : public MinCostFlow<Cap, Cost> {
-	using Base = MinCostFlow<Cap, Cost>;
-
-  public:
-	using Base::Base;
-	using total_type = Cost;
-	std::pair<Cap, Cost> flow(int s, int t, Cap limit = std::numeric_limits<Cap>::max()) {
-		auto [amount, total] = Base::flow(s, t, limit);
-		return {amount, Cost(total)};
-	}
-	std::vector<std::pair<Cap, Cost>> slope(int s, int t, Cap limit = std::numeric_limits<Cap>::max()) {
-		auto points = Base::slope(s, t, limit);
-		return {points.begin(), points.end()};
-	}
-};
-}
 
 #endif

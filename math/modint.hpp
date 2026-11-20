@@ -67,12 +67,4 @@ public:
 template <std::uint32_t Mod> using StaticModint = modint_detail::Modint<modint_detail::StaticModulus<Mod>>;
 template <int Id = 0> using DynamicModint = modint_detail::Modint<modint_detail::DynamicModulus<Id>>;
 
-namespace cp_acl {
-template<int Mod> requires (Mod > 0) using static_modint = StaticModint<Mod>;
-template<int Id> using dynamic_modint = DynamicModint<Id>;
-using modint998244353 = static_modint<998244353>;
-using modint1000000007 = static_modint<1000000007>;
-using modint = dynamic_modint<-1>;
-}
-
 #endif

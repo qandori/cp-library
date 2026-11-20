@@ -41,8 +41,4 @@ class TwoSAT {
 	std::vector<bool> answer() const { return answer_; }
 };
 
-namespace cp_acl {
-using two_sat = TwoSAT;
-}
-
 #endif

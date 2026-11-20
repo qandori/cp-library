@@ -18,7 +18,7 @@ struct Affine { U a = 1, b = 0; };
 Sum mapping(Affine f, Sum x) { return {f.a * x.value + f.b * U(x.length), x.length}; }
 Affine composition(Affine f, Affine g) { return {f.a * g.a, f.a * g.b + f.b}; }
 Affine lazy_id() { return {}; }
-using Tree = cp_acl::lazy_segtree<Sum, op, identity, Affine, mapping, composition, lazy_id>;
+using Tree = LazySegtree<Sum, op, identity, Affine, mapping, composition, lazy_id>;
 
 std::string concat(std::string a, std::string b) { return a + b; }
 std::string empty_string() { return {}; }
@@ -55,7 +55,7 @@ void noncommutative_lazy() {
 void union_find() {
 	std::mt19937 rng(34568);
 	for (int n : {0, 1, 2, 3, 17, 100}) {
-		cp_acl::dsu uf(n);
+		UnionFind uf(n);
 		std::vector<int> id(n);
 		std::iota(id.begin(), id.end(), 0);
 		assert(uf.groups().size() == std::size_t(n));

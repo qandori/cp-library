@@ -84,8 +84,4 @@ class SCCGraph {
 	}
 };
 
-namespace cp_acl {
-using scc_graph = SCCGraph;
-}
-
 #endif

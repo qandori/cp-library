@@ -11,7 +11,7 @@ std::string concatenate(std::string a, const std::string &b) { return a + b; }
 std::string empty() { return {}; }
 
 int main() {
-	const cp_acl::segtree<long long, add, zero> acl_tree({1, 5, 3});
+	const Segtree<long long, add, zero> acl_tree({1, 5, 3});
 	assert(acl_tree.max_right<at_most_six>(0) == 2);
 	assert(acl_tree.min_left<at_most_six>(3) == 2);
 	assert(acl_tree.max_right<at_most_six>(3) == 3);

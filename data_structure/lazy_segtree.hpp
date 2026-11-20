@@ -180,9 +180,4 @@ class LazySegtree {
 	}
 };
 
-namespace cp_acl {
-template<class S, auto op, auto e, class F, auto mapping, auto composition, auto id>
-using lazy_segtree = LazySegtree<S, op, e, F, mapping, composition, id>;
-}
-
 #endif

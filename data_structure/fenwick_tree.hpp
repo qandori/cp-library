@@ -87,8 +87,4 @@ template<class T, bool Padded = true> class FenwickTree {
 	}
 };
 
-namespace cp_acl {
-template<class T> using fenwick_tree = FenwickTree<T>;
-}
-
 #endif

@@ -48,6 +48,34 @@ int main() {
 		BinomialMod comb(m, 0);
 		assert(comb(0, 0) == 1 % m);
 	}
+	for (unsigned m : {3U, 32U, 64U, 65U, 385U, 990U, 720720U, 2147483648U, 4294967291U, 4294967295U}) {
+		BinomialMod reference(m, 200);
+		for (unsigned limit : {0U, 10U, 15U, 31U, 32U, 33U, 63U, 64U, 65U}) {
+			BinomialMod comb(m, limit);
+			bool full = true;
+			for (unsigned q = 2, rest = m; rest > 1; ++q) {
+				if (std::uint64_t(q) * q > rest) { full &= rest - 1 <= limit; break; }
+				if (rest % q == 0) {
+					unsigned power = 1;
+					do { power *= q; rest /= q; } while (rest % q == 0);
+					full &= power - 1 <= limit;
+				}
+			}
+			assert(comb.max_n() == (full ? INT64_MAX : std::int64_t(limit)));
+			for (unsigned n = 0; n <= limit; ++n) for (unsigned k = 0; k <= n; ++k)
+				assert(comb(n, k) == reference(n, k));
+			if (full) assert(comb(INT64_MAX, 20) == exact(INT64_MAX, 20, m));
+			else {
+				bool caught = false;
+				try { comb(limit + 1, 0); } catch (const std::out_of_range &) { caught = true; }
+				assert(caught && comb(limit + 1, -1) == 0);
+			}
+		}
+	}
+	for (unsigned m : {2147483647U, 2147483648U, 2147483649U, 4294967291U, 4294967295U}) {
+		BinomialMod comb(m, 64);
+		for (int k = 0; k <= 64; ++k) assert(comb(64, k) == exact(64, k, m));
+	}
 	bool caught = false;
 	try { BinomialMod invalid(0); } catch (const std::invalid_argument &) { caught = true; }
 	assert(caught);

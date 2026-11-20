@@ -68,7 +68,8 @@ class BinomialMod {
 			if (negative) result = modulus.mod - result;
 			return modulus.mul(result, powers[valuation]);
 		}
-		U choose(W n, W k) const {
+		template<bool Single = false> U choose(W n, W k) const {
+			if constexpr (Single) if (n < prime) return modulus.mul(factorial[n], modulus.mul(inverse[k], inverse[n - k]));
 			if (exponent == 1) {
 				if (prime == 2) return (n & k) == k;
 				U result = 1;
@@ -85,7 +86,38 @@ class BinomialMod {
 	};
 	Barrett32 modulus_;
 	std::vector<PrimePower> factors_;
+	std::vector<U> pascal_;
 	std::int64_t max_n_ = std::numeric_limits<std::int64_t>::max();
+	int pascal_limit_ = -1;
+	static constexpr U small_limit_ = 64, small_full_limit_ = 32;
+	static std::size_t row(U n) { return std::size_t((n + 1) / 2) * ((n + 2) / 2); }
+	template<bool Wide> void build_pascal(U limit) {
+		pascal_limit_ = int(limit);
+		pascal_.resize(row(limit + 1));
+		const U m = mod();
+		auto add = [m](U a, U b) {
+			U sum = a + b;
+			if constexpr (Wide) return sum >= m || sum < a ? sum - m : sum;
+			else return std::min(sum, sum - m);
+		};
+		pascal_[0] = 1;
+		for (U n = 1; n <= limit; ++n) {
+			const U *prev = pascal_.data() + row(n - 1);
+			U *curr = pascal_.data() + row(n);
+			curr[0] = 1;
+			for (U k = 1; k <= (n - 1) / 2; ++k) curr[k] = add(prev[k - 1], prev[k]);
+			if (!(n & 1)) curr[n / 2] = add(prev[n / 2 - 1], prev[n / 2 - 1]);
+		}
+	}
+	static bool full_tables_fit(U m, U max_q) {
+		for (U p = 2; m > max_q && p <= max_q && W(p) * p <= m; p += p == 2 ? 1 : 2) {
+			if (m % p) continue;
+			U before = m;
+			do { m /= p; } while (m % p == 0);
+			if (before / m > max_q) return false;
+		}
+		return m <= max_q;
+	}
 	static U checked_(U m) {
 		if (!m) throw std::invalid_argument("BinomialMod modulus");
 		return m;
@@ -93,6 +125,14 @@ class BinomialMod {
 
 public:
 	explicit BinomialMod(U modulus, U table_limit = 1000000) : modulus_(checked_(modulus)) {
+		if (modulus > 2 && table_limit <= small_limit_) {
+			const bool full = full_tables_fit(modulus, table_limit + 1);
+			if (!full || table_limit <= small_full_limit_) {
+				if (modulus <= (U(1) << 31)) build_pascal<false>(table_limit);
+				else build_pascal<true>(table_limit);
+			}
+			if (!full) { max_n_ = table_limit; return; }
+		}
 		auto add = [&](U p, U e, U q) {
 			U weight = U(W(modulus / q) * W(linear_congruence(modulus / q, 1, q)->residue));
 			factors_.emplace_back(p, e, q, table_limit, weight);
@@ -113,10 +153,13 @@ public:
 		if (n < 0 || k < 0 || n < k || mod() == 1) return 0;
 		if (n > max_n_) throw std::out_of_range("BinomialMod n");
 		if (!k || n == k) return 1;
-		if (factors_.size() == 1) return factors_[0].choose(W(n), W(k));
+		if (n <= pascal_limit_) return pascal_[row(U(n)) + std::min(k, n - k)];
+		if (factors_.size() == 1) return factors_[0].choose<true>(W(n), W(k));
 		U answer = 0;
-		for (const auto &f : factors_)
-			answer = modulus_.reduce(W(answer) + modulus_.mul(f.coefficient, f.choose(W(n), W(k))));
+		for (const auto &f : factors_) {
+			W sum = W(answer) + modulus_.mul(f.coefficient, f.choose(W(n), W(k)));
+			answer = U(sum < mod() ? sum : sum - mod());
+		}
 		return answer;
 	}
 	U operator()(std::int64_t n, std::int64_t k) const { return comb(n, k); }

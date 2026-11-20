@@ -19,6 +19,8 @@ auto exact = convolution_integer(a, b); // {4,13,22,15}
 
 どちらも $$\displaystyle \sum_{i+j=k} a_i b_j$$ を計算します。入力は 64 bit 以下の整数型です。
 
+法がコンパイル時に決まる NTT-friendly な素数なら、その法で直接計算する [`convolution_ntt`](convolution_ntt.md) も使えます。
+
 各配列を定数項から順に並べた多項式の係数として渡します。両方が非空なら返す長さは `a.size()+b.size()-1`、どちらかが空なら空配列です。入力は変更しません。法を指定する版は各係数をその法で割った非負の余りにし、整数版は余りを取らずに返します。
 
 `convolution_mod` は $$1 \le \mathrm{mod} \le 2^{32}-1$$ とし、`std::vector<std::uint32_t>` を返します。`convolution_integer` は入力と同じ係数型を返し、結果がその型に収まる必要があります。出力長は $$2^{24}$$ 以下です。

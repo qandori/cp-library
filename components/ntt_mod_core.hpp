@@ -23,7 +23,7 @@ inline void store256(void *p, __m256i x) { _mm256_storeu_si256(static_cast<__m25
 template <std::uint32_t mod> struct Vector;
 
 template <std::uint32_t mod>
-std::uint32_t power(std::uint32_t a, std::uint32_t k) {
+constexpr std::uint32_t power(std::uint32_t a, std::uint32_t k) {
 	std::uint32_t result = 1;
 	for (; k; k >>= 1, a = std::uint64_t(a) * a % mod)
 		if (k & 1) result = std::uint64_t(result) * a % mod;

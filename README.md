@@ -40,6 +40,7 @@
 | `convolution/online_convolution.hpp` | オンライン畳み込み | [使い方](docs/online_convolution.md) |
 | `convolution/online_convolution_light.hpp` | 軽量版のオンライン畳み込み | [使い方](docs/online_convolution_light.md) |
 | `convolution/convolution_mod.hpp` | 任意 mod・整数の畳み込み | [使い方](docs/convolution_mod.md) |
+| `convolution/convolution_ntt.hpp` | NTT-friendly な素数上の畳み込み | [使い方](docs/convolution_ntt.md) |
 | `convolution/convolution_fft.hpp` | 実数・複素数の畳み込み | [使い方](docs/convolution_fft.md) |
 | `convolution/convolution_ring.hpp` | 加算・減算・乗算を使う型の畳み込み | [使い方](docs/convolution_ring.md) |
 | `convolution/bitwise_convolution.hpp` | AND・OR・XOR 畳み込み | [使い方](docs/bitwise_convolution.md) |

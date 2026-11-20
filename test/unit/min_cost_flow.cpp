@@ -1,4 +1,5 @@
 #include "flow/min_cost_flow.hpp"
+#include <cmath>
 #include <functional>
 #include <map>
 #include <random>
@@ -74,7 +75,60 @@ template<class Cap, class Cost> void check() {
 	}
 }
 
+void fractional_costs() {
+	MinCostFlow<int, double> graph(3);
+	int id = graph.add_edge(0, 1, 2, -0.25);
+	graph.add_edge(1, 2, 2, 0.5);
+	graph.add_edge(0, 2, 3, 0.7);
+	assert((graph.flow(0, 2, 1) == std::pair{1, 0.25}));
+	auto curve = graph.slope(0, 2, 3);
+	assert((curve.size() == 3 && curve[0] == std::pair{0, 0.0} && curve[1] == std::pair{1, 0.25}));
+	assert(curve[2].first == 3 && std::abs(curve[2].second - 1.65) < 1e-14);
+	assert(graph.get_edge(id).flow == 2 && graph.get_edge(id).cost == -0.25);
+	const auto &p = graph.potentials();
+	for (auto edge : graph.edges()) {
+		double reduced = edge.cost + p[edge.from] - p[edge.to];
+		if (edge.flow < edge.cap) assert(reduced >= -1e-14);
+		if (edge.flow > 0) assert(reduced <= 1e-14);
+	}
+	assert(graph.flow(2, 0, 1).second == -0.7);
+	graph.reset_flow();
+	assert((graph.flow(0, 2, 2) == std::pair{2, 0.5}));
+
+	MinCostFlow<int, float, double> small(2);
+	small.add_edge(0, 1, 1, 0.125f);
+	assert((small.flow(0, 1) == std::pair{1, 0.125}));
+
+	MinCostFlow<int, long double> tiny(2);
+	for (int i = 19; i >= 0; --i) tiny.add_edge(0, 1, 1, (i - 10) * 1e-100L);
+	auto [sent, cost] = tiny.flow(0, 1, 12);
+	assert(sent == 12 && std::abs(cost + 54e-100L) < 1e-111L);
+	for (int i = 0; i < 20; ++i) assert(tiny.get_edge(i).flow == (i >= 8));
+	assert(tiny.slope(0, 1, 1).back().first == 1);
+
+	std::mt19937 rng(20978);
+	for (int trial = 0; trial < 100; ++trial) {
+		MinCostFlow<int, int> integral(10);
+		MinCostFlow<int, double> fractional(10);
+		for (int u = 0; u < 9; ++u) {
+			for (int j = 0; j < 20; ++j) {
+				int v = u + 1 + rng() % (9 - u), cap = 1 + rng() % 16, cost = int(rng() % 301) - 150;
+				integral.add_edge(u, v, cap, cost);
+				fractional.add_edge(u, v, cap, cost / 8.0);
+			}
+		}
+		int limit = 20 + rng() % 250;
+		auto a = integral.flow(0, 9, limit);
+		auto b = fractional.flow(0, 9, limit);
+		assert(a.first == b.first && double(a.second) / 8 == b.second);
+		a = integral.flow(0, 9, 10);
+		b = fractional.flow(0, 9, 10);
+		assert(a.first == b.first && double(a.second) / 8 == b.second);
+	}
+}
+
 int main() {
+	fractional_costs();
 	check<int, std::int8_t>();
 	check<int, std::int16_t>();
 	check<int, int>();

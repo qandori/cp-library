@@ -4,15 +4,26 @@
 #include "flow_graph.hpp"
 #include "d_ary_heap.hpp"
 #include <bit>
+#include <cmath>
 #include <cstdint>
 #include <functional>
 #include <type_traits>
 #include <utility>
 
 namespace flow_detail {
+template<class Cost> Cost reduced_cost(Cost cost, Cost from, Cost to) {
+	if constexpr (std::is_floating_point_v<Cost>) {
+		Cost reduced = cost + (from - to);
+		if (reduced < 0 && -reduced <= 8 * std::numeric_limits<Cost>::epsilon() *
+			std::max({std::abs(cost), std::abs(from), std::abs(to)})) return 0;
+		return reduced;
+	} else return cost + from - to;
+}
+
 template<class Cap, class Cost, class Total>
 std::pair<Cap, Total> scaling_flow(Graph<Cap>& graph, const std::vector<Cost>& costs, int s, int t, Cap limit) {
-	using Wide = __int128_t;
+	constexpr bool fractional = std::is_floating_point_v<Cost>;
+	using Wide = std::conditional_t<fractional, long double, __int128_t>;
 	using State = std::pair<Wide, int>;
 	using Unsigned = std::make_unsigned_t<Cap>;
 	Cap upper = 0;
@@ -29,7 +40,9 @@ std::pair<Cap, Total> scaling_flow(Graph<Cap>& graph, const std::vector<Cost>& c
 	for (Cost c : costs) largest = std::max(largest, c < 0 ? -Wide(c) : Wide(c));
 	work.add_edge(t, s, 0);
 	capacity.push_back(limit), capacity.push_back(0);
-	cost.push_back(-Wide(graph.n) * largest - 1), cost.push_back(-cost.back());
+	if constexpr (fractional) cost.push_back(largest ? -Wide(graph.n) * largest : Wide(-1));
+	else cost.push_back(-Wide(graph.n) * largest - 1);
+	cost.push_back(-cost.back());
 	maximum = std::max(maximum, Unsigned(limit));
 	work.build();
 	int n = graph.n;
@@ -47,7 +60,7 @@ std::pair<Cap, Total> scaling_flow(Graph<Cap>& graph, const std::vector<Cost>& c
 		for (int i = 0; i < int(work.arcs.size()); ++i) {
 			auto& e = work.arcs[i];
 			int from = work.arcs[i ^ 1].to;
-			if (e.cap && cost[i] + potential[from] - potential[e.to] < 0) {
+			if (e.cap && (!fractional || e.cap == 1) && reduced_cost(cost[i], potential[from], potential[e.to]) < 0) {
 				auto amount = e.cap;
 				assert(amount == 1);
 				e.cap = 0, work.arcs[i ^ 1].cap += amount;
@@ -76,8 +89,9 @@ std::pair<Cap, Total> scaling_flow(Graph<Cap>& graph, const std::vector<Cost>& c
 					int i = work.order[j];
 					const auto& e = work.arcs[i];
 					if (!e.cap || visited[e.to]) continue;
-					Wide reduced = cost[i] + potential[v] - potential[e.to];
-					assert(reduced >= 0);
+					Wide reduced = reduced_cost(cost[i], potential[v], potential[e.to]);
+					if constexpr (fractional) reduced = std::max(Wide(0), reduced);
+					else assert(reduced >= 0);
 					Wide next = distance[v] + reduced;
 					if (next >= distance[e.to]) continue;
 					distance[e.to] = next, parent[e.to] = i;
@@ -101,7 +115,11 @@ std::pair<Cap, Total> scaling_flow(Graph<Cap>& graph, const std::vector<Cost>& c
 	}
 	Total total = 0;
 	for (std::size_t i = 0; i < graph.arcs.size(); ++i) {
-		if (!(i & 1)) total += Total((Wide(graph.arcs[i].cap) - Wide(work.arcs[i].cap)) * Wide(costs[i]));
+		if (!(i & 1)) {
+			if constexpr (fractional)
+				total += Total(__int128_t(work.arcs[i ^ 1].cap) - __int128_t(graph.arcs[i ^ 1].cap)) * Total(costs[i]);
+			else total += Total((Wide(graph.arcs[i].cap) - Wide(work.arcs[i].cap)) * Wide(costs[i]));
+		}
 		graph.arcs[i].cap = work.arcs[i].cap;
 	}
 	return {work.arcs.back().cap, total};

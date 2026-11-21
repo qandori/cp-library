@@ -70,13 +70,13 @@ library_categories:
   - fps
   - geometry
   - geometry/exact
+  - integer_geometry
   - graph
   - graph/connectivity
   - flow
   - graph/matching
   - graph/shortest_path
   - graph/spanning_tree
-  - integer_geometry
   - math
   - math/combinatorics
   - math/floor_sum

@@ -219,6 +219,19 @@
 | `geometry/exact_circle.hpp` | 厳密な円の判定・外接円・最小包含円 | [使い方](docs/geometry_exact_circle.md) |
 | `geometry/exact.hpp` | 任意精度による厳密な平面幾何の一括 include | [使い方](docs/geometry_exact.md) |
 
+### integer_geometry
+
+| ファイル | 内容 | 使い方 |
+| --- | --- | --- |
+| `integer_geometry/geometry.hpp` | 固定幅整数による平面幾何の一括 include | [使い方](docs/integer_geometry.md) |
+| `integer_geometry/point.hpp` | 整数の点・ベクトル・偏角順 | [使い方](docs/integer_geometry_point.md) |
+| `integer_geometry/linear.hpp` | 直線・線分の判定・平行・直交・交差 | [使い方](docs/integer_geometry_linear.md) |
+| `integer_geometry/polygon.hpp` | 多角形の面積2倍・内外・凸性 | [使い方](docs/integer_geometry_polygon.md) |
+| `integer_geometry/convex.hpp` | 凸包・最近点対・最遠点対・Minkowski 和 | [使い方](docs/integer_geometry_convex.md) |
+| `integer_geometry/dynamic_convex_hull.hpp` | 点追加型の動的凸包・支持点・面積 | [使い方](docs/integer_geometry_dynamic_convex_hull.md) |
+| `integer_geometry/circle.hpp` | 整数中心・整数半径の円の判定 | [使い方](docs/integer_geometry_circle.md) |
+| `integer_geometry/lattice.hpp` | 方向ベクトルの約分・線分と多角形の格子点数 | [使い方](docs/integer_geometry_lattice.md) |
+
 ### graph
 
 | ファイル | 内容 | 使い方 |
@@ -281,19 +294,6 @@
 | `graph/incremental_msf.hpp` | 辺追加に対応する最小全域森・経路の最大辺 | [使い方](docs/incremental_msf.md) |
 | `graph/directed_mst.hpp` | 有向最小全域木・採用辺と親の復元 | [使い方](docs/directed_mst.md) |
 | `graph/steiner_tree.hpp` | 最小シュタイナー木・採用辺の復元 | [使い方](docs/steiner_tree.md) |
-
-### integer_geometry
-
-| ファイル | 内容 | 使い方 |
-| --- | --- | --- |
-| `integer_geometry/geometry.hpp` | 固定幅整数による平面幾何の一括 include | [使い方](docs/integer_geometry.md) |
-| `integer_geometry/point.hpp` | 整数の点・ベクトル・偏角順 | [使い方](docs/integer_geometry_point.md) |
-| `integer_geometry/linear.hpp` | 直線・線分の判定・平行・直交・交差 | [使い方](docs/integer_geometry_linear.md) |
-| `integer_geometry/polygon.hpp` | 多角形の面積2倍・内外・凸性 | [使い方](docs/integer_geometry_polygon.md) |
-| `integer_geometry/convex.hpp` | 凸包・最近点対・最遠点対・Minkowski 和 | [使い方](docs/integer_geometry_convex.md) |
-| `integer_geometry/dynamic_convex_hull.hpp` | 点追加型の動的凸包・支持点・面積 | [使い方](docs/integer_geometry_dynamic_convex_hull.md) |
-| `integer_geometry/circle.hpp` | 整数中心・整数半径の円の判定 | [使い方](docs/integer_geometry_circle.md) |
-| `integer_geometry/lattice.hpp` | 方向ベクトルの約分・線分と多角形の格子点数 | [使い方](docs/integer_geometry_lattice.md) |
 
 ### math
 
